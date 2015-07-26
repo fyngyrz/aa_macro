@@ -6,14 +6,15 @@ class macro(object):
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
      Project: aa_webpage.py
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 1st, 2015      (for Class)
-  LastDocRev: July 23rd, 2015     (for Class)
+     LastRev: July 25th, 2015     (for Class)
+  LastDocRev: July 25th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Examples: At bottom. Run in shell like so:    python aa_macro.py
  Typical Use: from aa_macro import *
      1st-Rel: 1.0.0
-     Version: 1.0.0
+     Version: 1.0.1
      History:                    (for Class)
+	 	1.0.1 - added HTML paragraphs as [p paragraph]
 		1.0.0 - Initial Release
 
 	Available macros:
@@ -22,6 +23,7 @@ class macro(object):
 
 	Text Styling
 	------------
+	[p paragraph]
 	[b bold text]
 	[i italic text]
 	[u underlined text]
@@ -228,6 +230,9 @@ class macro(object):
 			return '<i>'+data+'</i>'
 		else:
 			return '<span style="font-style: italic;">%s</span>' % (data)
+
+	def p_fn(self,tag,data):
+		return '<p>'+data+'</p>'
 
 	def len_fn(self,tag,data):
 		return str(len(data))
@@ -753,6 +758,7 @@ class macro(object):
 					'i'		: self.i_fn,		# P1 is italicized
 					'b'		: self.b_fn,		# P1 is bolded
 					'u'		: self.u_fn,		# P1 is underlined
+					'p'		: self.p_fn,		# P1 is an HTML pargraph
 
 					# list handling
 					# P1[,P2]...[,Pn]
