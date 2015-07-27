@@ -1,21 +1,33 @@
 #!/usr/bin/python
 
+import re
+
 class macro(object):
 	"""Class to provide an HTML macro language
       Author: fyngyrz  (Ben)
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
      Project: aa_webpage.py
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 25th, 2015     (for Class)
-  LastDocRev: July 25th, 2015     (for Class)
+     LastRev: July 27th, 2015     (for Class)
+  LastDocRev: July 27th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Examples: At bottom. Run in shell like so:    python aa_macro.py
  Typical Use: from aa_macro import *
      1st-Rel: 1.0.0
-     Version: 1.0.1
+     Version: 1.0.2
      History:                    (for Class)
-	 	1.0.1 - added HTML paragraphs as [p paragraph]
-		1.0.0 - Initial Release
+	 	1.0.2
+			* added new URL link mechanism [a (tab,)URL(,LinkedText)]
+				[link] and [web] will remain as per my "I will never
+				take away something you may have used" policy, but
+				[a] is really a better way to go about it now.
+			* added escape for all commas [nc TextToBeEscaped]
+			* added non-rendering [comment content] capability
+			* added [slice sliceSpec,contentToSlice] capability
+	 	1.0.1
+			* added HTML paragraphs as [p paragraph]
+		1.0.0
+			* Initial Release
 
 	Available macros:
 	=================
@@ -31,6 +43,10 @@ class macro(object):
 	
 	Linking
 	-------
+	[a (tab,)URL(,linked text)]
+	
+	Older Linking (will remain, but [a LINK] is better
+	--------------------------------------------------
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
 	
@@ -90,6 +106,8 @@ class macro(object):
 	Misc
 	----
 	[repeat count content]							# repeat content count times
+	[comment content]								# content does not render
+	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	
 	Escape Codes:
 	-------------
@@ -108,6 +126,9 @@ class macro(object):
 	[glos styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
 	[locs styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
 	{styleName contentToStyle}		# ...same thing, but simplified "squiggly" syntax
+	==> Only if crtospace is True:
+	{styleNameCRcontentToStyle}		# ...same thing, but simplified "squiggly" syntax
+									# CR is a newline
 	
 	More on styles:
 	---------------
@@ -147,6 +168,7 @@ class macro(object):
 	The Rules:
 	----------
 	o Do not attempt to define one style inside another.
+	o Style names may contain anything but a space or a newline
 	o repeat gets a number or a variable parameter. Nothing else. No nesting in the parameter!
 	  (but you can use anything in what you want it to repeat)
 	o Give me a space or a newline. One space or newline only, Vasily.
@@ -242,6 +264,37 @@ class macro(object):
 			return '<b>'+data+'</b>'
 		else:
 			return '<span style="font-weight: bold;">%s</span>' % (data)
+
+	def slice_fn(self,tag,data):
+		o = ''
+		plist = data.split(',',1)
+#		print tag,data
+		if len(plist) == 2:
+			try:
+				slist = plist[0].split(':')
+#				print plist,slist
+				if len(slist) == 1:
+					o = str(plist[1])[int(slist[0])]
+				elif len(slist) == 2:
+					a = None
+					b = None
+					if slist[0] != '': a = int(slist[0])
+					if slist[1] != '': b = int(slist[1])
+					o = str(plist[1])[a:b]
+				elif len(slist)==3:
+					a = None
+					b = None
+					c = None
+					if slist[0] != '': a = int(slist[0])
+					if slist[1] != '': b = int(slist[1])
+					if slist[2] != '': c = int(slist[2])
+					o = str(plist[1])[a:b:c]
+				else:
+					o = ' ?split? '
+			except:
+				pass
+#		print o
+		return o
 
 	def u_fn(self,tag,data):
 		if self.mode == '3.2':
@@ -539,6 +592,24 @@ class macro(object):
 			d2 = 'On The Web'
 		return '<a href="%s" target="_blank">%s</a>' % (d1,d2)
 
+	def nc_fn(self,tag,data):
+		return data.replace(',','&#44;')
+
+	def a_fn(self,tag,data):
+		o = ''
+		dlist = data.split(',')
+		llen = len(dlist)
+		if llen == 1:	# "URL"
+			o = '<a href="%s">%s</a>' % (dlist[0],dlist[0])
+		elif llen == 2:	# "tab,URL"
+			if dlist[0].lower() == 'tab':
+				o = '<a target="_blank" href="%s">%s</a>' % (dlist[1],dlist[1])
+			else:
+				o = '<a href="%s">%s</a>' % (dlist[0],dlist[1])
+		elif llen == 3:	# "tab,URL,LinkedText"
+			o = '<a target="_blank" href="%s">%s</a>' % (dlist[1],dlist[2])
+		return o
+
 	def link_fn(self,tag,data):
 		try:
 			d1,d2 = data.split(' ',1)
@@ -671,6 +742,9 @@ class macro(object):
 			pass
 		return o
 
+	def comment_fn(self,tag,data):
+		return ''
+
 	def repeat_fn(self,tag,data):
 		o = ''
 		try:
@@ -779,6 +853,7 @@ class macro(object):
 
 					# Internet interfacing
 					# --------------------
+					'a'		: self.a_fn,		# [a (tab,)URL(,LinkedText)]
 					'link'	: self.link_fn,		# link URL (text) if no text, then linked URL
 					'web'	: self.web_fn,		# link URL (text) if no text, the "On the Web"
 					'img'	: self.img_fn,		# img emplacement from URL
@@ -830,6 +905,9 @@ class macro(object):
 					# Miscellaneous
 					# -------------
 					'repeat': self.repeat_fn,	# N ThingToBeRepeated
+					'nc'	: self.nc_fn,		# [nc TEXT] escape all commas
+					'comment': self.comment_fn, # contained content will not render
+					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 		}
 
 	def do(self,s):
@@ -843,9 +921,19 @@ class macro(object):
 		depth = 0
 		state = OUT
 		macstack = []
+
+		# This is a bit gnarly; first, I replace "{" with "[s " as "{"
+		# is simply a shorthand for a style invocation. Then I allow
+		# for the syntax of separating the invocation of a style from
+		# its paramter(s) with either a space or a newline, by converting
+		# the newlines used this way into a space so as to simplify
+		# subsequent processing. I expected to use \[ in the first param,
+		# as it is a literal search for '[s ' at that point, but the
+		# the re import module doesn't seem to see things that way. Weird.
+		# ----------------------------------------------------------------
 		s = s.replace('{','[s ')
-		s = s.replace('\r','')
-		s = s.replace('\n',' ')
+		s = re.sub(r'([s\s*[\w-])\n',r'\1 ',s)
+
 		dex = -1
 		tag = ''
 		for c in s:
@@ -982,6 +1070,10 @@ class macro(object):
 		return s
 
 if __name__ == "__main__":
+	def xprint(s):
+		print s
+		print '-' * len(s)
+
 	test  = ''
 	
 	# built-ins
@@ -991,20 +1083,20 @@ if __name__ == "__main__":
 	test += 'and this is [color ff8844 orange text.]\n'
 	test += "I'd like to [u underline this text.]\n"
 	mod = macro()							# Defaults to HTML 3.2 color generation, foreground only.
-	print 'Example 1'
+	xprint('Example 1 -- using built-ins, HTML 3.2 assumption')
 	print mod.do(test)						# You can use tables or page backdrop color to set background in HTML 3.2
 
 	mod.setMode('4.01s')					# HTML 4.01 strict uses CSS, and sets the background color too.
-	print 'Example 2'
+	xprint('Example 2 -- HTML 4.01 compatible color generation, plus background color')
 	print mod.do(test)						# Which defaults to white, but you can set it after instantiation:
 
 	mod.setBack('00f')						# 3 or 6 hex chars in upper, lower or mixed case, are okay
-	print 'Example 3'
+	xprint('Example 3 -- background color gsetting for HTML 4.01s')
 	print mod.do(test)						# if you were in HTML 3.2 mode, back color is not used
 
 	mod.setBack()							# the default is a white background, white also used if color pathological
 	mod = macro(mode='4.01s',back='f0f')	# You can set mode and back color at the start
-	print 'Example 4'
+	xprint('Example 4 -- setting mode and color at object instantiation')
 	print mod.do(test)						# or you can set at start, then change at any time.
 	
 	# styles:
@@ -1018,7 +1110,7 @@ if __name__ == "__main__":
 	test += 'This is [s hysterical silly formatting]\n'		# use "hysterical" style
 	test += '[s hysterical [s says [u mutter], mutter]]\n'	# and again, plus more nested stuff
 	test += 'Three times I say: [s thrice mutter].\n'		# use thrice style
-	print 'Example 5'
+	xprint('Example 5 -- basic style demonstration')
 	print mod.do(test)
 
 	test  = ''
@@ -1064,7 +1156,7 @@ if __name__ == "__main__":
 	test += '[local x 5]'
 	test += '[inc x]'
 	test += '[v x]'
-	print 'Example 6'
+	xprint('Example 6 -- alternating operations')
 	print mod.do(test)
 	
 	# let's do some math:
@@ -1077,7 +1169,7 @@ if __name__ == "__main__":
 	test += 'Z = X * Y:\n'
 	test += '[local Z [mul [v X] [v Y]]]'
 	test += 'Z = [v Z]\n'
-	print 'Example 7'
+	xprint('Example 7 -- doing math')
 	print mod.do(test)
 
 	# So, you may be thinking, gee, this is all somewhat indirect. This is true. However,
@@ -1093,7 +1185,7 @@ if __name__ == "__main__":
 	test += '{decrement q}'	# decrement it (could also have written [s decrement q] )]
 							# {} is just an easier and more obvious way to use a style
 	test += 'q=[v q]'		# and bring the contents into the output stream
-	print 'Example 8'
+	xprint('Example 8 -- operating upon variables (decrement example)')
 	print mod.do(test)		# prints 'q=4'
 
 	# Some simple, practical HTML
@@ -1103,12 +1195,13 @@ if __name__ == "__main__":
 	test += 'Welcome to the webserver, [i [b]]'
 	test += ']'
 	test += '{greetings Floyd}'
-	print 'Example 9'
+	xprint('Example 9 -- simple example using HTML built-ins')
 	print mod.do(test)
 
 	# Been using the object a bit. Here is the current object state:
 	# --------------------------------------------------------------
 	pmode = 'text'	# 'text' | 'html' | 'table' -- try each one
+	xprint('Example 9B -- object state')
 	print
 	print mod.styleLib(pmode)
 	print mod.localLib(pmode)
@@ -1133,7 +1226,7 @@ if __name__ == "__main__":
 
 	# let's make a HTML 3.2 table:
 	test = '[table [row [cell test1][cell test2]]]'
-	print 'Example 10'
+	xprint('Example 10 -- basic HTML table')
 	print mod.do(test)
 	
 
@@ -1144,7 +1237,7 @@ if __name__ == "__main__":
 	test += '[row [header col 1][header col 2]]'
 	test += '[row [cell test1][cell test2]]'
 	test += ']'
-	print 'Example 11'
+	xprint('Example 11 -- table header row')
 	print mod.do(test)
 
 	# another, but with some table, row and cell options
@@ -1152,7 +1245,7 @@ if __name__ == "__main__":
 	test += '[row bgcolor="ffffdd",[header col 1][header col 2]]'
 	test += '[row [cell align="center",test1][cell align="right",test2]]'
 	test += ']'
-	print 'Example 12'
+	xprint('Example 12 -- optional settings for cells and tables')
 	print mod.do(test)
 
 	# let's cook up alternating line colors and a row counter:
@@ -1171,7 +1264,7 @@ if __name__ == "__main__":
 	test += '[row {ac},{rc}[cell e][cell f]]'
 	test += '[row {ac},{rc}[cell g][cell h]]'
 	test += ']'
-	print 'Example 13'
+	xprint('Example 13 -- table with alternating line characteristics')
 	print mod.do(test)
 	
 	# 'table' and 'cell' and 'header' and 'row' too wordy for you? Fine:
@@ -1182,7 +1275,7 @@ if __name__ == "__main__":
 	test += '[style th [header [b]]]'
 
 	test += '{ta {tr {td cell 1}{td cell 2}}}'
-	print 'Example 14'
+	xprint('Example 14 -- use your own keywords')
 	print mod.do(test)
 
 	# why stop there? lets go absolutely minimalist:
@@ -1193,7 +1286,7 @@ if __name__ == "__main__":
 	test += '[style h [header [b]]]'
 
 	test += '{t {r {d cell one}{d cell two}}}'
-	print 'Example 15'
+	xprint('Example 15 -- minimalism')
 	print mod.do(test)
 
 	# can we make that even simpler? Yes, with just a few short styles:
@@ -1206,7 +1299,7 @@ if __name__ == "__main__":
 	test += '[style w [row [t wrap=mcell,[b]]]]'
 
 	test += '{t {w one,two}}'
-	print 'Example 16'
+	xprint('Example 16 -- minimal minimalism :)')
 	print mod.do(test)
 	
 	# several rows with a header
@@ -1217,7 +1310,7 @@ if __name__ == "__main__":
 	test += '{w one,two}'
 	test += '{w three,four}'
 	test += '}'
-	print 'Example 17'
+	xprint('Example 17 -- minimal minimalism with a header')
 	print mod.do(test)
 
 	# finally, let's incorporate row count and coloring techniques from above
@@ -1242,6 +1335,34 @@ if __name__ == "__main__":
 	test += '{w one,two}'				# a data row
 	test += '{w three,four}'			# another data row
 	test += '}'							# close the table
-	print 'Example 18'
+	xprint('Example 18 -- minimalism, with alternating row styles')
 	print mod.do(test)
 
+	test  = ''
+	test += '[a http://fyngyrz.com]\n'
+	test += '[a tab,http://fyngyrz.com]\n'
+	test += '[a http://fyngyrz.com,Visit my website!]\n'
+	test += '[a http://fyngyrz.com,[nc Today, visit my website!]]\n'
+	test += '[a tab,http://fyngyrz.com,Follow this link]\n'
+	test += '[a tab,http://fyngyrz.com,[nc Follow this link, please, or else]]\n'
+
+	xprint('Example 19 -- the [a] and [nc] tags')
+	print mod.do(test)
+
+	# You can use a newline instead of a space after a sqiggly name, which can
+	# make your work more readable. Here the style just surrounds with parens,
+	# just enough activity to make it clear the style works properly with a
+	# newline or a space. The newline prior to the closing } is treated as part
+	# of the body fed to the style, so it generates a newline on output, whereas
+	# the newline or the space after the style name is "eaten" as it is a
+	# delimiter in the context of specifying the style, not part of the
+	# body fed to the style.
+	# ------------------------------------------------------------------------
+	test = """
+[style foo ([b])]
+{foo bar}
+{foo
+bar}
+"""
+	xprint("Example 20 -- Use of space or newline as the style name/body delimiter")
+	print mod.do(test)
