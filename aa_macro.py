@@ -973,7 +973,7 @@ class macro(object):
 		# the re import module doesn't seem to see things that way. Weird.
 		# ----------------------------------------------------------------
 		s = s.replace('{','[s ')
-		s = re.sub(r'([s\s*[\w-])\n',r'\1 ',s)
+		s = re.sub(r'([s\s[\w-])\n',r'\1 ',s)
 
 		dex = -1
 		tag = ''
