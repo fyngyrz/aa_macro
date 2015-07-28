@@ -7,6 +7,8 @@ class macro(object):
       Author: fyngyrz  (Ben)
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
      Project: aa_webpage.py
+	 License: None. It's free. *Really* free. Defy invalid social and legal norms.
+  Disclaimer: Probably completely broken. Do Not Use. You were explicitly warned. Pbbbbt.
   Incep Date: June 17th, 2015     (for Project)
      LastRev: July 27th, 2015     (for Class)
   LastDocRev: July 27th, 2015     (for Class)
@@ -14,8 +16,13 @@ class macro(object):
     Examples: At bottom. Run in shell like so:    python aa_macro.py
  Typical Use: from aa_macro import *
      1st-Rel: 1.0.0
-     Version: 1.0.2
+     Version: 1.0.3
      History:                    (for Class)
+	    1.0.3
+			* spiffied up the class docs a little
+			* added [split splitSpec,contentToSplit]
+			* added [parm N]
+			* added to examples
 	 	1.0.2
 			* added new URL link mechanism [a (tab,)URL(,LinkedText)]
 				[link] and [web] will remain as per my "I will never
@@ -43,9 +50,9 @@ class macro(object):
 	
 	Linking
 	-------
-	[a (tab,)URL(,linked text)]
+	[a (tab,)URL(,linked text)]		# The WORD tab, not a tab character. As in a browser tab
 	
-	Older Linking (will remain, but [a LINK] is better
+	Older Linking (will remain, but [a URL] is better)
 	--------------------------------------------------
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
@@ -108,6 +115,8 @@ class macro(object):
 	[repeat count content]							# repeat content count times
 	[comment content]								# content does not render
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
+	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
+	[parm N]										# per above [split, [parm 1] results in y
 	
 	Escape Codes:
 	-------------
@@ -177,6 +186,11 @@ class macro(object):
 	  or suffer the consequences, which will be aborted macros. :)
 	  FYI: Generally commas are used for variable numbers of parameters.
 	o You can use [co] for literal commas, likewise [lb] [rb] [ls] and [rs] for literal braces.
+	  Any operation that uses a comma for parameters or optional parameters is looking
+	  for commas, so use [co] in the content of anything you feed to them. Else format=yuck
+	  Also see [nc contentToConvertCommasIn], which is a hany way to see to it that your
+	  content can have commas, but the macro system won't see them. Of course, you can't
+	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
 """
 	def __init__(self,mode='3.2',back="ffffff",dothis=None):
@@ -190,6 +204,7 @@ class macro(object):
 		self.styles = {}
 		self.gstyles = {}
 		self.stack = []
+		self.parms = []
 		if dothis != None:
 			self.do(dothis)
 
@@ -265,14 +280,32 @@ class macro(object):
 		else:
 			return '<span style="font-weight: bold;">%s</span>' % (data)
 
+	def split_fn(self,tag,data):
+		o = ''
+		dl = data.split(',',1)
+		if len(dl) == 2:
+			if str(dl[0]) == '&#44;':
+				self.parms = str(dl[1]).split(',')
+			else:
+				self.parms = str(dl[1]).split(str(dl[0]))
+		else:
+			o = ' ?split? '
+		return o
+
+	def parm_fn(self,tag,data):
+		o = ''
+		try:
+			o = self.parms[int(data)]
+		except:
+			pass
+		return o
+
 	def slice_fn(self,tag,data):
 		o = ''
 		plist = data.split(',',1)
-#		print tag,data
 		if len(plist) == 2:
 			try:
 				slist = plist[0].split(':')
-#				print plist,slist
 				if len(slist) == 1:
 					o = str(plist[1])[int(slist[0])]
 				elif len(slist) == 2:
@@ -908,6 +941,8 @@ class macro(object):
 					'nc'	: self.nc_fn,		# [nc TEXT] escape all commas
 					'comment': self.comment_fn, # contained content will not render
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
+					'split'	: self.split_fn,	# [split splitSpec,testToSplit]
+					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
 		}
 
 	def do(self,s):
@@ -1364,5 +1399,57 @@ if __name__ == "__main__":
 {foo
 bar}
 """
-	xprint("Example 20 -- Use of space or newline as the style name/body delimiter")
+	xprint("Example 20 -- Alternate use of newline as the style name/body delimiter")
+	print mod.do(test)
+
+	test = """
+[local chapter Introduction to The Work]
+[style h1 <h1>[color 0F0 [v [b]]]</h1>]
+	    
+{h1 chapter}
+"""
+	xprint("Example 21 -- Using a variable in a style")
+	print mod.do(test)
+
+	test  = ''
+	test += '[style v [if [slice :1,[b]] $ [v [slice 1:,[b]]]]'
+	test += '[else [slice :1,[b]] $ [b]]]'
+	test += 'literal: {v chapter}\n'
+	test += 'variable: {v $chapter}\n'
+	xprint("Example 22 -- Making a style use a literal or a variable")
+	print mod.do(test)
+
+	test  = ''
+	test += '[style h1 <h1>{v [b]}</h1>]'
+	test += '{h1 chapter}\n'
+	test += '{h1 $chapter}\n'
+	xprint("Example 23 -- Generalizing literal/variable capability")
+	print mod.do(test)
+
+
+	# Multiple Parameters
+	# While [b] is a great way to deal with single bits of content, there
+	# are situations where multiple parameter handling is needed. [split]
+	# and [parm] work together to create this capability.
+	# The following demos show how you can use them. Essentially, you split
+	# the body into a parameter list, then you use them from the list.
+	# Specifying a parameter that is beyond the list bounds results in ''
+	# ---------------------------------------------------------------------
+
+	test  = ''
+	test += '[split |,Ben|Meddie|Deb]'
+	test += '[parm 1]\n'
+	xprint("Example 24 -- Multiple parameter handling")
+	print mod.do(test)
+
+	test  = ''
+	test += '[split [co],Ben,Meddie,Deb,Mildred]'
+	test += '[parm 2]\n'
+	xprint("Example 25 -- Multiple parameter handling, comma special case")
+	print mod.do(test)
+
+	test  = ''
+	test += '[style fullname [split [co],[b]]First name: [parm 0]<br>\n Last name: [parm 1]<br>]'
+	test += '{fullname John,Doe}'
+	xprint("Example 26 -- Using multiple parameters within a style")
 	print mod.do(test)

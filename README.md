@@ -130,6 +130,14 @@ or, more concisely...
 <tt>{i chapter}</tt> which gets you "*chapter*"  
 <tt>{i $chapter}</tt> which gets you "*Introduction to the Work*"  
 
+Same friend: "So what if I want to feed in "$chapter" as a literal?"
+
+One way is with an escape mechanism for $. Here's how to do
+that using the HTML entity for "$":
+
+    [style $ &#36;]
+	{i {$}chapter}
+
 ## More
 
 At the top of the class in the <tt>aa_macro.py</tt> file, all the various features are described. At the end
