@@ -10,14 +10,20 @@ class macro(object):
 	 License: None. It's free. *Really* free. Defy invalid social and legal norms.
   Disclaimer: Probably completely broken. Do Not Use. You were explicitly warned. Pbbbbt.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 27th, 2015     (for Class)
-  LastDocRev: July 27th, 2015     (for Class)
+     LastRev: July 28th, 2015     (for Class)
+  LastDocRev: July 28th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Examples: At bottom. Run in shell like so:    python aa_macro.py
+              The best way to use them is open a shell and run them there,
+			  and open a shell with aa_macro.py in an editor or reader,
+			  then scroll through the example results in the one shell as
+			  you peruse the source for them in the other within aa_macro.py
  Typical Use: from aa_macro import *
      1st-Rel: 1.0.0
-     Version: 1.0.3
+     Version: 1.0.4
      History:                    (for Class)
+	 	1.0.4
+			* added advice on how to use examples
 	    1.0.3
 			* spiffied up the class docs a little
 			* added [split splitSpec,contentToSplit]
