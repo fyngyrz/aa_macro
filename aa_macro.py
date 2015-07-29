@@ -6,29 +6,51 @@ class macro(object):
 	"""Class to provide an HTML macro language
       Author: fyngyrz  (Ben)
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
-     Project: aa_webpage.py
+     Project: aa_macro.py
+    Homepage: https://github.com/fyngyrz/aa_macro
 	 License: None. It's free. *Really* free. Defy invalid social and legal norms.
-  Disclaimer: Probably completely broken. Do Not Use. You were explicitly warned. Pbbbbt.
+ Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly warned. Pbbbbt.
+              2) My code is blackbox, meaning I wrote it without reference to other people's code
+              3) I can't check other people's contributions effectively, so if you use any version
+                 of aa_macro.py that incorporates accepted commits from others, you are risking
+                 the use of OPC, which may or may not be protected by copyright, patent, and the
+                 like, because our intellectual property system is pathological. The risks and
+                 responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 28th, 2015     (for Class)
-  LastDocRev: July 28th, 2015     (for Class)
+     LastRev: July 29th, 2015     (for Class)
+  LastDocRev: July 29th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
+    Policies: 1) I will make every effort to never remove functionality or
+                 alter existing functionality. Anything new will be implemented
+                 as something new, thus preserving all behavior and the API.
+                 The only intentional exceptions to this are if a bug is found
+                 that does not match the intended behavior, or I determine there
+                 is some kind of security risk.
     Examples: At bottom. Run in shell like so:    python aa_macro.py
               The best way to use them is open a shell and run them there,
 			  and open a shell with aa_macro.py in an editor or reader,
 			  then scroll through the example results in the one shell as
 			  you peruse the source for them in the other within aa_macro.py
  Typical Use: from aa_macro import *
+              mod = macro()
+              mod.do(text)
      Warning: Do NOT use this to parse general user input without fully sanitizing that
 	          input for subsequent string processing in Python FIRST, as well as for
 			  output via your webserver (because <script>, etc.) Otherwise, you've
-			  just created a huge security hole. Not Good! As it stands as of 1.0.5,
+			  just created a huge security hole. Not Good! The default intention is that
 			  class macro() is for authoring by you, the person who ISN'T trying to
 			  hack your website, not access to the public, which may very well contain
-			  someone who wants to do you wrong.
+			  someone who wants to do you wrong. Having said that, see the sanitize()
+			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.5
+     Version: 1.0.6
      History:                    (for Class)
+     	1.0.6
+     	    * added sanitize() utility to help make user input safer
+     		* sped up [roman numberString] when fed zero
+     		* added home page to class header
+     		* added polcies to class header
+     		* updated class documentation
 	 	1.0.5
 			* added warning about parsing user input
 			* wrote a walkthrough for generating roman numerals, consequently I...
@@ -171,26 +193,40 @@ class macro(object):
 	
 	Here's a simple style definition:
 
-         +-- DEFINE a style
-         |     +-- name of style
-         |     |      +-- beginning of style
-         |     |      |       +-- where the body of the style will go
-         |     |      |       |  +-- rest of pre-defined style
-         |     |      |       |  |       +-- end of style
-         |     |      |       |  |       |
+        +-- DEFINE a style
+        |      +-- name of style
+        |      |      +-- beginning of style
+        |      |      |       +-- where the content fed to the style will go
+        |      |      |       |  +-- rest of pre-defined style
+        |      |      |       |  |        +-- ends style definition
+        |      |      |       |  |        |
 		[style strike <strike>[b]</strike>]
 
 	So now to use that, you do this:
 
-         +-- USE a style
-         | +-- name of style to use
-         | |      +-- the body that goes where the [b] tag(s) is/are in the style
-         | |      |
-		[s strike me out]
+        +-- USE a style
+        |  +-- name of style to use
+        |  |      +-- the content that goes where the [b] tag(s) is/are in the style
+        |  |      |     +-- ends style content
+        |  |      |     |
+        [s strike me out]
 
-	Which will come out of object.do() as:
+	Or you can do this, which is intended to be more readable and convenient:
+
+        +-- USE a style
+        |+-- name of style to use
+        ||      +-- the body that goes where the [b] tag(s) is/are in the style
+        ||      |     +-- ends style content
+        ||      |     |
+		{strike me out}
+
+	Either of which will come out of object.do() as:
 
 		<strike>me out</strike>
+
+	You can also break the content into multiple parameters and use them individually
+	using a combination of the [split] and [parm] functions. See the examples at the
+	end of this file for details on that.
 
 	You can nest more or less indefinitely:
 	---------------------------------------
@@ -210,7 +246,7 @@ class macro(object):
 	o You can use [co] for literal commas, likewise [lb] [rb] [ls] and [rs] for literal braces.
 	  Any operation that uses a comma for parameters or optional parameters is looking
 	  for commas, so use [co] in the content of anything you feed to them. Else format=yuck
-	  Also see [nc contentToConvertCommasIn], which is a hany way to see to it that your
+	  Also see [nc contentToConvertCommasIn], which is a handy way to see to it that your
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
@@ -231,6 +267,111 @@ class macro(object):
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		if dothis != None:
 			self.do(dothis)
+
+	def sanitize(self,
+	             s,												# input string
+	             uwl='',										# user whitelist
+	             ubl=[],										# user blacklist
+	             wl=' []{}()<>~/!@#$%^&*_-+=;:",.?/|\t\n"'+"'",	# default whitelist
+	             bl=['<script','<!--#'],						# default blacklist
+	             linelimit=0,									# lines truncate at nonzero linelimit
+	             newline='\n',									# character that delineates a line
+	             limit=0,										# string truncate at nonzero length
+	             pre=True,										# limit entire string length prior to line limits
+	             report=True,									# provide error reports
+	             dt=True):										# defeat HTML tags flag
+		"""Utility to clean user-provided text of things you don't want in it.
+sanitize() provides character whitelisting and string blacklisting.
+sanitize() allows letters and numbers through, as well as the
+characters in dwl and wl, while stripping out any string in the
+ubl or bl lists.
+
+If you don't like the defaults, you can over-ride wl and/or bl with
+'' and [] respectively and feed in uwl and/or ubl instead; or, you
+can leave wl and/or bl alone, and extend either or both with uwl and/or
+ubl.
+
+If something is found that is in one of the blacklists, the returned
+string will have all <> characters converted into HTML entities,
+which will prevent any tag from working. If you don't want this
+behavior, set nff=False.
+
+If you set linelimit to a non-zero value, the string will be treated
+as lines delineated by the newline character, and each line that exceeds
+a length of linelimit will be truncated to linelimit-1, plus a newline
+character, so the resulting lines are guaranteed to be at or under
+linelimit in size. Terminating newlines are preserved. You can set
+newline to any character you want.
+
+If you set limit to a non-zero value, strings that are longer than
+that number will be truncated to that size. Any terminating newline is
+not preserved. If pre is True (the default), this limit is processed
+prior to any processing of linelimit.
+
+On return, you get the string back, and a list that may contain warnings
+about any issues if report=True (the default):
+
+    ['cs ordinal'] means that non-whitelisted character was stripped
+    ['ss stripcount oldsize'] means that the string of oldsize was stripcount too long
+    ['ls stripcount oldsize'] means that a line of oldsize was stripcount too long
+    ['bs] means that one or more blacklisted strings were stripped
+    ['hc'] means that < and/or > were present after ['bs'] and converted to HTML entities
+
+The contents of the list are safe to include in the output if you like.
+"""
+		o = ''
+		warnings = []
+		s = str(s)
+		if pre == True:
+			if limit != 0:
+				ct = len(s)
+				if ct > limit:
+					s = s[:limit]
+					if report == True: warnings += ['ss %d %d' % (ct,ct-limit)]
+		if linelimit != 0:
+			ull = linelimit - 1
+			to = ''
+			slist = s.split(newline)
+			lastflag = False
+			for line in slist:
+				ct = len(line)
+				if ct > ull:
+					line = line[0:linelimit]
+					if report == True: warnings += ['ls %d %d' % (ct,ct-ull)]
+				line += newline
+				to += line
+			if len(to) > 0:
+				to = to[0:-1]
+			s = to
+		if pre != True:
+			if limit != 0:
+				ct = len(s)
+				if ct > limit:
+					s = s[:limit]
+					if report == True: warnings += ['ss %d %d' % (ct,ct-limit)]
+		for c in s:
+			if ((c >= '0' and c <= '9') or
+			    (c >= 'A' and c <= 'Z') or
+			    (c >= 'a' and c <= 'z') or
+			    (c in wl) or
+			    (c in uwl)):
+				o += c
+			else:
+				if report == True: warnings += ['cs '+str(ord(c))]
+		nf = o
+		for f in bl:
+			o = o.replace(f,'')
+		for f in ubl:
+			o = o.replace(f,'')
+		if nf != o:
+			if report == True: warnings += ['bs']
+			if dt == True:
+				nf = o
+				o = o.replace('<','&lt;')
+				o = o.replace('>','&gt;')
+				if nf != o:
+					if report == True: warnings += ['hs']
+		return o,warnings
 
 	def resetGlobals(self):
 		self.theGlobals = {}
@@ -297,6 +438,9 @@ class macro(object):
 
 	def len_fn(self,tag,data):
 		return str(len(data))
+
+	def q_fn(self,tag,data):
+		return '&quot;'+data+'&quot;'
 
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
@@ -477,7 +621,7 @@ class macro(object):
 			if entries[0][:5] == 'wrap=':	# if we have a wrapper
 				wraps = entries[0][5:]		# extract the style name
 				entries.pop(0)				# remove the wrapper
-		o += '<ul>\n'					# BUILD a list
+		o += '<ul>\n'						# BUILD a list
 		for en in entries:
 			if wraps != '':
 				en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
@@ -882,7 +1026,7 @@ class macro(object):
 		try:    number = int(data)
 		except: pass
 		else:
-			if number > -1 and number < 4001:
+			if number > 0 and number < 4001:
 				for v in range(0,13):
 					ct = int(number / self.integers[v])
 					o += self.romans[v] * ct
@@ -907,6 +1051,7 @@ class macro(object):
 					'b'		: self.b_fn,		# P1 is bolded
 					'u'		: self.u_fn,		# P1 is underlined
 					'p'		: self.p_fn,		# P1 is an HTML pargraph
+					'q'		: self.q_fn,		# Wrap content in HTML-entity quotes
 
 					# list handling
 					# P1[,P2]...[,Pn]
@@ -1004,7 +1149,7 @@ class macro(object):
 		# This is a bit gnarly; first, I replace "{" with "[s " as "{"
 		# is simply a shorthand for a style invocation. Then I allow
 		# for the syntax of separating the invocation of a style from
-		# its paramter(s) with either a space or a newline, by converting
+		# its parameter(s) with either a space or a newline, by converting
 		# the newlines used this way into a space so as to simplify
 		# subsequent processing. I expected to use \[ in the first param,
 		# as it is a literal search for '[s ' at that point, but the
@@ -1253,7 +1398,7 @@ if __name__ == "__main__":
 
 	# So, you may be thinking, gee, this is all somewhat indirect. This is true. However,
 	# there's a reason, and if you think about it, it'll make sense to you. It's like a
-	# RISC computer instuction set. It's minimal, but what is here was carefully chosen
+	# RISC computer instruction set. It's minimal, but what is here was carefully chosen
 	# to allow other things to be created from it. For instance, let's cook up a style
 	# that directly decrements a local variable:
 	# ------------------------------------------------------------------------------------
@@ -1428,7 +1573,7 @@ if __name__ == "__main__":
 	xprint('Example 19 -- the [a] and [nc] tags')
 	print mod.do(test)
 
-	# You can use a newline instead of a space after a sqiggly name, which can
+	# You can use a newline instead of a space after a squiggly name, which can
 	# make your work more readable. Here the style just surrounds with parens,
 	# just enough activity to make it clear the style works properly with a
 	# newline or a space. The newline prior to the closing } is treated as part
@@ -1493,7 +1638,7 @@ bar}
 	print mod.do(test)
 
 	test  = ''
-	test += '[style fullname [split [co],[b]]First name: [parm 0]<br>\n Last name: [parm 1]<br>]'
+	test += '[style fullname You provided [q [b]]<br>\n[split [co],[b]]First name: [parm 0]<br>\n Last name: [parm 1]<br>]'
 	test += '{fullname John,Doe}'
 	xprint("Example 26 -- Using multiple parameters within a style")
 	print mod.do(test)

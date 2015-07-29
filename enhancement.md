@@ -108,23 +108,23 @@ Second task, add the function and its tag to the function table:
 
 Then we can do this:
 
-feed in: `[roman 10]`  
-results: `x`  
+feed in: `[roman 12]`  
+results: `xii`  
 
 And we can do this...
 
     [style uroman [upper [roman [b]]]]
 
-feed in: `{uroman 10}`  
-results: `X`  
+feed in: `{uroman 4}`  
+results: `IV`  
 
 So, that's that, eh? \(Keeping in mind `macro()` can already count\)
 
 Well, no. Shouldn't be, anyway. See, that algorithm runs every time we
 convert a number. So it initializes those arrays every time, too. Naughty.
 So let's put them in the class globally, so that they only get set up once
-oer object. This is super-simple. Just move them to the front of the `__init__()` function,
-like so...
+per object. This is super-simple. Just move them to the front of `macro()`,
+in the `__init__()` function, like so...
 
     self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
     self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
@@ -137,7 +137,7 @@ def roman_fn(self,tag,data):
     try:    number = int(data)
     except: pass
     else:
-        if number > -1 and number < 4001:
+        if number > 0 and number < 4001:
             for v in range(0,13):
                 ct = int(number / self.integers[v])
                 o += self.romans[v] * ct
@@ -145,19 +145,24 @@ def roman_fn(self,tag,data):
 	return o
 ```
 
-So, great, right? One more thing... roman numerals look best in a monospaced, serif font.
-So:
+So, great, right? One more thing... roman numerals look best in a monospaced, serif font,
+because you need to be able to tell the difference between the letter L and the letter I.
+Normally, that's what the &lt;tt&gt;&lt;/tt&gt; tags produce in HTML, assuming they
+haven't been disrupted by CSS, so then we can just wrap the roman numerals in those tags.
+If your CSS changes &lt;tt&gt; such that it uses a sans-serif font, then you would use either a &lt;font&gt; tag or an
+appropriate CSS style instead (neither of which work in Github's markdown, by the way),
+but for this walk-through, &lt;tt&gt; will do:
 
     [style roman <tt>[roman [b]]</tt>]
     [style uroman <tt>[upper [roman [b]]]</tt>]
 
 Which allows:
 
-feed in: `{roman 10}`  
-results: &lt;tt&gt;x&lt;tt&gt;  
+feed in: `{roman 15}`  
+results: &lt;tt&gt;xv&lt;tt&gt;  
 
-feed in: `{uroman 10}`  
-results: &lt;tt&gt;X&lt;tt&gt;  
+feed in: `{uroman 17}`  
+results: &lt;tt&gt;XVII&lt;tt&gt;  
 
 Now we're cooking.
 
