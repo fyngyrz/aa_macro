@@ -37,7 +37,7 @@ Paragraph | <tt>verbiage</tt> | <tt>\[p verbiage\]</tt>
 List | <tt>\* item1</tt><br><tt>\* item2</tt> | <tt>\[ul item1,item2\]</tt><br>or, if you prefer,<br><tt>\[ul</tt><br><tt>item1,</tt><br><tt>item2</tt><br><tt>\]</tt><br>
 
 Let me quickly introduce you to the concept of a style. You define a style by giving it a name,
-and then filling it with... goodies. :) It has one *special* goodie, the <tt>[b]</tt> tag, which
+and then filling it with... goodies. :) It has a *special* goodie, the <tt>[b]</tt> tag, which
 fills in with the content you feed the style. Basically this is the idea:
 
     [style hello Why hello, [b], how are you?]
@@ -49,6 +49,8 @@ Which you use like this...
 ...which would in turn result in:
 
     Why hello, Ben, how are you?
+
+You can also pass multiple parameters; details on that are in the main documentation.
 
 From here, we step into far more powerful (and interesting, I think)
 areas of formatting and then some blatantly tricky use of styles as well.
