@@ -20,7 +20,7 @@ sacrificed because complex functionality might not be as readable.
 
 Consider: have you seen much markdown actually displayed as text?
 Personally, I don't see that characteristic as valuable in and of
-itself -- the valuable characteristic is that it is *readable*, which
+itself -- by far, based on how it is used, the more valuable characteristic is that it is *readable*, which
 is not the same thing at all as "looks like unmarked text." You can
 approach <tt>macro()</tt> the same way, aiming at the same types of markup,
 and it'll be perfectly readable -- it just won't look like it is
