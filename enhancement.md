@@ -6,15 +6,15 @@ A minimmum of two tasks are typically involved. This is the 'hard"
 (cough) one:
 
 1. In aa\_macro.py, search for the first occurance of `p_fn`
-2. This is the "paragraph" built in. Look at it. All two lines.
+2. This is the "paragraph" built in. Look at it. All two lines of it.
 ```python
     def p_fn(self,tag,data):
         return '<p>'+data+'</p>'
 ```
-3. Incoming parameter self: obvious, or if not, put it in yours anyway
-4. Incoming parameter tag: the tag that got you here, in this case `p`
-5. Incoming parameter data: everything to the right of `p` until the
-   closing `]`. In other words, if the input to macro() is `[p foo bar]`,
+3. Incoming parameter **self**: obvious, or if not, put it in yours anyway
+4. Incoming parameter **tag**: the tag that got you here, in this case `p`
+5. Incoming parameter **data**: everything to the right of `p` until the
+   closing `]`. In other words, if the input to macro.do\(\) is `[p foo bar]`,
    then data = `foo bar`
 6. Do something to the data. In this case, it wraps it with `<p></p>`
 7. Return the result.
@@ -70,7 +70,7 @@ aa_macro.py so it's pretty easy to do. I will answer any even remotely
 reasonable question that isn't of the "how do I write Python" variety. I also
 take interesting suggestions under consideration.
 
-Thanks for considering my macro() class. Time is the most valuable thing
+Thanks for taking a look at my macro() class. Time is the most valuable thing
 we have. I truly appreciate you spending some of yours on this, and that
 includes casual glances.
 
