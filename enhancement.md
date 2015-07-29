@@ -1,4 +1,4 @@
-# Enhancing class macro()
+# Enhancing class `macro()`
 
 Have an idea for a cool built-in? It can be very easy to do.
 
@@ -41,6 +41,129 @@ it was poorly placed. :\)
 
 Of course, if no group really matches what you're doing, and you don't
 like the "misc" portion of the table, feel free to create a new section.
+
+## A walk through the addition process
+
+Suppose we want to be able to number a list with roman numerals.
+First thing that might occur to you to ask is, well, uppercase
+roman numerals or lowercase? My answer would be, clearly, it'd be
+nice to have both. But generating them twice? Silly. So, the need
+for case conversion arises, and we have our first target. Which we
+will solve in about one minute, like this. First task, implement
+the actual function:
+
+```python
+    def upper_fn(self,tag,data):
+        return data.upper()
+```
+
+Second task, add the function and its tag to the function table:
+
+```python
+    'upper'  : self.upper_fn,
+```
+
+Ok, that's done. But hey, while we're thinking this way, we should
+certainly do this; first task, implement
+the actual function:
+
+```python
+    def lower_fn(self,tag,data):
+        return data.lower()
+```
+
+Second task, add the function and its tag to the function table:
+
+```python
+    'lower'  : self.lower_fn,
+```
+
+Now, we'll be able to do `[upper i]` and get `I` out. Or `[lower I]` and get
+`i` out. Spiffy. It's almost too easy, isn't it? Sure. Well, making roman numerals
+is a little more challenging.
+
+As numbers are handled in the usual decimal fashion within `aa_macro()`, we'll
+do all the work of producing, counting, etc. just as we usually would, and concentrate instead
+on simply converting from decimal to roman. First task, the function:
+
+```python
+def roman_fn(self,tag,data):
+    o = ''
+    try:    number = int(data)
+    except: pass
+    else:
+        if number > -1 and number < 4001:
+            romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
+		    integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
+            for v in range(0,13):
+                ct = int(number / integers[v])
+                o += romans[v] * ct
+                number -= integers[v] * ct
+	return o
+```
+
+Second task, add the function and its tag to the function table:
+
+    'roman' : roman_fn,
+
+Then we can do this:
+
+feed in: `[roman 10]`  
+results: `x`  
+
+And we can do this...
+
+    [style uroman [upper [roman [b]]]]
+
+feed in: `{uroman 10}`  
+results: `X`  
+
+So, that's that, eh? \(Keeping in mind `macro()` can already count\)
+
+Well, no. Shouldn't be, anyway. See, that algorithm runs every time we
+convert a number. So it initializes those arrays every time, too. Naughty.
+So let's put them in the class globally, so that they only get set up once
+oer object. This is super-simple. Just move them to the front of the `__init__()` function,
+like so...
+
+    self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
+    self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
+
+...and then alter `roman_fn()` accordingly:
+
+```python
+def roman_fn(self,tag,data):
+    o = ''
+    try:    number = int(data)
+    except: pass
+    else:
+        if number > -1 and number < 4001:
+            for v in range(0,13):
+                ct = int(number / self.integers[v])
+                o += self.romans[v] * ct
+                number -= self.integers[v] * ct
+	return o
+```
+
+So, great, right? One more thing... roman numerals look best in a monospaced, serif font.
+So:
+
+    [style roman <tt>[roman [b]]</tt>]
+    [style uroman <tt>[upper [roman [b]]]</tt>]
+
+Which allows:
+
+feed in: `{roman 10}`  
+results: &lt;tt&gt;x&lt;tt&gt;  
+
+feed in: `{uroman 10}`  
+results: &lt;tt&gt;X&lt;tt&gt;  
+
+Now we're cooking.
+
+I guess now I have to go and add this to `macro()`, as it's pretty cool. But I assure you, it
+wasn't in the class prior to my writing this little howto. But that's the process
+in general, and as you can see, it's pretty open-ended. And fun.
 
 # You should understand that:
 

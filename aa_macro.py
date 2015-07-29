@@ -19,9 +19,22 @@ class macro(object):
 			  then scroll through the example results in the one shell as
 			  you peruse the source for them in the other within aa_macro.py
  Typical Use: from aa_macro import *
+     Warning: Do NOT use this to parse general user input without fully sanitizing that
+	          input for subsequent string processing in Python FIRST, as well as for
+			  output via your webserver (because <script>, etc.) Otherwise, you've
+			  just created a huge security hole. Not Good! As it stands as of 1.0.5,
+			  class macro() is for authoring by you, the person who ISN'T trying to
+			  hack your website, not access to the public, which may very well contain
+			  someone who wants to do you wrong.
      1st-Rel: 1.0.0
-     Version: 1.0.4
+     Version: 1.0.5
      History:                    (for Class)
+	 	1.0.5
+			* added warning about parsing user input
+			* wrote a walkthrough for generating roman numerals, consequently I...
+			* added [upper textString]
+			* added [lower textString]
+			* added [roman numberString]
 	 	1.0.4
 			* added advice on how to use examples
 	    1.0.3
@@ -123,6 +136,9 @@ class macro(object):
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 	[parm N]										# per above [split, [parm 1] results in y
+	[upper textString]								# convert to uppercase
+	[lower textString]								# convert to lowercase
+	[roman numberString]							# convert decimal to roman (1...4000)
 	
 	Escape Codes:
 	-------------
@@ -211,6 +227,8 @@ class macro(object):
 		self.gstyles = {}
 		self.stack = []
 		self.parms = []
+		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
+		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		if dothis != None:
 			self.do(dothis)
 
@@ -283,8 +301,7 @@ class macro(object):
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
 			return '<b>'+data+'</b>'
-		else:
-			return '<span style="font-weight: bold;">%s</span>' % (data)
+		return '<span style="font-weight: bold;">%s</span>' % (data)
 
 	def split_fn(self,tag,data):
 		o = ''
@@ -854,6 +871,24 @@ class macro(object):
 			o += x
 		return o
 
+	def lower_fn(self,tag,data):
+		return data.lower()
+
+	def upper_fn(self,tag,data):
+		return data.upper()
+
+	def roman_fn(self,tag,data):
+		o = ''
+		try:    number = int(data)
+		except: pass
+		else:
+			if number > -1 and number < 4001:
+				for v in range(0,13):
+					ct = int(number / self.integers[v])
+					o += self.romans[v] * ct
+					number -= self.integers[v] * ct
+		return o
+
 	def setFuncs(self): #    '':self._fn,
 		self.fns = {
 					# escape codes
@@ -949,6 +984,9 @@ class macro(object):
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit]
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
+					'upper'	: self.upper_fn,	# [upper textString]
+					'lower'	: self.lower_fn,	# [lower textString]
+					'roman'	: self.roman_fn,	# [roman numberString]
 		}
 
 	def do(self,s):
