@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import unittest
 from aa_macro import macro
 
