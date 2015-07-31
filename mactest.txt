@@ -1,0 +1,89 @@
+[style h1 <h1>[b]</h1>]  
+[style h2 <h2>[b]</h2>]  
+[style h3 <h3>[b]</h3>]  
+[style test [b]]  
+[style code <code>[b]</code>]  
+[style hello Why hello, [b], how are you?]  
+{h1 Test Results: aa_macro.py]
+
+{h2 Text Formatting]
+[p [u [i [b {hello Ben}]]]]
+[p [color 876 color3]]
+[p [color fedcba color6]]
+
+{h2 linking}
+[p [a http://fyngyrz.com]]
+[p [a tab,http://fyngyrz.com]]
+[p [a tab,http://fyngyrz.com,My Link]]
+[p [a http://fyngyrz.com,My Other Link]]
+[p [web http://fyngyrz.com]]
+[p [web http://fyngyrz.com Another Link]]
+[p [link http://fyngyrz.com]]
+[p [link http://fyngyrz.com Another Link]]
+
+{h2 Images}
+[p [img http://fyngyrz.com/images/beachflag.png http://fyngyrz.com]]
+[p [img http://fyngyrz.com/images/beachflag.png]]
+[p [img Beach Flag,http://fyngyrz.com/images/beachflag.png]]
+[p [img Beach Flag,http://fyngyrz.com/images/beachflag.png http://fyngyrz.com]]
+
+{h2 Lists}
+[p [ul item1,item2]]
+[p [ol item1,item2]]
+[p [iful item1]]
+[p [iful item1,item2]]
+[p [ifol item1]]
+[p [ifol item1,item2]]
+[p [t a,b,c]]
+[p [t wrap=code,a,b,c]]
+
+{h2 Tables}
+[table [row [header col 1][header col 2]][row [cell test1][cell test2]]]
+[table border=0,[row [header bgcolor="#ffffff",col 1][header col 2]][row bgcolor="#888888",[cell test1][cell align="center", test2]]]
+
+{h2 Variables}
+[p 
+[local foo bar][v foo]
+[global bing bong][v bing]
+[global foo bip][v foo][gv foo][lv foo]
+[page][v foo][gv foo][lv foo] Hooray!
+]
+
+{h2 stack}
+[p 
+[push X]stack=[pop]
+[push X][push Y][push Z]stack=[pop],[pop],[pop]
+[push 3,bugger]stack=[pop],[pop],[pop]
+[push X][push Y][push Z][flush]stack=[pop],[pop],[pop]
+[push X][push Y][push Z]stack 1=[fetch 1][flush]
+]
+
+{h2 Math}
+[p 
+[add -1 6]
+[sub 10 9]
+[mul 3 5]
+[div 72 9]
+[inc 1]
+[dec 10]
+]
+
+{h2 Conditionals}
+[p 
+[even 2 EVEN][even 1 !ODD!]
+[odd 1 ODD][odd 2 !EVEN!]
+[if bleep bleep Match][if foo bar !NO MATCH!]
+[else foo bar No Match][else bleep bleep !MATCH!]
+[ne something,Something][ne ,!EMPTY!]
+]
+
+{h2 Miscellanea}
+[p 
+[repeat 5 five ]test1[comment Invisible Me]
+[slice 3:9,catmonkeydog]test2
+[split |,foo|bar|bleep|blop]test3
+[parm 0] [parm 1] [parm 2] [parm 3]test 4
+[upper i was lower, but now am high]
+[lower I WAS HIGHER, BUT NOW AM BROUGHT LOW]
+I have a [upper [roman 427]] Hemi ox-cart
+]

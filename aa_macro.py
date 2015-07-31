@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import re
+import pdb
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -17,8 +18,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 29th, 2015     (for Class)
-  LastDocRev: July 29th, 2015     (for Class)
+     LastRev: July 31st, 2015     (for Class)
+  LastDocRev: July 31st, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -43,8 +44,15 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.6
+     Version: 1.0.7
      History:                    (for Class)
+	 	1.0.7
+			* enhanced [img]
+			* fixed bug in [web]
+			* fixed bug in parser. Regex, sigh. Live by it, die by it.
+			* if you end a line with two trailing spaces, object.do()
+			  will "eat" them, and the following newline, unles you
+			  set nodinner=True
      	1.0.6
      	    * added sanitize() utility to help make user input safer
      		* sped up [roman numberString] when fed zero
@@ -100,7 +108,7 @@ class macro(object):
 	
 	Images
 	------
-	[img URL]
+	[img (title,)URL( linkTarget]	# makes a link if linktarget present
 	
 	Lists
 	-----
@@ -251,9 +259,10 @@ class macro(object):
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
 """
-	def __init__(self,mode='3.2',back="ffffff",dothis=None):
+	def __init__(self,mode='3.2',back="ffffff",dothis=None,nodinner=False):
 		self.setMode(mode)
 		self.setBack(back)
+		self.setNoDinner(nodinner)
 		self.page()
 		self.setFuncs()
 		self.resetLocals()
@@ -267,6 +276,11 @@ class macro(object):
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		if dothis != None:
 			self.do(dothis)
+
+	def setNoDinner(self,nd=False):
+		if nd != False:
+			nd = True
+		self.noDinner = nd
 
 	def sanitize(self,
 	             s,												# input string
@@ -502,6 +516,19 @@ The contents of the list are safe to include in the output if you like.
 		else:
 			return '<span style="text-decoration: underline;">%s</span>' % (data)
 
+	def t_fn(self,tag,data):
+		o = ''
+		plist = data.split(',')
+		wraps = ''
+		if plist[0][:5] == 'wrap=':
+			wraps = plist[0][5:]
+			plist.pop(0)
+		for el in plist:
+			if wraps != '':
+				el = self.s_fn('s','%s %s' % (wraps,el))	# wrap with style if called for
+			o += el
+		return o
+
 	def s_fn(self,tag,data):
 		o = ''
 		try:
@@ -629,19 +656,6 @@ The contents of the list are safe to include in the output if you like.
 		o += '</ul>\n'
 		return o
 
-	def t_fn(self,tag,data):
-		o = ''
-		plist = data.split(',')
-		wraps = ''
-		if plist[0][:5] == 'wrap=':
-			wraps = plist[0][5:]
-			plist.pop(0)
-		for el in plist:
-			if wraps != '':
-				el = self.s_fn('s','%s %s' % (wraps,el))	# wrap with style if called for
-			o += el
-		return o
-
 	def table_fn(self,tag,data):
 		o = '<table'
 		plist = data.split(',',1)
@@ -751,7 +765,7 @@ The contents of the list are safe to include in the output if you like.
 			try:
 				d1,d2 = data.split(' ',1)
 			except:
-				return tag + data
+				return ' ?style?="%s","%s"' % (str(tag),str(data))
 			self.styles[d1] = d2
 		return ''
 
@@ -777,12 +791,23 @@ The contents of the list are safe to include in the output if you like.
 			o += '<span style="background-color: #%s; color: #%s;">%s</span>' % (self.back,col,d2)
 		return o
 
-	def img_fn(self,tag,macro):
+	def img_fn(self,tag,data):
+		tit = ''
+		try:
+			tit,d2 = data.split(',',1)
+		except:
+			pass
+		else:
+			data = d2
 		try:
 			d1,d2 = data.split(' ',1)
 		except:
-			return '<center><img src="%s"></center>' % data
-		return '<center><a href="%s" target="_blank"><img src="%s"></a></center>' % (d2,d1)
+			if tit == '':
+				return '<img src="%s">' % (data)
+			return '<img title="%s" src="%s">' % (tit,data)
+		if tit == '':
+			return '<a href="%s" target="_blank"><img src="%s"></a>' % (d2,d1)
+		return '<a href="%s" target="_blank"><img title="%s" src="%s"></a>' % (d2,tit,d1)
 
 	def web_fn(self,tag,data):
 		try:
@@ -885,7 +910,7 @@ The contents of the list are safe to include in the output if you like.
 		if n < 0: n = 0
 		if n < l:
 			o = self.stack[-(n+1)]
-		o += ' stack is %d, fetch was %d ' % (l,n)
+#		o += ' stack is %d, fetch was %d ' % (l,n)
 		return o
 
 	def push_fn(self,tag,data):
@@ -1151,12 +1176,12 @@ The contents of the list are safe to include in the output if you like.
 		# for the syntax of separating the invocation of a style from
 		# its parameter(s) with either a space or a newline, by converting
 		# the newlines used this way into a space so as to simplify
-		# subsequent processing. I expected to use \[ in the first param,
-		# as it is a literal search for '[s ' at that point, but the
-		# the re import module doesn't seem to see things that way. Weird.
+		# subsequent processing.
 		# ----------------------------------------------------------------
 		s = s.replace('{','[s ')
-		s = re.sub(r'([s\s[\w-])\n',r'\1 ',s)
+		s = re.sub(r'(\[s\s[\w-])\n',r'\1 ',s)
+		if self.noDinner == False:
+			s = s.replace('  \n','')
 
 		dex = -1
 		tag = ''
