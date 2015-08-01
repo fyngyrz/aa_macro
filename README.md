@@ -36,7 +36,18 @@ Bold | <tt>\*\*verbiage\*\*</tt> | <tt>\[b verbiage\]</tt>
 Paragraph | <tt>verbiage</tt> | <tt>\[p verbiage\]</tt>
 List | <tt>\* item1</tt><br><tt>\* item2</tt> | <tt>\[ul item1,item2\]</tt><br>or, if you prefer,<br><tt>\[ul</tt><br><tt>item1,</tt><br><tt>item2</tt><br><tt>\]</tt><br>
 
-Let me quickly introduce you to the concept of a style. You define a style by giving it a name,
+Use is trivial:
+
+```python
+from aa_macro import *
+mod = macro()
+textToProcess = '[b Boldly said]'	# [b contentToStyle] results in <b>contentToStyle</b>
+processedText = mod.do(textToProcess)
+```
+
+That's really all there is to it.
+
+Now I'll quickly introduce you to the concept of a style. You define a style by giving it a name,
 and then filling it with... goodies. :) It has a *special* goodie, the <tt>[b]</tt> tag, which
 fills in with the content you feed the style. Basically this is the idea:
 
@@ -87,7 +98,7 @@ or encodings you wish.
 
 So, my friend looked at this readme, and he, in a fit of Perl-like cognition, says to me:
 
-"...so rather than this: <tt>{h1 chapter}</tt> I’d like <tt>{h1 $chapter\}</tt>"
+"...so rather than this: <tt>{h1 chapter}</tt> I'd like <tt>{h1 $chapter\}</tt>"
 
 Personally, not my thing. However. Here's a style that distinguishes between <tt>$chapter</tt>
 and <tt>chapter</tt>, treating the former as a variable name to resolve, and the latter as a literal (you can

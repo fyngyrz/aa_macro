@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import re
-import pdb
 
 class macro(object):
 	"""Class to provide an HTML macro language
