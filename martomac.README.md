@@ -1,9 +1,9 @@
-# martomac.py -- Markup to `Macro()` format converter
+# [martomac.py](martomac.py) -- Markup to `Macro()` format converter
 
 use: `python martomac.py [-t] [-c] [-s] markdownFile[.md] [macroFile]`
 
 -t: generate `mtmtestfile.html` through `macro()`  
--c: do not prefix with builr-in styles (use your own!)  
+-c: do not prefix with built-in styles (use your own!)  
 -s: suppress generated blank lines between block elements  
 
 ## Example:
