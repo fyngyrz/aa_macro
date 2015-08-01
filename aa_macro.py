@@ -44,8 +44,11 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.9
+     Version: 1.0.10
      History:                    (for Class)
+	 	1.0.10
+			* added [nl] for non-newline newline encoding in source (0x0a)
+			* [img] now sets alt= as well as title=
 	 	1.0.9
 			* added [bq] for HTML blockquote
 	 	1.0.8
@@ -187,6 +190,7 @@ class macro(object):
 	[rb]							# produces HTML ']' as &#93;
 	[ls]							# produces HTML '{' as &#123;
 	[rs]							# produces HTML '}' as &#125;
+	[lf]							# produces HTML newline (0x0a)
 	
 	Styles
 	------
@@ -838,10 +842,10 @@ The contents of the list are safe to include in the output if you like.
 		except:
 			if tit == '':
 				return '<img src="%s">' % (data)
-			return '<img title="%s" src="%s">' % (tit,data)
+			return '<img alt="%s" title="%s" src="%s">' % (tit,tit,data)
 		if tit == '':
 			return '<a href="%s" target="_blank"><img src="%s"></a>' % (d2,d1)
-		return '<a href="%s" target="_blank"><img title="%s" src="%s"></a>' % (d2,tit,d1)
+		return '<a href="%s" target="_blank"><img alt="%s" title="%s" src="%s"></a>' % (d2,tit,tit,d1)
 
 	def web_fn(self,tag,data):
 		try:
@@ -863,7 +867,7 @@ The contents of the list are safe to include in the output if you like.
 		elif llen == 2:	# "tab,URL"
 			if dlist[0].lower() == 'tab':
 				o = '<a target="_blank" href="%s">%s</a>' % (dlist[1],dlist[1])
-			else:
+			else:		# "URL,linked text"
 				o = '<a href="%s">%s</a>' % (dlist[0],dlist[1])
 		elif llen == 3:	# "tab,URL,LinkedText"
 			o = '<a target="_blank" href="%s">%s</a>' % (dlist[1],dlist[2])
@@ -894,6 +898,9 @@ The contents of the list are safe to include in the output if you like.
 
 	def rs_fn(self,tag,data):
 		return '&#125;'
+
+	def nl_fn(self,tag,data):
+		return '\n'
 
 	def v_fn(self,tag,data):
 		l,x = self.fetchVar(data)
@@ -1102,6 +1109,7 @@ The contents of the list are safe to include in the output if you like.
 					'rb'	: self.rb_fn,		#	]	right square bracket
 					'ls'	: self.ls_fn,		#	{	left brace
 					'rs'	: self.rs_fn,		#	}	right brace
+					'nl'	: self.nl_fn,		#   newline (0x0a)
 
 					# basic text formatting
 					# ---------------------

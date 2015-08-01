@@ -9,6 +9,7 @@ Under development
 * headers
 * images
 * formatted links
+* unformatted links
 * blockquotes
 * paragraphs
 * line breaks
@@ -16,13 +17,12 @@ Under development
 
 ### To Do:
 
-* unformatted links
-* emphasis: \*, \*\*, \_,\_\_
-* lists
-  * ordered
-  * unordered
-    * sub unit
-	* sub unit 2
+ * emphasis: \*, \*\*, \_,\_\_
+ * lists
+   * ordered
+   * unordered
+     * sub unit 
+     * sub unit 2
 
 ## re-definition of escapes and "putbacks"
 

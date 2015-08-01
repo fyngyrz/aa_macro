@@ -13,14 +13,18 @@ ecape = {	'[':'{lb}',']':'{rb}',
 def cape(c):
 	return ecape.get(c,c)
 
+testfilename = "mtmtestfile.html"
+
 def help():
 	print '()=required, |= "or", []=optional'
-	print 'USE: (python|./) martomac.py [-c] [-s] inputFilename[.md] [outputFilename]'
+	print 'USE: (python|./) martomac.py [-c] [-s] [-t] inputFilename[.md] [outputFilename]'
 	print "-c flag suppresses leading default style definitions, supply your own"
 	print "-s flag suppresses blank lines between block elements"
+	print '-t flag creates macro() processed output test file "%s"' % (testfilename)
 	raise SystemExit
 
 usedefs = True
+maketest = False
 whiteline = '\n'
 argv = []
 for el in sys.argv:
@@ -28,8 +32,12 @@ for el in sys.argv:
 		usedefs = False
 	elif el == '-s':
 		whiteline = ''
+	elif el == '-t':
+		maketest = True
 	else:
 		argv += [el]
+
+print str(argv),maketest
 
 argc = len(argv)
 if argc != 2 and argc != 3:
@@ -68,8 +76,7 @@ except:
 
 defs = ''
 if usedefs == True:
-	defs = """  
-[style h1 <h1>[b]</h1>]  
+	defs = """[style h1 <h1>[b]</h1>]  
 [style h2 <h2>[b]</h2>]  
 [style h3 <h3>[b]</h2>]  
 [style h4 <h4>[b]</h4>]  
@@ -80,13 +87,13 @@ if usedefs == True:
 [style rb [rb]]  
 [style ls [ls]]  
 [style rs [rs]]  
-[style p [p [b]]]  
+[style p [p [nl][b][nl]]]  
 [style b [b [b]]]  
 [style i [i [b]]]  
 [style u [u [b]]]  
-[style blockquote <blockquote>\n[b]\n<blockquote>]  
+[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
 [style img [split [co],[b]][img [parm 0],[parm 1]]]  
-[style a [split [co],[b]][a [parm 0][[parm 1]]]  
+[style a [split [co],[b]][a [parm 1],[parm 0]]]  
 """
 o = defs
 to = ''
@@ -123,13 +130,20 @@ ITALICSTATE = 4
 UNDERLINESTATE = 5
 # parser for header-converted lines
 # ---------------------------------	
-o = ''
 pstate = OUTSTATE
 qstate = OUTSTATE
 bstate = OUTSTATE
 istate = OUTSTATE
 ustate = OUTSTATE
 wl = whiteline
+
+urldex = 1
+verbdex = 1
+urlcode  = '8gYfTdRsE4'
+verbcode = '3cDvFbGnH9'
+urlstash = {}
+verbstash = {}
+
 for line in source:
 	llen = len(line)
 	blankline = False
@@ -191,7 +205,7 @@ for line in source:
 			if escape == True:	# was this character preceeded by a backslash?
 				tl += cape(c)	# in that case, it goes in the output verbatim
 				escape = False
-			else:				# otherwise, we may need to process it
+			else:				# otherwise, we may need to process it - url,verb::stash,dex,code
 				if c == '!':	# image introducer?
 					imagestate = 1
 				elif c == '[':	# verbiage introducer?
@@ -208,10 +222,16 @@ for line in source:
 						imagestate = 0
 						linkstate = 0
 					else:
+						vcode = '%s%d' % (verbcode,verbdex)
+						ucode = '%s%d' % (urlcode,urldex)
+						verbdex += 1
+						urldex += 1
+						urlstash[ucode] = url
+						verbstash[vcode] = verb
 						if imagestate == 1:	# was this an image?
-							tl += '{image %s,%s}' % (verb,url)
+							tl += '{img %s,%s}' % (vcode,ucode)
 						else:				# nope, hadda be a link
-							tl += '{a %s,%s}' % (verb,url)
+							tl += '{a %s,%s}' % (vcode,ucode)
 						imagestate = 0
 						linkstate = 0
 				else:	# incoming!
@@ -235,6 +255,21 @@ if pstate == PARASTATE:
 		o = o[:-1]
 	o += '}\n'
 
+# Here, we replace raw URLs that are floating around the document:
+# ----------------------------------------------------------------
+pat = r'([hH][tT][tT][pP]\:\/\/.*?)\s'
+repl = '{a \\1,\\1} '
+o = re.sub(pat,repl,o)
+
+# Then we replace the url and verb codes with the actual urls and verbs
+# ---------------------------------------------------------------------
+for key in verbstash.keys():
+	o = o.replace(key,verbstash[key])
+	print key,verbstash[key]
+for key in urlstash.keys():
+	o = o.replace(key,urlstash[key])
+	print key,urlstash[key]
+
 try:
 	ofh.write(o)
 except:
@@ -243,3 +278,20 @@ try:
 	ofh.close()
 except:
 	print 'ERROR: Could not close "%s"' % (ofn,)
+
+if maketest == True:
+	mod = macro()
+	oo = mod.do(o)
+	try:
+		fh = open(testfilename,'w')
+	except:
+		print 'ERROR: Could not open "%s"' % (testfilename,)
+	else:
+		try:
+			fh.write(oo)
+		except:
+			print 'ERROR: Could not complete write to "%s"' % (testfilename,)
+		try:
+			fh.close()
+		except:
+			print 'ERROR: Could not close "%s"' % (tetsfilename,)

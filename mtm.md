@@ -12,3 +12,6 @@ that macro() has to offer. \(This is not a link\) and \[I am not square\]
 This line has link next [My Link](http://fyngyrz.com) and then more text.
 
 Whereas this line has an image next ![My Image](http://fyngyrz.com/images/beachflag.png) and then additional text
+
+And this is a raw url http://datapipe-blackbeltsystems.com right back there
+
