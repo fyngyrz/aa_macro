@@ -19,8 +19,8 @@ Under development
 
  * emphasis: \*, \*\*, \_,\_\_
  * lists
-   * ordered
-   * unordered
+  * ordered
+  * unordered
      * sub unit 
      * sub unit 2
 
