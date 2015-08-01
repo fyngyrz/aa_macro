@@ -41,7 +41,7 @@ Use is trivial:
 ```python
 from aa_macro import *
 mod = macro()
-textToProcess = '[b Boldly said]'	# [b contentToStyle] results in <b>contentToStyle</b>
+textToProcess = '[b Boldly said]'	# results in <b>Boldly said</b>
 processedText = mod.do(textToProcess)
 ```
 
