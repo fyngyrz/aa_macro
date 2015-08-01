@@ -7,6 +7,16 @@
 {h1 Test Results: aa_macro.py]
 
 {h2 Text Formatting]
+[mode 4.01s]  
+[back 028]  
+{h3 HTML 4.01s Mode:}
+[p [b bold text]]
+[p [i italic text]]
+[p [u underlined text]]
+[p [color 876 color3]]
+[p [color fedcba color6]]
+[mode 3.2]  
+{h3 HTML 3.2 Mode:}
 [p [u [i [b {hello Ben}]]]]
 [p [color 876 color3]]
 [p [color fedcba color6]]

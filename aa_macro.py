@@ -17,8 +17,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: July 31st, 2015     (for Class)
-  LastDocRev: July 31st, 2015     (for Class)
+     LastRev: August 1st, 2015     (for Class)
+  LastDocRev: August 1st, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -31,6 +31,7 @@ class macro(object):
 			  and open a shell with aa_macro.py in an editor or reader,
 			  then scroll through the example results in the one shell as
 			  you peruse the source for them in the other within aa_macro.py
+     Testing: python test_aa_macro.py
  Typical Use: from aa_macro import *
               mod = macro()
               mod.do(text)
@@ -43,8 +44,12 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.7
+     Version: 1.0.8
      History:                    (for Class)
+	 	1.0.8
+			* added [mode] to control HTML output mode from source
+			* added [back] to control HTML 4.01s background text color from source
+			* added __str__() method for output of initially passed-in input in dothis
 	 	1.0.7
 			* enhanced [img]
 			* fixed bug in [web]
@@ -168,6 +173,8 @@ class macro(object):
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
 	[roman numberString]							# convert decimal to roman (1...4000)
+	[back HEX3|HEX6]								# set back color for HTML 4.01s operations
+	[mode 3.2|4.01s]								# set HTML version/mode
 	
 	Escape Codes:
 	-------------
@@ -239,6 +246,16 @@ class macro(object):
 	---------------------------------------
 	[b bold text [s strike [i bold and italic text]]]
 
+	Parameters to object instantiation:
+	-----------------------------------
+	mode ------ '3.2'  (default) or '4.01s' to set HTML rendering mode
+	nodinner -- True   (default) or False eats sequences of two spaces followed by a newline
+	back ------ ffffff (default) HEX3 or HEX color for background color in HTML 4.01s mode
+	dothis ---- None   (default) you can pass in initial text to be processed here if you like
+	            the object returns the result in its string method:
+					mod = macro(dothis='[style x foo [b]]'{x bar})
+					print mod # prints 'foo bar'
+
 	The Rules:
 	----------
 	o Do not attempt to define one style inside another.
@@ -273,8 +290,12 @@ class macro(object):
 		self.parms = []
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
+		self.result = ''
 		if dothis != None:
 			self.do(dothis)
+
+	def __str__(self):
+		return self.result
 
 	def setNoDinner(self,nd=False):
 		if nd != False:
@@ -419,10 +440,18 @@ The contents of the list are safe to include in the output if you like.
 	def setBack(self,back="ffffff"):
 		self.back = self.mcolor(back)
 
+	def back_fn(self,tag,data):
+		self.setBack(data)
+		return ''
+
 	def setMode(self,mode='3.2'):
 		if type(mode) != str or mode != '3.2':
 			mode = '4.01s'
 		self.mode = mode
+
+	def mode_fn(self,tag,data):
+		self.setMode(data)
+		return ''
 
 	def fetchVar(self,vName):
 		lo = 1
@@ -776,7 +805,7 @@ The contents of the list are safe to include in the output if you like.
 				return tag + data
 			self.gstyles[d1] = d2
 		return ''
-
+	
 	def color_fn(self,tag,data):
 		o = ''
 		try:
@@ -1156,6 +1185,8 @@ The contents of the list are safe to include in the output if you like.
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]
 					'roman'	: self.roman_fn,	# [roman numberString]
+					'mode'	: self.mode_fn,		# [mode 3.2] or [mode 4.01s] sets HTML output mode
+					'back'	: self.back_fn,		# P1=HHH or HHHHHH then P2 is what gets colored
 		}
 
 	def do(self,s):
@@ -1229,6 +1260,7 @@ The contents of the list are safe to include in the output if you like.
 					tag += c
 			else:
 				o += c
+		self.result = o
 		return o
 
 	def page(self):

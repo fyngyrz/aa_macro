@@ -9,7 +9,7 @@ class TestAAMacro(unittest.TestCase):
 	def test_aa_macro(self):
 		rebuild = 1
 		"""
-Test a simple substitution style.
+Test aa_macro.py functionality
 """
 		fh = open('mactest.txt')
 		testBlock = fh.read()
