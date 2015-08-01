@@ -61,7 +61,22 @@ Which you use like this...
 
     Why hello, Ben, how are you?
 
-You can also pass multiple parameters; details on that are in the main documentation.
+You can also pass multiple parameters, splitting them up any way you like; commas, vbars, etc.
+
+What this means is that you can easily create an enormous range of text macros, even
+to the point of completely replacing the standard ones supplied in class macro\(\).
+
+For instance, macro\(\) provides `[i textToItalicize]` for italic text. But you can do this...
+
+    [style i <i>[b]</i>]
+
+...and then just do this, which doesn't use the built-in:
+
+    {i textToItalicize}
+
+Once the style is defined the way you want it, it does all the work. So you can customize it
+any way you want to. You could easily build a set of styles that would give you correct
+HTML for any revision of the HTML spec. The flexibility of this approach is very high.
 
 From here, we step into far more powerful (and interesting, I think)
 areas of formatting and then some blatantly tricky use of styles as well.

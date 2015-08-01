@@ -44,8 +44,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.8
+     Version: 1.0.9
      History:                    (for Class)
+	 	1.0.9
+			* added [bq] for HTML blockquote
 	 	1.0.8
 			* added [mode] to control HTML output mode from source
 			* added [back] to control HTML 4.01s background text color from source
@@ -95,7 +97,8 @@ class macro(object):
 
 	Text Styling
 	------------
-	[p paragraph]
+	[p paraText]
+	[bq quotetext]
 	[b bold text]
 	[i italic text]
 	[u underlined text]
@@ -112,7 +115,7 @@ class macro(object):
 	
 	Images
 	------
-	[img (title,)URL( linkTarget]	# makes a link if linktarget present
+	[img (title,)URL( linkTarget)]	# makes a link if linktarget present
 	
 	Lists
 	-----
@@ -483,6 +486,9 @@ The contents of the list are safe to include in the output if you like.
 
 	def q_fn(self,tag,data):
 		return '&quot;'+data+'&quot;'
+
+	def bq_fn(self,tag,data):
+		return '<blockquote>'+data+'</blockquote>'
 
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
@@ -1103,8 +1109,9 @@ The contents of the list are safe to include in the output if you like.
 					'i'		: self.i_fn,		# P1 is italicized
 					'b'		: self.b_fn,		# P1 is bolded
 					'u'		: self.u_fn,		# P1 is underlined
-					'p'		: self.p_fn,		# P1 is an HTML pargraph
+					'p'		: self.p_fn,		# P1 is an HTML paragraph
 					'q'		: self.q_fn,		# Wrap content in HTML-entity quotes
+					'bq'	: self.bq_fn,		# P1 is an HTML blockquote
 
 					# list handling
 					# P1[,P2]...[,Pn]
