@@ -17,12 +17,14 @@ Under development
 
 ### To Do:
 
- * emphasis: \*, \*\*, \_,\_\_
- * lists
+* emphasis: \*, \*\*, \_,\_\_
+* lists
   * ordered
   * unordered
-     * sub unit 
-     * sub unit 2
+    * sub 1
+    * sub 2
+      * subsub 1
+      * subsub 2
 
 ## re-definition of escapes and "putbacks"
 
