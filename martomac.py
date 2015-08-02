@@ -153,6 +153,51 @@ verbstash = {}
 
 tabsize = 4
 
+def emphasis(s):
+	reject = r'([^\s\n\t])' # anything but a space, tab or return
+
+	if 1:
+		pat = r'([^\\])\*\*' + reject	# leading **
+		repl = r'\1{b \2'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = r'([^\\])\_\_' + reject	# leading __
+		repl = r'\1{b \2'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = reject + r'\*\*'	# trailing **
+		repl = r'\1}'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = reject + r'\_\_'	# trailing __
+		repl = r'\1}'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = reject + r'\*'	# trailing *
+		repl = r'\1}'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = reject + r'\_'	# trailing _
+		repl = r'\1}'
+		s = re.sub(pat,repl,s)
+	if 1:
+		pat = r'([^\\])\*' + reject	# leading *
+		repl = r'\1{i \2'
+		s = re.sub(pat,repl,s)
+
+	if 1:
+		pat = r'([^\\])\_' + reject	# leading _
+		repl = r'\1{i \2'
+		s = re.sub(pat,repl,s)
+
+
+	return s
+
 for line in source:
 	llen = len(line)
 	blankline = False
@@ -162,6 +207,7 @@ for line in source:
 		line = ''
 	else:					# this is not a blank line
 		line = line.replace('  \n','{br}\n')	# auto-append line breaks
+		line = emphasis(line)
 		
 		# Handle headers
 		for i in range(6,0,-1):

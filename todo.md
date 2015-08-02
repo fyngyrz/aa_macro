@@ -14,10 +14,10 @@ Under development
 * paragraphs
 * line breaks
 * markdown escapes
+* emphasis: `*`, `**`, `_`, `__`
 
 ### To Do:
 
-* emphasis: `*`, `**`, `_`, `__`
 * four-leading-space code lines
 * lists
   * ordered
