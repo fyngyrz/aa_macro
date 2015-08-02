@@ -41,10 +41,10 @@ HTML processing into general text processing quite handily.
 * code
 * fenced code blocks
 * four-leading-space code lines
+* tables
 
 ### To do:
 
-* tables
 * task lists
 
 ### Punting unless use *on* Gitub seems possible:

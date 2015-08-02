@@ -53,3 +53,25 @@ Output | Contents
 -------|---------
 **stdout** | text stream ready for input to macro\(\)
 **stderr** | Errors
+
+## Note
+
+This task would ideally have been accomplished by taking the Perl
+markdown-to-html generator and changing it to output a minimal subset of
+macro\(\) code, as that would result in a far higher quality conversion;
+one that does exactly what markdown does in the same contexts.
+
+But I don't code in Perl any longer. I actually downloaded and looked at
+the markdown Perl code, and all that did was profoundly re-affirm my
+decision to to code in Perl.
+
+So. If someone else wants to go after this particular bit of fruit,
+which, if you're into Perl, you might even find to be low-hanging, by
+all means do so and I'd be delighted to have it join the rest of this
+fluffy goodness.
+
+Otherwise you get my converter, which was seat-of-the-pants and probably
+only works properly within the context of the most basic markdown syntax.
+See the supplied [test file](mtm.md) for a quick look at what is known
+to work.
+

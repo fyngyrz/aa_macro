@@ -81,7 +81,7 @@ or at least, hopefully.
 
 This stuff has tags: `<pre>foo</pre>`
 
-### Four-space indent codeL
+### Four-space indent code:
 
 This is not indented four spaces
 Neither is this
@@ -91,3 +91,10 @@ Neither is this
     and this
 
 But not this.
+
+## Tables
+
+header 1 | header two
+-------- | ----------
+cell a | cell B
+cell III | cell quatro

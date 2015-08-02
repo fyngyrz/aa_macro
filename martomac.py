@@ -6,32 +6,37 @@ import sys
 import re
 from aa_macro import *
 
-defs = """[style h1 <h1>[b]</h1>]  
+defs = """
+[style a [split [co],[b]][a [urlencode [parm 1]],[parm 0]]]  
+[style b [b [b]]]  
+[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
+[style br <br>]  
+[style code [split [co],[b]]<pre>[parm 1]</pre>[comment parm 0]]  
+[style comma [co]]  
+[style gt &gt;]  
+[style h1 <h1>[b]</h1>]  
 [style h2 <h2>[b]</h2>]  
 [style h3 <h3>[b]</h2>]  
 [style h4 <h4>[b]</h4>]  
 [style h5 <h5>[b]</h5>]  
 [style h6 <h6>[b]</h6>]  
-[style br <br>]  
-[style lb [lb]]  
-[style rb [rb]]  
-[style ls [ls]]  
-[style rs [rs]]  
-[style comma [co]]  
-[style p [p [nl][b][nl]]]  
-[style b [b [b]]]  
+[style hcell [header [b]]]  
 [style i [i [b]]]  
-[style u [u [b]]]  
-[style lt &lt;]  
-[style gt &gt;]  
-[style nbsp &nbsp;]  
-[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
 [style img [split [co],[b]][img [parm 0],[urlencode [parm 1]]]]  
-[style a [split [co],[b]][a [urlencode [parm 1]],[parm 0]]]  
-[style ul [ul [b]]]  
+[style inline <tt>[b]</tt>]  
+[style lb [lb]]  
+[style ls [ls]]  
+[style lt &lt;]  
+[style nbsp &nbsp;]  
+[style rb [rb]]  
 [style ol [ol [b]]]  
-[style code [split [co],[b]]<pre>[parm 1]</pre>[comment parm 0]]  
-[style inline <tt>[b]</tt>]
+[style p [p [nl][b][nl]]]  
+[style row [row [b]]]  
+[style rs [rs]]  
+[style table [table [b]]]  
+[style tcell [cell [b]]]  
+[style u [u [b]]]  
+[style ul [ul [b]]]  
 """
 
 ecape = {	'[':'{lb}',']':'{rb}',
@@ -69,6 +74,7 @@ def help():
 	rint('-m macroFileName prefixes your styles, which can override the built-ins')
 	raise SystemExit
 
+github = True
 usedefs = True
 maketest = False
 usestdout = False
@@ -175,17 +181,28 @@ pline = ''
 
 ifh = open(ifn)
 xsource = []
+tflag = -1
+killkey = 'jncfvs8jn2247y8fajn0'
 for line in ifh:
-	if line[0] == '-':
-		line = '# ' + pline
-		pline = ''
+	if line[0] == '-': # this can also indicate a table header/body interspersal
+		if github == True:	# then we can look for tables
+			if line.find(' | ') > 0:
+				line = killkey
+				xsource += [pline]
+			else:
+				line = '# ' + pline	# title line
+				pline = ''
+		else:	# not github, just do titles
+			line = '# ' + pline # title line
+			pline = ''
 	elif line[0] == '=':
 		line = '## ' + pline
 		pline = ''
 	else:
-		if pline != '':
+		if pline != killkey:
 			xsource += [pline]
 	pline = line
+
 xsource += [pline]
 xsource += ['\n']
 ifh.close()
@@ -193,12 +210,48 @@ ifh.close()
 # Escape all the characters that drive macro():
 # ---------------------------------------------
 source = []
+tmode = -1
+pipekey = 'nMbVcGhItR'
+prctkey = 'uHyGtFrDeS'
 for line in xsource:
+	droptag = ''
+	floptag = ''
+	if github == True and line.find(' | ') > 0:
+		tline = ''
+		line = line.replace(r'\|',pipekey) 	# bury any escaped |'s
+		line = line.replace(',','{comma}')	# intern commas -- we use 'em
+		if tmode == -1: # header row?
+			celltype = 'hcell'
+			tmode += 1	# now zero
+			tline += '{table '
+		else: # normal row
+			celltype = 'tcell'
+			tmode += 1	# first line is #1 -- can pass out counter later
+		celllist = line.split('|')
+		tline += '{row '
+		for cell in celllist:
+			cell = cell.replace('%',prctkey)	# bury any existing %'s
+			cell = cell.strip()
+			asm = '{%s '+cell+'}'
+			asm = asm % (celltype,)
+			asm = asm.replace(prctkey,'%')		# restore % signs
+			asm = asm.replace(pipekey,r'\|')	# restore escaped |'s
+			tline += asm # add the cell to the line
+		tline += '}' # close the row
+		line = tline
+	else:
+		if tmode != -1: 	# were we in a table?
+			tmode = -1		# then bail
+			floptag += '}\n'	# close the table
+
 	line = line.replace(r'\[','{lb}')
 	line = line.replace(r'\]','{rb}')
 	line = line.replace(r'\{','{ls}')
 	line = line.replace(r'\}','{rs}')
 	line = line.replace(',','{comma}')
+	if floptag != '':
+		source[-1] = source[-1] + floptag
+		print source[-1]
 	source += [line]
 
 OUTSTATE  = 0
@@ -383,10 +436,6 @@ for line in source:
 			line = inlinecode(line)
 			line = forspacecode(line)
 
-		# listing has to handle blocks like paragraphs do, so I think it'll
-		# be done with states as blockquote and paragraphs are.
-		# -----------------------------------------------------------------
-		
 		# Handle headers
 		for i in range(6,0,-1):
 			if line[:i] == '#' * i:
@@ -400,27 +449,27 @@ for line in source:
 				qstate = QUOTESTATE
 				line = '{blockquote %s' % (line[2:],)
 				consume = True
-		
-		if line[:3] == '```':
-			if cstate == OUTSTATE:
-				cstate = CODESTATE
-				lang = line.rstrip()[3:]
-				if lang == '':
-					lang = 'raw'
-				line = '{code %s,' % (lang,)
+
+		if github == True:		
+			if line[:3] == '```':
+				if cstate == OUTSTATE:
+					cstate = CODESTATE
+					lang = line.rstrip()[3:]
+					if lang == '':
+						lang = 'raw'
+					line = '{code %s,' % (lang,)
+				else:
+					cstate = OUTSTATE
+					line = '}\n'
 			else:
-				cstate = OUTSTATE
-				line = '}\n'
-		else:
-			if cstate == CODESTATE:
-				line = line.replace('<','{lt}')
-				line = line.replace('>','{gt}')
-				line = line.replace(',','{comma}')
+				if cstate == CODESTATE:
+					line = line.replace('<','{lt}')
+					line = line.replace('>','{gt}')
+					line = line.replace(',','{comma}')
 
 	lmode,ltype,depth,mstring = checklist(line)
 	if listmode == False:		# IF not presently in list mode
 		if lmode == True:		#     IF we need to switch to list mode
-#			print '%sltype=%s, lmode=%s, ldepth=%d, mstring="%s"' % (line,str(ltype),str(lmode),depth,mstring)
 			listmode = True
 			line = line.replace(mstring,'',1)
 			liststack += [[ltype,line,depth]]
@@ -428,7 +477,6 @@ for line in source:
 			blankline = True
 	else:						# ELSE already in list mode
 		if lmode == True:		#    IF still in list mode
-#			print '%sltype=%s, lmode=%s, ldepth=%d, mstring="%s"' % (line,str(ltype),str(lmode),depth,mstring)
 			line = line.replace(mstring,'',1)
 			liststack += [[ltype,line,depth]]
 			line = ''
@@ -437,6 +485,10 @@ for line in source:
 			o += makelists(liststack)
 			liststack = []
 			listmode = False
+
+	if line.find('{row ') >= 0:
+#		blankline = True
+		consume = True
 
 	if consume == False:
 		if qstate == QUOTESTATE:
