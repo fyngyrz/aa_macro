@@ -17,8 +17,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 1st, 2015     (for Class)
-  LastDocRev: August 1st, 2015     (for Class)
+     LastRev: August 2nd, 2015     (for Class)
+  LastDocRev: August 2nd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -44,8 +44,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.10
+     Version: 1.0.11
      History:                    (for Class)
+	 	1.0.11
+			* added [urlencode]
 	 	1.0.10
 			* added [nl] for non-newline newline encoding in source (0x0a)
 			* [img] now sets alt= as well as title=
@@ -115,6 +117,7 @@ class macro(object):
 	--------------------------------------------------
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
+	[urlencode URL]					# converts certain chars to character entities
 	
 	Images
 	------
@@ -490,6 +493,12 @@ The contents of the list are safe to include in the output if you like.
 
 	def q_fn(self,tag,data):
 		return '&quot;'+data+'&quot;'
+
+	def urle_fn(self,tag,data):
+		data = data.replace(' ','+')
+		data = data.replace('"','&quot;')
+		data = data.replace('&','&amp;')
+		return data
 
 	def bq_fn(self,tag,data):
 		return '<blockquote>'+data+'</blockquote>'
@@ -1144,6 +1153,7 @@ The contents of the list are safe to include in the output if you like.
 					'link'	: self.link_fn,		# link URL (text) if no text, then linked URL
 					'web'	: self.web_fn,		# link URL (text) if no text, the "On the Web"
 					'img'	: self.img_fn,		# img emplacement from URL
+					'urlencode': self.urle_fn,	# encodes space, ampersand, double quotes
 
 					# math
 					# ----
