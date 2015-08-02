@@ -13,23 +13,37 @@ ecape = {	'[':'{lb}',']':'{rb}',
 def cape(c):
 	return ecape.get(c,c)
 
+def rint(string,err=False,term='\n'):
+	if err == True:
+		sys.stderr.write(string+term)
+	else:
+		sys.stdout.write(string+term)
+
 testfilename = "mtmtestfile.html"
 
 def help():
-	print '()=required, |= "or", []=optional'
-	print 'USE: (python|./) martomac.py [-c] [-s] [-t] inputFilename[.md] [outputFilename]'
-	print "-c flag suppresses leading default style definitions, supply your own"
-	print "-s flag suppresses blank lines between block elements"
-	print '-t flag creates macro() processed output test file "%s"' % (testfilename)
+	rint('()=required, |= "or", []=optional')
+	rint('USE: (python|./) martomac.py [-c ][-s ][-t ][-p ][-x ]inputFilename[.md] [outputFilename]')
+	rint("-c flag suppresses leading default style definitions, supply your own")
+	rint("-s flag suppresses blank lines between block elements")
+	rint('-t flag creates macro() processed output test file "%s"' % (testfilename))
+	rint('-x flag suppresses printing filename report')
+	rint('-p flag routes normal output to stdout')
 	raise SystemExit
 
 usedefs = True
 maketest = False
+usestdout = False
+noreport = False
 whiteline = '\n'
 argv = []
 for el in sys.argv:
 	if el == '-c':
 		usedefs = False
+	elif el == '-p':
+		usestdout = True
+	elif el == '-x':
+		noreport = True
 	elif el == '-s':
 		whiteline = ''
 	elif el == '-t':
@@ -37,12 +51,10 @@ for el in sys.argv:
 	else:
 		argv += [el]
 
-print str(argv),maketest
-
 argc = len(argv)
 if argc != 2 and argc != 3:
-	print 'Unexpected number of arguments: %d' % (argc-1)
-	print 'args: %s' % (str(argv[1:]))
+	rint('Unexpected number of arguments: %d' % (argc-1),True)
+	rint('args: %s' % (str(argv[1:])),True)
 	help()
 
 ifn = argv[1]
@@ -54,7 +66,7 @@ except:
 	try:
 		fh = open(tfn)
 	except:
-		print 'Cannot open input file "%s" or "%s"' % (ifn,tfn)
+		rint('Cannot open input file "%s" or "%s"' % (ifn,tfn),True)
 		help()
 	else:
 		ifn = tfn
@@ -65,14 +77,9 @@ if argc == 3:
 else:
 	ofn = ifn.replace('.md','.txt')
 
-print ' Input File: "%s"' % (ifn,)
-print 'Output File: "%s"' % (ofn,)
-
-try:
-	ofh = open(ofn,'w')
-except:
-	print 'Cannot open output file "%s"' % (ifn,)
-	help()
+if noreport == False:
+	rint(' Input File: "%s"' % (ifn,))
+	rint('Output File: "%s"' % (ofn,))
 
 defs = ''
 if usedefs == True:
@@ -144,6 +151,8 @@ verbcode = '3cDvFbGnH9'
 urlstash = {}
 verbstash = {}
 
+tabsize = 4
+
 for line in source:
 	llen = len(line)
 	blankline = False
@@ -153,7 +162,7 @@ for line in source:
 		line = ''
 	else:					# this is not a blank line
 		line = line.replace('  \n','{br}\n')	# auto-append line breaks
-
+		
 		# Handle headers
 		for i in range(6,0,-1):
 			if line[:i] == '#' * i:
@@ -265,19 +274,26 @@ o = re.sub(pat,repl,o)
 # ---------------------------------------------------------------------
 for key in verbstash.keys():
 	o = o.replace(key,verbstash[key])
-	print key,verbstash[key]
 for key in urlstash.keys():
 	o = o.replace(key,urlstash[key])
-	print key,urlstash[key]
 
-try:
-	ofh.write(o)
-except:
-	print 'ERROR: Could not complete write to "%s"' % (ofn,)
-try:
-	ofh.close()
-except:
-	print 'ERROR: Could not close "%s"' % (ofn,)
+if usestdout == True:
+	rint(o)
+else:
+	try:
+		ofh = open(ofn,'w')
+	except:
+		rint('Cannot open output file "%s"' % (ifn,),True)
+		help()
+
+	try:
+		ofh.write(o)
+	except:
+		rint('ERROR: Could not complete write to "%s"' % (ofn,),True)
+	try:
+		ofh.close()
+	except:
+		rint('ERROR: Could not close "%s"' % (ofn,),True)
 
 if maketest == True:
 	mod = macro()
@@ -285,13 +301,13 @@ if maketest == True:
 	try:
 		fh = open(testfilename,'w')
 	except:
-		print 'ERROR: Could not open "%s"' % (testfilename,)
+		rint('ERROR: Could not open "%s"' % (testfilename,),True)
 	else:
 		try:
 			fh.write(oo)
 		except:
-			print 'ERROR: Could not complete write to "%s"' % (testfilename,)
+			rint('ERROR: Could not complete write to "%s"' % (testfilename,),True)
 		try:
 			fh.close()
 		except:
-			print 'ERROR: Could not close "%s"' % (tetsfilename,)
+			rint('ERROR: Could not close "%s"' % (tetsfilename,),True)
