@@ -4,12 +4,17 @@ This class provides a means for you to generate HTML using Python as
 the intermediary engine.
 
 The benefit is conceptually like markdown, but <tt>macro()</tt> is much, much
-more powerful. It isn't meant to replace markdown, and cannot do so,
+more powerful. It isn't meant to directly replace markdown, and cannot do so anyway,
 because markdown is built into so many things. For your own use,
 however, <tt>macro()</tt> is a terrific solution to a very wide range of HTML
 formatting tasks. You can do anything from format a simple paragraph to
 generate a complete manual with indexes, table of contents, footnotes,
 completely custom styles and more.
+
+In addition, I've provided a [basic tool](martomac.README.md) that translates from markdown to
+macro\(\) format; utilizing this, your documentation options become
+essentially unlimited. This provides a path to a much easier transition
+if you're inclined to move to macro\(\)-based HTML coding from markdown.
 
 One of the reasons that <tt>macro()</tt> is more powerful is that although the
 idea is similar in that it enables you to generate HTML easily and that
