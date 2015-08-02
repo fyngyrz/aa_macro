@@ -15,10 +15,6 @@ Under development
 * line breaks
 * markdown escapes
 * emphasis: `*`, `**`, `_`, `__`
-
-### To Do:
-
-* four-leading-space code lines
 * lists
   * ordered
   * unordered
@@ -27,19 +23,32 @@ Under development
       * subsub 1
       * subsub 2
 
-## re-definition of escapes and "putbacks"
+### To Do:
+
+Generally complete to description at (Github's Cheatsheet)[https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf)
+
+## Future: re-definition of escapes and "putbacks"
 
 To allow special characters to be used via escapes, then to restore them
-at the output stage so that HTML entities are *not* used. This, combination with styles, will expand
-the system beyond the limits of HTML processing into general text processing
-quite handily.
+at the output stage so that HTML entities are *not* used. This, in
+combination with styles, will expand the system beyond the limits of
+HTML processing into general text processing quite handily.
 
-### Github markdown processing
+## Github markdown processing
 
-* tables
+### Done:
+
 * code
 * fenced code blocks
+* four-leading-space code lines
+
+### To do:
+
+* tables
 * task lists
+
+### Punting unless use *on* Gitub seems possible:
+
 * username mentions \(Only useful as stands on Github\)
 * issue references \(Only useful on stands Github\)
 

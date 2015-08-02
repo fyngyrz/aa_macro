@@ -6,12 +6,45 @@ import sys
 import re
 from aa_macro import *
 
+defs = """[style h1 <h1>[b]</h1>]  
+[style h2 <h2>[b]</h2>]  
+[style h3 <h3>[b]</h2>]  
+[style h4 <h4>[b]</h4>]  
+[style h5 <h5>[b]</h5>]  
+[style h6 <h6>[b]</h6>]  
+[style br <br>]  
+[style lb [lb]]  
+[style rb [rb]]  
+[style ls [ls]]  
+[style rs [rs]]  
+[style comma [co]]  
+[style p [p [nl][b][nl]]]  
+[style b [b [b]]]  
+[style i [i [b]]]  
+[style u [u [b]]]  
+[style lt &lt;]  
+[style gt &gt;]  
+[style nbsp &nbsp;]  
+[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
+[style img [split [co],[b]][img [parm 0],[parm 1]]]  
+[style a [split [co],[b]][a [parm 1],[parm 0]]]  
+[style ul [ul [b]]]  
+[style ol [ol [b]]]  
+[style code [split [co],[b]]<pre>[parm 1]</pre>[comment parm 0]]  
+[style inline <tt>[b]</tt>]
+"""
+
 ecape = {	'[':'{lb}',']':'{rb}',
 			'{':'{ls}','}':'{rs}',
 		}
 
 def cape(c):
 	return ecape.get(c,c)
+
+def escapeForHTML(c):
+	if c == '<': return '{lt}'
+	if c == '>': return '{gt}'
+	return c
 
 def rint(string,err=False,term='\n'):
 	if err == True:
@@ -20,36 +53,77 @@ def rint(string,err=False,term='\n'):
 		sys.stdout.write(string+term)
 
 testfilename = "mtmtestfile.html"
+canname = 'cannedstyles.txt'
 
 def help():
 	rint('()=required, |= "or", []=optional')
-	rint('USE: (python|./) martomac.py [-c ][-s ][-t ][-p ][-x ]inputFilename[.md] [outputFilename]')
+	rint('USE: (python|./) martomac.py [-m macroFilename][-c ][-s ][-t ][-p ][-x ]inputFilename[.md] [outputFilename]')
 	rint("-c flag suppresses leading default style definitions, supply your own")
 	rint("-s flag suppresses blank lines between block elements")
 	rint('-t flag creates macro() processed output test file "%s"' % (testfilename))
+	rint('-h flag wraps content of "%s" or stdout in basic HTML page' % (testfilename,))
 	rint('-x flag suppresses printing filename report')
 	rint('-p flag routes normal output to stdout')
+	rint('-l flag strips terminating newlines off of list elements')
+	rint('-d flag dumps canned styles to the file "%s" for your reference' % (canname,))
+	rint('-m macroFileName prefixes your styles, which can override the built-ins')
 	raise SystemExit
 
 usedefs = True
 maketest = False
 usestdout = False
 noreport = False
+lnlstrip = False
+wrapper = False
 whiteline = '\n'
+mfilename = ''
+
 argv = []
+lookformf = False
 for el in sys.argv:
 	if el == '-c':
 		usedefs = False
+	if el == '-l':
+		lnlstrip = True
 	elif el == '-p':
 		usestdout = True
 	elif el == '-x':
 		noreport = True
 	elif el == '-s':
 		whiteline = ''
+	elif el == '-h':
+		wrapper = True
+	elif el == '-d':
+		try:
+			fh = open(canname,'w')
+			fh.write(defs)
+			fh.close()
+		except:
+			rint('Could not write "%s" file',True)
+			help()
 	elif el == '-t':
 		maketest = True
+	elif el == '-m':
+		lookformf = True
 	else:
-		argv += [el]
+		if lookformf == False:
+			argv += [el]
+		else:
+			lookformf = False
+			mfilename = el
+
+print str(argv)
+
+usemfile = False
+if mfilename != '':
+	try:
+		fh = open(mfilename)
+	except:
+		rint('Cannot open macro file "%s"' % (mfilename,),True)
+		help()
+	else:
+		fh.close()
+		usemfile = True
 
 argc = len(argv)
 if argc != 2 and argc != 3:
@@ -81,27 +155,15 @@ if noreport == False:
 	rint(' Input File: "%s"' % (ifn,))
 	rint('Output File: "%s"' % (ofn,))
 
-defs = ''
-if usedefs == True:
-	defs = """[style h1 <h1>[b]</h1>]  
-[style h2 <h2>[b]</h2>]  
-[style h3 <h3>[b]</h2>]  
-[style h4 <h4>[b]</h4>]  
-[style h5 <h5>[b]</h5>]  
-[style h6 <h6>[b]</h6>]  
-[style br <br>]  
-[style lb [lb]]  
-[style rb [rb]]  
-[style ls [ls]]  
-[style rs [rs]]  
-[style p [p [nl][b][nl]]]  
-[style b [b [b]]]  
-[style i [i [b]]]  
-[style u [u [b]]]  
-[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
-[style img [split [co],[b]][img [parm 0],[parm 1]]]  
-[style a [split [co],[b]][a [parm 1],[parm 0]]]  
-"""
+if usedefs == False:
+	defs = ''
+
+if usemfile == True:
+	fh = open(mfilename)
+	chunk = fh.read()
+	fh.close()
+	defs += chunk
+
 o = defs
 to = ''
 prevline = ''
@@ -109,10 +171,10 @@ blankline = False
 thispara = ''
 
 # change all underline-style header codes to #-stype header codes:
-source = []
 pline = ''
 
 ifh = open(ifn)
+xsource = []
 for line in ifh:
 	if line[0] == '-':
 		line = '# ' + pline
@@ -122,12 +184,22 @@ for line in ifh:
 		pline = ''
 	else:
 		if pline != '':
-			source += [pline]
+			xsource += [pline]
 	pline = line
+xsource += [pline]
+xsource += ['\n']
 ifh.close()
 
-if pline != '':
-	source += [pline]
+# Escape all the characters that drive macro():
+# ---------------------------------------------
+source = []
+for line in xsource:
+	line = line.replace(r'\[','{lb}')
+	line = line.replace(r'\]','{rb}')
+	line = line.replace(r'\{','{ls}')
+	line = line.replace(r'\}','{rs}')
+	line = line.replace(',','{comma}')
+	source += [line]
 
 OUTSTATE  = 0
 PARASTATE = 1
@@ -135,6 +207,8 @@ QUOTESTATE = 2
 BOLDSTATE = 3
 ITALICSTATE = 4
 UNDERLINESTATE = 5
+CODESTATE = 6
+
 # parser for header-converted lines
 # ---------------------------------	
 pstate = OUTSTATE
@@ -142,6 +216,7 @@ qstate = OUTSTATE
 bstate = OUTSTATE
 istate = OUTSTATE
 ustate = OUTSTATE
+cstate = OUTSTATE
 wl = whiteline
 
 urldex = 1
@@ -195,8 +270,104 @@ def emphasis(s):
 		repl = r'\1{i \2'
 		s = re.sub(pat,repl,s)
 
-
 	return s
+
+def checklist(line):
+	tabsize = 4
+	depth = 0
+	mstring = ''
+	listtype = None
+	listmode = False
+	ll = len(line)
+	for i in range(0,ll):
+		c = line[i]
+		if c == ' ':
+			depth += 1
+		elif c == '\t':
+			depth += tabsize
+		elif c >= '0' and c <= '9':
+			if line[i+1:i+3] == ') ':
+				listmode = True
+				listtype = 0
+				mstring = c+') '
+				break
+		elif line[i:i+2] == '* ':
+			listmode = True
+			listtype = 1
+			mstring = '* '
+			break
+		else:
+			break
+	return listmode,listtype,depth,mstring
+
+def makelists(lstack):
+	global lnlstrip
+	lmode = -1
+	lo = ''
+	deep = 0
+	depth = -1
+	for lel in lstack:
+		ltype = lel[0]
+		lline = lel[1]
+		ldepth= lel[2]
+		lline = lline.replace(',','{comma}')
+		lline = lline.lstrip()
+		if lnlstrip == True:
+			lline = lline.rstrip()
+		if ldepth > depth:		# new list, deeper
+			deep += 1
+			lbreak = ''
+			if deep > 1:
+				lbreak = '\n'
+			if ltype == 0:	lo += lbreak+'{ol ' + lline
+			else:			lo += lbreak+'{ul ' + lline
+		elif ldepth < depth:	# previous list, shallower
+			lo += '}\n'
+			deep -= 1
+			lo += ','+lline
+		else:					# same list
+			lo += ','+lline
+		depth = ldepth
+	while deep > 0:
+		lo += '}\n'
+		deep -= 1
+	return lo
+
+def inlinecode(line):
+	state = 0
+	oline = ''
+	trigger = 0
+	ll = len(line)
+	for i in range(0,ll):
+		c = line[i]
+		if state == 0: # not inside backticks
+			if line[i:i+2] == r' `':
+				trigger = 1
+				oline += c
+			elif c == r'`' and trigger == 1:
+				trigger = 0
+				oline += '{inline '
+				state = 1
+			else:
+				trigger = 0
+				oline += c
+		else:			# inside backticks
+			if c == r'`':
+				oline += '}'
+				state = 0
+			else:
+				c = escapeForHTML(c)
+				oline += c
+	return oline
+
+def forspacecode(line):
+	if line[0:4] == '    ':
+		line = line.replace(' ','{nbsp}')
+		line = '{inline '+line.rstrip()+'}\n'
+	return line
+
+listmode = False
+liststack = []
 
 for line in source:
 	llen = len(line)
@@ -206,8 +377,15 @@ for line in source:
 		blankline = True
 		line = ''
 	else:					# this is not a blank line
-		line = line.replace('  \n','{br}\n')	# auto-append line breaks
-		line = emphasis(line)
+		if cstate == OUTSTATE:
+			line = line.replace('  \n','{br}\n')	# auto-append line breaks
+			line = emphasis(line)
+			line = inlinecode(line)
+			line = forspacecode(line)
+
+		# listing has to handle blocks like paragraphs do, so I think it'll
+		# be done with states as blockquote and paragraphs are.
+		# -----------------------------------------------------------------
 		
 		# Handle headers
 		for i in range(6,0,-1):
@@ -222,6 +400,43 @@ for line in source:
 				qstate = QUOTESTATE
 				line = '{blockquote %s' % (line[2:],)
 				consume = True
+		
+		if line[:3] == '```':
+			if cstate == OUTSTATE:
+				cstate = CODESTATE
+				lang = line.rstrip()[3:]
+				if lang == '':
+					lang = 'raw'
+				line = '{code %s,' % (lang,)
+			else:
+				cstate = OUTSTATE
+				line = '}\n'
+		else:
+			if cstate == CODESTATE:
+				line = line.replace('<','{lt}')
+				line = line.replace('>','{gt}')
+				line = line.replace(',','{comma}')
+
+	lmode,ltype,depth,mstring = checklist(line)
+	if listmode == False:		# IF not presently in list mode
+		if lmode == True:		#     IF we need to switch to list mode
+#			print '%sltype=%s, lmode=%s, ldepth=%d, mstring="%s"' % (line,str(ltype),str(lmode),depth,mstring)
+			listmode = True
+			line = line.replace(mstring,'',1)
+			liststack += [[ltype,line,depth]]
+			line = ''
+			blankline = True
+	else:						# ELSE already in list mode
+		if lmode == True:		#    IF still in list mode
+#			print '%sltype=%s, lmode=%s, ldepth=%d, mstring="%s"' % (line,str(ltype),str(lmode),depth,mstring)
+			line = line.replace(mstring,'',1)
+			liststack += [[ltype,line,depth]]
+			line = ''
+			blankline = True
+		else:					#    ELSE in, but need to get out
+			o += makelists(liststack)
+			liststack = []
+			listmode = False
 
 	if consume == False:
 		if qstate == QUOTESTATE:
@@ -300,11 +515,17 @@ for line in source:
 
 	o += line
 
-# Every line read; close and open states
+# Every line read; close any open states
+if cstate == CODESTATE:
+	if o[-1] == '\n':
+		o = o[:-1]
+	o += '}\n'
+	
 if qstate == QUOTESTATE:
 	if o[-1] == '\n':
 		o = o[:-1]
 	o += '}\n'
+
 if pstate == PARASTATE:
 	if o[-1] == '\n':
 		o = o[:-1]
@@ -322,6 +543,17 @@ for key in verbstash.keys():
 	o = o.replace(key,verbstash[key])
 for key in urlstash.keys():
 	o = o.replace(key,urlstash[key])
+
+if wrapper == True:
+	o = """<HTML>
+<HEAD>
+<TITLE>macro() HTML test output page</TITLE>
+</HEAD>
+<BODY>
+%s
+</BODY>
+</HTML>
+""" % (o,)
 
 if usestdout == True:
 	rint(o)

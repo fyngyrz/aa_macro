@@ -34,3 +34,60 @@ it again_ as we are just that kind of line-breaker.
 
 ## Lists
 
+Unordered:
+
+* single level
+* very simple
+* hopefully, anyway
+
+Ordered:
+
+1) one
+2) dos
+3) III
+
+Unordered with unordered sublist
+
+* line one
+* line two
+  * subline 1
+  * subline 2
+* line three
+
+## Code
+
+### Fenced code:
+
+```
+ org $0100
+toport lda 0,x++
+ sta >ioport
+ bne toport
+ rts
+```
+
+Now for some HTML fenced code:
+
+```
+<p>
+paragraph content goes here
+</p>
+```
+
+### inline code:
+
+Here is some code: `macro()` and that's the end of it,
+or at least, hopefully.
+
+This stuff has tags: `<pre>foo</pre>`
+
+### Four-space indent codeL
+
+This is not indented four spaces
+Neither is this
+
+    But this is
+    as is this
+    and this
+
+But not this.

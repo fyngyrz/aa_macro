@@ -1,12 +1,20 @@
 # [martomac.py](martomac.py) -- Markup to `Macro()` format converter
 
-use: `python martomac.py [-t ][-c ][-s ][-x ][-p ]markdownFile[.md] [macroFile]`
+use: `python martomac.py [-t ][-c ][-s ][-x ][-p ][-l ]markdownFile[.md] [macroFile]`
 
--t: generate `mtmtestfile.html` through `macro()`  
--c: do not prefix with built-in styles (use your own!)  
--s: suppress generated blank lines between block elements  
--x: suppress filename report
--p: output goes to stdout
+## Available options
+
+Option | Effect
+------ | ------
+-t | generate `mtmtestfile.html` through `macro()`  
+-c | do not prefix with built-in styles (use your own!)  
+-s | suppress generated blank lines between block elements  
+-x | suppress filename report
+-p | output goes to stdout
+-l | strip tailing newlines from list elements
+-d | dump canned styles to file "cannedstyles.txt" for your reference
+-h | wraps content of "cannedstyles.txt" or stdout in basic HTML page
+-m macroFileName | provide your own styles that may override the canned styles
 
 ## Some Examples:
 
