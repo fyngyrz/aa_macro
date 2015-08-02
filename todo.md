@@ -17,7 +17,8 @@ Under development
 
 ### To Do:
 
-* emphasis: \*, \*\*, \_,\_\_
+* emphasis: `*`, `**`, `_`, `__`
+* four-leading-space code lines
 * lists
   * ordered
   * unordered
@@ -32,3 +33,18 @@ To allow special characters to be used via escapes, then to restore them
 at the output stage so that HTML entities are *not* used. This, combination with styles, will expand
 the system beyond the limits of HTML processing into general text processing
 quite handily.
+
+### Github markdown processing
+
+* tables
+* code
+* fenced code blocks
+* task lists
+* username mentions \(Only useful as stands on Github\)
+* issue references \(Only useful on stands Github\)
+
+#### Alternate Filter for Github?
+
+Be nice if, when this is all said and done, I could have macro\(\) accepted
+as one of Github's supported filters. Somehow I doubt it, as they really
+lock down their HTML, but you never know.
