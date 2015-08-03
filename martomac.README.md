@@ -57,7 +57,11 @@ Output | Contents
 
 ### Generate and view output with your browser:
 
-    python martomac.py -t -o -h README.md
+    python martomac.py -t -o -h mtm
+
+\(mtm.md is the test file I supply -- I'm still working
+on compatability with less masic use of markdown. Mostly
+it's order of parsing and the like.\)
 
 Output | Contents
 -------|---------

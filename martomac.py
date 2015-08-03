@@ -184,11 +184,16 @@ thispara = ''
 # change all underline-style header codes to #-stype header codes:
 pline = ''
 
+ysource = []
 ifh = open(ifn)
+for line in ifh:
+	ysource += [line]
+ifh.close()
+
 xsource = []
 tflag = -1
 killkey = 'jncfvs8jn2247y8fajn0'
-for line in ifh:
+for line in ysource:
 	if line[0] == '-': # this can also indicate a table header/body interspersal
 		if github == True:	# then we can look for tables
 			if line.find(' | ') > 0:
@@ -210,7 +215,6 @@ for line in ifh:
 
 xsource += [pline]
 xsource += ['\n']
-ifh.close()
 
 # Escape all the characters that drive macro():
 # ---------------------------------------------
