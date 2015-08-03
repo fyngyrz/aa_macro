@@ -2,7 +2,7 @@
 
 Have an idea for a cool built-in? It can be very easy to do.
 
-A minimmum of two tasks are typically involved. This is the 'hard"
+A minimum of two tasks are typically involved. This is the 'hard"
 (cough) one:
 
 1. In aa\_macro.py, search for the first occurance of `p_fn`

@@ -7,6 +7,7 @@ use: `python martomac.py [-t ][-c ][-s ][-x ][-p ][-l ]markdownFile[.md] [macroF
 Option | Effect
 ------ | ------
 -t | generate `mtmtestfile.html` through `macro()`  
+-o | open mtmtestfile in OS X default browser
 -c | do not prefix with built-in styles (use your own!)  
 -s | suppress generated blank lines between block elements  
 -x | suppress filename report
@@ -52,6 +53,15 @@ Generates:
 Output | Contents
 -------|---------
 **stdout** | text stream ready for input to macro\(\)
+**stderr** | Errors
+
+### Generate and view output with your browser:
+
+    python martomac.py -t -o -h README.md
+
+Output | Contents
+-------|---------
+mtmtestfile.html | Opens right in your OS X browser
 **stderr** | Errors
 
 ## Note

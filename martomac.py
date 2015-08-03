@@ -3,6 +3,7 @@
 # Convert markdown file source files to aa_macro source files
 
 import sys
+import os
 import re
 from aa_macro import *
 
@@ -68,6 +69,7 @@ def help():
 	rint('-t flag creates macro() processed output test file "%s"' % (testfilename))
 	rint('-h flag wraps content of "%s" or stdout in basic HTML page' % (testfilename,))
 	rint('-x flag suppresses printing filename report')
+	rint('-o open default OS X browser on "%s"' % (testfilename,))
 	rint('-p flag routes normal output to stdout')
 	rint('-l flag strips terminating newlines off of list elements')
 	rint('-d flag dumps canned styles to the file "%s" for your reference' % (canname,))
@@ -81,6 +83,7 @@ usestdout = False
 noreport = False
 lnlstrip = False
 wrapper = False
+openit = False
 whiteline = '\n'
 mfilename = ''
 
@@ -89,7 +92,9 @@ lookformf = False
 for el in sys.argv:
 	if el == '-c':
 		usedefs = False
-	if el == '-l':
+	elif el == '-o':
+		openit = True
+	elif el == '-l':
 		lnlstrip = True
 	elif el == '-p':
 		usestdout = True
@@ -610,6 +615,7 @@ if wrapper == True:
 if usestdout == True:
 	rint(o)
 else:
+	ok = True
 	try:
 		ofh = open(ofn,'w')
 	except:
@@ -620,24 +626,34 @@ else:
 		ofh.write(o)
 	except:
 		rint('ERROR: Could not complete write to "%s"' % (ofn,),True)
+		ok = False
 	try:
 		ofh.close()
 	except:
 		rint('ERROR: Could not close "%s"' % (ofn,),True)
+		ok = False
 
 if maketest == True:
 	mod = macro()
 	oo = mod.do(o)
+	ok = True
 	try:
 		fh = open(testfilename,'w')
 	except:
 		rint('ERROR: Could not open "%s"' % (testfilename,),True)
+		ok = False
 	else:
 		try:
 			fh.write(oo)
 		except:
 			rint('ERROR: Could not complete write to "%s"' % (testfilename,),True)
+			ok = False
 		try:
 			fh.close()
 		except:
 			rint('ERROR: Could not close "%s"' % (tetsfilename,),True)
+			ok = False
+		if ok == True:
+			if openit == True:
+				cmd = 'open %s' % (testfilename)
+				os.system(cmd)
