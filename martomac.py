@@ -34,7 +34,7 @@ defs = """
 [style p [p [nl][b][nl]]]  
 [style row [row [b]]]  
 [style rs [rs]]  
-[style table [table [b]]]  
+[style table [table border=1,[b]]]  
 [style tcell [cell [b]]]  
 [style u [u [b]]]  
 [style ul [ul [b]]]  
