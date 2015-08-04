@@ -3,20 +3,20 @@
 This class provides a means for you to generate HTML using Python as
 the intermediary engine.
 
-The benefit is conceptually like markdown, but <tt>macro()</tt> is much, much
+The benefit is conceptually like markdown, but `macro()` is much, much
 more powerful. It isn't meant to directly replace markdown, and cannot do so anyway,
 because markdown is built into so many things. For your own use,
-however, <tt>macro()</tt> is a terrific solution to a very wide range of HTML
+however, `macro()` is a terrific solution to a very wide range of HTML
 formatting tasks. You can do anything from format a simple paragraph to
 generate a complete manual with indexes, table of contents, footnotes,
 completely custom styles and more.
 
 In addition, I've provided a [basic tool](martomac.README.md) that translates from markdown to
-macro\(\) format; utilizing this, your documentation options become
+`macro()` format; utilizing this, your documentation options become
 essentially unlimited. This provides a path to a much easier transition
-if you're inclined to move to macro\(\)-based HTML coding from markdown.
+if you're inclined to move to `macro()`-based HTML coding from markdown.
 
-One of the reasons that <tt>macro()</tt> is more powerful is that although the
+One of the reasons that `macro()` is more powerful is that although the
 idea is similar in that it enables you to generate HTML easily and that
 it can certainly be easily readable if used in the simple ways such as
 one uses markdown, it does not embrace the idea that a text source file
@@ -27,7 +27,7 @@ Consider: have you seen much markdown actually displayed as text?
 Personally, I don't see that characteristic as valuable in and of
 itself -- by far, based on how it is used, the more valuable characteristic is that it is *readable*, which
 is not the same thing at all as "looks like unmarked text." You can
-approach <tt>macro()</tt> the same way, aiming at the same types of markup,
+approach `macro()` the same way, aiming at the same types of markup,
 and it'll be perfectly readable -- it just won't look like it is
 unmarked.
 
@@ -69,13 +69,13 @@ Which you use like this...
 You can also pass multiple parameters, splitting them up any way you like; commas, vbars, etc.
 
 What this means is that you can easily create an enormous range of text macros, even
-to the point of completely replacing the standard ones supplied in class macro\(\).
+to the point of completely replacing the standard ones supplied in class `macro()`.
 
-For instance, macro\(\) provides `[i textToItalicize]` for italic text. But you can do this...
+For instance, `macro()` provides `[i textToItalicize]` for italic text. But you can do this...
 
     [style i <i>[b]</i>]
 
-...and then just do this, which doesn't use the built-in:
+...and then use the following, which doesn't use the built-in:
 
     {i textToItalicize}
 
@@ -83,11 +83,11 @@ Once the style is defined the way you want it, it does all the work. So you can 
 any way you want to. You could easily build a set of styles that would give you correct
 HTML for any revision of the HTML spec. The flexibility of this approach is very high.
 
-From here, we step into far more powerful (and interesting, I think)
+From here, we step into far more powerful \(and interesting, I think\)
 areas of formatting and then some blatantly tricky use of styles as well.
 
-I'll give one example (Okay, two examples, thanks a lot, Blake :metal:) here using several features;
-but <tt>macro()</tt> offers a wide range of features beyond this, so don't
+I'll give one example \(Okay, two examples, thanks a lot, Blake :metal:\) here using several features;
+but `macro()` offers a wide range of features beyond this, so don't
 think for a moment that this in any way represents a limit on what you can do.
 
     [local chapter Introduction to the Work]
@@ -109,20 +109,24 @@ This produces the following HTML:
 
     <h1>Introduction to the Work</h1>
 
-The utility of such a thing is that first, the chapter name can now be referenced anywhere, and changed
-at any time, because it is a variable (a local... globals are supported as well); while the h1 style shows
-how you can wrap anything - in this case the content of the variable name passed in - in any other tags
-or encodings you wish.
+The utility of such a thing is that first, the chapter name can now be
+referenced anywhere, and changed at any time, because it is a variable
+\(a local... globals are supported as well\); while the h1 style shows how
+you can wrap anything - in this case the content of the variable name
+passed in - in any other tags or encodings you wish. Second, it is
+*much* more concise than what you'd have to write using raw HTML and
+CSS. Third, like CSS, you can pack away your styles and build a library,
+or libraries, of tools that do exactly what you want them to.
 
-## A (much) more complex example
+## A \(much\) more complex example
 
 So, my friend looked at this readme, and he, in a fit of Perl-like cognition, says to me:
 
 "...so rather than this: `{h1 chapter}` I'd like `{h1 $chapter}`"
 
 Personally, not my thing. However. Here's a style that distinguishes between `$chapter`
-and `chapter`, treating the former as a variable name to resolve, and the latter as a literal (you can
-break styles over multiple lines after the style name and/or within any content destined for output)...
+and `chapter`, treating the former as a variable name to resolve, and the latter as a literal \(you can
+break styles over multiple lines after the style name and/or within any content destined for output\)...
 
     [style v
     [if [slice :1,[b]] $ [v [slice 1:,[b]]]]
@@ -158,7 +162,7 @@ or, more concisely...
 
     [style i [i {v [b]}]]
 
-...to be used like this (either style i or style italic work as of now):
+...to be used like this \(either style i or style italic work as of now\):
 
 `{i chapter}` which gets you "*chapter*"  
 `{i $chapter}` which gets you "*Introduction to the Work*"  
