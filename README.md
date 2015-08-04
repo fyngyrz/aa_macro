@@ -171,6 +171,33 @@ that using the HTML entity for "$":
     [style $ &#36;]
     {i {$}chapter}
 
+## Too Terse?
+
+Oh, say it isn't so\! Well, it probably is. But it doesn't matter,
+really, because *you* can make it read and work any way you want. Let's
+just go after that `[v]` idiom. To refresh your memory, `[v]` pulls a
+local variable by name \(or a global if there is no local\) and returns
+the content. I found `[v]` to be sufficient, being just that kind of
+terse, annoying person. But you, perhaps *you* would like something a
+bit more... explicit. And here we find the gold, as it were:
+
+Starting from ground zero, where this functionality exists:
+
+    [v variableName]
+
+This...
+
+    [style read-variable [v [b]]]
+
+...creates the ability to do this:
+
+    {read-variable variableName}
+
+Not so terse now, is it?
+
+You can re-define *anything*. Make `macro()` your own in every way. It's easy and
+it's fun. Well, I think it's fun. But again, I'm a little odd. :\)
+
 ## More
 
 At the top of the class in the `aa_macro.py` file, all the

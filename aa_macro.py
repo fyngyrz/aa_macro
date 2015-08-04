@@ -178,6 +178,13 @@ class macro(object):
 	[comment content]								# content does not render
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
+													  Because a comma is used to separate the
+													  splitSpec from the contentToSplit, you
+													  can't just use a comma directly. But
+													  there is a syntax to support it...
+													     [split [co],contentToSplit]]
+													  ...where contentToSplit is separated by
+													  actual commas. Comes in handy sometimes.
 	[parm N]										# per above [split, [parm 1] results in y
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
