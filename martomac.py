@@ -15,7 +15,8 @@ defs = """
 [style blockquote <blockquote>[nl][b][nl]<blockquote>]  
 [style br <br>]  
 [style codepre {nbsp}{nbsp}{nbsp}{nbsp}]
-[style code [split [co],[b]][b [color 080 <pre>[parm 1]</pre>]][comment parm 0]]  
+[style code [split [co],[b]][b {codewrap <pre>[parm 1]</pre>]}[comment parm 0]]  
+[style codewrap [color 080 [b]]]  
 [style comma [co]]  
 [style gt &gt;]  
 [style h1 <h1>[b]</h1>]  
@@ -27,7 +28,7 @@ defs = """
 [style hcell [header [b]]]  
 [style i [i [b]]]  
 [style img [split [co],[b]][img [parm 0],[urlencode [parm 1]]]]  
-[style inline [b [color 080 <tt>[b]</tt>]]]  
+[style inline [b {codewrap <tt>[b]</tt>}]]  
 [style la &lt;]  
 [style lb [lb]]  
 [style ls [ls]]  
@@ -376,24 +377,27 @@ def smartEscape(line):
 	line = line.replace(r'\_',escUnderline)
 	line = line.replace(r'\*',escAsterisk)
 	line = line.replace(r'\(',escLParen)
+
 	line = line.replace(r'\]',escRBrack)
 	line = line.replace(r'\[',escLBrack)
+
 	line = line.replace(r'\}',escRSquig)
 	line = line.replace(r'\{',escLSquig)
-	line = line.replace(r'\\',escBackslash)
-	
-	line = line.replace(r'\+',escPlus)
-	line = line.replace(r'\-',escMinus)
-	line = line.replace(r'\.',escDot)
 
 	line = line.replace(r'}',escRSquig)
 	line = line.replace(r'{',escLSquig)
 
 	line = line.replace(r'\)',escRParen)
-	line = line.replace(r'!)',escXMark)
+	line = line.replace(r'\(',escLParen)
+
+	line = line.replace(r'\\',escBackslash)
+	line = line.replace(r'\+',escPlus)
+	line = line.replace(r'\-',escMinus)
+	line = line.replace(r'\.',escDot)
+	line = line.replace(r'\!',escXMark)
 	line = line.replace(r'\`',escBTick)
-	line = line.replace(r',',liveComma) # commas mean nothing to .md, but they mean something to
-	
+	line = line.replace(r',',liveComma) # commas mean nothing to .md, but they mean something to mac
+
 	line = line.replace('\t','    ')
 	
 	line = cleanthings(line)

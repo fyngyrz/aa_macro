@@ -1,13 +1,13 @@
 # [martomac.py](martomac.py) -- Markup to `Macro()` format converter
 
-use: `python martomac.py [-t ][-c ][-s ][-x ][-p ][-l ]markdownFile[.md] [macroFile]`
+use: `python martomac.py [options] markdownFile[.md] [macroFile]`
 
 ## Available options
 
 Option | Effect
 ------ | ------
   -t | generate `mtmtestfile.html` through `macro()`  
-  -o | open mtmtestfile in OS X default browser
+  -o | open `mtmtestfile.html` in OS X default browser
   -c | do not prefix with built-in styles \(use your own\!\)
   -s | suppress generated blank lines between block elements
   -x | suppress filename report
@@ -68,7 +68,53 @@ Output | Contents
 mtmtestfile.html | Opens right in your OS X browser
 **stderr** | Errors
 
-## Note
+### Customizing your output:
+
+You can customize almost anything about the actual conversion
+process, because it's managed by styles; styles you can override.
+
+For instance:
+
+In the default set of `macro()` styles that are used to
+handle the markdown-to-macro conversion, there's a style
+that sets the color of code blocks. This is it:
+
+    [style codewrap [color 080 [b]]]  
+
+Now, perhaps you're prefer your code to be some other color or shade.
+Perhaps red. No problem. Using the `-m` option, you can supply a
+replacement for this \(or anything else you want to change about how the
+conversion is handled.\) Just create a file, I'll call this one
+`mycustommd.mac`, and put the replacement style in it:
+
+    [style codewrap [color 800 [b]]]  
+
+Now, when you invoke `martomac.py`, just add this to your command...
+
+    -m mycustommd.mac
+
+...and there you go. Red code.
+
+Of course, you can put far more in there than just color. You could
+set up a span with custom inline or cascaded CSS and do virtually
+anything you like.
+
+### Readability
+
+In order to make this all work as a customizable conversion, I've used
+styles much more liberally than would be typical. The end result -- of
+the conversion, not the HTML -- is infested, as it were, with these
+styles. That's not how I normally write `macro()` source, nor do I
+expect it would be how others do so. There are *far* more effective and
+less wordy \(and more readable\) ways to accomplish all of this if
+you're writing it directly, rather than trying to parse out markdown
+text.
+
+So please don't be deterred by how the conversion results come out.
+If that was how things *had* to look in general, I wouldn't have bothered
+to write `macro()` in the first place.
+
+## Note: Or, Perl before Swine \(*Oink!*\)
 
 This task would ideally have been accomplished by taking the Perl
 markdown-to-html generator and changing it to output a minimal subset of
@@ -77,12 +123,12 @@ one that does exactly what markdown does in the same contexts.
 
 But I don't code in Perl any longer. I actually downloaded and looked at
 the markdown Perl code, and all that did was profoundly re-affirm my
-decision to to code in Perl.
+decision not to code in Perl.
 
 So. If someone else wants to go after this particular bit of fruit,
-which, if you're into Perl, you might even find to be low-hanging, by
-all means do so and I'd be delighted to have it join the rest of this
-fluffy goodness.
+which, if you're really into Perl, you might even find to be
+low-hanging, by all means do so and I'd be delighted to have it join the
+rest of this fluffy goodness.
 
 Otherwise you get my converter, which was seat-of-the-pants and only works
 properly within the context of precisely correct markdown syntax.
@@ -100,7 +146,8 @@ markdown. :\)
 
 On the *other* hand, if you find a conversion not working that you think
 should work, push the markdown file to the `aa_macro` repo and I will
-take a look -- or of course you can do it if you are so inclined.
+take a look -- or of course you can implement any fixes yourself, if you
+are so inclined.
 
 See the supplied [test file](mtm.md) and the other markdown files in the
 `aa_macro` repo here for a look at what is known to work.
