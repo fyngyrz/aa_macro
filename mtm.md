@@ -12,7 +12,7 @@ that macro() has to offer. \(This is not a link\) and \[I am not square\]
 Linking
 =======
 
-This line has link next [My Link](http://fyngyrz.com) and then more text.
+This line has a link next [My Link](http://fyngyrz.com) and then more text.
 
 ### Sort-of linking: Images
 
@@ -74,7 +74,7 @@ paragraph content goes here
 </p>
 ```
 
-### inline code:
+### In-line code:
 
 Here is some code: `macro()` and that's the end of it,
 or at least, hopefully.
@@ -83,7 +83,7 @@ This stuff has tags: `<pre>foo</pre>`
 
 ### Four-space indent code:
 
-This is not indented four spaces
+This is not indented four spaces.
 Neither is this
 
     But this is

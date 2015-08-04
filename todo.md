@@ -1,6 +1,6 @@
 # To-do
 
-## Markdown-to-macro() Filter
+## Markdown-to-macro\(\) Filter
 
 Under development
 
@@ -25,14 +25,7 @@ Under development
 
 ### To Do:
 
-Generally complete to description at (Github's Cheatsheet)[https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf)
-
-## Future: re-definition of escapes and "putbacks"
-
-To allow special characters to be used via escapes, then to restore them
-at the output stage so that HTML entities are *not* used. This, in
-combination with styles, will expand the system beyond the limits of
-HTML processing into general text processing quite handily.
+Generally complete to description at (Github's Cheatsheet)[https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf]
 
 ## Github markdown processing
 

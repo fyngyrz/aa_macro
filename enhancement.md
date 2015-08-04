@@ -5,32 +5,36 @@ Have an idea for a cool built-in? It can be very easy to do.
 A minimum of two tasks are typically involved. This is the 'hard"
 (cough) one:
 
-1. In aa\_macro.py, search for the first occurance of `p_fn`
-2. This is the "paragraph" built in. Look at it. All two lines of it.
+ * In aa\_macro.py, search for the first occurance of `p_fn`
+ * This is the "paragraph" built in. Look at it. All two lines of it.
+
 ```python
-    def p_fn(self,tag,data):
-        return '<p>'+data+'</p>'
+def p_fn(self,tag,data):
+return '<p>'+data+'</p>'
 ```
-3. Incoming parameter **self**: obvious, or if not, put it in yours anyway
-4. Incoming parameter **tag**: the tag that got you here, in this case `p`
-5. Incoming parameter **data**: everything to the right of `p` until the
-   closing `]`. In other words, if the input to macro.do\(\) is `[p foo bar]`,
-   then data = `foo bar`
-6. Do something to the data. In this case, it wraps it with `<p></p>`
-7. Return the result.
+
+ * Incoming parameter **self**: obvious, or if not, put it in yours anyway
+ * Incoming parameter **tag**: the tag that got you here, in this case `p`
+ * Incoming parameter **data**: everything to the right of `p` until the
+closing `]`. In other words, if the input to macro.do\(\) is `[p foo bar]`,
+then data = `foo bar`
+ * Do something to the data. In this case, it wraps it with `<p></p>`
+ * Return the result.
 
 This is the easy one:
 
-1. In aa\_macro.py, from the beginning or from `p_fn`search for `'p'`
+ * In aa\_macro.py, from the beginning or from `p_fn` search for `'p'`
+
 ```python
-    'p'     : self.p_fn,
+'p'     : self.p_fn,
 ```
-2. That's an entry in a function table. :\)
-3. In the table put the tag string (`'p'` in this case) See `p_fn` entry for howto.
+
+ * That's an entry in a function table. :\)
+ * In the table put the tag string (`'p'` in this case) See `p_fn` entry for howto.
 The tag string must not contain spaces or newlines.
-4. After the tag string, put a colon \( ':' \) See `p_fn` entry for howto.
-5. Put the name of your function, preceded by `self.` See `p_fn` entry for howto.
-6. Add a trailing comma
+ * After the tag string, put a colon \( ':' \) See `p_fn` entry for howto.
+ * Put the name of your function, preceded by `self.` See `p_fn` entry for howto.
+ * Add a trailing comma
 
 Lastly, the function table is broken up into functional groups for my
 \(okay, and your\) convenience and no other reason. I would suggest that you
@@ -53,8 +57,8 @@ will solve in about one minute, like this. First task, implement
 the actual function:
 
 ```python
-    def upper_fn(self,tag,data):
-        return data.upper()
+def upper_fn(self,tag,data):
+    return data.upper()
 ```
 
 Second task, add the function and its tag to the function table:

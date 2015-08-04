@@ -53,7 +53,7 @@ processedText = mod.do(textToProcess)
 That's really all there is to it.
 
 Now I'll quickly introduce you to the concept of a style. You define a style by giving it a name,
-and then filling it with... goodies. :) It has a *special* goodie, the <tt>[b]</tt> tag, which
+and then filling it with... goodies. :\) It has a *special* goodie, the `[b]` tag, which
 fills in with the content you feed the style. Basically this is the idea:
 
     [style hello Why hello, [b], how are you?]
@@ -118,21 +118,21 @@ or encodings you wish.
 
 So, my friend looked at this readme, and he, in a fit of Perl-like cognition, says to me:
 
-"...so rather than this: <tt>{h1 chapter}</tt> I'd like <tt>{h1 $chapter\}</tt>"
+"...so rather than this: `{h1 chapter}` I'd like `{h1 $chapter}`"
 
-Personally, not my thing. However. Here's a style that distinguishes between <tt>$chapter</tt>
-and <tt>chapter</tt>, treating the former as a variable name to resolve, and the latter as a literal (you can
+Personally, not my thing. However. Here's a style that distinguishes between `$chapter`
+and `chapter`, treating the former as a variable name to resolve, and the latter as a literal (you can
 break styles over multiple lines after the style name and/or within any content destined for output)...
 
-<tt>[style v</tt>  
-<tt>[if [slice :1,[b]] $ [v [slice 1:,[b]]]]</tt>  
-<tt>[else [slice :1,[b]] $ [b]]]</tt>  
+    [style v
+    [if [slice :1,[b]] $ [v [slice 1:,[b]]]]
+    [else [slice :1,[b]] $ [b]]]
 
 ...so now you can do this...
 
-<tt>{v chapter}</tt> which produces "chapter"  
+`{v chapter}` which produces "chapter"  
 ...or this...  
-<tt>{v $chapter}</tt> which produces "Introduction to the Work"
+`{v $chapter}` which produces "Introduction to the Work"
 
 With style v in the can, so to speak, now we can write the h1 style this way:
 
@@ -140,13 +140,13 @@ With style v in the can, so to speak, now we can write the h1 style this way:
 
 So now to use h1 you could write:
 
-<tt>{h1 $chapter}</tt> which would get you....
+`{h1 $chapter}` which would get you....
 
     <h1>Introduction to the Work</h1>
     
 ...as opposed to:
 
-<tt>{h1 chapter}</tt> which gets you....
+`{h1 chapter}` which gets you...
 
     <h1>chapter</h1>
 
@@ -160,22 +160,24 @@ or, more concisely...
 
 ...to be used like this (either style i or style italic work as of now):
 
-<tt>{i chapter}</tt> which gets you "*chapter*"  
-<tt>{i $chapter}</tt> which gets you "*Introduction to the Work*"  
+`{i chapter}` which gets you "*chapter*"  
+`{i $chapter}` which gets you "*Introduction to the Work*"  
 
-Same friend: "So what if I want to feed in "$chapter" as a literal?"
+Same friend: "So what if I want to feed in `$chapter` as a literal?"
 
 One way is with an escape mechanism for $. Here's how to do
 that using the HTML entity for "$":
 
     [style $ &#36;]
-	{i {$}chapter}
+    {i {$}chapter}
 
 ## More
 
-At the top of the class in the <tt>aa_macro.py</tt> file, all the various features are described. At the end
-of the class, there are a series of examples that will execute if you simply type this at the command line:
+At the top of the class in the `aa_macro.py` file, all the
+various features are described. At the end of the class, there are a
+series of examples that will execute if you simply type this at the
+command line:
 
     python aa_macro.py
 
-Enjoy. :)
+Enjoy. :\)

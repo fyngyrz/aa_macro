@@ -6,16 +6,16 @@ use: `python martomac.py [-t ][-c ][-s ][-x ][-p ][-l ]markdownFile[.md] [macroF
 
 Option | Effect
 ------ | ------
--t | generate `mtmtestfile.html` through `macro()`  
--o | open mtmtestfile in OS X default browser
--c | do not prefix with built-in styles (use your own!)  
--s | suppress generated blank lines between block elements  
--x | suppress filename report
--p | output goes to stdout
--l | strip tailing newlines from list elements
--d | dump canned styles to file "cannedstyles.txt" for your reference
--h | wraps content of "cannedstyles.txt" or stdout in basic HTML page
--m macroFileName | provide your own styles that may override the canned styles
+  -t | generate `mtmtestfile.html` through `macro()`  
+  -o | open mtmtestfile in OS X default browser
+  -c | do not prefix with built-in styles \(use your own\!\)
+  -s | suppress generated blank lines between block elements
+  -x | suppress filename report
+  -p | output goes to stdout
+  -l | strip tailing newlines from list elements
+  -d | dump canned styles to file "cannedstyles.txt" for your reference
+  -h | wraps content of "cannedstyles.txt" or stdout in basic HTML page
+  -m macroFileName | provide your own styles that may override the canned styles
 
 ## Some Examples:
 
@@ -57,7 +57,7 @@ Output | Contents
 
 ### Generate and view output with your browser:
 
-    python martomac.py -t -o -h mtm
+    python martomac.py -t -o -h -x README.md
 
 \(mtm.md is the test file I supply -- I'm still working
 on compatability with less masic use of markdown. Mostly
@@ -84,8 +84,24 @@ which, if you're into Perl, you might even find to be low-hanging, by
 all means do so and I'd be delighted to have it join the rest of this
 fluffy goodness.
 
-Otherwise you get my converter, which was seat-of-the-pants and probably
-only works properly within the context of the most basic markdown syntax.
-See the supplied [test file](mtm.md) for a quick look at what is known
-to work.
+Otherwise you get my converter, which was seat-of-the-pants and only works
+properly within the context of precisely correct markdown syntax.
+The markdown processor itself is pretty relaxed about unclosed italics
+and bold, unescaped special characters and so on. `martomac.py` is not.
+
+The downside of that is that some of your `.md` files may not convert
+correctly. In fact, if you manage to get unbalanced braces of any
+flavor in the .md file outside of a code block or span, or fail to escape
+them properly, the resulting `macro()` input will not be fully parsable,
+which will leave you with truncated HTML results.
+
+The upside is that it may tell you that you might need to fix your
+markdown. :\)
+
+On the *other* hand, if you find a conversion not working that you think
+should work, push the markdown file to the `aa_macro` repo and I will
+take a look -- or of course you can do it if you are so inclined.
+
+See the supplied [test file](mtm.md) and the other markdown files in the
+`aa_macro` repo here for a look at what is known to work.
 
