@@ -16,8 +16,9 @@ defs = """
 [style br <br>]  
 [style codepre {nbsp}{nbsp}{nbsp}{nbsp}]
 [style code [split [co],[b]][b {codewrap <pre>[parm 1]</pre>]}[comment parm 0]]  
-[style codewrap [color 080 [b]]]  
+[style codewrap {nobreak {greyback &nbsp;[color 080 [b]]&nbsp;}}]  
 [style comma [co]]  
+[style greyback <span style="background: #dddddd;">[b]</span>]  
 [style gt &gt;]  
 [style h1 <h1>[b]</h1>]  
 [style h2 <h2>[b]</h2>]  
@@ -36,6 +37,7 @@ defs = """
 [style lparen (]  
 [style rparen )]  
 [style nbsp &nbsp;]  
+[style nobreak <span style="white-space: nowrap;">[b]</span>]  
 [style ra &gt;]  
 [style rb [rb]]  
 [style ol [ol [b]]]  
@@ -289,17 +291,6 @@ def cleanthings(s):	# input is one line
 			inp = False
 			inpg = False					# leads end
 
-		# Square brackets:
-		# ----------------
-		#	* prior to a link, they are the linked text
-		#   * prior to an image, they are the title and alt field content
-		# ---------------------------------------------------------------
-		if ins == True: 	insg = True		# lags start
-		if c == '[':   		ins  = True
-		elif c == ']':
-			ins = False
-			insg = False					# leads end
-
 		# backticks aren't filtered unless escaped
 		# so the gate doesn't lead and lag them
 		# we eat them, too. :)
@@ -318,6 +309,18 @@ def cleanthings(s):	# input is one line
 				cstoff = True
 				if triples == False:
 					passthru = False
+
+		# Square brackets:
+		# ----------------
+		#	* prior to a link, they are the linked text
+		#   * prior to an image, they are the title and alt field content
+		# ---------------------------------------------------------------
+		if btig == False:						# squares inside backticks are ignored
+			if ins == True: 	insg = True		# lags start
+			if c == '[':   		ins  = True
+			elif c == ']':
+				ins = False
+				insg = False					# leads end
 
 		# This wrap happens outside the character check so it will
 		# pass through without escaping

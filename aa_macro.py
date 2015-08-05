@@ -478,7 +478,7 @@ The contents of the list are safe to include in the output if you like.
 			x = self.theGlobals.get(vName,'')
 		return lo,str(x)
 
-	def non_fn(self,tag,data):	# can't find the tag, so detail the problem
+	def non_fn(self,tag,data):	# can't find  tag, so detail the problem
 		return ' (Unknown Built-in or Squiggly:  tag="%s" data="%s") ' % (tag,data)
 
 	def doTag(self,tag,data):
@@ -602,8 +602,8 @@ The contents of the list are safe to include in the output if you like.
 				md1 = d1[i]
 				md2 = d2[i]
 				block = self.styles.get(md1,self.gstyles.get(md1,''))
-				if block == '':
-					o += tag+data
+				if block == '':						# then there is no style M1
+					o += '?'+tag+data+'?'
 				else:
 					block = block.replace('[b]',md2)
 					res = self.do(block)

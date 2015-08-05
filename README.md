@@ -5,18 +5,20 @@ the intermediary engine. There are no external dependencies that aren't
 actually part of the Python distribution so it is extremely lightweight
 and trivially installed &mdash; just drop the file in and you're done.
 
-The benefit is conceptually like markdown, but `macro()` is much, much
-more powerful. It isn't meant to directly replace markdown, and cannot do so anyway,
-because markdown is built into so many things. For your own use,
-however, `macro()` is a terrific solution to a very wide range of HTML
-formatting tasks. You can do anything from format a simple paragraph to
-generate a complete manual with indexes, table of contents, footnotes,
-completely custom styles and more.
+The benefit is conceptually like markdown &mdash; just feed in a text file
+and get back HTML &mdash; but `macro()` is much, much
+more powerful. 
 
-In addition, I've provided a [basic tool](martomac.README.md) that translates from markdown to
-`macro()` format; utilizing this, your documentation options become
-essentially unlimited. This provides a path to a much easier transition
-if you're inclined to move to `macro()`-based HTML coding from markdown.
+`macro()` is a terrific solution to a very wide range of HTML formatting
+tasks and challenges. You can do anything from format a simple paragraph
+to generate a complete manual with indexes, table of contents,
+footnotes, completely custom styles and more.
+
+In addition, I've provided a [basic tool](martomac.README.md) that
+translates from markdown to `macro()` format; utilizing this, your
+documentation options become essentially unlimited. This provides a path
+to a much easier transition if you're inclined to move to
+`macro()`-based HTML coding from markdown.
 
 One of the reasons that `macro()` is more powerful is that although the
 idea is similar in that it enables you to generate HTML easily and that
@@ -26,12 +28,12 @@ should look like an unmarked file, or that functionality should be
 sacrificed because complex functionality might not be as readable.
 
 Consider: have you seen much markdown actually displayed as text?
-Personally, I don't see that characteristic as valuable in and of
-itself -- by far, based on how it is used, the more valuable characteristic is that it is *readable*, which
-is not the same thing at all as "looks like unmarked text." You can
-approach `macro()` the same way, aiming at the same types of markup,
-and it'll be perfectly readable -- it just won't look like it is
-unmarked.
+Personally, I don't see that characteristic as valuable in and of itself -- by
+far, based on how it is used, the more valuable characteristic is
+that it is *readable*, which is not the same thing at all as "looks like
+unmarked text." You can approach `macro()` the same way, aiming at the
+same types of markup, and it'll be perfectly readable -- it just won't
+look like it is unmarked.
 
 Here are some comparisons relevant to markdown that demonstrate
 the readability of basic markup:
@@ -52,11 +54,13 @@ textToProcess = '[b Boldly said]'	# results in <b>Boldly said</b>
 processedText = mod.do(textToProcess)
 ```
 
-That's really all there is to it.
+That's basically all there is to it.
 
-Now I'll quickly introduce you to the concept of a style. You define a style by giving it a name,
-and then filling it with... goodies. :\) It has a *special* goodie, the `[b]` tag, which
-fills in with the content you feed the style. Basically this is the idea:
+Here's a quick introduction to the concept of a style in the context of
+`macro()`. You define a style by giving it a name, and then filling it
+with... goodies. :\) It has a *special* goodie, the `[b]` tag, which
+fills in with the content you feed the style. Here is the
+idea in a nutshell:
 
     [style hello Why hello, [b], how are you?]
 
