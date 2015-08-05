@@ -1,7 +1,9 @@
 # [aa\_macro.py](aa_macro.py) -- class macro()
 
 This class provides a means for you to generate HTML using Python as
-the intermediary engine.
+the intermediary engine. There are no external dependencies that aren't
+actually part of the Python distribution so it is extremely lightweight
+and trivially installed &mdash; just drop the file in and you're done.
 
 The benefit is conceptually like markdown, but `macro()` is much, much
 more powerful. It isn't meant to directly replace markdown, and cannot do so anyway,
