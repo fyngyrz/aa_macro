@@ -147,8 +147,6 @@ for el in sys.argv:
 			lookformf = False
 			mfilename = el
 
-#print str(argv)
-
 usemfile = False
 if mfilename != '':
 	try:
@@ -539,7 +537,6 @@ for line in xsource:
 	droptag = ''
 	floptag = ''
 	if github == True and line.find(' | ') > 0:
-#		print line
 		tline = ''
 		line = line.replace(r'\|',pipekey) 	# bury any escaped |'s
 		line = line.replace(',','{comma}')	# intern commas -- we use 'em
@@ -564,19 +561,12 @@ for line in xsource:
 		line = tline
 	else:
 		if tmode != -1: 	# were we in a table?
-			print 'CLOSING: "%s"' % (line,)
 			tmode = -1		# then bail
 			floptag += '}\n'	# close the table
 
-#	line = line.replace(r'\[','{lb}')
-#	line = line.replace(r'\]','{rb}')
-#	line = line.replace(r'\{','{ls}')
-#	line = line.replace(r'\}','{rs}')
-#	line = line.replace(',','{comma}')
 	if floptag != '':
 		source[-1] = source[-1] + floptag
 		source += ['\n']
-#		print source[-1]
 	source += [line]
 
 OUTSTATE  = 0

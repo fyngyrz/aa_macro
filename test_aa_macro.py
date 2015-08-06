@@ -35,8 +35,23 @@ Test aa_macro.py functionality
 
 		fh = open('expected.html')
 		expected = fh.read()
-		fh.close()		
-		self.assertEqual(expected, output)
+		fh.close()
+		if expected == output:
+			result = True
+		else:
+			result = False
+			try:
+				fh = open('badoutput.html','w')
+				fh.write(output)
+			except:
+				print '>>> Could not write badoutput.html. Do permissions need adjustment?'
+				pass
+			try:
+				fh.close()
+			except:
+				pass
+		self.assertEqual(True,result,'expected != output\nCompare expected.html with badoutput.html')
+#		self.assertEqual(expected, output)
 
 if __name__ == '__main__':
 	unittest.main()

@@ -1,3 +1,9 @@
+# aa_macro
+
+No to-dos at this time.
+
+Stable, occasionally receiving additional built-ins as the need arises.
+
 # Markdown-to-macro\(\) Filter
 
 Under development. Aiming primarily at github extensions and standard markdown

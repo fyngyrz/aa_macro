@@ -23,10 +23,59 @@
 <p><a href="http://fyngyrz.com" target="_blank">Another Link</a></p>
 
 <h2>Images</h2>
+<h3>No size, no local lookup so no relative path</h3>
 <p><a href="http://fyngyrz.com" target="_blank"><img src="http://fyngyrz.com/images/beachflag.png"></a></p>
 <p><img src="http://fyngyrz.com/images/beachflag.png"></p>
-<p><img title="Beach Flag" src="http://fyngyrz.com/images/beachflag.png"></p>
-<p><a href="http://fyngyrz.com" target="_blank"><img title="Beach Flag" src="http://fyngyrz.com/images/beachflag.png"></a></p>
+<p><img alt="Beach Flag" title="Beach Flag" src="http://fyngyrz.com/images/beachflag.png"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img alt="Beach Flag" title="Beach Flag" src="http://fyngyrz.com/images/beachflag.png"></a></p>
+
+<h3>Size, identical (empty) relative path</h3>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 src="test.png"></a></p>
+<p><img width=291 height=407 src="test.png"></p>
+<p><img width=291 height=407 alt=".png Test" title=".png Test" src="test.png"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 alt=".png Test" title=".png Test" src="test.png"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 src="test.jpg"></a></p>
+<p><img width=207 height=346 src="test.jpg"></p>
+<p><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="test.jpg"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="test.jpg"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 src="test.gif"></a></p>
+<p><img width=40 height=40 src="test.gif"></p>
+<p><img width=40 height=40 alt=".gif Test" title=".gif Test" src="test.gif"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 alt=".gif Test" title=".gif Test" src="test.gif"></a></p>
+
+<h3>Size, relative path only</h3>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 src="test.png"></a></p>
+<p><img width=291 height=407 src="test.png"></p>
+<p><img width=291 height=407 alt=".png Test" title=".png Test" src="test.png"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 alt=".png Test" title=".png Test" src="test.png"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 src="test.jpg"></a></p>
+<p><img width=207 height=346 src="test.jpg"></p>
+<p><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="test.jpg"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="test.jpg"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 src="test.gif"></a></p>
+<p><img width=40 height=40 src="test.gif"></p>
+<p><img width=40 height=40 alt=".gif Test" title=".gif Test" src="test.gif"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 alt=".gif Test" title=".gif Test" src="test.gif"></a></p>
+
+<h3>Size, relative path and http path</h3>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 src="randomdir/test.png"></a></p>
+<p><img width=291 height=407 src="randomdir/test.png"></p>
+<p><img width=291 height=407 alt=".png Test" title=".png Test" src="randomdir/test.png"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=291 height=407 alt=".png Test" title=".png Test" src="randomdir/test.png"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 src="randomdir/test.jpg"></a></p>
+<p><img width=207 height=346 src="randomdir/test.jpg"></p>
+<p><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="randomdir/test.jpg"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=207 height=346 alt=".jpg Test" title=".jpg Test" src="randomdir/test.jpg"></a></p>
+
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 src="randomdir/test.gif"></a></p>
+<p><img width=40 height=40 src="randomdir/test.gif"></p>
+<p><img width=40 height=40 alt=".gif Test" title=".gif Test" src="randomdir/test.gif"></p>
+<p><a href="http://fyngyrz.com" target="_blank"><img width=40 height=40 alt=".gif Test" title=".gif Test" src="randomdir/test.gif"></a></p>
 
 <h2>Lists</h2>
 <p><ul>

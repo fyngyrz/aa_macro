@@ -32,10 +32,61 @@
 [p [link http://fyngyrz.com Another Link]]
 
 {h2 Images}
+{h3 No size, no local lookup so no relative path}
 [p [img http://fyngyrz.com/images/beachflag.png http://fyngyrz.com]]
 [p [img http://fyngyrz.com/images/beachflag.png]]
 [p [img Beach Flag,http://fyngyrz.com/images/beachflag.png]]
 [p [img Beach Flag,http://fyngyrz.com/images/beachflag.png http://fyngyrz.com]]
+
+{h3 Size, identical (empty) relative path}
+[p [locimg test.png http://fyngyrz.com]]
+[p [locimg test.png]]
+[p [locimg .png Test,test.png]]
+[p [locimg .png Test,test.png http://fyngyrz.com]]
+
+[p [locimg test.jpg http://fyngyrz.com]]
+[p [locimg test.jpg]]
+[p [locimg .jpg Test,test.jpg]]
+[p [locimg .jpg Test,test.jpg http://fyngyrz.com]]
+
+[p [locimg test.gif http://fyngyrz.com]]
+[p [locimg test.gif]]
+[p [locimg .gif Test,test.gif]]
+[p [locimg .gif Test,test.gif http://fyngyrz.com]]
+
+{h3 Size, relative path only}
+[lipath ./]  
+[p [locimg test.png http://fyngyrz.com]]
+[p [locimg test.png]]
+[p [locimg .png Test,test.png]]
+[p [locimg .png Test,test.png http://fyngyrz.com]]
+
+[p [locimg test.jpg http://fyngyrz.com]]
+[p [locimg test.jpg]]
+[p [locimg .jpg Test,test.jpg]]
+[p [locimg .jpg Test,test.jpg http://fyngyrz.com]]
+
+[p [locimg test.gif http://fyngyrz.com]]
+[p [locimg test.gif]]
+[p [locimg .gif Test,test.gif]]
+[p [locimg .gif Test,test.gif http://fyngyrz.com]]
+
+{h3 Size, relative path and http path}
+[lipath ./]  
+[p [locimg randomdir/test.png http://fyngyrz.com]]
+[p [locimg randomdir/test.png]]
+[p [locimg .png Test,randomdir/test.png]]
+[p [locimg .png Test,randomdir/test.png http://fyngyrz.com]]
+
+[p [locimg randomdir/test.jpg http://fyngyrz.com]]
+[p [locimg randomdir/test.jpg]]
+[p [locimg .jpg Test,randomdir/test.jpg]]
+[p [locimg .jpg Test,randomdir/test.jpg http://fyngyrz.com]]
+
+[p [locimg randomdir/test.gif http://fyngyrz.com]]
+[p [locimg randomdir/test.gif]]
+[p [locimg .gif Test,randomdir/test.gif]]
+[p [locimg .gif Test,randomdir/test.gif http://fyngyrz.com]]
 
 {h2 Lists}
 [p [ul item1,item2]]

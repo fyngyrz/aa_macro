@@ -40,10 +40,10 @@ the readability of basic markup:
 
 Desired Result | Markdown | macro\(\)
 -------------- | -------- | -------
-Italics | <tt>\*verbiage\*</tt> | <tt>\[i verbiage\]</tt>
-Bold | <tt>\*\*verbiage\*\*</tt> | <tt>\[b verbiage\]</tt>
-Paragraph | <tt>verbiage</tt> | <tt>\[p verbiage\]</tt>
-List | <tt>\* item1</tt><br><tt>\* item2</tt> | <tt>\[ul item1,item2\]</tt><br>or, if you prefer,<br><tt>\[ul</tt><br><tt>item1,</tt><br><tt>item2</tt><br><tt>\]</tt><br>
+Italics | `*verbiage\*` | `[i verbiage\]`
+Bold | `**verbiage**` | `[b verbiage]`
+Paragraph | `verbiage` | `[p verbiage]`
+List | `* item1`<br>`* item2` | `[ul item1,item2]`<br><br>*or, if you prefer,*<br><br>`[ul`<br>`item1,`<br>`item2`<br>`]`<br>
 
 Use is trivial:
 

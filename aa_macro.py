@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import re
+import imghdr
+import struct
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -17,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 2nd, 2015     (for Class)
-  LastDocRev: August 2nd, 2015     (for Class)
+     LastRev: August 6th, 2015     (for Class)
+  LastDocRev: August 6th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -44,8 +46,11 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.11
+     Version: 1.0.12
      History:                    (for Class)
+	 	1.0.12
+			* added [locimg] to generate images with width and height set (jpg,png,gif)
+			* added [lipath] to tell [locimg] where image file is in local filesystem
 	 	1.0.11
 			* added [urlencode]
 	 	1.0.10
@@ -121,7 +126,23 @@ class macro(object):
 	
 	Images
 	------
-	[img (title,)URL( linkTarget)]	# makes a link if linktarget present
+	[img (title,)URL( linkTarget)]		# makes a link if linktarget present
+	[lipath localImagePath]				# sets path to local images. This is used by [locimg] to
+										  find the image and read it to obtain x,y dimensions
+										  [lipath] first, then [locimg]
+	[locimg (title,)URL( linkTarget)]	# makes a link if linktarget present, also inserts img size
+										# [locimg] can read the size of jpg, png, and gif
+										# Examples:
+			[lipath]
+			[locimg mypic.png]					- image in same dir as python cmd on host
+												- and in / of webserver
+			[lipth /usr/www/mysite.com/htdocs/]
+			[locimg mypic.png]					- image in /usr/www/mysite.com/htdocs/ on host
+												- and in / of webserver
+
+			[lipth /usr/www/mysite.com/htdocs/pics/]
+			[locimg pics/mypic.png]				- image in /usr/www/mysite.com/htdocs/pics/ on host
+												- and in /pics/ of webserver
 	
 	Lists
 	-----
@@ -308,6 +329,7 @@ class macro(object):
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		self.result = ''
+		self.lipath = ''
 		if dothis != None:
 			self.do(dothis)
 
@@ -318,6 +340,59 @@ class macro(object):
 		if nd != False:
 			nd = True
 		self.noDinner = nd
+
+	def gis(self,fn):
+		def rhead(fn, length):
+			try:
+				fh = open(fn)
+				content = fh.read(length)
+				fh.close()
+			except:
+				return ''
+			if len(content) != length:
+				return ''
+			return(content)
+
+		x = 0
+		y = 0
+		insmell = '<'
+		moto = '>'
+		int4 = 'i'
+		uint16 = 'H'
+		try:
+			it = imghdr.what(fn)
+		except:
+			return 'unable to handle "%s"' % (fn,)
+		if it == 'jpeg':
+			try:
+				fh = open(fn)
+				sz = 2; ft = 0
+				while not 0xC0 <= ft <= 0xCF:
+					fh.seek(sz,1)
+					b = fh.read(1)
+					while ord(b) == 0xFF: b = fh.read(1)
+					sz = struct.unpack(moto + uint16,fh.read(2))[0]-2
+					ft = ord(b)
+				fh.seek(1,1)
+				y,x = struct.unpack(moto + uint16 + uint16, fh.read(4))
+			except:
+				try:
+					fh.close()
+				except:
+					pass
+				return 'unable to parse "%s"' % (fn,)
+			fh.close()		
+		elif it == 'gif':
+			header = rhead(fn, 10)
+			if header == '': return '"%s" is pathological' % (fn,)
+			x,y = struct.unpack(insmell + uint16 + uint16, header[6:10])
+		elif it == 'png':
+			header = rhead(fn, 24)
+			if header == '': return '"%s" is pathological' % (fn,)
+			x,y = struct.unpack(moto + int4 + int4, header[16:24])
+		else:
+			return 'unhandled image type: "%s"' % (it,)
+		return x,y
 
 	def sanitize(self,
 	             s,												# input string
@@ -845,8 +920,33 @@ The contents of the list are safe to include in the output if you like.
 			o += '<span style="background-color: #%s; color: #%s;">%s</span>' % (self.back,col,d2)
 		return o
 
-	def img_fn(self,tag,data):
+	def xyhelper(self,ifn):
+		xy = ''
+		tifn = ''
+		rfn = ifn[::-1]
+		run = True
+		for c in rfn:
+			if (run == True and
+				((c >= 'a' and c <= 'z') or 
+				 (c >= 'A' and c <= 'Z') or
+				 (c >= '0' and c <= '9') or
+				  (c == '-' or c == '_' or c == '.'))):
+				tifn = c + tifn
+			else:
+				run = False
+		plist = self.gis(self.lipath + tifn)
+		if len(plist) == 2:
+			xy = " width=%d height=%d" % (int(plist[0]),int(plist[1]))
+		return xy
+
+	def lipath_fn(self,tag,data):
+		self.lipath = data
+		return ''
+
+	def low_img_fn(self,tag,data,getxy=False):
 		tit = ''
+		txy = ''
+		rv = ''
 		try:
 			tit,d2 = data.split(',',1)
 		except:
@@ -857,11 +957,24 @@ The contents of the list are safe to include in the output if you like.
 			d1,d2 = data.split(' ',1)
 		except:
 			if tit == '':
-				return '<img src="%s">' % (data)
-			return '<img alt="%s" title="%s" src="%s">' % (tit,tit,data)
-		if tit == '':
-			return '<a href="%s" target="_blank"><img src="%s"></a>' % (d2,d1)
-		return '<a href="%s" target="_blank"><img alt="%s" title="%s" src="%s"></a>' % (d2,tit,tit,d1)
+				if getxy == True: txy = self.xyhelper(data)
+				rv = '<img%s src="%s">' % (txy,data)
+			if rv == '':
+				if getxy == True: txy = self.xyhelper(data)
+				rv = '<img%s alt="%s" title="%s" src="%s">' % (txy,tit,tit,data)
+		if rv == '' and tit == '':
+			if getxy == True: txy = self.xyhelper(d1)
+			rv = '<a href="%s" target="_blank"><img%s src="%s"></a>' % (d2,txy,d1)
+		if rv == '':
+			if getxy == True: txy = self.xyhelper(d1)
+			rv ='<a href="%s" target="_blank"><img%s alt="%s" title="%s" src="%s"></a>' % (d2,txy,tit,tit,d1)
+		return rv
+
+	def img_fn(self,tag,data):
+		return self.low_img_fn(tag,data)
+
+	def locimg_fn(self,tag,data):
+		return self.low_img_fn(tag,data,True)
 
 	def web_fn(self,tag,data):
 		try:
@@ -1159,8 +1272,13 @@ The contents of the list are safe to include in the output if you like.
 					'a'		: self.a_fn,		# [a (tab,)URL(,LinkedText)]
 					'link'	: self.link_fn,		# link URL (text) if no text, then linked URL
 					'web'	: self.web_fn,		# link URL (text) if no text, the "On the Web"
-					'img'	: self.img_fn,		# img emplacement from URL
 					'urlencode': self.urle_fn,	# encodes space, ampersand, double quotes
+					
+					# Image handling
+					# --------------
+					'img'	: self.img_fn,		# img emplacement from URL
+					'locimg': self.locimg_fn,	# local image (tries for x y sizes)
+					'lipath': self.lipath_fn,	# set local image path
 
 					# math
 					# ----
