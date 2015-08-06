@@ -42,6 +42,7 @@ defs = """
 [style rb [rb]]  
 [style ol [ol [b]]]  
 [style p [p [nl][b][nl]]]  
+[style quot &quot;]  
 [style row [row [b]]]  
 [style rs [rs]]  
 [style table [table cellpadding=3 border=1 bgcolor="#eeeeee",[b]]]  
@@ -198,6 +199,19 @@ if usemfile == True:
 	fh.close()
 	defs += chunk
 
+# Markdown rules for HTML:
+# ------------------------
+#	entities do NOT get ampersand replacement outside of code blocks and spans
+#	code blocks DO get replacement of ampersands no matter what
+#	quotes turn into entities EXCEPT inside HTML tags or when an angle-link is found...
+#	...might be able to punt by detecting entity/anglelink if post-this-operation...
+#	...and converting quot entities back to quotes inside tags, but bleaugh
+#	<> are entities EXCEPT when HTML tag is in use, and...
+#	...HTML tags can only occur outside code blocks
+# -------------------
+def escapeHTML(line):
+	return line
+
 o = defs
 to = ''
 prevline = ''
@@ -232,8 +246,6 @@ def charCleaner(c):
 	if   c == '&': c = '{ampersand}'
 	elif c == '_': c = '{underline}'
 	elif c == '*': c = '{asterisk}'
-	elif c == '{': c = '{ls}'
-	elif c == '}': c = '{rs}'
 	elif c == '<': c = '{la}'
 	elif c == '>': c = '{ra}'
 	elif c == '[': c = '{lb}'
@@ -244,17 +256,20 @@ def charCleaner(c):
 
 # This sets things up so that the .md will parse successfully,
 # which means that stuff that .md escapes has to pass through the
-# parser without modification. That is:
+# parser without modification, as well as the link syntax. That is:
 #
 # 1:`stuff`       -- within backticks
 # 2:    stuff,    -- subsequent to four spaces at BOL
 # 3:```           -- between lines that 'fence' code with triple backticks
 #   stuff
 #   ```
-# --------------------------------------------------------------------
-tripleticker = False
+# 4: [stuff]      -- the text for the link (not sure about this)
+# 5: (stuff)      -- the links themselves
+# --------------------------------------------------------------
+tripleticker = False # first line enters in non-tripletick on state
 def cleanthings(s):	# input is one line
 	global tripleticker
+	s = escapeHTML(s)
 	o = ''
 	dex = 0
 	toff = False
@@ -273,83 +288,96 @@ def cleanthings(s):	# input is one line
 	triples = False
 	if line[:3] == '```':
 		triples = True
-#		print 'triples = True'
-		if tripleticker == True:
+		if tripleticker == True:	# if on, turn it off BEFORE we process chars
 			tripleticker = False
 			toff = True
 
 	for c in s:
 		dex += 1
 
-		# Parens:
-		# -------
-		# These contain a link
-		# ------------------------------------------------------------------
-		if inp == True: 	inpg = True		# lags start
-		if c == '(':   		inp  = True
-		elif c == ')':
-			inp = False
-			inpg = False					# leads end
-
 		# backticks aren't filtered unless escaped
 		# so the gate doesn't lead and lag them
-		# we eat them, too. :)
+		# we eat them, too, EXCEPT if this is a triple-tick
+		# line, in which case, they have to remain
+		# for later parsing out of language specs
 		# ----------------------------------------
 		cston  = False
 		cstoff = False
-		passthru = True
+		passthru = True	# generally, we process all characters on every line, unless:::
 		if c == '`':
-			if btig == False:	# turning on code span
+			if btig == False:	# turning on possible backtick code span
 				btig = True
 				cston = True
 				if triples == False:
-					passthru = False
-			else:				# turning off code span
+					passthru = False		# ::: eat single backticks not on tripletick fence lines
+			else:				# turning off possible backtick code span
 				btig = False
 				cstoff = True
 				if triples == False:
-					passthru = False
+					passthru = False		# ::: eat single backticks not on tripletick fence lines
 
 		# Square brackets:
 		# ----------------
 		#	* prior to a link, they are the linked text
 		#   * prior to an image, they are the title and alt field content
 		# ---------------------------------------------------------------
-		if btig == False:						# squares inside backticks are ignored
-			if ins == True: 	insg = True		# lags start
+		if (btig == False and						# squares inside backticks are ignored
+			tripleticker == False and				# squares inside tripletick fences are ignored
+			iscg == False):							# squares on four-space lines are ignored
+			if ins == True: 	insg = True			# insg lags start of squares by one
 			if c == '[':   		ins  = True
 			elif c == ']':
 				ins = False
-				insg = False					# leads end
+				insg = False						# insg ends before closing square is processed
 
-		# This wrap happens outside the character check so it will
-		# pass through without escaping
-		# --------------------------------------------------------
-		if (        triples == False and
-			           inpg == False    and
-			           insg == False    and
-			           iscg == False    and
-			   tripleticker == False):
-#			print line
-			if btig == True and cston == True:
-				o += '{inline '
-			if cstoff == True:
-				o += '}'
+		# Parens:
+		# -------
+		# These contain a link
+		# ------------------------------------------------------------------
+		if (btig == False and						# parens inside backticks are ignored
+			tripleticker == False and				# parens inside tripletick fences are ignored
+			iscg == False):							# parens on four-space lines are ignored
+			if inp == True: 	inpg = True			# inpg lags start of parens by one
+			if c == '(':   		inp  = True
+			elif c == ')':
+				inp = False
+				inpg = False						# inpg ends before closing paren is processed
 
-		if (inpg == True or
-			insg == True or
-			iscg == True or
-			btig == True or 
-			tripleticker == True):
-			c = charCleaner(c)
+		# Wrap {inline } around backticks. This
+		# wrap happens outside the character check
+		# so it will pass through without escaping
+		# ----------------------------------------
+		if (        triples == False and	# not on triple tick line
+			           inpg == False and	# not within parens
+			           insg == False and	# not within square brackets
+			           iscg == False and	# not on four-space line
+			   tripleticker == False):		# not within tripletick fences
+			if (btig == True and				# if in backtick zone
+				cston == True):					# and it just turned on
+				o += '{inline '						# THEN open {inline
+			if cstoff == True:					# if it just turned off
+				o += '}'							# THEN close {inline ...}
 
-		if passthru == True:
-			o += c
+		if (inpg == True or			# if in paren zone, or
+			insg == True or			# if in square bracket zone, or
+			iscg == True or			# if on four-space line, or
+			btig == True or 		# if within backticks, or
+			tripleticker == True):	# if within triple-tick fences
+			c = charCleaner(c)			# THEN escape:   &_*<>[]()
 
-	if line[:3] == '```':	# turn off code filter mode IF we didn't turn it on in this line
-		if toff == False:
-			if tripleticker == False:
-				tripleticker = True
+		# Although markdown provides escapes for {}, it is unclear why
+		# ------------------------------------------------------------
+		if c == '{':	c = '{ls}'	# escape { -- these must pass through, period
+		elif c == '}':	c = '{rs}'	# escape }
+
+		if passthru == True:		# if we're not eating this character or replacement:
+			o += c						# THEN add it to the output
+
+	# turn on code filter mode AFTER we process chars
+	if (line[:3] == '```' and			# if tripletick line
+			toff == False and			# and if we didn't turn off tripleticks already
+			tripleticker == False): 	# and if it's off right now
+				tripleticker = True			# THEN turn it on
 	return o
 
 # This runs very first thing
@@ -481,17 +509,17 @@ killkey = 'jncfvs8jn2247y8fajn0'
 for line in ysource:
 	if line[:3] == '---': # this can also indicate a table header/body interspersal
 		if github == True:	# then we can look for tables
-			if line.find(' | ') > 0:
+			if line.find(' | ') > 0:	# we throw out table header-body lines as unneeded
 				line = killkey
 				xsource += [pline]
 			else:
-				line = '# ' + pline	# title line
+				line = '# ' + pline	# convert setex style to atx title line
 				pline = ''
 		else:	# not github, just do titles
 			line = '# ' + pline # title line
 			pline = ''
 	elif line[0] == '=':
-		line = '## ' + pline
+		line = '## ' + pline		# convert setex style to atx title line
 		pline = ''
 	else:
 		if pline != killkey:
@@ -748,8 +776,6 @@ def inlinecode(line):
 
 def fourspacecode(line):
 	consume = False
-#	FINDME
-#	if line[0:4] == '    ':
 	if fourspacedetect(line) == True:
 		line = line.replace('    ','{codepre}',1)
 		line = '{inline '+line.rstrip()+'}\n'
@@ -760,8 +786,6 @@ listmode = False
 liststack = []
 lastline4space = False
 
-#for i in range(0,32): print
-
 for line in source:
 	llen = len(line)
 	blankline = False
@@ -770,7 +794,6 @@ for line in source:
 	if line.strip() == '':	# detect blank lines -- they terminate paragraphs if paras are open
 		blankline = True
 		lastline4space = False
-#		breakpara = True
 		line = ''
 	else:					# this is not a blank line
 		if cstate == OUTSTATE:
@@ -778,7 +801,6 @@ for line in source:
 		else:
 			if line[:3] != '```':
 				line = '{codepre}'+line
-#			line = inlinecode(line)
 
 		c,line = fourspacecode(line)
 		if c == True:					# this is a fourspace line
@@ -805,10 +827,8 @@ for line in source:
 
 		if github == True:		
 			if line[:3] == '```':
-#				print 'CODE detect'
 				blankline = True
 				if cstate == OUTSTATE:
-#					print 'CODE ON'
 					cstate = CODESTATE
 					lang = line.rstrip()[3:]
 					if lang == '':
@@ -819,19 +839,11 @@ for line in source:
 				else:
 					cstate = OUTSTATE
 					line = '}\n'
-#			else:
-#				if cstate == CODESTATE:
-#					print 'CODE OFF'
-
-#					line = line.replace('<','{lt}')
-#					line = line.replace('>','{gt}')
-#					line = line.replace(',','{comma}')
 
 	# Tables cannot signal begin para or quote
 	# ----------------------------------------
 	if line.find('{row ') >= 0:
 		consume = True
-#		blankline = True
 
 	# list processing:
 	# ----------------
@@ -876,17 +888,6 @@ for line in source:
 					pstate = PARASTATE
 					line = '{p %s' % (line,)
 
-#	if consume == False:
-#		if qstate == QUOTESTATE:
-#			if blankline == True:
-#				qstate = OUTSTATE
-#				line = '}\n%s%s' % (wl,line)
-#		else:
-#			if blankline == False:
-#				if pstate != PARASTATE:
-#					pstate = PARASTATE
-#					line = '{p %s' % (line,)
-
 	if pstate == PARASTATE:
 		# Paragraphs end when when...
 		#	1) When four-space code is initiated
@@ -908,17 +909,6 @@ for line in source:
 	verb = ''
 	url = ''
 	for c in line:
-#		if c == '\\':
-#			if escape == True:
-#				escape = False
-#				tl += c			# that's an escaped backslash
-#			else:				# then we've hit an escape introducer
-#				escape = True
-#		else:					# not an escape, then
-#			if escape == True:	# was this character preceeded by a backslash?
-#				tl += cape(c)	# in that case, it goes in the output verbatim
-#				escape = False
-#			else:				# otherwise, we may need to process it - url,verb::stash,dex,code
 		if 1:
 			if 1:
 				if c == '!':	# image introducer?

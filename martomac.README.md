@@ -114,7 +114,29 @@ So please don't be deterred by how the conversion results come out.
 If that was how things *had* to look in general, I wouldn't have bothered
 to write `macro()` in the first place.
 
-## Note: Or, Perl before Swine \(*Oink!*\)
+## On Github's habit of Eating HTML tags
+
+Github eats HTML tags. You can't specifiy a serif font, or a text color, or
+a whole raft of other things. The explanation is that these tags "might harm
+your documents" \(cough\)
+
+Markdown, however, doesn't do this, assuming that as the
+author / maintainer / arbiter of the document, you know what you're doing.
+Which - frankly - is the right thing to do. You write your own docs on Github,
+and if someone pushes something you didn't actually *check* and you accept it...
+well, your fault if your document becomes unreadable or weird looking, eh?
+
+There are a few exceptions -- scripts could be used by you as a blackhat
+with Github as the target, so yes, I can see why they'd kill those, but
+FFS, sometimes you need other things \(ever try to discern a capital
+letter I from a lower case L in Github's monospaced font? That kind of
+nonsense is why TT tags normally use a serif font in the first place.\)
+
+So. I **don't** take out your tags. Github processing or not. You should
+have control over what tags you have in there because you should *know*
+what tags you have in there.
+
+## Note: Or, "Perl before Swine" \(*Oink!*\)
 
 This task would ideally have been accomplished by taking the Perl
 markdown-to-html generator and changing it to output a minimal subset of
@@ -123,22 +145,24 @@ one that does exactly what markdown does in the same contexts.
 
 But I don't code in Perl any longer. I actually downloaded and looked at
 the markdown Perl code, and all that did was profoundly re-affirm my
-decision not to code in Perl.
+decision not to code in Perl. It just doesn't suit the way my mind works.
 
 So. If someone else wants to go after this particular bit of fruit,
 which, if you're really into Perl, you might even find to be
 low-hanging, by all means do so and I'd be delighted to have it join the
 rest of this fluffy goodness.
 
-Otherwise you get my converter, which was seat-of-the-pants and only works
-properly within the context of precisely correct markdown syntax.
-The markdown processor itself is pretty relaxed about unclosed italics
-and bold, unescaped special characters and so on. `martomac.py` is not.
+Otherwise you get my converter, which was seat-of-the-pants and only
+works properly within the context of precisely correct \(and still
+incomplete, see [todo.md](todo.md)\) markdown syntax. The markdown
+processor itself is pretty relaxed about unclosed italics and bold,
+unescaped special characters and so on. `martomac.py` is not.
 
-The downside of that is that some of your `.md` files may not convert
-correctly. In fact, if you manage to get unbalanced braces of any
-flavor in the .md file outside of a code block or span, or fail to escape
-them properly, the resulting `macro()` input will not be fully parsable,
+The downside of that is that even after I work through everything
+remaining on [todo.md](todo.md) some of your `.md` files may not convert
+correctly. In fact, if you manage to get unbalanced braces of any flavor
+in the .md file outside of a code block or span, or fail to escape them
+properly, the resulting `macro()` input will not be fully parsable,
 which will leave you with truncated HTML results.
 
 The upside is that it may tell you that you might need to fix your

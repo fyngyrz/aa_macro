@@ -37,9 +37,9 @@ being defined.
 
 ## Namespaces
 
-Built-ins and styles have separate
-namespaces. As `{styleName` actually resolves to `[s styleName` in the processor,
-there's no conflict at all. So you can define finger-twisters like `[style b [b [b]]]` without any
+Built-ins and styles have separate namespaces. As `{styleName` actually
+resolves to `[s styleName` in the processor, there's no conflict at all.
+So you can define finger-twisters like `[style b [b [b]]]` without any
 conflicts.
 
 Generally what this means in actual practice is:
