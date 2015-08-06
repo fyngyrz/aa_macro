@@ -99,6 +99,42 @@ Of course, you can put far more in there than just color. You could
 set up a span with custom inline or cascaded CSS and do virtually
 anything you like.
 
+### Better image handling
+
+Markdown doesn't handle width= and height= within an image tag,
+because it doesn't know squat about your image other than the
+web path that's in the url.
+
+`macro()` can be made to handle this properly, even in the context
+of a converted Github or markdown file. The default behavior within
+`martomac.py` is to not handle it, just like markdown. The image
+style that is in place by default is...
+
+    [style img [split [co],[b]][img [parm 0],[urlencode [parm 1]]]]
+
+...which just catches your URL, encodes it, and shoves it in the image.
+
+So when you say `{img pics/mypic.jpg}`, you get this...
+
+    <img src="pics/mypic.jpg">
+
+...and that's the end of that. And the web surfer's browser will snap and
+twitch and rejigger the page layout until it figures out the actual image
+size to be used. By reading the image once it downloads it. Yech.
+Just like Markdown.
+
+But if you take a moment to prepare a file with some overrides it it, you
+can avoid this. Let's say your images are in `/usr/www/svr.com/htdocs/pics/`
+
+All you have to put in the override file \(see the -m option\) is...
+
+    [lipath /usr/www/svr.com/htdocs/pics/]
+	[style img [split [co],[b]][locimg [parm 0],[urlencode [parm 1]]]]
+
+...now the conversion will use the new {img} style instead of the default,
+and it in turn will know where your images are, because you told it with
+the `[lipath]` built-in.
+
 ### Readability
 
 In order to make this all work as a customizable conversion, I've used
