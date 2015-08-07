@@ -8,7 +8,15 @@ import re
 from aa_macro import *
 
 defs = """
+[local tablec bgcolor="#cccccc"]  
+[local oddrowc bgcolor="#ffffff"]
+[local evenrowc bgcolor="#f4f4f4"]
+[local hdrrowc bgcolor="#ffffff"]
+[local c1 [v oddrowc]]  
+[local c2 [v evenrowc]]  
+[local c 0]  
 [style a [split [co],[b]][a [urlencode [parm 1]],[parm 0]]]  
+[style ac [local c [inc [v c]]][odd [v c] [v c1]][even [v c] [v c2]]]  
 [style ampersand &amp;]  
 [style asterisk *]  
 [style b [b [b]]]  
@@ -27,6 +35,7 @@ defs = """
 [style h5 <h5>[b]</h5>]  
 [style h6 <h6>[b]</h6>]  
 [style hcell [header [b]]]  
+[style hrow [row [v hdrrowc],[b]]]  
 [style i [i [b]]]  
 [style img [split [co],[b]][img [parm 0],[urlencode [parm 1]]]]  
 [style inline [b {codewrap <tt>[b]</tt>}]]  
@@ -43,9 +52,9 @@ defs = """
 [style ol [ol [b]]]  
 [style p [p [nl][b][nl]]]  
 [style quot &quot;]  
-[style row [row [b]]]  
+[style row [row {ac},[b]]]  
 [style rs [rs]]  
-[style table [table cellpadding=3 border=1 bgcolor="#eeeeee",[b]]]  
+[style table [table style="border-collapse: collapse; border-spacing: 0px; border-width: 1px; border-style: solid;" cellpadding=10 cellspacing=0 border=1 [v tablec]",[b]]]  
 [style tcell [cell [b]]]  
 [style u [u [b]]]  
 [style ul [ul [b]]]  
@@ -542,13 +551,15 @@ for line in xsource:
 		line = line.replace(',','{comma}')	# intern commas -- we use 'em
 		if tmode == -1: # header row?
 			celltype = 'hcell'
+			rowtype = 'hrow'
 			tmode += 1	# now zero
 			tline += '{table '
 		else: # normal row
 			celltype = 'tcell'
+			rowtype = 'row'
 			tmode += 1	# first line is #1 -- can pass out counter later
 		celllist = line.split('|')
-		tline += '{row '
+		tline += '{%s ' % (rowtype,)
 		for cell in celllist:
 			cell = cell.replace('%',prctkey)	# bury any existing %'s
 			cell = cell.strip()
