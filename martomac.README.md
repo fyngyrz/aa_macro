@@ -159,9 +159,9 @@ to write `macro()` in the first place.
 
 ## On Github's habit of Eating HTML tags
 
-Github eats HTML tags. You can't specifiy a serif font, or a text color, or
-a whole raft of other things. The explanation is that these tags "might harm
-your documents" \(cough\)
+Github eats many useful -- and harmless -- HTML tags. You can't specify
+a serif font, or a text color, or a whole raft of other things. The
+explanation is that these tags "might harm your documents" \(cough\)
 
 Markdown, however, doesn't do this, assuming that as the
 author / maintainer / arbiter of the document, you know what you're doing.

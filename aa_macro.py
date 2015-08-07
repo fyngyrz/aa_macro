@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 6th, 2015     (for Class)
-  LastDocRev: August 6th, 2015     (for Class)
+     LastRev: August 7th, 2015     (for Class)
+  LastDocRev: August 7th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.12
+     Version: 1.0.13
      History:                    (for Class)
+	 	1.0.13
+		    * added [eq] to complement [ne]
 	 	1.0.12
 			* added [locimg] to generate images with width and height set (jpg,png,gif)
 			* added [lipath] to tell [locimg] where image file is in local filesystem
@@ -192,6 +194,7 @@ class macro(object):
 	[if value match conditionalContent]				# use conditional content if value == match
 	[else value match conditionalContent]			# use conditional content if value != match
 	[ne value,conditionalContent]					# use conditional content if value Not Empty
+	[eq value,conditionalContent]					# use conditional content if value Empty
 	
 	Misc
 	----
@@ -1123,6 +1126,14 @@ The contents of the list are safe to include in the output if you like.
 				o = dlist[1]
 		return o
 
+	def eq_fn(self,tag,data):
+		o = ''
+		dlist = data.split(',',1)
+		if len(dlist) == 2:
+			if dlist[0] == '':
+				o = dlist[1]
+		return o
+
 	def ifelse_fn(self,tag,data):
 		o = ''
 		try:
@@ -1297,6 +1308,7 @@ The contents of the list are safe to include in the output if you like.
 					'even'	: self.evenodd_fn,	# if P1 even then P2
 					'odd'	: self.evenodd_fn,	# if P1 odd then P2
 					'ne'	: self.ne_fn,		# if P1 non-empty,P2 (p1,p2)
+					'eq'	: self.eq_fn,		# if P1 empty,P2 (p1,p2)
 
 					# variable handling
 					# -----------------
