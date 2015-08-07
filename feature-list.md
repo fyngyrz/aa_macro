@@ -118,5 +118,5 @@
 
 \* Endorsed by Leo
 
-!(leo.png)
+![Leo](leo.png)
 
