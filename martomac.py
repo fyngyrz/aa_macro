@@ -20,7 +20,7 @@ defs = """
 [style ampersand &amp;]  
 [style asterisk *]  
 [style b [b [b]]]  
-[style blockquote <blockquote>[nl][b][nl]<blockquote>]  
+[style blockquote <blockquote style="padding-left: 12px; border-left: 3px solid #ccc;">[nl][b][nl]</blockquote>]  
 [style br <br>]  
 [style codepre {nbsp}{nbsp}{nbsp}{nbsp}]
 [style code [split [co],[b]][b {codewrap <pre>[parm 1]</pre>]}[comment parm 0]]  
@@ -792,7 +792,7 @@ for line in source:
 	blankline = False
 	consume = False
 	breakpara = False
-	if line.strip() == '':	# detect blank lines -- they terminate paragraphs if paras are open
+	if line.strip() == '':	# detect blank lines -- they terminate paras, quotes if open
 		blankline = True
 		lastline4space = False
 		line = ''
@@ -878,21 +878,22 @@ for line in source:
 
 	line = emphasis(line)
 
-	# Cannot trip paras or quotes when...
+	# Cannot trip paras when...
 	#	1) table is in scope
 	#   2) fenced code is in scope because uses <pre></pre>
 	# -----------------------------------------------------
 	if consume == False:
 		if blankline == False:
 			if cstate == OUTSTATE:
-				if pstate != PARASTATE:
-					pstate = PARASTATE
-					line = '{p %s' % (line,)
+				if qstate == OUTSTATE:
+					if pstate != PARASTATE:
+						pstate = PARASTATE
+						line = '{p %s' % (line,)
 
 	if pstate == PARASTATE:
-		# Paragraphs end when when...
-		#	1) When four-space code is initiated
-		#	2) When a blank line is encountered
+		# Paragraphs end when...
+		#	1) four-space code is initiated
+		#	2) a blank line is encountered
 		# --------------------------------------------------------------
 		if (breakpara == True or
 			blankline == True):
@@ -900,6 +901,16 @@ for line in source:
 			if o[-1] == '\n':
 				o = o[:-1]
 			line += '}\n%s' % (wl,) # close para
+
+	if qstate == QUOTESTATE:
+		# Quotes end when...
+		#	a blank line is encountered
+		# --------------------------------------------------------------
+		if (blankline == True):
+			qstate = OUTSTATE
+			if o[-1] == '\n':
+				o = o[:-1]
+			line += '}\n%s' % (wl,) # close quote
 
 	# look for images:
 	tl = ''

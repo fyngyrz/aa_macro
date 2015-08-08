@@ -5,10 +5,10 @@ the intermediary engine. There are no external dependencies that aren't
 actually part of the Python distribution so it is extremely lightweight
 and trivially installed &mdash; just drop the `aa_macro.py` file in and you're done.
 
-> Don't be intimidated by the number of files in the repo;
-everything except [aa_macro.py](aa_macro.py) is either documentation, sample files,
+> Don't be intimidated by the number of files in the repo; everything
+except [aa_macro.py](aa_macro.py) is either documentation, sample files,
 part of the unit tests, or related to a markdown-to-macro
-format coverter utility.
+format converter utility.
 
 The benefit is conceptually like markdown &mdash; just feed in a text file
 and get back HTML &mdash; but `macro()` is much, much
