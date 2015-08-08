@@ -196,10 +196,9 @@ class macro(object):
 	[ne value,conditionalContent]					# use conditional content if value Not Empty
 	[eq value,conditionalContent]					# use conditional content if value Empty
 	
-	Misc
-	----
-	[repeat count content]							# repeat content count times
-	[comment content]								# content does not render
+	
+	Parsing and text processing
+	---------------------------
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
@@ -213,6 +212,14 @@ class macro(object):
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
 	[roman numberString]							# convert decimal to roman (1...4000)
+	[chr number]									# e.g. [chr 49] = "A"
+	[csep integer]									# e.g. [csep 1234] = "1,234"
+	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
+
+	Misc
+	----
+	[repeat count content]							# repeat content count times
+	[comment content]								# content does not render
 	[back HEX3|HEX6]								# set back color for HTML 4.01s operations
 	[mode 3.2|4.01s]								# set HTML version/mode
 	
@@ -572,6 +579,15 @@ The contents of the list are safe to include in the output if you like.
 
 	def p_fn(self,tag,data):
 		return '<p>'+data+'</p>'
+
+	def chr_fn(self,tag,data):
+		try:
+			x = int(data)
+		except:
+			o = ''
+		else:
+			o = chr(x)
+		return o
 
 	def len_fn(self,tag,data):
 		return str(len(data))
@@ -1194,6 +1210,51 @@ The contents of the list are safe to include in the output if you like.
 				o += d2
 		return o
 
+	def commaSep(self,n):
+		ou = ''
+		ouc = 0
+		pending = 0
+		tn = str(n)
+		tn = tn[::-1]
+		for c in tn:
+			if pending == 1:
+				ou+=','
+				pending = 0
+			ou += c
+			ouc += 1
+			if ouc == 3:
+				ouc = 0
+				pending = 1
+		return ou[::-1]
+
+	def fCommaSep(self,n):
+		n = str(n)
+		try:
+			x = float(n)
+		except:
+			return '0.0'
+		if len(n) > 0:
+			if n.find('.') >= 0: # if there's a decimal point in there
+				i,d = n.split('.')
+				if len(d) == 0: # ensure we have decimal places
+					d = '0'
+				if len(i) > 0: # was there an int portion?
+					n = self.commaSep(i)
+					n = n + '.' + d
+				else: # n was empty
+					n = '0.' + d
+			else: # no decimal point
+				n = self.commaSep(n) + '.0'
+		else: # empty string
+			n = '0.0'
+		return n
+
+	def csep_fn(self,tag,data):
+		return self.commaSep(data)
+
+	def fcsep_fn(self,tag,data):
+		return self.fCommaSep(data)
+
 	def math_fn(self,tag,data):
 		o = ''
 		try:
@@ -1336,17 +1397,23 @@ The contents of the list are safe to include in the output if you like.
 					'glos'	: self.glos_fn,		# global style
 					'locs'	: self.locs_fn,		# local style
 
-					# Miscellaneous
-					# -------------
-					'repeat': self.repeat_fn,	# N ThingToBeRepeated
-					'nc'	: self.nc_fn,		# [nc TEXT] escape all commas
-					'comment': self.comment_fn, # contained content will not render
+					# Parsing and text processing
+					# ---------------------------
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit]
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]
-					'roman'	: self.roman_fn,	# [roman numberString]
+					'roman'	: self.roman_fn,	# [roman numberString] e.g. [roman 17] = "xvii"
+					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 49] = "A"
+					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
+					'fcsep' : self.fcsep_fn,	# [fcsep float] e.g. [fcsep 1234.56] = "1,234.56"
+
+					# Miscellaneous
+					# -------------
+					'repeat': self.repeat_fn,	# N ThingToBeRepeated
+					'nc'	: self.nc_fn,		# [nc TEXT] escape all commas
+					'comment': self.comment_fn, # contained content will not render
 					'mode'	: self.mode_fn,		# [mode 3.2] or [mode 4.01s] sets HTML output mode
 					'back'	: self.back_fn,		# P1=HHH or HHHHHH then P2 is what gets colored
 		}

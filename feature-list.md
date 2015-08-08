@@ -36,7 +36,6 @@
 	* Italic
 	* Underline
 	* Quoting
-	* Decimal to Roman numeral conversion
 	* To uppercase conversion
 	* To lowercase conversion
 	* Foreground text color
@@ -58,9 +57,10 @@
 	* Standard cells / lines
 	* Fully nestable
     * Table, row and cell level HTML option tag specification
-  * Parsing
+  * Parsing and text manipulation
     * Multiple parameter splitting on any separator
-	* Multiple parameter wrapping in any custom style
+	* Multiple parameter wrapping using any custom style
+    * Text slicing
 	* Preloading of specific parameter treatments
   * Variables
     * Locals suitable for by-page processing
@@ -72,13 +72,17 @@
 	* Pop
 	* Fetch with offset
 	* Flush
-  * Math
+  * Math and number processing
     * Add
 	* Subtract
 	* Multiply
 	* Divide
 	* Increment
 	* Decrement
+	* Integer comma separation \(e.g. 1234 = 1,234\)
+	* Float comma separation \(e.g. 1234.56 = 1,234.56\)
+	* Decimal to Roman numeral conversion \(e.g. 17 = "xvii"\)
+	* Decimal to character conversion \(e.g. 49 = "A"\)
   * Conditionals
     * On parameter match
 	* On parameter non-match
@@ -98,23 +102,26 @@
   * Global dump \(text, html, table dump options\)
   * Style dump \(text, html, table dump options\)
 
-* Also
-  * Gluten-free
-  * Packed with Wholesome Goodness
-  * Indescribably delicious
+* Of Special Note
+  * Independent of both LORAN and the GPS constallation
   * No ultraviolet radiation emissions whatsoever
-  * Zero calories
+  * Fully functional at any depth or altitude
+  * Created exclusively using NY-style pizza
+  * Never requires lubrication before use
+  * Packed with Wholesome Goodness
+  * Will not attract mosquitos
+  * Diet neutral: 0 calories
+  * Gluten-free
   * Unisex
   * Pet safe
-  * Zero landfill impact
   * Hypoallergenic
-  * Contains no PCBs
+  * Zero landfill impact
+  * Indescribably delicious
   * 100% pro-feline throughout\*
   * Will not fray or stain lingerie
-  * Does not require lubrication
-  * Fully functional at any depth or altitude
-  * Will not attract mosquitos
-  * Created exclusively using NY-style pizza
+  * Contains no GMOs, vaccines, or fluoridation
+  * Fully Organic Production Methods used throughout
+  * Transport on aircraft will not result in chemtrails
 
 \* Endorsed by Leo
 

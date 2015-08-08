@@ -2,12 +2,13 @@
 
 File | Project Component
 ---- | -----------------
+[aa_ansiicolor.py](aa_ansiicolor.py) | Python import library used by unit tests
 [aa_macro.py](aa_macro.py) | Python import library implementing project functionality
 [authoring.md](authoring.md) | Tips on how to author for [aa_macro.py](aa_macro.py)
 [enhancement.md](enhancement.md) | Guide to adding functionality to [aa_macro.py](aa_macro.py)
 [expected.html](expected.html) | Used by unit tests
 [feature-list.md](feature-list.md) | Project feature list
-`files.md` | This File
+**files.md** | This File
 [leo.png](leo.png) | Photo of endorsing party
 [mactest.txt](mactest.txt) | Used by unit tests
 [martomac.README.md](martomac.README.md) | General explanation of [martomac.py](martomac.py)

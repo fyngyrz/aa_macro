@@ -1,4 +1,6 @@
-# aa_macro
+# [aa_macro.py](aa_macro.py)
+
+## To Do for [aa_macro.py](aa_macro.py):
 
 No to-dos at this time.
 
@@ -26,24 +28,28 @@ Generally complete to description at (Github's Cheatsheet)[https://enterprise.gi
 * angle-links:
   *	`<URL>` -- `<a href="URL">URL</a>` ... also works for email addresses
 * email entity encoding to fool some spambots
-*reference-style links:
-  * [text][id] or [text] [id]   <<< that's how you USE em
-  * [id][]                          or implicit notation uses id for text
-  * [id]: URL "optional title" <<< that's how you DEFINE them
-    * link may be surrounded by optional <>
+* reference-style links:
+  * `[text][id]` or `[text] [id]`   <<< that's how you USE em
+  * `[id][]`                          or implicit notation uses id for text
+  * `[id]: URL` "optional title" <<< that's how you DEFINE them
+    * link may be surrounded by optional `<>`
     * optional indent may be up to three spaces
     * single quotes, double quotes, or parens for title
     * these occur on single lines, or, title can be on next line
+
 * reference-style images:
-  * ![alt/title text][id]     <<< USE
-  * [id]: URL 
+  * `![alt/title text][id]`     <<< USE
+  * `[id]: URL`
+
 * lists can use \* OR \+ OR \-
 * markdown uses 1\. NOT 1\)
 * lists are valid with up to three spaces of indent
 * code blocks supported within list items
   * (done by indenting 8sp or 2t)
+
 * blockquotes supported inside list items
   * (done by indenting after list item 4sp or 1t)
+
 * paragraphs supported within list items
   * (done by separating list items with a blank line,
   * then indenting four space to start new paras)

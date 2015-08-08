@@ -2,15 +2,50 @@
 
 import unittest
 from aa_macro import *
+import difflib
+import sys
+from aa_ansiicolor import *
 
+c = htmlAnsii()
+
+def diffme(fna,fnb,barlen):
+	global c
+	bar = '-' * barlen
+	bar = c.c(bar,'blue')
+	fh = open(fna)
+	fa = fh.read().splitlines(1)
+	fh.close()
+
+	fh = open(fnb)
+	fb = fh.read().splitlines(1)
+	fh.close()
+
+	d = difflib.Differ()
+
+	result = list(d.compare(fa, fb))
+
+	print bar
+	for line in result:
+		if line[0] != ' ':
+			if line[0] == '-':
+				out = c.c('-','red') + c.c(line[1:],'aqua')
+			else:
+				out = c.c('+','white') + c.c(line[1:],'aqua')
+			sys.stdout.write(out)
+	print bar
+	print c.c('End of differences','green')
 
 class TestAAMacro(unittest.TestCase):
 
 	def test_aa_macro(self):
-		rebuild = 1
 		"""
 Test aa_macro.py functionality
 """
+		global c
+		expect = 'expected.html'
+		badout = 'badoutput.html'
+
+		rebuild = 1
 		fh = open('mactest.txt')
 		testBlock = fh.read()
 		fh.close()
@@ -33,25 +68,34 @@ Test aa_macro.py functionality
 				except:
 					print 'Unable to close "%s"' % fileName
 
-		fh = open('expected.html')
+		fh = open(expect)
 		expected = fh.read()
 		fh.close()
 		if expected == output:
 			result = True
 		else:
+			print c.c('ERROR: expected != output','red')
+			s = 'Comparing %s with %s:' % (expect,badout)
+			bl = len(s)
+			print c.c(s,'yellow')
 			result = False
+			ok = True
 			try:
-				fh = open('badoutput.html','w')
+				fh = open(badout,'w')
 				fh.write(output)
 			except:
-				print '>>> Could not write badoutput.html. Do permissions need adjustment?'
-				pass
+				ok = False
+				print '>>> Could not write "%s". Do permissions need adjustment?' % (badout,)
 			try:
 				fh.close()
 			except:
-				pass
-		self.assertEqual(True,result,'expected != output\nCompare expected.html with badoutput.html')
-#		self.assertEqual(expected, output)
+			    ok = False
+			if ok == True:
+				diffme(expect,badout,bl)
+		try:
+			self.assertEqual(True,result,'expected != output\nCompare expected.html with badoutput.html')
+		except:
+			pass
 
 if __name__ == '__main__':
 	unittest.main()

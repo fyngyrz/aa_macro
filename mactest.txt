@@ -139,13 +139,20 @@
 [eq something,Something][ne ,!EMPTY!]
 ]
 
-{h2 Miscellanea}
-[p 
-[repeat 5 five ]test1[comment Invisible Me]
+{h2 Parsing and text processing}
+[p
 [slice 3:9,catmonkeydog]test2
 [split |,foo|bar|bleep|blop]test3
 [parm 0] [parm 1] [parm 2] [parm 3]test 4
 [upper i was lower, but now am high]
 [lower I WAS HIGHER, BUT NOW AM BROUGHT LOW]
 I have a [upper [roman 427]] Hemi ox-cart
+[chr 49]
+[csep 1234567890]
+[fcsep 12345678.90]
+]
+
+{h2 Miscellanea}
+[p 
+[repeat 5 five ]test1[comment Invisible Me]
 ]
