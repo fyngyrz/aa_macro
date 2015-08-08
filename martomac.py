@@ -12,6 +12,7 @@ defs = """
 [local oddrowc bgcolor="#ffffff"]
 [local evenrowc bgcolor="#f4f4f4"]
 [local hdrrowc bgcolor="#ffffff"]
+[local codecolor 080]
 [local c1 [v oddrowc]]  
 [local c2 [v evenrowc]]  
 [local c 0]  
@@ -24,7 +25,8 @@ defs = """
 [style br <br>]  
 [style codepre {nbsp}{nbsp}{nbsp}{nbsp}]
 [style code [split [co],[b]][b {codewrap <pre>[parm 1]</pre>]}[comment parm 0]]  
-[style codewrap {nobreak {greyback &nbsp;[color 080 [b]]&nbsp;}}]  
+[style fencecode [split [co],[b]][b [color [v codecolor] <pre>[parm 1]</pre>]][comment parm 0]]  
+[style codewrap {nobreak {greyback &nbsp;[color [v codecolor] [b]]&nbsp;}}]  
 [style comma [co]]  
 [style greyback <span style="background: #dddddd;">[b]</span>]  
 [style gt &gt;]  
@@ -834,7 +836,7 @@ for line in source:
 					lang = line.rstrip()[3:]
 					if lang == '':
 						lang = 'raw'
-					line = '{code %s,' % (lang,)
+					line = '{fencecode %s,' % (lang,)
 					consume = True
 					breakpara = True
 				else:
