@@ -48,13 +48,13 @@ like the "misc" portion of the table, feel free to create a new section.
 
 ## A walk through the addition process
 
-Suppose we want to be able to number a list with roman numerals.
-First thing that might occur to you to ask is, well, uppercase
-roman numerals or lowercase? My answer would be, clearly, it'd be
-nice to have both. But generating them twice? Silly. So, the need
-for case conversion arises, and we have our first target. Which we
-will solve in about one minute, like this. First task, implement
-the actual function:
+Suppose we want to be able to number a list with roman numerals. First
+thing that might occur to you to ask is, well, uppercase roman numerals
+or lowercase? My answer would be, clearly, it'd be nice to have both.
+But two sets of code to generate them that way? Silly. So, the need for
+case conversion arises, and we have our first target. Which we will
+solve in about one minute, like this. First task, implement the actual
+function:
 
 ```python
 def upper_fn(self,tag,data):
