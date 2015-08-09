@@ -48,10 +48,22 @@
 	* Optional title\+alt tags
 	* Optional encompassing link
     * Width and height tag handling
-  * Lists
+  * HTML Lists
     * Ordered
 	* Unordered
 	* Line-Item to List switching capable
+  * Data lists
+    * set up a list
+    * sort list
+      * case-sensitive
+      * case-insensitive
+      * by integer at start of item
+    * append an item
+    * change an item
+    * output a list, each item wrapped in a style
+    * output a list item
+    * create an 8-bit character map
+    * translate by the character map
   * Tables
     * Header cells / lines
 	* Standard cells / lines
