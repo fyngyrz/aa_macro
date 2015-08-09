@@ -42,6 +42,8 @@ class TestAAMacro(unittest.TestCase):
 Test aa_macro.py functionality
 """
 		global c
+		bar = '-' * 40
+		print c.c(bar,'blue')
 		expect = 'expected.html'
 		badout = 'badoutput.html'
 

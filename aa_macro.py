@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 7th, 2015     (for Class)
-  LastDocRev: August 7th, 2015     (for Class)
+     LastRev: August 8th, 2015     (for Class)
+  LastDocRev: August 8th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,11 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.13
+     Version: 1.0.14
      History:                    (for Class)
+	 	1.0.14
+			* added [list],[lset],[e],[cmap],[translate],[asort],[aisort],[isort],[dlist],[append]
+			* added [splitcount]
 	 	1.0.13
 		    * added [eq] to complement [ne]
 	 	1.0.12
@@ -103,8 +106,8 @@ class macro(object):
 		1.0.0
 			* Initial Release
 
-	Available macros:
-	=================
+	Available built-ins:
+	====================
 	Note that () designate optional parameters, a|b designates alternate parameter a or b
 
 	Text Styling
@@ -146,8 +149,8 @@ class macro(object):
 			[locimg pics/mypic.png]				- image in /usr/www/mysite.com/htdocs/pics/ on host
 												- and in /pics/ of webserver
 	
-	Lists
-	-----
+	HTML Lists
+	----------
 	[ul item1(,item2,item3...)]		where item1 can be wrap=STYLE
 	[ol item1(,item2,item3...)]		where item1 can be wrap=STYLE
 	[iful item1(,item2,item3...)]	where item1 can be wrap=STYLE
@@ -170,6 +173,24 @@ class macro(object):
 	[gv variableName]								# use the global variable and ignore the local
 	[lv variableName]								# use the local variable and ignore the global
 	[page]											# reset local environment
+
+	Data Lists
+	----------
+	[append listname,item]							# add an item to a list
+	[lset listName,index,stuff]						# set a list item by index (must exist)
+	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
+	[dlist (style=x,)listName]						# output list, optionally wrapped with STYLE
+	[translate listName,text]						# characters are mapped to listName (see examples)
+	[list (sep=x,)listName,item(SEPitem)]			# Create list: sep default: ','
+													  [list mylist,a,b,c]
+													  [list sep=|,myblist,nil|one|2|0011|IV|sinco]
+	[e listName,index]								# fetch an item from a list, base of zero:
+													  [e mylist,0] = 'a'
+													  [e myblist,4] = 'IV'
+	[asort listName]								# sort the list as case-sensitive text
+	[aisort listName]								# sort the list as case-insensitive text
+	[isort (sep=x,)listName]						# sort the list according to a leading numeric value
+													  ie [1,this thing][2,that thing] sep default: ','
 
 	Stack
 	-----
@@ -200,6 +221,7 @@ class macro(object):
 	Parsing and text processing
 	---------------------------
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
+	[splitcount N]									# limit number of splits to N for next split ONLY
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
@@ -208,6 +230,7 @@ class macro(object):
 													     [split [co],contentToSplit]]
 													  ...where contentToSplit is separated by
 													  actual commas. Comes in handy sometimes.
+													  Obeys [splitcount]
 	[parm N]										# per above [split, [parm 1] results in y
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
@@ -330,6 +353,7 @@ class macro(object):
 		self.page()
 		self.setFuncs()
 		self.resetLocals()
+		self.resetLists()
 		self.resetGlobals()
 		self.placeholder = 'Q|zXaH7RppY#32m' # hopefully you'll never use this string, lol
 		self.styles = {}
@@ -340,6 +364,7 @@ class macro(object):
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		self.result = ''
 		self.lipath = ''
+		self.splitCount = 0
 		if dothis != None:
 			self.do(dothis)
 
@@ -515,6 +540,9 @@ The contents of the list are safe to include in the output if you like.
 	def resetLocals(self):
 		self.theLocals = {}
 
+	def resetLists(self):
+		self.theLists = {}
+
 	def htest(self,c):
 		if type(c) != str:
 			return False
@@ -609,16 +637,32 @@ The contents of the list are safe to include in the output if you like.
 			return '<b>'+data+'</b>'
 		return '<span style="font-weight: bold;">%s</span>' % (data)
 
+	def splitcount_fn(self,tag,data):
+		try:
+			n = int(data)
+		except:
+			n = 0
+		self.splitCount = n
+		return ''
+
 	def split_fn(self,tag,data):
 		o = ''
 		dl = data.split(',',1)
+		n = self.splitCount
 		if len(dl) == 2:
 			if str(dl[0]) == '&#44;':
-				self.parms = str(dl[1]).split(',')
+				if n == 0:
+					self.parms = str(dl[1]).split(',')
+				else:
+					self.parms = str(dl[1]).split(',',n)
 			else:
-				self.parms = str(dl[1]).split(str(dl[0]))
+				if n == 0:
+					self.parms = str(dl[1]).split(str(dl[0]))
+				else:
+					self.parms = str(dl[1]).split(str(dl[0]),n)
 		else:
 			o = ' ?split? '
+		self.splitCount = 0
 		return o
 
 	def parm_fn(self,tag,data):
@@ -655,7 +699,6 @@ The contents of the list are safe to include in the output if you like.
 					o = ' ?split? '
 			except:
 				pass
-#		print o
 		return o
 
 	def u_fn(self,tag,data):
@@ -1060,6 +1103,142 @@ The contents of the list are safe to include in the output if you like.
 	def gv_fn(self,tag,data):
 		return self.theGlobals.get(data,'')
 
+	# [list (sep=X,)listName,listContent]
+	def list_fn(self,tag,data):
+		o = ''
+		ll = data.split(',',1)
+		if len(ll) != 2: return o
+		sep = ','
+		if ll[0][:4] == 'sep=':
+			sep = ll[0][4:]
+			if len(sep) == '0': return o
+			ll = ll[1].split(',',1)
+			if len(ll) != 2: return o
+		locname = ll[0]
+		if len(locname) == 0: return o
+		loclist = ll[1].split(sep)
+		self.theLists[locname] = loclist
+		return o
+
+	def pullint(self,s):
+		try:
+			ll = s.split(',',1)
+			n = int(ll[0])
+		except:
+			n = 0
+		return n
+
+	# [isort listName]
+	def isort_fn(self,tag,data):
+		try:
+			self.theLists[data].sort(key=self.pullint)
+		except:
+			pass
+		return ''
+
+	# [asort listName]
+	def asort_fn(self,tag,data):
+		try:
+			self.theLists[data].sort()
+		except:
+			pass
+		return ''
+
+	# [aisort listName]
+	def aisort_fn(self,tag,data):
+		try:
+			self.theLists[data].sort(key=str.lower)
+		except:
+			pass
+		return ''
+
+	# [dlist (style=styleName,)listName]
+	def dlist_fn(self,tag,data):
+		o = ''
+		ll = data.split(',',1)
+		using = False
+		if len(ll) == 2: # wrap with style case
+			if ll[0][:6] == 'style=':
+				using = True
+				style=ll[0][6:]
+				if style != '':
+					listname = ll[1]
+					if self.styles.get(style,'') != '':
+						if ll[1] != '':
+							try:
+								for el in self.theLists[listname]:
+									ss = '[s %s %s]' % (style,el)
+									o += self.do(ss)
+							except:
+								pass
+		if using == False:
+			listname = data
+			if listname != '':
+				try:
+					for el in self.theLists[listname]:
+						o += el
+				except:
+					pass
+		return o
+
+	# [cmap listName]
+	def cmap_fn(self,tag,data):
+		if data != '':
+			loclist = []
+			for i in range(0,256):
+				loclist += [chr(i)]
+			self.theLists[data] = loclist
+		return ''
+
+	# [lset listname,index,stuff]
+	def lset_fn(self,tag,data):
+		ll = data.split(',',2)
+		if len(ll) == 3:
+			if ll[0] != '':
+				try:
+					n = int(ll[1])
+					self.theLists[ll[0]][n] = ll[2]
+				except:
+					pass
+		return ''
+
+	# [translate listName,text]
+	def translate_fn(self,tag,data):
+		o = ''
+		ll = data.split(',',1)
+		if len(ll) == 2:
+			if ll[0] != '':
+				try:
+					for c in ll[1]:
+						o += self.theLists[ll[0]][ord(c)]
+				except:
+					pass
+		return o
+
+	# [append listname,text]
+	def append_fn(self,tag,data):
+		ll = data.split(',',1)
+		if len(ll) == 2:
+			try:
+				loclist = self.theLists[ll[0]]
+				loclist += [ll[1]]
+				self.theLists[ll[0]] = loclist
+			except:
+				pass
+		return ''
+
+	# [e listName,n]
+	def element_fn(self,tag,data):
+		o = ''
+		ll = data.split(',')
+		if len(ll) == 2:
+			try:
+				n = int(ll[1])
+				o = self.theLists[ll[0]][n]
+			except:
+				pass
+		return o
+
 	def local_fn(self,tag,data):
 		try:
 			d1,d2 = data.split(' ',1)
@@ -1322,7 +1501,19 @@ The contents of the list are safe to include in the output if you like.
 					'q'		: self.q_fn,		# Wrap content in HTML-entity quotes
 					'bq'	: self.bq_fn,		# P1 is an HTML blockquote
 
-					# list handling
+					# Data list handling
+					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]
+					'e'		: self.element_fn,	# fetch element:[e listName,n] = list[n]
+					'append': self.append_fn,	# [append listName,stuff]
+					'translate':self.translate_fn, # [translate listName,stuff]
+					'lset'	: self.lset_fn,		# [lset listName,index,stuff]
+					'cmap'	: self.cmap_fn,		# [cmap listName]
+					'dlist'	: self.dlist_fn,	# [dlist (style=styleName,)listName] dump list
+					'asort'	: self.asort_fn,	# [asort listName]
+					'aisort': self.aisort_fn,	# [aisort listName]
+					'isort'	: self.isort_fn,	# [isort listName]
+
+					# HTML list handling
 					# P1[,P2]...[,Pn]
 					# P1 can optionally be [wrap=STYLE,] for all of these
 					# ---------------------------------------------------
@@ -1399,8 +1590,9 @@ The contents of the list are safe to include in the output if you like.
 
 					# Parsing and text processing
 					# ---------------------------
+					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
-					'split'	: self.split_fn,	# [split splitSpec,testToSplit]
+					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]

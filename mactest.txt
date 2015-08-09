@@ -88,7 +88,7 @@
 [p [locimg .gif Test,randomdir/test.gif]]
 [p [locimg .gif Test,randomdir/test.gif http://fyngyrz.com]]
 
-{h2 Lists}
+{h2 HTML Lists}
 [p [ul item1,item2]]
 [p [ol item1,item2]]
 [p [iful item1]]
@@ -147,10 +147,38 @@
 [upper i was lower, but now am high]
 [lower I WAS HIGHER, BUT NOW AM BROUGHT LOW]
 I have a [upper [roman 427]] Hemi ox-cart
-[chr 49]
+[chr 66][chr 69][chr 78]
 [csep 1234567890]
 [fcsep 12345678.90]
 ]
+
+{h2 Data Lists}
+[list lowers,a,b,c]  
+[e lowers,2] [e lowers,1] [e lowers,0]
+[list sep=|,uppers,A|B|C]  
+[append uppers,amphetamine]  
+[lset uppers,1,aircraft]  
+[e uppers,2] [e uppers,1] [e uppers,0] [e uppers,3]
+[dlist uppers]
+[style quotes "[b]" ]  
+[dlist style=quotes,uppers]
+[cmap xlate]  
+[e xlate,66]
+[translate xlate,ALPHA]
+[lset xlate,65,-a-]  
+[translate xlate,ALPHA]
+[list unsorted,larry,ben,Beth,alan,leroy]  
+[dlist style=quotes,unsorted]
+[asort unsorted]  
+[dlist style=quotes,unsorted]
+[aisort unsorted]  
+[dlist style=quotes,unsorted]
+[list sep=|,nunsorted,44,larry|1,ben|2,Beth|3,alan,smith|5,leroy]  
+[dlist style=quotes,nunsorted]
+[isort nunsorted]  
+[dlist style=quotes,nunsorted]
+[style nonquotes [splitcount 1][split [co],[b]]"[parm 1]" ]  
+[dlist style=nonquotes,nunsorted]
 
 {h2 Miscellanea}
 [p 
