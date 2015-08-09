@@ -74,6 +74,8 @@
 	* Multiple parameter wrapping using any custom style
     * Text slicing
 	* Preloading of specific parameter treatments
+	* Whitespace stripping
+	* String duplication
   * Variables
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing

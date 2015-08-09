@@ -179,6 +179,8 @@ I have a [upper [roman 427]] Hemi ox-cart
 [dlist style=quotes,nunsorted]
 [style nonquotes [splitcount 1][split [co],[b]]"[parm 1]" ]  
 [dlist style=nonquotes,nunsorted]
+[dup 3,foo]
+[rstrip testing 3   ]
 
 {h2 Miscellanea}
 [p 

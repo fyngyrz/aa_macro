@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 8th, 2015     (for Class)
-  LastDocRev: August 8th, 2015     (for Class)
+     LastRev: August 9th, 2015     (for Class)
+  LastDocRev: August 9th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.14
+     Version: 1.0.15
      History:                    (for Class)
+	 	1.0.15
+			* added [rstrip],[ord],[dup]
 	 	1.0.14
 			* added [list],[lset],[e],[cmap],[translate],[asort],[aisort],[isort],[dlist],[append]
 			* added [splitcount]
@@ -234,10 +236,13 @@ class macro(object):
 	[parm N]										# per above [split, [parm 1] results in y
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
+	[rstrip content]								# remove trailing whitespace
 	[roman numberString]							# convert decimal to roman (1...4000)
-	[chr number]									# e.g. [chr 49] = "A"
+	[chr number]									# e.g. [chr 65] = "A"
+	[ord character]									# e.g. [ord A] = "65"
 	[csep integer]									# e.g. [csep 1234] = "1,234"
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
+	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 
 	Misc
 	----
@@ -636,6 +641,27 @@ The contents of the list are safe to include in the output if you like.
 		if self.mode == '3.2':
 			return '<b>'+data+'</b>'
 		return '<span style="font-weight: bold;">%s</span>' % (data)
+
+	def dup_fn(self,tag,data):
+		o = ''
+		ll = data.split(',',1)
+		if len(ll) == 2:
+			try:
+				n = int(ll[0])
+			except:
+				pass
+			else:
+				o = ll[1] * n
+		return o
+
+	def rstrip_fn(self,tag,data):
+		return data.rstrip()
+
+	def ord_fn(self,tag,data):
+		o = ''
+		if data != '':
+			o = str(ord(data[0]))
+		return o
 
 	def splitcount_fn(self,tag,data):
 		try:
@@ -1593,13 +1619,16 @@ The contents of the list are safe to include in the output if you like.
 					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
+					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]
 					'roman'	: self.roman_fn,	# [roman numberString] e.g. [roman 17] = "xvii"
-					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 49] = "A"
+					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 65] = "A"
+					'ord'	: self.ord_fn,		# [ord character] e.g. [ord A] = 65
 					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
 					'fcsep' : self.fcsep_fn,	# [fcsep float] e.g. [fcsep 1234.56] = "1,234.56"
+					'dup'	: self.dup_fn,		# [dup content] e.g. [dup 3,foo] = "foofoofoo"
 
 					# Miscellaneous
 					# -------------

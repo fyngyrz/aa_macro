@@ -8,6 +8,11 @@ from aa_ansiicolor import *
 
 c = htmlAnsii()
 
+def nocrlf(s):
+	while len(s) > 0 and (s[-1] == '\n' or s[-1] == '\r'):
+		s = s[:-1]
+	return s
+
 def diffme(fna,fnb,barlen):
 	global c
 	bar = '-' * barlen
@@ -25,12 +30,18 @@ def diffme(fna,fnb,barlen):
 	result = list(d.compare(fa, fb))
 
 	print bar
+	missingcolor  = 'red'
+	addedcolor    = 'white'
+	quotecolor    = 'yellow'
+	stringcolor   = 'aqua'
 	for line in result:
 		if line[0] != ' ':
+			line = nocrlf(line) # terminating cr/lf removed
 			if line[0] == '-':
-				out = c.c('-','red') + c.c(line[1:],'aqua')
+				out = c.c('-',missingcolor) + c.c(' "',quotecolor) + c.c(line[2:],'aqua')+c.c('"',quotecolor)
 			else:
-				out = c.c('+','white') + c.c(line[1:],'aqua')
+				out = c.c('+',addedcolor) + c.c(' "',quotecolor) + c.c(line[2:],'aqua')+c.c('"',quotecolor)
+			out += '\n'
 			sys.stdout.write(out)
 	print bar
 	print c.c('End of differences','green')
