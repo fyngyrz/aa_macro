@@ -119,25 +119,25 @@
   * Style dump \(text, html, table dump options\)
 
 * Of Special Note
-  * Independent of both LORAN and the GPS constallation
-  * No ultraviolet radiation emissions whatsoever
-  * Fully functional at any depth or altitude
-  * Created exclusively using NY-style pizza
-  * Never requires lubrication before use
-  * Packed with Wholesome Goodness
-  * Will not attract mosquitos
-  * Diet neutral: 0 calories
-  * Gluten-free
-  * Unisex
-  * Pet safe
-  * Hypoallergenic
-  * Zero landfill impact
-  * Indescribably delicious
-  * 100% pro-feline throughout\*
-  * Will not fray or stain lingerie
-  * Contains no GMOs, vaccines, or fluoridation
-  * Fully Organic Production Methods used throughout
-  * Transport on aircraft will not result in chemtrails
+  * <tt>Independent of both LORAN and the GPS constallation</tt>
+  * <tt>No ultraviolet radiation emissions whatsoever</tt>
+  * <tt>Fully functional at any depth or altitude</tt>
+  * <tt>Created exclusively using NY-style pizza</tt>
+  * <tt>Never requires lubrication before use</tt>
+  * <tt>Packed with Wholesome Goodness</tt>
+  * <tt>Will not attract mosquitos</tt>
+  * <tt>Diet neutral: 0 calories</tt>
+  * <tt>Gluten-free</tt>
+  * <tt>Unisex</tt>
+  * <tt>Pet safe</tt>
+  * <tt>Hypoallergenic</tt>
+  * <tt>Zero landfill impact</tt>
+  * <tt>Indescribably delicious</tt>
+  * <tt>Will not fray or stain lingerie</tt>
+  * <tt>100% pro-feline production environment\*</tt>
+  * <tt>Contains no GMOs, vaccines, or fluoridation</tt>
+  * <tt>Fully Organic Production Methods used throughout</tt>
+  * <tt>Transport on aircraft will not result in chemtrails</tt>
 
 \* Endorsed by Leo
 
