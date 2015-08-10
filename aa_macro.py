@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 9th, 2015     (for Class)
-  LastDocRev: August 9th, 2015     (for Class)
+     LastRev: August 10th, 2015     (for Class)
+  LastDocRev: August 10th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.15
+     Version: 1.0.16
      History:                    (for Class)
+	 	1.0.16
+			* added [find],[replace]
 	 	1.0.15
 			* added [rstrip],[ord],[dup]
 	 	1.0.14
@@ -243,6 +245,8 @@ class macro(object):
 	[csep integer]									# e.g. [csep 1234] = "1,234"
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
+	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
+	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
 
 	Misc
 	----
@@ -1415,6 +1419,42 @@ The contents of the list are safe to include in the output if you like.
 				o += d2
 		return o
 
+	def find_fn(self,tag,data):
+		o = '-1'
+		ll = data.split(',',1)
+		sep = ','
+		if len(ll) == 2:
+			if ll[0][:4] == 'sep=':
+				sep = ll[0][4:]
+				if sep == '':
+					return o
+				ll = ll[1].split(sep,1)
+				if len(ll) != 2:
+					return o
+			o = str(ll[1].find(ll[0]))
+		return o
+
+	# [replace (sep=X,)repStringXwithStringXinString] X default=,
+	def replace_fn(self,tag,data):
+		mode = 0
+		ll = data.split(',',1)
+		if len(ll) != 2: return data
+		if ll[0][:4] == 'sep=':
+			sep = ll[0][4:]
+			if sep == '': return data
+			mode = 1
+		if mode == 0:
+			a = ll[0]
+			ll = ll[1].split(',',1)
+			if len(ll) != 2: return data
+			b,c = ll
+		else:
+			ll = ll[1].split(sep,2)
+			if len(ll) != 3: return data
+			a,b,c = ll
+		o = c.replace(a,b)
+		return o
+
 	def commaSep(self,n):
 		ou = ''
 		ouc = 0
@@ -1629,6 +1669,8 @@ The contents of the list are safe to include in the output if you like.
 					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
 					'fcsep' : self.fcsep_fn,	# [fcsep float] e.g. [fcsep 1234.56] = "1,234.56"
 					'dup'	: self.dup_fn,		# [dup content] e.g. [dup 3,foo] = "foofoofoo"
+					'find'	: self.find_fn,		# [find (sep=X,)thisStringXinString] X default=,
+					'replace': self.replace_fn,	# [replace (sep=X,)repStrXwithStrXinStr] X default=,
 
 					# Miscellaneous
 					# -------------

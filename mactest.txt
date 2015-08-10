@@ -181,6 +181,10 @@ I have a [upper [roman 427]] Hemi ox-cart
 [dlist style=nonquotes,nunsorted]
 [dup 3,foo]
 [rstrip testing 3   ]
+[find ani,pusilanimous]
+[find sep=|,we|and,then we said "no"]
+[replace foo,bar,you foo this]
+[replace sep=|,jim|larry|mark, jim, or leroy]
 
 {h2 Miscellanea}
 [p 
