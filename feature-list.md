@@ -119,7 +119,7 @@
   * Style dump \(text, html, table dump options\)
 
 * Of Special Note
-  * <tt>Independent of both LORAN and the GPS constallation</tt>
+  * <tt>Independent of both LORAN and the GPS constellation</tt>
   * <tt>No ultraviolet radiation emissions whatsoever</tt>
   * <tt>Fully functional at any depth or altitude</tt>
   * <tt>Created exclusively using NY-style pizza</tt>
