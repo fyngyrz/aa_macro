@@ -89,7 +89,12 @@
 [p [locimg .gif Test,randomdir/test.gif http://fyngyrz.com]]
 
 {h2 HTML Lists}
+[style lwrap <u>[b]</u>]  
 [p [ul item1,item2]]
+[p [ul sep=|,item1|item2|item3]]
+[p [ul wrap=lwrap,item1,item2]]
+[p [ul wrap=lwrap,sep=|,itemW|itemX]]
+[p [ul sep=|,wrap=lwrap,itemY|itemZ]]
 [p [ol item1,item2]]
 [p [iful item1]]
 [p [iful item1,item2]]
@@ -97,6 +102,7 @@
 [p [ifol item1,item2]]
 [p [t a,b,c]]
 [p [t wrap=code,a,b,c]]
+[p [t wrap=code,sep=|,d|e|f]]
 
 {h2 Tables}
 [table [row [header col 1][header col 2]][row [cell test1][cell test2]]]
@@ -185,6 +191,13 @@ I have a [upper [roman 427]] Hemi ox-cart
 [find sep=|,we|and,then we said "no"]
 [replace foo,bar,you foo this]
 [replace sep=|,jim|larry|mark, jim, or leroy]
+[rjust 6,-,four]
+[rjust 6, ,three]
+[rjust 6,&nbsp;,foo]
+'[center 7,-,bar]' odd in odd, left side pad only
+'[center -7,-,xyz]' odd in odd, pad both sides
+'[center -7,-,wxyz]' even in odd, pad both sides
+'[center -8,-,xyz]' odd in even, pad both sides
 
 {h2 Miscellanea}
 [p 

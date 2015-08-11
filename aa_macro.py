@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 10th, 2015     (for Class)
-  LastDocRev: August 10th, 2015     (for Class)
+     LastRev: August 11th, 2015     (for Class)
+  LastDocRev: August 11th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,15 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.16
+     Version: 1.0.17
      History:                    (for Class)
+	 	1.0.17
+			* added [rjust],[ljust],[center]
+			* added sep=X to [list] options
+			* added sep=X to [ul] options
+			* added sep=X to [ol] options
+			* added sep=X to [iful] options
+			* added sep=X to [ifol] options
 	 	1.0.16
 			* added [find],[replace]
 	 	1.0.15
@@ -155,11 +162,11 @@ class macro(object):
 	
 	HTML Lists
 	----------
-	[ul item1(,item2,item3...)]		where item1 can be wrap=STYLE
-	[ol item1(,item2,item3...)]		where item1 can be wrap=STYLE
-	[iful item1(,item2,item3...)]	where item1 can be wrap=STYLE
-	[ifol item1(,item2,item3...)]	where item1 can be wrap=STYLE
-	[t item1(,item2,item3...)]		Where item1 may be wrap=STYLE
+	[ul (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
+	[ol (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
+	[iful (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
+	[ifol (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
+	[t (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
 
 	Tables
 	------
@@ -247,6 +254,11 @@ class macro(object):
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
+	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
+	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
+	[center width,padChar,content]					# e.g. [center 7,#,foo] = "##foo"
+													  negative width means pad both sides:
+														   [center -7,=,foo] = "==foo=="
 
 	Misc
 	----
@@ -579,6 +591,28 @@ The contents of the list are safe to include in the output if you like.
 	def setBack(self,back="ffffff"):
 		self.back = self.mcolor(back)
 
+	def popts(self,olist,data):
+		plist = data.split(',')
+		ropts = []
+		run = True
+		while run == True:
+			hit = False
+			for el in olist:
+				el += '='
+				l = len(el)
+				if plist[0][:l] == el:
+					ropts += [[el,plist[0][l:]]]
+					plist.pop(0)
+					hit = True
+			if hit == False:
+				run = False
+			result = ''
+			for el in plist:
+				if result != '':
+					result += ','
+				result += el
+		return ropts,result
+
 	def back_fn(self,tag,data):
 		self.setBack(data)
 		return ''
@@ -648,7 +682,8 @@ The contents of the list are safe to include in the output if you like.
 
 	def dup_fn(self,tag,data):
 		o = ''
-		ll = data.split(',',1)
+		sep=','
+		ll = data.split(sep,1)
 		if len(ll) == 2:
 			try:
 				n = int(ll[0])
@@ -739,11 +774,16 @@ The contents of the list are safe to include in the output if you like.
 
 	def t_fn(self,tag,data):
 		o = ''
-		plist = data.split(',')
+		opts,data = self.popts(['wrap','sep'],data)
 		wraps = ''
-		if plist[0][:5] == 'wrap=':
-			wraps = plist[0][5:]
-			plist.pop(0)
+		sep = ','
+		for el in opts:
+			if el[0] == 'wrap=':
+				wraps = el[1]
+			elif el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
+		plist = data.split(sep)
 		for el in plist:
 			if wraps != '':
 				el = self.s_fn('s','%s %s' % (wraps,el))	# wrap with style if called for
@@ -837,45 +877,64 @@ The contents of the list are safe to include in the output if you like.
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
 		return o
 
-	def iful_fn(self,tag,data):
+	def geniflist(self,tag,data,ty):
 		o = ''
-		if data.find(',') != -1:
-			entries = data.split(',')
-			wraps = ''
-			if len(entries) > 1:				# list supplied
-				if entries[0][:5] == 'wrap=':	# if we have a wrapper
-					wraps = entries[0][5:]		# extract the style name
-					entries.pop(0)				# remove the wrapper
-			if len(entries) > 1:				# if remaining date has more than one entry
-				o += '<ul>\n'					# BUILD a list
-				for en in entries:
-					if wraps != '':
-						en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
-					o += '<li>%s</li>\n' % str(en)					# add list entry
-				o += '</ul>\n'
-			else: # had a wrapper, but a list isn't called for:
+		opts,data = self.popts(['wrap','sep'],data)
+		wraps = ''
+		sep = ','
+		for el in opts:
+			if el[0] == 'wrap=':
+				wraps = el[1]
+			if el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
+		entries = data.split(sep)
+		if len(entries) > 1:				# if remaining data has more than one entry
+			o += '<%s>\n' % (ty,)			# BUILD a list
+			for en in entries:
 				if wraps != '':
-					en = self.s_fn('s','%s %s' % (wraps,entries[0]))
+					en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
+				o += '<li>%s</li>\n' % str(en)					# add list entry
+			o += '</%s>\n' % (ty,)
+		else: # list isn't called for:
+			if wraps != '':
+				en = self.s_fn('s','%s %s' % (wraps,entries[0]))
 				o += '%s<br>\n' % str(en)
-		else: # list not supplied. Just dump data as-is
-			o += data + '<br>'
+			else: # list not supplied. Just dump data as-is
+				o += data + '<br>'
 		return o
 
-	def ul_fn(self,tag,data):
+	def iful_fn(self,tag,data):
+		return self.geniflist(tag,data,'ul')
+
+	def ifol_fn(self,tag,data):
+		return self.geniflist(tag,data,'ol')
+
+	def genlist(self,tag,data,ty):
 		o = ''
-		entries = data.split(',')
+		opts,data = self.popts(['wrap','sep'],data)
 		wraps = ''
-		if len(entries) > 1:				# list supplied
-			if entries[0][:5] == 'wrap=':	# if we have a wrapper
-				wraps = entries[0][5:]		# extract the style name
-				entries.pop(0)				# remove the wrapper
-		o += '<ul>\n'						# BUILD a list
+		sep = ','
+		for el in opts:
+			if el[0] == 'wrap=':
+				wraps = el[1]
+			if el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
+		entries = data.split(sep)
+		o += '<%s>\n' % (ty,)						# BUILD a list
 		for en in entries:
 			if wraps != '':
 				en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
 			o += '<li>%s</li>\n' % str(en)					# add list entry
-		o += '</ul>\n'
+		o += '</%s>\n' % (ty,)
 		return o
+
+	def ul_fn(self,tag,data):
+		return self.genlist(tag,data,'ul')
+
+	def ol_fn(self,tag,data):
+		return self.genlist(tag,data,'ol')
 
 	def table_fn(self,tag,data):
 		o = '<table'
@@ -939,46 +998,6 @@ The contents of the list are safe to include in the output if you like.
 		else:
 			return ' bad parameters for cell '
 		o += '</td>'
-		return o
-
-	def ol_fn(self,tag,data):
-		o = ''
-		entries = data.split(',')
-		wraps = ''
-		if len(entries) > 1:				# list supplied
-			if entries[0][:5] == 'wrap=':	# if we have a wrapper
-				wraps = entries[0][5:]		# extract the style name
-				entries.pop(0)				# remove the wrapper
-		o += '<ol>\n'					# BUILD a list
-		for en in entries:
-			if wraps != '':
-				en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
-			o += '<li>%s</li>\n' % str(en)					# add list entry
-		o += '</ol>\n'
-		return o
-
-	def ifol_fn(self,tag,data):
-		o = ''
-		if data.find(',') != -1:
-			entries = data.split(',')
-			wraps = ''
-			if len(entries) > 1:				# list supplied
-				if entries[0][:5] == 'wrap=':	# if we have a wrapper
-					wraps = entries[0][5:]		# extract the style name
-					entries.pop(0)				# remove the wrapper
-			if len(entries) > 1:				# if remaining date has more than one entry
-				o += '<ol>\n'					# BUILD a list
-				for en in entries:
-					if wraps != '':
-						en = self.s_fn('s','%s %s' % (wraps,en))	# wrap with style if called for
-					o += '<li>%s</li>\n' % str(en)					# add list entry
-				o += '</ol>\n'
-			else: # had a wrapper, but a list isn't called for:
-				if wraps != '':
-					en = self.s_fn('s','%s %s' % (wraps,entries[0]))
-				o += '%s<br>\n' % str(en)
-		else: # list not supplied. Just dump data as-is
-			o += data + '<br>'
 		return o
 
 	def style_fn(self,tag,data):
@@ -1136,14 +1155,14 @@ The contents of the list are safe to include in the output if you like.
 	# [list (sep=X,)listName,listContent]
 	def list_fn(self,tag,data):
 		o = ''
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
 		ll = data.split(',',1)
 		if len(ll) != 2: return o
-		sep = ','
-		if ll[0][:4] == 'sep=':
-			sep = ll[0][4:]
-			if len(sep) == '0': return o
-			ll = ll[1].split(',',1)
-			if len(ll) != 2: return o
 		locname = ll[0]
 		if len(locname) == 0: return o
 		loclist = ll[1].split(sep)
@@ -1545,6 +1564,54 @@ The contents of the list are safe to include in the output if you like.
 					number -= self.integers[v] * ct
 		return o
 
+	def rjust_fn(self,tag,data):
+		ll = data.split(',',2)
+		if len(ll) != 3: return data
+		try:
+			w = int(ll[0])
+		except:
+			return data
+		if ll[1] == '': return data
+		l = len(ll[2])
+		if l >= w: return data
+		pad = ll[1] * (w-l)
+		return pad+ll[2]
+
+	def ljust_fn(self,tag,data):
+		ll = data.split(',',2)
+		if len(ll) != 3: return data
+		try:
+			w = int(ll[0])
+		except:
+			return data
+		if ll[1] == '': return data
+		l = len(ll[2])
+		if l >= w: return data
+		pad = ll[1] * (w-l)
+		return ll[2]+pad
+
+	def center_fn(self,tag,data):
+		ll = data.split(',',2)
+		if len(ll) != 3: return data
+		try:
+			w = int(ll[0])
+		except:
+			return '1:'+data
+		if ll[1] == '': return '2:'+data
+		l = len(ll[2])
+		both = False
+		if w < 0:
+			both = True
+			w = -w
+		if l >= w: return '3:'+data
+		c = int((w-l)/2)
+		pad = ll[1] * c
+		if both == True:
+			rc = w - (c + l)
+			rpad = ll[1] * rc
+			return pad+ll[2]+rpad
+		return pad+ll[2]
+
 	def setFuncs(self): #    '':self._fn,
 		self.fns = {
 					# escape codes
@@ -1671,6 +1738,9 @@ The contents of the list are safe to include in the output if you like.
 					'dup'	: self.dup_fn,		# [dup content] e.g. [dup 3,foo] = "foofoofoo"
 					'find'	: self.find_fn,		# [find (sep=X,)thisStringXinString] X default=,
 					'replace': self.replace_fn,	# [replace (sep=X,)repStrXwithStrXinStr] X default=,
+					'rjust'	: self.rjust_fn,	# [rjust width,padChar,content]
+					'ljust'	: self.ljust_fn,	# [ljust width,padChar,content]
+					'center': self.center_fn,	# [center width,padChar,content]
 
 					# Miscellaneous
 					# -------------

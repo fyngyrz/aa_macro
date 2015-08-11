@@ -78,6 +78,8 @@
 	* String duplication
 	* Find (sub)string in string
 	* Replace (sub)string with string
+	* Left and right justification
+	* Centering
   * Variables
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing
