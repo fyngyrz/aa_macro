@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.17
+     Version: 1.0.18
      History:                    (for Class)
+	 	1.0.18
+			* added (sep=X,) option to [push]
 	 	1.0.17
 			* added [rjust],[ljust],[center]
 			* added sep=X to [list] options
@@ -117,6 +119,8 @@ class macro(object):
 		1.0.0
 			* Initial Release
 
+==> Anything with a * in the first column needs recoding to incorporate (sep=X,)
+
 	Available built-ins:
 	====================
 	Note that () designate optional parameters, a|b designates alternate parameter a or b
@@ -138,7 +142,8 @@ class macro(object):
 	--------------------------------------------------
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
-	[urlencode URL]					# converts certain chars to character entities
+	[urlencode URL]					# converts certain chars to character entities, etc.:
+	                                  '"'='&quot;', ' '='+', '&'='&amp;'
 	
 	Images
 	------
@@ -167,7 +172,7 @@ class macro(object):
 	[iful (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[ifol (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[t (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
-
+ 
 	Tables
 	------
 	[table (options,)CONTENT]						HTML table
@@ -192,7 +197,7 @@ class macro(object):
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[dlist (style=x,)listName]						# output list, optionally wrapped with STYLE
 	[translate listName,text]						# characters are mapped to listName (see examples)
-	[list (sep=x,)listName,item(SEPitem)]			# Create list: sep default: ','
+	[list (sep=X,)listName,item(Xitem)]				# Create list: sep default: ','
 													  [list mylist,a,b,c]
 													  [list sep=|,myblist,nil|one|2|0011|IV|sinco]
 	[e listName,index]								# fetch an item from a list, base of zero:
@@ -205,7 +210,7 @@ class macro(object):
 
 	Stack
 	-----
-	[push (N,)CONTENT]								# push CONTENT N deep onto stack. 1 is the same as no N.
+	[push (sep=X,)(nX)CONTENT]						# push CONTENT n deep onto stack. 1 is the same as no N.
 	[pop]											# pop stack. If stack empty, does nothing.
 	[fetch (N)]										# get element N from stack but no pop. 0 is top, no N = 0
 	[flush]											# toss out entire stack
@@ -218,22 +223,22 @@ class macro(object):
 	[div value divisor]								# divide a number by a number
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
-	
+
 	Conditionals
 	------------
-	[even value conditionalContent]					# use conditional content if value is even
-	[odd value conditionalContent]					# use conditional content if value is odd
-	[if value match conditionalContent]				# use conditional content if value == match
-	[else value match conditionalContent]			# use conditional content if value != match
-	[ne value,conditionalContent]					# use conditional content if value Not Empty
-	[eq value,conditionalContent]					# use conditional content if value Empty
+*	[even value conditionalContent]					# use conditional content if value is even
+*	[odd value conditionalContent]					# use conditional content if value is odd
+*	[if value match conditionalContent]				# use conditional content if value == match
+*	[else value match conditionalContent]			# use conditional content if value != match
+*	[ne value,conditionalContent]					# use conditional content if value Not Empty
+*	[eq value,conditionalContent]					# use conditional content if value Empty
 	
 	
 	Parsing and text processing
 	---------------------------
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[splitcount N]									# limit number of splits to N for next split ONLY
-	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
+*	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
 													  can't just use a comma directly. But
@@ -254,9 +259,9 @@ class macro(object):
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
-	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
-	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
-	[center width,padChar,content]					# e.g. [center 7,#,foo] = "##foo"
+*	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
+*	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
+*	[center width,padChar,content]					# e.g. [center 7,#,foo] = "##foo"
 													  negative width means pad both sides:
 														   [center -7,=,foo] = "==foo=="
 
