@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.18
+     Version: 1.0.19
      History:                    (for Class)
+	 	1.0.19
+			* added [capw], [caps], [capt], [inter]
 	 	1.0.18
 			* added (sep=X,) option to [push]
 	 	1.0.17
@@ -259,6 +261,10 @@ class macro(object):
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
+	[caps content]									# Capitalize first letter of first word
+	[capw content]									# Capitalize first letter of every word
+	[capt content]									# Use title case (The U.S. Government Printing Office Style Manual)
+	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
 *	[center width,padChar,content]					# e.g. [center 7,#,foo] = "##foo"
@@ -388,6 +394,9 @@ class macro(object):
 		self.parms = []
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
+		self.notcase = ['a','an','the','at','by','for',
+						'in','of','on','to','up','and','as',
+						'but','or','nor']
 		self.result = ''
 		self.lipath = ''
 		self.splitCount = 0
@@ -617,6 +626,62 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def cap_fn(self,tag,data):
+		o = ''
+		if data != '':
+			o = data[:1].capitalize() + data[1:].lower()
+		return o
+
+	# [inter iChar,L|R,everyN,content]
+	def inter_fn(self,tag,data):
+		o = ''
+		ll = data.split(',',3)
+		if len(ll) == 4:
+			try:
+				iChar = ll[0]
+				lr = ll[1].lower()
+				n = int(ll[2])
+				content = ll[3]
+			except:
+				pass
+			else:
+				if iChar != '':
+					if lr == 'l' or lr == 'r':
+						ct = 0
+						oc = ''
+						if lr == 'r':
+							content = content[::-1]
+						for c in content:
+							oc += c
+							ct += 1
+							if ct == n:
+								oc += iChar
+								ct = 0
+						if lr == 'r':
+							oc = oc[::-1]
+						o = oc
+		return o
+
+	def capw_fn(self,tag,data):
+		return data.title()
+
+	def tcase_fn(self,tag,data):
+		o = ''
+		data = data.lower()
+		wlist = data.split(' ')
+		for w in wlist:
+			if o != '':
+				o += ' '
+			cap = True
+			for ncw in self.notcase:
+				if ncw == w:
+					cap = False
+					break
+			if cap == True:
+				w = w.capitalize()
+			o += w
+		return o
 
 	def back_fn(self,tag,data):
 		self.setBack(data)
@@ -1332,12 +1397,18 @@ The contents of the list are safe to include in the output if you like.
 		if n < 0: n = 0
 		if n < l:
 			o = self.stack[-(n+1)]
-#		o += ' stack is %d, fetch was %d ' % (l,n)
 		return o
 
 	def push_fn(self,tag,data):
+		o = ''
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
 		if data != '':
-			dats = data.split(',',1)
+			dats = data.split(sep,1)
 			if len(dats) == 1:
 				r = 1
 				dats += [data]
@@ -1746,6 +1817,10 @@ The contents of the list are safe to include in the output if you like.
 					'rjust'	: self.rjust_fn,	# [rjust width,padChar,content]
 					'ljust'	: self.ljust_fn,	# [ljust width,padChar,content]
 					'center': self.center_fn,	# [center width,padChar,content]
+					'capt'	: self.tcase_fn,	# [capt joe and a dog] = "Joe and a Dog"
+					'caps'	: self.cap_fn,		# [caps joe and a dog] = "Joe and a dog"
+					'capw'	: self.capw_fn,		# [capw joe and a dog] = "Joe And A Dog"
+					'inter'	: self.inter_fn,	# [inter iChar,L|R,everyN,content]
 
 					# Miscellaneous
 					# -------------

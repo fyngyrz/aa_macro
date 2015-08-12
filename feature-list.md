@@ -80,6 +80,10 @@
 	* Replace (sub)string with string
 	* Left and right justification
 	* Centering
+	* Word casing - Tropic Of Consumption
+	* Sentence casing - Tropic of consumption
+	* Title casing - Tropic of Consumption
+	* String interspersion
   * Variables
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing

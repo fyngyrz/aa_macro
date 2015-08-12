@@ -16,7 +16,6 @@ Generally complete to description at (Github's Cheatsheet)[https://enterprise.gi
 
 ## To Do for standard markdown processing
 
-* markdown doesn't specify image sizes, but we COULD if we can find them
 * hrules: `--- - - - *** * * * ___ _ _ _`
 * `&quot;` should be untouched! don't entity-up amps in entities, but otherwise, do
 * <> only converted if not as a tag or thrown out in link-link syntax

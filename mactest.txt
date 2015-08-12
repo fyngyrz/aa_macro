@@ -199,6 +199,13 @@ I have a [upper [roman 427]] Hemi ox-cart
 '[center -7,-,xyz]' odd in odd, pad both sides
 '[center -7,-,wxyz]' even in odd, pad both sides
 '[center -8,-,xyz]' odd in even, pad both sides
+[capt joe and the dog]
+[capt tropic OF consumption]
+[capt joe and a dog]
+[capw joe and a dog]
+[caps joe and a dog]
+[inter -,L,4,1234567890]
+[inter -,R,4,1234567890]
 
 {h2 Miscellanea}
 [p 

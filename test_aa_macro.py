@@ -39,7 +39,7 @@ def diffme(fna,fnb,barlen):
 			line = nocrlf(line) # terminating cr/lf removed
 			if line[0] == '-':
 				out = c.c('-',missingcolor) + c.c(' "',quotecolor) + c.c(line[2:],'aqua')+c.c('"',quotecolor)
-			else:
+			elif line[0] == '+':
 				out = c.c('+',addedcolor) + c.c(' "',quotecolor) + c.c(line[2:],'aqua')+c.c('"',quotecolor)
 			out += '\n'
 			sys.stdout.write(out)

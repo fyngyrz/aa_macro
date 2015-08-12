@@ -30,7 +30,7 @@ This is the easy one:
 ```
 
  * That's an entry in a function table. :\)
- * In the table put the tag string (`'p'` in this case) See `p_fn` entry for howto.
+ * In the table put the tag string \(`'p'` in this case\) See `p_fn` entry for howto.
 The tag string must not contain spaces or newlines.
  * After the tag string, put a colon \( ':' \) See `p_fn` entry for howto.
  * Put the name of your function, preceded by `self.` See `p_fn` entry for howto.
@@ -201,6 +201,21 @@ In aid of this, you can ask me questions if you need to. My email address is in
 aa_macro.py so it's pretty easy to do. I will answer any even remotely
 reasonable question that isn't of the "how do I write Python" variety. I also
 take interesting suggestions under consideration.
+
+## Using the unit tests
+
+Here's the basic process:
+
+1) Add your functionality to class macro\(\)
+1) Add one or more good examples to mactest.txt
+1) Run test\_aa\_macro.py and observe the result\(s\)
+1) if not what you wanted, recode and repeat step 4
+1) Once the results are what you desire do this:  
+`cp badoutput.html expected.html`
+1) Run test\_aa\_macro.py again; now it incorporates
+your results. All done!
+
+## In Closing
 
 Thanks for taking a look at my macro() class. Time is the most valuable thing
 we have. I truly appreciate you spending some of yours on this, and that
