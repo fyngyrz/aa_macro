@@ -26,7 +26,6 @@
 	  * Parameter parsing
 	  * Literal / Scalar discrimination (e.g. literal / $variable)
 	  * Custom escape sequences
-	  * 
   * Can replace any built-in \(see built-ins, below\)
   * Fully independent namespace
 
@@ -84,6 +83,10 @@
 	* Sentence casing - Tropic of consumption
 	* Title casing - Tropic of Consumption
 	* String interspersion
+	* sort lines:
+      * case-sensitive
+      * case-insensitive
+      * by integer at start of line
   * Variables
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing

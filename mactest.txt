@@ -206,6 +206,21 @@ I have a [upper [roman 427]] Hemi ox-cart
 [caps joe and a dog]
 [inter -,L,4,1234567890]
 [inter -,R,4,1234567890]
+[ssort fred
+zander
+larry
+Marge
+ben]
+[sisort fred
+zander
+larry
+Marge
+ben]
+[issort 5,fred
+4,zander
+2,larry
+3,Marge
+1,ben]
 
 {h2 Miscellanea}
 [p 

@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 11th, 2015     (for Class)
-  LastDocRev: August 11th, 2015     (for Class)
+     LastRev: August 13th, 2015     (for Class)
+  LastDocRev: August 13th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.19
+     Version: 1.0.20
      History:                    (for Class)
+	 	1.0.20
+			* added [ssort], [sisort], [issort]
 	 	1.0.19
 			* added [capw], [caps], [capt], [inter]
 	 	1.0.18
@@ -264,6 +266,9 @@ class macro(object):
 	[caps content]									# Capitalize first letter of first word
 	[capw content]									# Capitalize first letter of every word
 	[capt content]									# Use title case (The U.S. Government Printing Office Style Manual)
+	[ssort content]									# sort lines cases-INsensitive
+	[sisort content]								# sort lines cases-sensitive
+	[issort content]								# sort lines by leading integer,comma,content
 	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
@@ -1255,6 +1260,18 @@ The contents of the list are safe to include in the output if you like.
 			pass
 		return ''
 
+	# [issort content]
+	def issort_fn(self,tag,data):
+		o = ''
+		try:
+			ll = data.split('\n')
+			ll.sort(key=self.pullint)
+			for el in ll:
+				o += el+'\n'
+		except:
+			pass
+		return o
+
 	# [asort listName]
 	def asort_fn(self,tag,data):
 		try:
@@ -1263,6 +1280,18 @@ The contents of the list are safe to include in the output if you like.
 			pass
 		return ''
 
+	# [ssort content]
+	def ssort_fn(self,tag,data):
+		o = ''
+		try:
+			ll = data.split('\n')
+			ll.sort()
+			for el in ll:
+				o += el+'\n'
+		except:
+			pass
+		return o
+
 	# [aisort listName]
 	def aisort_fn(self,tag,data):
 		try:
@@ -1270,6 +1299,19 @@ The contents of the list are safe to include in the output if you like.
 		except:
 			pass
 		return ''
+
+
+	# [ssort content]
+	def sisort_fn(self,tag,data):
+		o = ''
+		try:
+			ll = data.split('\n')
+			ll.sort(key=str.lower)
+			for el in ll:
+				o += el+'\n'
+		except:
+			pass
+		return o
 
 	# [dlist (style=styleName,)listName]
 	def dlist_fn(self,tag,data):
@@ -1821,6 +1863,9 @@ The contents of the list are safe to include in the output if you like.
 					'caps'	: self.cap_fn,		# [caps joe and a dog] = "Joe and a dog"
 					'capw'	: self.capw_fn,		# [capw joe and a dog] = "Joe And A Dog"
 					'inter'	: self.inter_fn,	# [inter iChar,L|R,everyN,content]
+					'ssort'	: self.ssort_fn,	# [ssort content] - sorts lines case-sensitive
+					'sisort': self.sisort_fn,	# [sisort content] - sorts lines case-INsensitive
+					'issort': self.issort_fn,	# [issort content] - sorts lines by leading integer string
 
 					# Miscellaneous
 					# -------------
