@@ -1,9 +1,13 @@
 # [aa\_macro.py](aa_macro.py) -- class macro()
 
-This class provides a means for you to generate HTML using Python as
-the intermediary engine. There are no external dependencies that aren't
-actually part of the Python distribution so it is extremely lightweight
-and trivially installed &mdash; just drop the `aa_macro.py` file in and you're done.
+> Also see: [project file descriptions](files.md)
+
+This class provides a means for you to generate HTML or other types of
+text documents using Python as the intermediary engine. There are no
+external dependencies that aren't actually part of the Python
+distribution. Consequently the class is relatively lightweight and
+trivially installed &mdash; just drop the `aa_macro.py` file in and
+you're done.
 
 > Don't be intimidated by the number of files in the repo; everything
 except [aa_macro.py](aa_macro.py) is either documentation, sample files,

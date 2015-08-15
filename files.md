@@ -22,3 +22,4 @@ File | Project Component
 [test_aa_macro.py](test_aa_macro.py) | Unit tests
 [testing.README.md](testing.README.md) | General explanation of unit tests
 [todo.md](todo.md) | List of remaining project goals
+[users-guide.md](users-guide.md) | How to use class `macro()` to process text
