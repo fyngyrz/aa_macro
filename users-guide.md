@@ -490,62 +490,126 @@ Using styles, you can create something quite friendly...
 ...then it's just:
 
     {addvars x y} = "9"
+
 ### Conditionals
 
-**\[even\]**  
-**\[odd\]**  
-**\[if\]**  
-**\[else\]**  
-**\[ne\]**  
-**\[eq\]**  
+**\[even value conditionalContent\]**  
+"value" is numeric. If it is even, conditionalContent is the result. If the
+value is odd, then there is no result.
+
+**\[odd value conditionalContent\]**  
+"value" is numeric. If it is odd, conditionalContent is the result. If the
+value is even, then there is no result.
+
+**\[if value match conditionalContent\]**  
+When value and match are identical, conditionalContent is the result.
+Otherwise, there is no result.
+
+**\[else value notMatch conditionalContent\]**  
+When value and match are not identical, conditionalContent is the result.
+Otherwise, there is no result.
+
+**\[ne value,conditionalContent\]**  
+When value has no content, conditionalContent is the result.
+Otherwise, there is no result.
+
+**\[eq value,conditionalContent\]**  
+When value has content, conditionalContent is the result.
+Otherwise, there is no result.
 
 ### Parsing and Text Processing
 
 **\[slice\]**  
+
 **\[splitcount\]**  
+
 **\[\split]**  
+
 **\[parm\]**  
+
 **\[upper\]**  
+
 **\[lower\]**  
+
 **\[roman\]**  
+
 **\[chr\]**  
+
 **\[ord\]**  
+
 **\[csep\]**  
+
 **\[fcsep\]**  
+
 **\[dup\]**  
+
 **\[find\]**  
+
 **\[replace\]**  
+
 **\[caps\]**  
+
 **\[capw\]**  
+
 **\[capt\]**  
+
 **\[ssort\]**  
+
 **\[sisort\]**  
+
 **\[issort\]**  
+
 **\[inter\]**  
+
 **\[rjust\]**  
+
 **\[ljust\]**  
+
 **\[center\]**  
 
 ### Miscellanea
 
 **\[repeat\]**  
+
 **\[comment\]**  
+
 **\[back\]**  
+
 **\[mode\]**  
 
 ### Escapes
 
 **\[co\]**  
+The comma character.
+
 **\[sp\]**  
+The space.
+
 **\[lb\]**  
+The left square bracket character.
+
 **\[rb\]**  
+The right square bracket character.
+
 **\[ls\]**  
+The left squiggly brace character.
+
 **\[rs\]**  
+The right squiggly brace character.
+
 **\[lf\]**  
+The line feed charaacter.
 
 ## Styles
 
 **\[style styleName styleContent\]**  
+This defines a style of styleName. See "Using Styles, below".
+
 **\[s styleName\( content\)\]**  
+This invokes a style of styleName with the content, if any. This
+is *not* the preferred method, however; please use the next method:
+
 **\{styleName\( content\)\}**  
+This invokes a style of styleName with the content if any.
+ See "Using Styles, below"
 
