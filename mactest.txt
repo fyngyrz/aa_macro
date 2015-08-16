@@ -186,6 +186,16 @@ I have a [upper [roman 427]] Hemi ox-cart
 [dlist style=quotes,nunsorted]
 [style nonquotes [splitcount 1][split [co],[b]]"[parm 1]" ]  
 [dlist style=nonquotes,nunsorted]
+
+{h2 Data Dictionaries}
+[dict mydict,foo:bar,gee:whiz]'
+gee="[d mydict,gee]"
+foo="[d mydict,foo]"
+bip="[d mydict,bip]"
+resetting foo...\n[setd mydict,foo:guggle]'
+foo="[d mydict,foo]"
+
+{h2 Text Processing}
 [dup 3,foo]
 [rstrip testing 3   ]
 [find ani,pusilanimous]
@@ -204,6 +214,8 @@ I have a [upper [roman 427]] Hemi ox-cart
 [capt joe and a dog]
 [capw joe and a dog]
 [caps joe and a dog]
+[list cvt,HTML,Python,PHP]
+[scase cvt,I prefer html, and python, to Html and php.]
 [inter -,L,4,1234567890]
 [inter -,R,4,1234567890]
 [ssort fred
@@ -226,3 +238,4 @@ ben]
 [p 
 [repeat 5 five ]test1[comment Invisible Me]
 ]
+

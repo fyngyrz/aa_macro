@@ -2568,3 +2568,20 @@ bar}
 
 	xprint("Example 32 -- Data dictionaries")
 	print mod.do(test)
+
+	test  = ''
+	test += '[style sline [center -[v csize],#, [b] ]\n]'
+	test += '[style cline # [ljust [sub [v csize] 4], ,[b]] #\n]'
+	test += '[style eline [dup [v csize],#]\n]'
+
+	test += '[local csize 31]'
+	test += '{sline Comment Block}'
+	test += '{cline}'
+	test += '{cline This is a comment block.}'
+	test += '{cline and this is more of it.}'
+	test += '{cline ditto.}'
+	test += '{cline}'
+	test += '{eline}'
+	xprint("Example 33 -- Justice: Just Justifying justification, Justin.")
+	print mod.do(test)
+

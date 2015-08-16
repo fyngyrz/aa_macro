@@ -790,7 +790,7 @@ sides:
 This is kind of fun; building a variable-width
 comment block in the style of coders everywhere:
 
-    [style sline [center [v csize]31,#, [b] ]]
+    [style sline [center -[v csize],#, [b] ]]
 	[style cline # [ljust [sub [v csize] 4], ,[b]] #]
 	[style eline [dup [v csize],#]]
 
