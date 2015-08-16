@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 13th, 2015     (for Class)
-  LastDocRev: August 13th, 2015     (for Class)
+     LastRev: August 16th, 2015     (for Class)
+  LastDocRev: August 16th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.20
+     Version: 1.0.21
      History:                    (for Class)
+	 	1.0.21
+			* added [scase]
 	 	1.0.20
 			* added [ssort], [sisort], [issort]
 	 	1.0.19
@@ -201,6 +203,7 @@ class macro(object):
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[dlist (style=x,)listName]						# output list, optionally wrapped with STYLE
 	[translate listName,text]						# characters are mapped to listName (see examples)
+	[scase listName,content]						# Case words as they are cased in listName
 	[list (sep=X,)listName,item(Xitem)]				# Create list: sep default: ','
 													  [list mylist,a,b,c]
 													  [list sep=|,myblist,nil|one|2|0011|IV|sinco]
@@ -211,6 +214,12 @@ class macro(object):
 	[aisort listName]								# sort the list as case-insensitive text
 	[isort (sep=x,)listName]						# sort the list according to a leading numeric value
 													  ie [1,this thing][2,that thing] sep default: ','
+
+	Dictionaries
+	------------
+	[dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)] # create multivalue dictionary
+	[dset (keysep=Y,)dictName,keyYvalue]			# set a single dictionary value (can create dict)
+	[d dictName,key]								# retrieve a single dictionary value
 
 	Stack
 	-----
@@ -266,6 +275,7 @@ class macro(object):
 	[caps content]									# Capitalize first letter of first word
 	[capw content]									# Capitalize first letter of every word
 	[capt content]									# Use title case (The U.S. Government Printing Office Style Manual)
+	[specialcase listName,content]					# Case words as they are cased in listName
 	[ssort content]									# sort lines cases-INsensitive
 	[sisort content]								# sort lines cases-sensitive
 	[issort content]								# sort lines by leading integer,comma,content
@@ -391,6 +401,7 @@ class macro(object):
 		self.setFuncs()
 		self.resetLocals()
 		self.resetLists()
+		self.resetDicts()
 		self.resetGlobals()
 		self.placeholder = 'Q|zXaH7RppY#32m' # hopefully you'll never use this string, lol
 		self.styles = {}
@@ -580,6 +591,9 @@ The contents of the list are safe to include in the output if you like.
 	def resetLocals(self):
 		self.theLocals = {}
 
+	def resetDicts(self):
+		self.theDicts = {}
+
 	def resetLists(self):
 		self.theLists = {}
 
@@ -631,6 +645,65 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def dict_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['keysep','sep'],data)
+		wraps = ''
+		sep = ','
+		keysep = ':'
+		for el in opts:
+			if el[0] == 'keysep=':
+				keysep = el[1]
+			elif el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return o
+		parms = data.split(',',1)
+		if len(parms) != 2: return o
+		lname = parms[0]
+		data = parms[1]
+		els = data.split(sep)
+		if len(els) == 0: return o
+		for el in els:
+			kv = el.split(keysep,1)
+			if len(kv) != 2: return o
+			key = kv[0]
+			val = kv[1]
+			if key == '': return o
+			ldict = self.theDicts.get(lname,{})
+			ldict[key] = val
+			self.theDicts[lname] = ldict
+		return o
+
+	def d_fn(self,tag,data):
+		o = ''
+		parms = data.split(',',1)
+		if len(parms) == 2:
+			ldict = self.theDicts.get(parms[0],{})
+			o = ldict.get(parms[1],'')
+		return o
+
+	# [setd (keysep=X,)dictName,keyXvalue]
+	def setd(self,tag,data):
+		o = ''
+		opts,data = self.popts(['keysep'],data)
+		keysep = ':'
+		for el in opts:
+			if el[0] == 'keysep=':
+				keysep = el[1]
+		parms = data.split(',',1)
+		if len(parms) == 2:
+			lname = parms[0]
+			if len(lname) != 0:
+				kv = parms[1].split(keysep)
+				if len(kv) == 2:
+					key = kv[0]
+					val = kv[1]
+					if key != '':
+						ldict = self.theDicts.get(lname,{})
+						ldict[key] = val
+						self.theDicts[lname] = ldict
+		return o
 
 	def cap_fn(self,tag,data):
 		o = ''
@@ -1252,6 +1325,54 @@ The contents of the list are safe to include in the output if you like.
 			n = 0
 		return n
 
+	def specialcase(self,word,theList):
+		wordm = word
+		xword = ''
+		for c in word:
+			if ((c >= 'A' and c <= 'Z') or
+				(c >= 'a' and c <= 'z') or
+				(c >= '0' and c <= '9')):
+				xword += c
+		lel = xword.lower()
+		repl = False
+		try:
+			for w in theList:
+				lw = w.lower()
+				if lel == lw:
+					xword = w
+					repl = True
+					break
+		except:
+			pass
+		if repl == True:
+			word = ''
+			dex = -1
+			ldex = 0
+			sdex = -1
+			for c in wordm:
+				dex += 1
+				if ((c >= 'A' and c <= 'Z') or
+					(c >= 'a' and c <= 'z') or
+					(c >= '0' and c <= '9')):
+					sdex += 1
+					word += xword[sdex]
+				else:
+					word += c
+		return word
+
+	def scase_fn(self,tag,data):
+		o = ''
+		plist = data.split(',',1)
+		if len(plist) == 2:
+			wlist = plist[1].split(' ')
+			clist = self.theLists[plist[0]]
+			for w in wlist:
+				w = self.specialcase(w,clist)
+				if o != '':
+					o += ' '
+				o += w
+		return o
+
 	# [isort listName]
 	def isort_fn(self,tag,data):
 		try:
@@ -1752,6 +1873,11 @@ The contents of the list are safe to include in the output if you like.
 					'q'		: self.q_fn,		# Wrap content in HTML-entity quotes
 					'bq'	: self.bq_fn,		# P1 is an HTML blockquote
 
+					# Data dictionary handling
+					'dict'	: self.dict_fn,		# [dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)]
+					'setd'	: self.setd,		# [setd (keysep=Y,)dictName,keyYvalue]
+					'd'		: self.d_fn,		# [d dictName,key] = "value"
+
 					# Data list handling
 					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]
 					'e'		: self.element_fn,	# fetch element:[e listName,n] = list[n]
@@ -1862,6 +1988,7 @@ The contents of the list are safe to include in the output if you like.
 					'capt'	: self.tcase_fn,	# [capt joe and a dog] = "Joe and a Dog"
 					'caps'	: self.cap_fn,		# [caps joe and a dog] = "Joe and a dog"
 					'capw'	: self.capw_fn,		# [capw joe and a dog] = "Joe And A Dog"
+					'scase'	: self.scase_fn,	# [scase listName,content]
 					'inter'	: self.inter_fn,	# [inter iChar,L|R,everyN,content]
 					'ssort'	: self.ssort_fn,	# [ssort content] - sorts lines case-sensitive
 					'sisort': self.sisort_fn,	# [sisort content] - sorts lines case-INsensitive
@@ -2384,4 +2511,60 @@ bar}
 	test += '[style fullname You provided [q [b]]<br>\n[split [co],[b]]First name: [parm 0]<br>\n Last name: [parm 1]<br>]'
 	test += '{fullname John,Doe}'
 	xprint("Example 26 -- Using multiple parameters within a style")
+	print mod.do(test)
+
+	# How to use parameters:
+	# ----------------------
+	test = ''
+	test += '[style addvars [split  ,[b]][add [v [parm 0]] [v [parm 1]]]]'
+	test += '[local a 4]'
+	test += '[local b 5]'
+	test += 'a + b = {addvars a b}\n'
+	xprint("Example 27 -- using parameters as variables")
+	print mod.do(test)
+
+	# Practical use:
+	# --------------
+	test  = ''
+	test += '[style v [if [slice :1,[b]] $ [v [slice 1:,[b]]]][else [slice :1,[b]] $ [b]]]'
+	test += '[style add [split  ,[b]][add {v [parm 0]} {v [parm 1]}]]'
+	test += '[local x 5]'
+	test += '[local y 4]'
+	test += '$x == {v $x}\n'
+	test += '$y == {v $y}\n'
+	test += '$x + 3 = {add $x 3}\n'
+	test += '$x + $y = {add $x $y}\n'
+	test += '2 + $y = {add 2 $y}\n'
+	xprint("Example 28 -- Practical variable and scalar use")
+	print mod.do(test)
+
+	test  = '[list cvt,HTML,Python,PHP]'
+	test += '[scase cvt,I prefer html, and python, to Html and php.\n]'
+	xprint("Example 29 -- Special casing words")
+	print mod.do(test)
+
+	test  = ''
+	test += '[list cvt,PooBah,L00kyLoo]'
+	test += "[scase cvt,He's the grand poo-bah!\n]"
+	test += "[scase cvt,She's just a l00ky-loo: Really!\n]"
+	xprint("Example 30 -- Special casing words with embedded special characters")
+	print mod.do(test)
+
+	test  = ''
+	test += '[slice 3:6,foobarbip]\n'
+	test += '[slice :3,foobarbip]\n'
+	test += '[slice :-1,foobarbip]\n'
+	test += '[slice ::-1,foobarbip]\n'
+	xprint("Example 31 -- Slicing content")
+	print mod.do(test)
+
+	test  = ''
+	test += '[dict mydict,foo:bar,gee:whiz]'
+	test += 'gee="[d mydict,gee]"\n'
+	test += 'foo="[d mydict,foo]"\n'
+	test += 'bip="[d mydict,bip]"\n'
+	test += 'resetting foo...\n[setd mydict,foo:guggle]'
+	test += 'foo="[d mydict,foo]"\n'
+
+	xprint("Example 32 -- Data dictionaries")
 	print mod.do(test)

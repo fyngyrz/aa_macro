@@ -63,6 +63,10 @@
     * output a list item
     * create an 8-bit character map
     * translate by the character map
+  * Data dictionaries
+    * Create dictionary
+	* Set dictionary value
+	* Retrieve dictionary value
   * Tables
     * Header cells / lines
 	* Standard cells / lines
@@ -82,6 +86,7 @@
 	* Word casing - Tropic Of Consumption
 	* Sentence casing - Tropic of consumption
 	* Title casing - Tropic of Consumption
+	* Special casing - html to HTML, internet to Internet, etc.
 	* String interspersion
 	* sort lines:
       * case-sensitive

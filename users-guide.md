@@ -53,7 +53,7 @@ brackets. Here's how to do italics:
 
 What happens is that the built-in named "i" receives "my text" as *content.*
 It then wraps HTML italics tags around that content, and returns it that
-way: "<i>my text</i>"
+way: "`<i>my text</i>`"
 
 The notation I use to show this in this document is:
 
@@ -61,7 +61,7 @@ The notation I use to show this in this document is:
 
 ### Styles
 
-Styles also have names and recieve content, but the difference is that *you*
+Styles also have names and receive content, but the difference is that *you*
 define the names and how the content is handled. You can use one style within
 another, or you can use built-ins, or mix them up. Here's how you might
 go about creating the exact same functionality as the \[i content\] built-in
@@ -96,7 +96,7 @@ The content is wrapped with HTML paragraph tags:
 **\[bq content\]**  
 The content is wrapped with HTML blockquote tags:
 
-    [bq my verbiage] = <blockquote>my verbiage</blockquote.
+    [bq my verbiage] = <blockquote>my verbiage</blockquote>
 
 **\[b content\]**  
 The content is wrapped with HTML bold tags, or a span if in HTML 4.01s mode:
@@ -451,7 +451,7 @@ This emtpies the stack; all content is discarded.
 ### Math
 
 The math capabilities are underwhelming used by themselves, but in combination
-with variables, they come into their own. First, the operations:
+with styles and variables, they come into their own. First, the operations:
 
 **\[add value addend\]**  
 
@@ -477,19 +477,38 @@ with variables, they come into their own. First, the operations:
 
     [dec 5] = "4"
 
-So with these, you can do things like this:
+So with these, you can directly do things with variables such as this:
 
     [local x 5]
 	[local y 4]
 	[add [v x] [v y]] = "9"
 
-Using styles, you can create something quite friendly...
+Using styles, you can create something more friendly that uses
+vaariables. The following example splits the content passed to the style
+into two parameters based upon a single space. The parameters are then
+provided as the two terms for the add:
 
-    [style addvars [split sep= ,[b]][add [v [parm 1]] [v [parm 2]]]]
+    [style addvars [split  ,[b]][add [v [parm 0]] [v [parm 1]]]]
 
 ...then it's just:
 
     {addvars x y} = "9"
+
+You probably want the freedom to mix variables and scalars; that's not
+difficult to arrange either. The following style does the job based upon
+the presence of a leading "$" or lack thereof:
+
+    [style v [if [slice :1,[b]] $ [v [slice 1:,[b]]]][else [slice :1,[b]] $ [b]]]
+
+With that style available, you can now create this:
+
+    [style addvars [split  ,[b]][add {v [parm 0]} {v [parm 1]}]]
+
+Which you would use as follows:
+
+	{addvars $x 3} = "8"
+	{addvars $x $y} = "9"
+	{addvars 2 $y} = "6"
 
 ### Conditionals
 
@@ -497,61 +516,184 @@ Using styles, you can create something quite friendly...
 "value" is numeric. If it is even, conditionalContent is the result. If the
 value is odd, then there is no result.
 
+	[if 1,testing] = ""
+    [if 2,testing] = "testing"
+
 **\[odd value conditionalContent\]**  
 "value" is numeric. If it is odd, conditionalContent is the result. If the
 value is even, then there is no result.
+
+	[if 1,testing] = "testing"
+    [if 2,testing] = ""
 
 **\[if value match conditionalContent\]**  
 When value and match are identical, conditionalContent is the result.
 Otherwise, there is no result.
 
+    [if foo,bar,testing] = ""
+	[if foo,foo,testing] = "testing"
+
 **\[else value notMatch conditionalContent\]**  
 When value and match are not identical, conditionalContent is the result.
 Otherwise, there is no result.
+
+    [else foo,bar,testing] = "testing"
+	[else foo,foo,testing] = ""
 
 **\[ne value,conditionalContent\]**  
 When value has no content, conditionalContent is the result.
 Otherwise, there is no result.
 
+    [ne ,testing] = "testing"
+	[ne foo,testing] = ""
+
 **\[eq value,conditionalContent\]**  
 When value has content, conditionalContent is the result.
 Otherwise, there is no result.
 
+    [eq ,testing] = ""
+	[eq foo,testing] = "testing"
+
 ### Parsing and Text Processing
 
-**\[slice\]**  
+**\[slice sliceSpec,content\]**  
+This built-in returns a portion of the content. It works just like
+Python's slicing:
 
-**\[splitcount\]**  
+    [slice 3:6,foobarbip] = "bar"
+	[slice :3,foobarbip] = "foo"
+	[slice :-1,foobarbip = "foobarbi"
+	[slice ::-1,foobarbip] = "pibraboof"
 
-**\[\split]**  
+Inasmuch as that last one reverses the string, the following style
+seems almost too obvious:
 
-**\[parm\]**  
+    [style reverse [slice ::-1,[b]]]
+	{reverse xyzzy} = "yzzyx"
 
-**\[upper\]**  
+**\[splitcount n\]**  
 
-**\[lower\]**  
+**\[\split X,item\(Xitem\)]**  
+The split built-in takes content and splits it for use by the \[parm\] built-in.
+The idea is that for some styles, you will want to pass more than one parameter,
+as shown in the math examples above. It takes a separator parameter, and then
+the content to be split. You can specify anything you like as the separator,
+although to use a comma, you must use the comma escape, "\[co\]"
 
-**\[roman\]**  
+    [split |,ben|larry|joe]
+	[parm 2] = "joe"
+	[parm 1] = "larry"
+	[parm 0] = "ben"
 
-**\[chr\]**  
+    [split [co],Sheila,Michelle,Shevaughn]
+	[parm 2] = "Shevaughn"
+	[parm 1] = "Michelle"
+	[parm 0] = "Sheila"
 
-**\[ord\]**  
+**\[parm n\]**  
+See \[split\], above.
 
-**\[csep\]**  
+**\[upper content\]**  
+Convert content to upper case:
 
-**\[fcsep\]**  
+    [upper thIs Is a test] = "THIS IS A TEST"
 
-**\[dup\]**  
+**\[lower content\]**  
+Convert content to upper case:
+
+    [lower thIs Is a test] = "this is a test"
+
+**\[roman decNumber\]**  
+Convert a decimal number to a roman numeral:
+
+    [roman 9] = 'ix'
+	[upper [roman 14]] = "XIV"
+
+**\[chr n\]**  
+Convert a number from 0-255 to the associated ASCII character:
+
+    [chr 65] = "A"
+	[chr 48] = "0"
+
+**\[ord character\]**  
+Convert an ASCII character to it's associated ASCII ordinal:
+
+    [ord A] = "65"
+	[ord 0] = "48"
+
+**\[csep intNumber\]**  
+Comma-separate an integer:
+
+    [csep 1999333] = "1,999,333"
+
+**\[fcsep floatNumber\]**  
+Comma-separate a floating point number:
+
+    [fcsep 1999333.01] = "1,999,333.01"
+
+**\[dup n,content\]**  
+Duplicate the content.
+
+    [dup 5 foo] = "foofoofoofoofoo"
+
+Note that this is *not* the same as \[repeat\].
+\[dup\] evaluates the content and *then* duplicates it;
+\[repeat\] \(re-\)evaluates the content on each repeat. They can
+produce significantly different results when the content alters variables
+or lists. Here's an example of such a difference:
+
+    [local counter 1]
+	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
+	[dup 3,{counter}] = "1: 1: 1: "
+	[repeat 3,{counter}] = "1: 2: 3:"
 
 **\[find\]**  
 
 **\[replace\]**  
 
 **\[caps\]**  
+Convert content to sentence case:
+
+    [caps thIs Is a test] = "This is a test"
 
 **\[capw\]**  
+Convert content to Word case:
+
+    [capw thIs Is a test] = "This Is A Test"
 
 **\[capt\]**  
+Convert content to title case:
+
+    [capt thIs Is a test] = "This is a Test"
+
+This built-in uses a list of the USG standard lower-cased words
+to create sentence-cased output. You can alter the lower cased word
+list by changing the class variable `.notcase` similar to this:
+
+    mod = macro()
+	mod.notcase = ['an','a','the','test']
+
+After doing that, \[capt\] will only lower case those four words, while
+every other word will be capitalized:
+
+    [capt thIs Is a test] = "This Is a Test"
+
+**\[scase\]**  
+Convert space-separated words, minding embedded and attached special
+characters, in content to specially cased words in a list. First you set
+up a list containing words exactly as you want them converted. The you
+use \[specialcase\] on the content. Words that match the list's words
+will be converted to the case of the word as it exists in the list.
+
+    [list cvt HTML,PHP,Internet]
+	[scase cvt,The internet uses Html, and php.] = "The Internet uses HTML, and PHP."
+
+If a word is hypenated or otherwise has a non-alpha, non-numeric character embedded
+in it, that word goes in the list *without* the special character:
+
+    [list cvt,PooBah,L00kyLoo]
+	[scase cvt,He's the grand poo-bah: Really!] = "He's the grand Poo-Bah: Really!"
+	[scase cvt,She's just a l00ky-loo.] = "She's just a Looky-Loo."]
 
 **\[ssort\]**  
 
@@ -569,13 +711,46 @@ Otherwise, there is no result.
 
 ### Miscellanea
 
-**\[repeat\]**  
+**\[repeat n,content\]**  
+Repeat the content.
 
-**\[comment\]**  
+    [repeat 5 foo] = "foofoofoofoofoo"
 
-**\[back\]**  
+Note that this is *not* the same as \[dup\]. \[repeat\] \(re-\)evaluates
+the content on each repeat; \[dup\] evaluates the content and *then*
+duplicates it. They can produce significantly different results when the
+content alters variables or lists. Here's an example of such a
+difference:
 
-**\[mode\]**  
+    [local counter 1]
+	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
+	[dup 3,{numberit}] = "1: 1: 1: "
+	[repeat 3,{numberit}] = "1: 2: 3:"
+
+
+**\[comment remarks\]**  
+Anything inside the comment built-in is thrown away during evaluation.
+
+	[comment this is a test] = ""
+
+Multiline comments may be written by placing a trailing space after the *comment*
+keyword...
+
+	[comment 
+	This is a test,
+	and so is this
+	] = ""
+
+...or by beginning the comment on the same line:
+
+	[comment This is a test,
+	This is a test also,
+	and so is this
+	] = ""
+
+**\[back HEX3|HEX6\]**  
+
+**\[mode 3.2|4.01s\]**  
 
 ### Escapes
 
