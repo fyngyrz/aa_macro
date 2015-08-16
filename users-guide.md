@@ -421,9 +421,31 @@ this capability.
 **\[translate listName,content\]**  
 See \[cmap\], just above
 
+### Data Dictionaries
+
+**\[dict (sep=X,)(keysep=Y)dictName,keyYvalue(XkeyYvalue)\]**  
+This allows you to create a multi-entry dictionary. sep defaults
+to a comma, and keysep defaults to a colon.
+
+    [dict mystuff,foo:bar,this:that,she:he,widget:wodget]
+
+**\[dset (keysep=Y)dictName,keyYvalue\]**  
+This allows you to update or create one item in an existing dictionary,
+or create a dictionary with one item. The keysep defaults to a colon:
+
+    [dset mystuff,widget:thing-a-ma-bob]
+    [dset mystuff,plink:plank, plunk]
+
+**\[d dictName,key\]**
+This allows you to retrive one entry from a dictionary:
+
+    [d mystuff,this] = "that"
+	[d mystuff,widget] = "thing-a-ma-bob"
+	[d mystuff,plink] = "plank, plunk"
+
 ### Stack Operations
 
-**\[push\]**  
+**\[push content\]**  
 Push an element on to the top of the stack:
 
     [push foo]
@@ -572,6 +594,8 @@ seems almost too obvious:
 	{reverse xyzzy} = "yzzyx"
 
 **\[splitcount n\]**  
+Allows you to limit the number of splits that \[split\] will
+perform. See \[split\], below.
 
 **\[\split X,item\(Xitem\)]**  
 The split built-in takes content and splits it for use by the \[parm\] built-in.
@@ -589,6 +613,12 @@ although to use a comma, you must use the comma escape, "\[co\]"
 	[parm 2] = "Shevaughn"
 	[parm 1] = "Michelle"
 	[parm 0] = "Sheila"
+
+	[splitcount 2]
+    [split [co],Jim,Becky Thatcher,Tom Sawyer, and Huckleberry Finn]
+	[parm 0] = "Jim"
+	[parm 1] = "Becky Thatcher"
+	[parm 2] = "Tom Sawyer, and Huckleberry Finn"
 
 **\[parm n\]**  
 See \[split\], above.
@@ -644,24 +674,35 @@ or lists. Here's an example of such a difference:
 
     [local counter 1]
 	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
-	[dup 3,{counter}] = "1: 1: 1: "
-	[repeat 3,{counter}] = "1: 2: 3:"
+	[dup 3,{numberit}]    = "1: 1: 1: "
+	[repeat 3,{numberit}] = "1: 2: 3: "
 
-**\[find\]**  
+**\[find (sep=X,)thisStringXcontent\]**  
+This returns the index of where \(if\) thisString was
+\(not\) found in the content. If not found, the value
+returned is -1.
 
-**\[replace\]**  
+    [find gik,foobarbip] = "-1"
+    [find foo,foobarbip] = "0"
+    [find bar,foobarbip] = "3"
 
-**\[caps\]**  
+**\[replace (sep=X,)repStringXwithStringXcontent\]**  
+This allows you to replace one \(sub\)string in the content
+with another string:
+
+    [replace foo,bar,I went to the foo today] = "I went to the bar today"
+
+**\[caps content\]**  
 Convert content to sentence case:
 
     [caps thIs Is a test] = "This is a test"
 
-**\[capw\]**  
+**\[capw content\]**  
 Convert content to Word case:
 
     [capw thIs Is a test] = "This Is A Test"
 
-**\[capt\]**  
+**\[capt content\]**  
 Convert content to title case:
 
     [capt thIs Is a test] = "This is a Test"
@@ -678,7 +719,7 @@ every other word will be capitalized:
 
     [capt thIs Is a test] = "This Is a Test"
 
-**\[scase\]**  
+**\[scase content\]**  
 Convert space-separated words, minding embedded and attached special
 characters, in content to specially cased words in a list. First you set
 up a list containing words exactly as you want them converted. The you
@@ -695,19 +736,82 @@ in it, that word goes in the list *without* the special character:
 	[scase cvt,He's the grand poo-bah: Really!] = "He's the grand Poo-Bah: Really!"
 	[scase cvt,She's just a l00ky-loo.] = "She's just a Looky-Loo."]
 
-**\[ssort\]**  
+**\[ssort content\]**  
+This sorts lines of content in a case-sensitive manner.
 
-**\[sisort\]**  
+**\[sisort content\]**  
+This sorts lines of content in a case-insensitive manner.
 
-**\[issort\]**  
+**\[issort content\]**  
+This sorts lines of content by an integer followed by a comma
+at the beginning of each line, like this:
 
-**\[inter\]**  
+content:
 
-**\[rjust\]**  
+	5,line 2
+    3,line 1
+	27,line 3
+	1,foo
 
-**\[ljust\]**  
+Output of [issort content]:
 
-**\[center\]**  
+	1,foo
+    3,line 1
+	5,line 2
+	27,line 3
+
+**\[inter iStr,L|R,everyN,content\]**  
+This intersperses iStr within content starting either from the
+left or the right:
+
+    [inter -,L,4,123456789] = "1234-5678-9"
+    [inter -,R,4,123456789] = "1-2345-6789"
+
+**\[rjust width,padChar,content\]**  
+This justifies a string to the right inside a known field-width.
+
+    [rjust 6,#,foo] = "###foo"
+
+**\[ljust width,padChar,content\]**  
+This justifies a string to the left inside a known field-width.
+
+    [ljust 6,#,foo] = "foo###"
+
+**\[center width,padChar,content\]**  
+This justifies a string to the center inside a known field-width.
+
+    [center 9,#,foo] = "###foo"
+
+If you pass width as a negative number, \[center\] will pad both
+sides:
+
+    [center -9,#,foo] = "###foo###"
+
+This is kind of fun; building a variable-width
+comment block in the style of coders everywhere:
+
+    [style sline [center [v csize]31,#, [b] ]]
+	[style cline # [ljust [sub [v csize] 4], ,[b]] #]
+	[style eline [dup [v csize],#]]
+
+	[local csize 31]
+    {sline Comment Block}
+	{cline}
+	{cline This is a comment block.}
+	{cline and this is more of it.}
+	{cline ditto.}
+	{cline}
+	{eline}
+
+The result is:
+
+	######## Comment Block ########
+	#                             #
+	# This is a comment block.    #
+	# and this is more of it.     #
+	# ditto.                      #
+	#                             #
+	###############################
 
 ### Miscellanea
 
@@ -727,6 +831,10 @@ difference:
 	[dup 3,{numberit}] = "1: 1: 1: "
 	[repeat 3,{numberit}] = "1: 2: 3:"
 
+You cannot put \[repeat\] inside a style or define a style within
+\[repeat\].
+
+However, you can *use* styles inside \[repeat\] as shown above.
 
 **\[comment remarks\]**  
 Anything inside the comment built-in is thrown away during evaluation.
@@ -749,8 +857,14 @@ keyword...
 	] = ""
 
 **\[back HEX3|HEX6\]**  
+This sets the background color used by the \[color\] built-in,
+but is only effective in HTML 4.01s mode because it can only
+be set via a span.
 
 **\[mode 3.2|4.01s\]**  
+This controls how some text formatting is specified, basically it
+switches between older style HTML tags and the CSS styles that
+were intended to supercede the older style tags.
 
 ### Escapes
 
@@ -781,10 +895,15 @@ The line feed charaacter.
 This defines a style of styleName. See "Using Styles, below".
 
 **\[s styleName\( content\)\]**  
-This invokes a style of styleName with the content, if any. This
-is *not* the preferred method, however; please use the next method:
+This invokes a style of styleName with the content, if any. This is
+*not* the preferred method, however; please use the next method. With
+that in mind, this capability will not go away, as it is my policy not
+to remove features or make them incompatible with prior usage patterns.
 
 **\{styleName\( content\)\}**  
 This invokes a style of styleName with the content if any.
  See "Using Styles, below"
 
+## Using Styles
+
+Nothing here, yet.
