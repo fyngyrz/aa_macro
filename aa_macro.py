@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.21
+     Version: 1.0.22
      History:                    (for Class)
+	 	1.0.22
+			* added [ltol]
 	 	1.0.21
 			* added [scase]
 	 	1.0.20
@@ -201,9 +203,10 @@ class macro(object):
 	[append listname,item]							# add an item to a list
 	[lset listName,index,stuff]						# set a list item by index (must exist)
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
-	[dlist (style=x,)listName]						# output list, optionally wrapped with STYLE
+	[dlist (style=X,)listName]						# output list, optionally wrapped with style X
 	[translate listName,text]						# characters are mapped to listName (see examples)
 	[scase listName,content]						# Case words as they are cased in listName
+	[ltol listName,content]							# splits lines into a list
 	[list (sep=X,)listName,item(Xitem)]				# Create list: sep default: ','
 													  [list mylist,a,b,c]
 													  [list sep=|,myblist,nil|one|2|0011|IV|sinco]
@@ -645,6 +648,16 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [ltol listName,content]
+	def ltol_fn(self,tag,data):
+		o = ''
+		parms = data.split(',',1)
+		if len(parms) == 2:
+			if parms[0] != '':
+				llist = parms[1].split('\n')
+				self.theLists[parms[0]] = llist
+		return o
 
 	def dict_fn(self,tag,data):
 		o = ''
@@ -1889,6 +1902,7 @@ The contents of the list are safe to include in the output if you like.
 					'asort'	: self.asort_fn,	# [asort listName]
 					'aisort': self.aisort_fn,	# [aisort listName]
 					'isort'	: self.isort_fn,	# [isort listName]
+					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
 
 					# HTML list handling
 					# P1[,P2]...[,Pn]
@@ -2585,3 +2599,17 @@ bar}
 	xprint("Example 33 -- Justice: Just Justifying justification, Justin.")
 	print mod.do(test)
 
+	test  = ''
+	test += '[local csize 25]'
+	test += '[style sline [center -[v csize],#, [b] ]\n]'
+	test += '[style cline # [ljust [sub [v csize] 4], ,[b]] #\n]'
+	test += '[style eline [dup [v csize],#]\n]'
+	test += '[style cctr [ltol blkl,[b]][dlist style=cline,blkl]]'
+	test += '[style cblock [splitcount 1][split [co],[b]]{sline [parm 0]}{cline}{cctr [parm 1]}{cline}{eline}]'
+
+	test += '{cblock The Title,The Body\n'
+	test += 'more body\n'
+	test += 'still more body}'
+
+	xprint("Example 34 -- Justice: Just Justifying justification, Justin, V2.")
+	print mod.do(test)

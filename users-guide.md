@@ -356,6 +356,16 @@ are some list creation examples:
     [list myList,joe,mary,fred,luna]
 	[list sep=|,myList,Michelle|Stella|Terrie]
 
+**\[ltol listName,content\]**
+This splits lines \(text separated by newline characters\) into
+a list:
+
+    [ltol mylist,line 1
+	line 2
+	line 3]
+	[style lwrap ([b]) ]
+	[dlist style=lwrap,mylist] = "(line 1) (line 2) (line 3) "
+
 **\[append listName,item\]**  
 This built-in adds an element to the end of a list:
 
@@ -368,7 +378,7 @@ zero, and the last item index is the length of the list minus one:
 
     [lset myList,2,leroy]
   
-**\[dlist\]**  
+**\[dlist \(wrap=styleName,\)listName\]**  
 Dumps/displays a list, optionally wrapped in a style:
 
     [dlist myList] = joemaryleroylunabetty

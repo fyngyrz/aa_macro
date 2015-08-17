@@ -186,6 +186,10 @@ I have a [upper [roman 427]] Hemi ox-cart
 [dlist style=quotes,nunsorted]
 [style nonquotes [splitcount 1][split [co],[b]]"[parm 1]" ]  
 [dlist style=nonquotes,nunsorted]
+[ltol nlist,line 1
+line 2
+line3]
+[dlist nlist]
 
 {h2 Data Dictionaries}
 [dict mydict,foo:bar,gee:whiz]'

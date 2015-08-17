@@ -53,6 +53,7 @@
 	* Line-Item to List switching capable
   * Data lists
     * set up a list
+	* split lines into list
     * sort list
       * case-sensitive
       * case-insensitive
