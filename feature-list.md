@@ -84,6 +84,7 @@
 	* Replace (sub)string with string
 	* Left and right justification
 	* Centering
+	* Length in lines, words or characters
 	* Word casing - Tropic Of Consumption
 	* Sentence casing - Tropic of consumption
 	* Title casing - Tropic of Consumption

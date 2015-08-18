@@ -60,6 +60,34 @@ The notation I use to show this in this document is:
 
     [i my text] = "<i>my text<\i>"
 
+### Built-in Parameter Handling
+
+Generally, the syntax is, the keyword for the built-in, followed
+by a space, followed by the parameter\(s.\)
+
+If, however, you invoke a built-in that expects parameters with a
+trailing space and no parameter\(s\) after that, it will use the most
+recently encountered parameter\(s.\) If you truly intend to pass no
+content, then follow the built-in with a space. Here's an example using
+the wordcount built-in:
+
+    [local cont this is a test of the emergency broadcast system.]
+
+	[wc [v cont]] = "9"
+	[wc] = "9"
+	[wc ] = "0"
+
+The content there was evaulated *once*, that is, the \[v cont\]
+statement that retrieved the variable `cont` did so when evaluated
+during the first \[wc\] invocation, and that already-evaulated content
+was provided to the second \[wc\] without re-evaulation.
+
+Another example \(in HTML 3.2 mode\):
+
+    [b style [color F84 me]] = "<b>style <font color="#FF8844">me<font></b>"
+    [i] = "<i>style <font color="#FF8844">me<font></i>"
+	[u] = "<u>style <font color="#FF8844">me<font></u>"
+
 ### Styles
 
 Styles also have names and receive content, but the difference is that *you*
@@ -691,6 +719,23 @@ Convert an octal number to a decimal number:
 Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"
+
+**\[len content\]**
+Return the length of content in characters.
+
+    [len foo] = "3"
+
+**\[lc content\]**
+Return the length of content in lines.
+
+    [lc this is a test
+	of the emergency broadcast system] = "2"
+
+**\[wc content\]**
+Return the length of content in words.
+
+    [lc this is a test
+	of the emergency broadcast system] = "9"
 
 **\[chr n\]**  
 Convert a number from 0-255 to the associated ASCII character:

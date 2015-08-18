@@ -167,6 +167,19 @@ I have a [upper [roman 427]] Hemi ox-cart
 11 hex to dec: [htodec 11]
 11 oct to dec: [otodec 11]
 11 bin to dec: [btodec 11]
+[local cont this is a test
+of the emergency broadcast system]
+content:
+[v cont]
+lines: [lc [v cont]]
+words: [wc [v cont]]
+chars: [len [v cont]]
+[lc]
+[wc]
+[len]
+[b style [color f84 me]]
+[i]
+[u]
 ]
 
 {h2 Data Lists}

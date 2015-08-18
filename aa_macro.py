@@ -11,13 +11,14 @@ class macro(object):
      Project: aa_macro.py
     Homepage: https://github.com/fyngyrz/aa_macro
 	 License: None. It's free. *Really* free. Defy invalid social and legal norms.
- Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly warned. Pbbbbt.
+ Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly warned. Phbbbbt.
               2) My code is blackbox, meaning I wrote it without reference to other people's code
               3) I can't check other people's contributions effectively, so if you use any version
                  of aa_macro.py that incorporates accepted commits from others, you are risking
                  the use of OPC, which may or may not be protected by copyright, patent, and the
                  like, because our intellectual property system is pathological. The risks and
-                 responsibilities and any subsequent consequences are entirely yours.
+                 responsibilities and any subsequent consequences are entirely yours. Have you
+				 written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
      LastRev: August 18th, 2015     (for Class)
   LastDocRev: August 18th, 2015     (for Class)
@@ -46,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.25
+     Version: 1.0.26
      History:                    (for Class)
+	 	1.0.26
+			* added [lc], [wc]
 	 	1.0.25
 			* added [dtohex], [dtooct], [dtobin], [htodec], [otodec], [btodec]
 	 	1.0.24
@@ -276,7 +279,9 @@ class macro(object):
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
 	[rstrip content]								# remove trailing whitespace
-	[len content]									# return length of content
+	[len content]									# return length of content in characters
+	[lc content]									# return length of content in lines
+	[wc content]									# return length of content in words
 	[roman decNumber]								# convert decimal to roman (1...4000)
 	[dtohex decNumber]								# convert decimal to hexadecimal
 	[dtooct decNumber]								# convert decimal to octal
@@ -293,7 +298,7 @@ class macro(object):
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
 	[caps content]									# Capitalize first letter of first word
 	[capw content]									# Capitalize first letter of every word
-	[capt content]									# Use title case (The U.S. Government Printing Office Style Manual)
+	[capt content]									# Use title case (style: U.S. Government Printing Office Style Manual)
 	[specialcase listName,content]					# Case words as they are cased in listName
 	[ssort content]									# sort lines cases-INsensitive
 	[sisort content]								# sort lines cases-sensitive
@@ -677,6 +682,22 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [lc content]
+	def lc_fn(self,tag,data):
+		if data == '': return '0'
+		llist = data.split('\n')
+		return str(len(llist))
+
+	# [wc content]
+	def wc_fn(self,tag,data):
+		if data == '': return '0'
+		wc = 0
+		llist = data.split('\n')
+		for line in llist:
+			wlist = line.split(' ')
+			wc += len(wlist)
+		return str(wc)
 
 	# [dtohex decNumber]
 	def d2h_fn(self,tag,data):
@@ -2082,7 +2103,6 @@ The contents of the list are safe to include in the output if you like.
 					'div'	: self.math_fn,		# P1 / P2
 					'inc'	: self.math_fn,		# P1 + 1
 					'dec'	: self.math_fn,		# P1 - 1
-					'len'	: self.len_fn,		# length(P1)
 					'max'	: self.max_fn,		# max v1 v2
 					'min'	: self.min_fn,		# min v1 v2
 
@@ -2156,6 +2176,9 @@ The contents of the list are safe to include in the output if you like.
 					'ssort'	: self.ssort_fn,	# [ssort content] - sorts lines case-sensitive
 					'sisort': self.sisort_fn,	# [sisort content] - sorts lines case-INsensitive
 					'issort': self.issort_fn,	# [issort content] - sorts lines by leading integer string
+					'len'	: self.len_fn,		# length(P1)
+					'lc'	: self.lc_fn,		# line count content
+					'wc'	: self.wc_fn,		# word count content
 
 					# Miscellaneous
 					# -------------
