@@ -697,6 +697,11 @@ to len of 4:
 
     [soundex Knuth] = "K530"
 
+**\[strip content\]**
+Strips HTML tags:
+
+	[strip <i>test</i>] = "test"
+
 **\[roman decNumber\]**  
 Convert a decimal number to a roman numeral:
 

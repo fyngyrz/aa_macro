@@ -195,6 +195,9 @@ sep=|,overlaps=yes,casesens=yes,AA: [count sep=|,overlaps=yes,casesens=yes,AA|[v
 {sdex Asimov}
 {sdex Clarke}
 {sdex Einstein}
+[local cont [color 567 testing [b 1 [i 2] 3]]]
+content: [v cont]
+stripped of tags: [strip [v cont]]
 ]
 
 {h2 Data Lists}

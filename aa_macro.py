@@ -47,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.27
+     Version: 1.0.29
      History:                    (for Class)
+	 	1.0.29
+			* added [strip]
 	 	1.0.28
 			* added [soundex]
 	 	1.0.27
@@ -298,6 +300,7 @@ class macro(object):
 	[csep integer]									# e.g. [csep 1234] = "1,234"
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
 	[soundex content]								# returns soundex code
+	[strip content]									# strip out HTML tags
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[count (overlaps=yes)(casesens=yes,)(sep=X,)patternXcontent] # count term occurances in content
@@ -697,6 +700,10 @@ The contents of the list are safe to include in the output if you like.
 			if string[c:c+l] == pattern:
 				ct += 1
 		return ct
+
+	# [strip htmlContent]
+	def strip_fn(self,tag,data):
+		return re.sub(r'<[^>]*>','',data)
 
 	# [count (overlaps=yes,)(casesens=yes,)(sep=X)patternXcontent]
 	def count_fn(self,tag,data):
@@ -2260,6 +2267,7 @@ The contents of the list are safe to include in the output if you like.
 					'lc'	: self.lc_fn,		# line count content
 					'wc'	: self.wc_fn,		# word count content
 					'soundex': self.sex_fn,		# soundex surname coding
+					'strip'	: self.strip_fn,	# [strip htmlContent] - remove HTML tags
 
 					# Miscellaneous
 					# -------------

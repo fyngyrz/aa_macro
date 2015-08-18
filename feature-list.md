@@ -91,6 +91,7 @@
 	* Title casing - Tropic of Consumption
 	* Special casing - html to HTML, internet to Internet, etc.
 	* Soundex coding
+	* HTML tag stripping
 	* String interspersion
 	* sort lines:
       * case-sensitive
