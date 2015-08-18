@@ -16,9 +16,10 @@ complex. Here is a quick example of the text processing process:
 
 There are two exceptions to this rule. The first is any definition of a
 `[style]`, and the second is `[repeat]`. In both cases, processing the
-content of these built-ins is deferred until they are encountered
-left-to-right. This allows their effects to vary based on subsequent
-events in the processing stream.
+content of these built-ins is deferred. This allows their effects to
+vary based on subsequent events in the processing stream, rather than
+the conditions that obtain at the time of style definition, or in the
+case of repeat, at the time of the first repeat.
 
 If you want a style to process immediately for later use in that precise
 form, then the best way to go about that is to use the style immediately,
@@ -83,6 +84,10 @@ There will be times when you want to pass more than one bit of content
 to a style, and that is also available as part of the class
 functionality. You can learn about it below where \[split\] and \[parm\]
 are described.
+
+Within the built-in reference, below, there are multiple examples of
+using styles. If you have questions or suggestions, please contact
+me using the information at the top of the `aa_macro.py` file.
 
 ## Built-In Reference
 
@@ -184,8 +189,8 @@ It may be convenient to define an arbitrary separator as shown here to
 prevent parsing errors due to content that may contain any particular
 character:
 
-	[style sepper hYujIkIsP]
-	[ul sep={sepper},joe{sepper}fred] = <ul><li>joe</li><li>fred</li></ul>
+	[style s hYujIkIsP]
+	[ul sep={s},joe{s}fred] = <ul><li>joe</li><li>fred</li></ul>
 
 Style wrapping works like this:
 
@@ -207,8 +212,8 @@ It may be convenient to define an arbitrary separator as shown here to
 prevent parsing errors due to content that may contain any particular
 character:
 
-	[style sepper hYujIkIsP]
-	[ol sep={sepper},joe{sepper}fred] = <ol><li>joe</li><li>fred</li></ol>
+	[style s hYujIkIsP]
+	[ol sep={s},joe{s}fred] = <ol><li>joe</li><li>fred</li></ol>
 
 Style wrapping works like this:
 
@@ -855,6 +860,9 @@ Output:
 	#                      #
 	########################
 
+> Note that there is a more sophisticated version of comment-block
+generation in the examples within `aa_macro.py`
+
 ### Miscellanea
 
 **\[repeat n,content\]**  
@@ -934,14 +942,44 @@ The line feed charaacter.
 ## Styles
 
 **\[style styleName styleContent\]**  
-This defines a style of styleName.
+This defines a local style of styleName.
+
+**\[gstyle styleName styleContent\]**  
+This defines a global style of styleName.
 
 **\[s styleName\( content\)\]**  
-This invokes a style of styleName with the content, if any. This is
-*not* the preferred method, however; please use the next method. With
-that in mind, this capability will not go away, as it is my policy not
-to remove features or make them incompatible with prior usage patterns.
+This invokes a style of styleName with the content, if any. A local
+style is used if it exists, otherwise a global style is used.
+
+This is *not* the preferred method, however; please use the \{\} method,
+described next. With that in mind, this capability will not go away, as
+it is my policy not to remove features or make them incompatible with
+prior usage patterns.
 
 **\{styleName\( content\)\}**  
-This invokes a style of styleName with the content, if any.
+This invokes a style of styleName with the content, if any. It is the
+preferred shorthand for \[s styleName\]
 
+**\[glos styleName\( content\)\]**  
+This invokes a local style of styleName with the content, if any. Local
+styles are not used.
+
+**\[locs styleName\( content\)\]**  
+This invokes a global style of styleName with the content, if any. Global
+styles are not used.
+
+**\[spage\]**  
+Unsets all local styles. Global styles are not affected.
+
+**\[ghost \(source=global|local\)\]**
+This outputs a style verbatim, without processing it. Invoked without
+the source option, it works like \[s styleName\] and \{styleName\}, which
+is to say it will output a local style if one exists, otherwise it will
+output a global style if it exists. If neither style type exists, then
+it will output nothing.
+
+With source=global, it will output the global style, ignoring any local version.
+If the global style does not exist, there will be no output.
+
+With source=local, it will output the local style, or if the local style
+does not exist, there will be no output.

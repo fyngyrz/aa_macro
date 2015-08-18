@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 17th, 2015     (for Class)
-  LastDocRev: August 17th, 2015     (for Class)
+     LastRev: August 18th, 2015     (for Class)
+  LastDocRev: August 18th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -48,6 +48,8 @@ class macro(object):
      1st-Rel: 1.0.0
      Version: 1.0.24
      History:                    (for Class)
+	 	1.0.24
+			* added [gpage],[ghost]
 	 	1.0.23
 			* added [max], [min]
 	 	1.0.22
@@ -198,7 +200,8 @@ class macro(object):
 	[v variableName]								# use a variable (local, if not local, then global)
 	[gv variableName]								# use the global variable and ignore the local
 	[lv variableName]								# use the local variable and ignore the global
-	[page]											# reset local environment
+	[page]											# reset local environment: variables
+													  global variables are unaffected
 
 	Data Lists
 	----------
@@ -313,15 +316,26 @@ class macro(object):
 	
 	Styles
 	------
-	[style styleName Style]			# Defines a local style. Use [b] for body of style (see [s] tag, next)
-	[gstyle styleName]				# Defines a global style. Use [b] for body of style (see [s] tag, next)
+	[style styleName Style]			# Defines a local style. Use [b] for body of style
+	[gstyle styleName]				# Defines a global style. Use [b] for body of style
+
 	[s styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
+									  uses local style, if doesn't exist, then uses global style
+
 	[glos styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
+									  only uses global styles
+
 	[locs styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
-	{styleName contentToStyle}		# ...same thing, but simplified "squiggly" syntax
+									  only uses local styles
+
+	{styleName contentToStyle}		# ...same as [s styleName], but simplified "squiggly" syntax
+
 	==> Only if crtospace is True:
-	{styleNameCRcontentToStyle}		# ...same thing, but simplified "squiggly" syntax
-									# CR is a newline
+	{styleNameNLcontentToStyle}		# ...same thing, but simplified "squiggly" syntax
+									# NL is a *nix newline, 0x0A
+
+	[spage]							# reset local environment: styles
+									  global styles are unaffected
 	
 	More on styles:
 	---------------
@@ -595,9 +609,11 @@ The contents of the list are safe to include in the output if you like.
 
 	def resetGlobals(self):
 		self.theGlobals = {}
+		self.gstyles = {}
 
 	def resetLocals(self):
 		self.theLocals = {}
+		self.styles = {}
 
 	def resetDicts(self):
 		self.theDicts = {}
@@ -653,6 +669,25 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [ghost (source=local|global,)styleName]
+	def ghost_fn(self,tag,data):
+		opts,data = self.popts(['source'],data)
+		slocal = False
+		sglobal = False
+		for el in opts:
+			if el[0] == 'source=':
+				if el[1] == 'global':
+					sglobal = True
+				if el[1] == 'local':
+					slocal = True
+		if slocal == True:
+			o = self.styles.get(data,'')
+		elif sglobal == True:
+			o = self.gstyles.get(data,'')
+		else:
+			o = self.styles.get(data,self.gstyles.get(data,''))
+		return o
 
 	# [ltol listName,content]
 	def ltol_fn(self,tag,data):
@@ -976,7 +1011,7 @@ The contents of the list are safe to include in the output if you like.
 				md2 = d2[i]
 				block = self.styles.get(md1,self.gstyles.get(md1,''))
 				if block == '':						# then there is no style M1
-					o += '?'+tag+data+'?'
+					o += ' ? Unknown Style: "'+data+'" '
 				else:
 					block = block.replace('[b]',md2)
 					res = self.do(block)
@@ -1171,7 +1206,7 @@ The contents of the list are safe to include in the output if you like.
 			try:
 				d1,d2 = data.split(' ',1)
 			except:
-				return ' ?style?="%s","%s"' % (str(tag),str(data))
+				return ' ?style?="%s","%s" ' % (str(tag),str(data))
 			self.styles[d1] = d2
 		return ''
 
@@ -1180,7 +1215,7 @@ The contents of the list are safe to include in the output if you like.
 			try:
 				d1,d2 = data.split(' ',1)
 			except:
-				return tag + data
+				return ' ?gstyle?="%s","%s" ' % (str(tag),str(data))
 			self.gstyles[d1] = d2
 		return ''
 	
@@ -1619,6 +1654,10 @@ The contents of the list are safe to include in the output if you like.
 		self.theLocals = {}
 		return ''
 
+	def spage_fn(self,tag,data):
+		self.styles = {}
+		return ''
+
 	def ne_fn(self,tag,data):
 		o = ''
 		dlist = data.split(',',1)
@@ -1994,6 +2033,7 @@ The contents of the list are safe to include in the output if you like.
 					'vs'	: self.local_fn,	# "     ditto         "						P1 <-- P2
 					'global': self.global_fn,	# define global variable					P1 <-- P2
 					'page'	: self.page_fn,		# clear local variables
+					'spage'	: self.spage_fn,	# clear local styles
 					'gv'	: self.gv_fn,		# use global variable						P1 -->
 					'lv'	: self.lv_fn,		# use local variable						P1 -->
 					'v'		: self.v_fn,		# use local variable. if none, use global	P1 -->
@@ -2050,6 +2090,7 @@ The contents of the list are safe to include in the output if you like.
 					'comment': self.comment_fn, # contained content will not render
 					'mode'	: self.mode_fn,		# [mode 3.2] or [mode 4.01s] sets HTML output mode
 					'back'	: self.back_fn,		# P1=HHH or HHHHHH then P2 is what gets colored
+					'ghost'	: self.ghost_fn,	# [ghost styleName] print verbatim
 		}
 
 	def do(self,s):
