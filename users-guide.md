@@ -662,6 +662,36 @@ Convert a decimal number to a roman numeral:
     [roman 9] = 'ix'
 	[upper [roman 14]] = "XIV"
 
+**\[dtohex decNumber\]**
+Convert a decimal number to a hexadecimal number:
+
+	[dtohex 17] = "11"
+
+**\[dtooct decNumber\]**
+Convert a decimal number to an octal number:
+
+	[dtooct 9] = "11"
+
+**\[dtobin decNumber\]**
+Convert a decimal number to a binary number:
+
+	[dtobin 3] = "11"
+
+**\[htodec hexadecimalNumber\]**
+Convert an hexadecimal number to a decimal number:
+
+	[htodec 11] = "17"
+
+**\[otodec octalNumber\]**
+Convert an octal number to a decimal number:
+
+	[otodec 11] = "9"
+
+**\[htodec binaryNumber\]**
+Convert a binary number to a decimal number:
+
+	[btodec 11] = "3"
+
 **\[chr n\]**  
 Convert a number from 0-255 to the associated ASCII character:
 

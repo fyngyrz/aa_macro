@@ -116,6 +116,8 @@
 	* Float comma separation \(e.g. 1234.56 = 1,234.56\)
 	* Decimal to Roman numeral conversion \(e.g. 17 = "xvii"\)
 	* Decimal to character conversion \(e.g. 49 = "A"\)
+	* Decimal to base 16, 8 and 2 conversion
+	* Base 16, 8 and 2 conversion to decimal
   * Conditionals
     * On parameter match
 	* On parameter non-match

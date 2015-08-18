@@ -161,6 +161,12 @@ I have a [upper [roman 427]] Hemi ox-cart
 [chr 66][chr 69][chr 78]
 [csep 1234567890]
 [fcsep 12345678.90]
+17 dec to hex: [dtohex 17]
+ 9 dec to oct: [dtooct 9]
+ 3 dec to bin: [dtobin 3]
+11 hex to dec: [htodec 11]
+11 oct to dec: [otodec 11]
+11 bin to dec: [btodec 11]
 ]
 
 {h2 Data Lists}

@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.24
+     Version: 1.0.25
      History:                    (for Class)
+	 	1.0.25
+			* added [dtohex], [dtooct], [dtobin], [htodec], [otodec], [btodec]
 	 	1.0.24
 			* added [gpage],[ghost]
 	 	1.0.23
@@ -275,7 +277,13 @@ class macro(object):
 	[lower textString]								# convert to lowercase
 	[rstrip content]								# remove trailing whitespace
 	[len content]									# return length of content
-	[roman numberString]							# convert decimal to roman (1...4000)
+	[roman decNumber]								# convert decimal to roman (1...4000)
+	[dtohex decNumber]								# convert decimal to hexadecimal
+	[dtooct decNumber]								# convert decimal to octal
+	[dtobin decNumber]								# convert decimal to binary
+	[htodec hexNumber]								# convert hexadecimal to decimal
+	[otodec octNumber]								# convert octal to decimal
+	[btodec binNumber]								# convert binary to decimal
 	[chr number]									# e.g. [chr 65] = "A"
 	[ord character]									# e.g. [ord A] = "65"
 	[csep integer]									# e.g. [csep 1234] = "1,234"
@@ -669,6 +677,66 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [dtohex decNumber]
+	def d2h_fn(self,tag,data):
+		o = ''
+		try:
+			n = int(data)
+		except:
+			pass
+		else:
+			o = '%x' % (n,)
+		return o
+
+	# [dtoct decNumber]
+	def d2o_fn(self,tag,data):
+		o = ''
+		try:
+			n = int(data)
+		except:
+			pass
+		else:
+			o = '%o' % (n,)
+		return o
+
+	# [dtobin decNumber]
+	def d2b_fn(self,tag,data):
+		o = ''
+		try:
+			n = int(data)
+		except:
+			pass
+		else:
+			o = bin(n)[2:]
+		return o
+
+	# [htodec hexNumber]
+	def h2d_fn(self,tag,data):
+		o = ''
+		try:
+			o = str(int(data,16))
+		except:
+			pass
+		return o
+
+	# [otodec octNumber]
+	def o2d_fn(self,tag,data):
+		o = ''
+		try:
+			o = str(int(data,8))
+		except:
+			pass
+		return o
+
+	# [btod binNumber]
+	def b2d_fn(self,tag,data):
+		o = ''
+		try:
+			o = str(int(data,2))
+		except:
+			pass
+		return o
 
 	# [ghost (source=local|global,)styleName]
 	def ghost_fn(self,tag,data):
@@ -2064,6 +2132,12 @@ The contents of the list are safe to include in the output if you like.
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]
 					'roman'	: self.roman_fn,	# [roman numberString] e.g. [roman 17] = "xvii"
+					'dtohex': self.d2h_fn,		# [d2hex decString]
+					'dtooct': self.d2o_fn,		# [d2oct decString]
+					'dtobin': self.d2b_fn,		# [d2bin decString]
+					'htodec': self.h2d_fn,		# [htodec binaryString]
+					'otodec': self.o2d_fn,		# [otodec binaryString]
+					'btodec': self.b2d_fn,		# [btodec binaryString]
 					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 65] = "A"
 					'ord'	: self.ord_fn,		# [ord character] e.g. [ord A] = 65
 					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
