@@ -790,6 +790,17 @@ with another string:
 
     [replace foo,bar,I went to the foo today] = "I went to the bar today"
 
+**\[count \(sep=X,\)\(overlaps=yes,\)\(casesens=yes,patternXcontent\)\]**
+Returns the number of occuraces of pattern in content. overlaps=yes
+will return 2 for aa in aaa; otherwise aa in aaa returns 1. casesens=yes
+returns 1 for AA in AAa; otherwise returns 2 for AA in AAa. The two
+options may be combined. sep defaults to a comma.
+
+	[count Aa,AaAaaa] = 3
+	[count overlaps=yes,Aa,AaAaaa] = 5
+	[count casesens=yes,Aa,AaAaaa] = 2
+	[count casesens=yes,overlaps=yes,Aa,AaAaaa] = 2
+
 **\[caps content\]**  
 Convert content to sentence case:
 

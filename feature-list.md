@@ -85,6 +85,7 @@
 	* Left and right justification
 	* Centering
 	* Length in lines, words or characters
+	* Substring counting
 	* Word casing - Tropic Of Consumption
 	* Sentence casing - Tropic of consumption
 	* Title casing - Tropic of Consumption

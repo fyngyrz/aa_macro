@@ -47,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.26
+     Version: 1.0.27
      History:                    (for Class)
+	 	1.0.27
+			* added [count]
 	 	1.0.26
 			* added [lc], [wc]
 	 	1.0.25
@@ -295,6 +297,7 @@ class macro(object):
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
+	[count (overlaps=yes)(casesens=yes,)(sep=X,)patternXcontent] # count term occurances in content
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
 	[caps content]									# Capitalize first letter of first word
 	[capw content]									# Capitalize first letter of every word
@@ -682,6 +685,41 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def olpcount(self,string,pattern):
+		l = len(pattern)
+		ct = 0
+		for c in range(0,len(string)):
+			if string[c:c+l] == pattern:
+				ct += 1
+		return ct
+
+	# [count (overlaps=yes,)(casesens=yes,)(sep=X)patternXcontent]
+	def count_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['casesens','sep','overlaps'],data)
+		if data != '':
+			cs = False
+			sep = ','
+			over = False
+			for el in opts:
+				if el[0] == 'sep=':
+					sep = el[1]
+				elif el[0] == 'casesens=' and el[1] == 'yes':
+					cs = True
+				elif el[0] == 'overlaps=' and el[1] == 'yes':
+					over = True
+			p = data.split(sep)
+			if len(p) == 2:
+				term,content = p
+				if cs == False:
+					term = term.lower()
+					content = content.lower()
+				if over == True:
+					o = str(self.olpcount(content,term))
+				else:
+					o = str(content.count(term))
+		return o
 
 	# [lc content]
 	def lc_fn(self,tag,data):
@@ -2164,6 +2202,7 @@ The contents of the list are safe to include in the output if you like.
 					'fcsep' : self.fcsep_fn,	# [fcsep float] e.g. [fcsep 1234.56] = "1,234.56"
 					'dup'	: self.dup_fn,		# [dup content] e.g. [dup 3,foo] = "foofoofoo"
 					'find'	: self.find_fn,		# [find (sep=X,)thisStringXinString] X default=,
+					'count'	: self.count_fn,	# [count (overlaps=yes,)(casesens=yes,)(sep=X,)findTermXinContent]
 					'replace': self.replace_fn,	# [replace (sep=X,)repStrXwithStrXinStr] X default=,
 					'rjust'	: self.rjust_fn,	# [rjust width,padChar,content]
 					'ljust'	: self.ljust_fn,	# [ljust width,padChar,content]
