@@ -151,6 +151,7 @@ min 4 9 = [min 4 9]
 ]
 
 {h2 Parsing and text processing}
+[style sdex [b] Soundex: [soundex [b]]]
 [p
 [slice 3:9,catmonkeydog]test2
 [split |,foo|bar|bleep|blop]test3
@@ -190,6 +191,10 @@ casesens=yes,aa: [count casesens=yes,aa,[v cont]]
 casesens=yes,AA: [count casesens=yes,AA,[v cont]]
 overlaps=yes,casesens=yes,AA: [count overlaps=yes,casesens=yes,AA,[v cont]]
 sep=|,overlaps=yes,casesens=yes,AA: [count sep=|,overlaps=yes,casesens=yes,AA|[v cont]]
+{sdex Knuth}
+{sdex Asimov}
+{sdex Clarke}
+{sdex Einstein}
 ]
 
 {h2 Data Lists}

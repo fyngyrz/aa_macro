@@ -117,6 +117,13 @@ Within the built-in reference, below, there are multiple examples of
 using styles. If you have questions or suggestions, please contact
 me using the information at the top of the `aa_macro.py` file.
 
+#### Style Rules
+
+ * Don't define a style within another style definition
+ * Don't define a style within a built-in
+ * Recursive style use is okay, *but*, you have to provide a sane exit strategy
+ * Style names may contain any character except a space (0x20) or a newline (0x0a)
+
 ## Built-In Reference
 
 ### Text Styling
@@ -683,6 +690,12 @@ Convert content to upper case:
 Convert content to upper case:
 
     [lower thIs Is a test] = "this is a test"
+
+**\[soundex (len=n,)content\]**
+Returns the Soundex code for the content, Defaults
+to len of 4:
+
+    [soundex Knuth] = "K530"
 
 **\[roman decNumber\]**  
 Convert a decimal number to a roman numeral:

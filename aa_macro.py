@@ -49,6 +49,8 @@ class macro(object):
      1st-Rel: 1.0.0
      Version: 1.0.27
      History:                    (for Class)
+	 	1.0.28
+			* added [soundex]
 	 	1.0.27
 			* added [count]
 	 	1.0.26
@@ -295,6 +297,7 @@ class macro(object):
 	[ord character]									# e.g. [ord A] = "65"
 	[csep integer]									# e.g. [csep 1234] = "1,234"
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
+	[soundex content]								# returns soundex code
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[count (overlaps=yes)(casesens=yes,)(sep=X,)patternXcontent] # count term occurances in content
@@ -446,6 +449,7 @@ class macro(object):
 		self.gstyles = {}
 		self.stack = []
 		self.parms = []
+		self.sexdigs = '01230120022455012623010202'
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
 		self.notcase = ['a','an','the','at','by','for',
@@ -720,6 +724,43 @@ The contents of the list are safe to include in the output if you like.
 				else:
 					o = str(content.count(term))
 		return o
+
+	# [soundex (len=n,)lastName]
+	# as per Knuth's algorithm in vol 3 of "The Art of Computer Programming", pub 1968
+	def sex_fn(self,tag,data):
+		opts,data = self.popts(['len'],data)
+		slen = 4
+		for el in opts:
+			if el[0] == 'len=':
+				try:
+					slen = int(el[1])
+				except:
+					slen = 4
+		o = ''
+		if data != '':
+			first = ''
+			soundex = ''
+			base = ord('a')
+			name = data.lower()
+			for c in name:
+				oc = ord(c)
+				if first == '':
+					first = c
+				dex = oc - base
+				try:
+					sex = self.sexdigs[dex]
+				except:
+					sex = '0'
+				if soundex == '' or sex != soundex[-1]:
+					soundex += sex
+			soundex = first + soundex[1:]
+			soundex = soundex.replace('0','')
+			ll = len(soundex)
+			if ll < slen:
+				soundex += '0' * (slen - ll)
+			o = soundex[:slen].upper()
+		return o
+		
 
 	# [lc content]
 	def lc_fn(self,tag,data):
@@ -2218,6 +2259,7 @@ The contents of the list are safe to include in the output if you like.
 					'len'	: self.len_fn,		# length(P1)
 					'lc'	: self.lc_fn,		# line count content
 					'wc'	: self.wc_fn,		# word count content
+					'soundex': self.sex_fn,		# soundex surname coding
 
 					# Miscellaneous
 					# -------------
