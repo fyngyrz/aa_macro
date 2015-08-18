@@ -501,6 +501,14 @@ with styles and variables, they come into their own. First, the operations:
 
     [div 20 4] = "5"
 
+**\[max v1 v2\]**
+
+    [max 10 5] = "10"
+
+**\[min v1 v2\]**
+
+    [min 10 5] = "5"
+
 **\[inc value\]**  
 
     [inc 5] = "6"
@@ -800,9 +808,9 @@ sides:
 This is kind of fun; building a variable-width
 comment block in the style of coders everywhere:
 
-    [style sline [center -[v csize],#, [b] ]]
-	[style cline # [ljust [sub [v csize] 4], ,[b]] #]
-	[style eline [dup [v csize],#]]
+    [style sline [center -[v csize],#, [b] ][nl]]
+	[style cline # [ljust [sub [v csize] 4], ,[b]] #[nl]]
+	[style eline [dup [v csize],#][nl]]
 
 	[local csize 31]
     {sline Comment Block}
@@ -822,6 +830,30 @@ The result is:
 	# ditto.                      #
 	#                             #
 	###############################
+
+So let's make that even easier to use:
+
+	[style sline [center -[v csize],#, [b] ][nl]]
+	[style cline # [ljust [sub [v csize] 4], ,[b]] #[nl]]
+	[style eline [dup [v csize],#][nl]]
+	[style cctr [ltol blkl,[b]][dlist style=cline,blkl]]
+	[style cblock [splitcount 2][split [co],[b]][local csize [parm 0]]{sline [parm 1]}{cline}{cctr [parm 2]}{cline}{eline}]
+
+Now we can create a comment block in one shot:
+
+	{cblock 24,The Title,The Body
+	more body
+	still more body}
+
+Output:
+
+	###### The Title #######
+	#                      #
+	# The body             #
+	# more body            #
+	# still more body      #
+	#                      #
+	########################
 
 ### Miscellanea
 
@@ -902,7 +934,7 @@ The line feed charaacter.
 ## Styles
 
 **\[style styleName styleContent\]**  
-This defines a style of styleName. See "Using Styles, below".
+This defines a style of styleName.
 
 **\[s styleName\( content\)\]**  
 This invokes a style of styleName with the content, if any. This is
@@ -911,9 +943,5 @@ that in mind, this capability will not go away, as it is my policy not
 to remove features or make them incompatible with prior usage patterns.
 
 **\{styleName\( content\)\}**  
-This invokes a style of styleName with the content if any.
- See "Using Styles, below"
+This invokes a style of styleName with the content, if any.
 
-## Using Styles
-
-Nothing here, yet.

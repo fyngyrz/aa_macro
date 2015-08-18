@@ -108,6 +108,8 @@
 	* Subtract
 	* Multiply
 	* Divide
+	* Max
+	* Min
 	* Increment
 	* Decrement
 	* Integer comma separation \(e.g. 1234 = 1,234\)

@@ -134,6 +134,10 @@
 [div 72 9]
 [inc 1]
 [dec 10]
+max 5 10 = [max 5 10]
+max 9 4 = [max 9 4]
+min 5 10 = [min 5 10]
+min 4 9 = [min 4 9]
 ]
 
 {h2 Conditionals}

@@ -19,8 +19,8 @@ class macro(object):
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours.
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 16th, 2015     (for Class)
-  LastDocRev: August 16th, 2015     (for Class)
+     LastRev: August 17th, 2015     (for Class)
+  LastDocRev: August 17th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -46,8 +46,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.22
+     Version: 1.0.24
      History:                    (for Class)
+	 	1.0.23
+			* added [max], [min]
 	 	1.0.22
 			* added [ltol]
 	 	1.0.21
@@ -237,6 +239,8 @@ class macro(object):
 	[sub value subtrahend]							# subtract a number from a number
 	[mul value multiplier]							# multiply a number by a number
 	[div value divisor]								# divide a number by a number
+	[max v1 v2]										# return larger value
+	[min v1 v2]										# return smaller value
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
 
@@ -267,6 +271,7 @@ class macro(object):
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
 	[rstrip content]								# remove trailing whitespace
+	[len content]									# return length of content
 	[roman numberString]							# convert decimal to roman (1...4000)
 	[chr number]									# e.g. [chr 65] = "A"
 	[ord character]									# e.g. [ord A] = "65"
@@ -1515,7 +1520,7 @@ The contents of the list are safe to include in the output if you like.
 		ll = data.split(',',1)
 		if len(ll) == 2:
 			try:
-				loclist = self.theLists[ll[0]]
+				loclist = self.theLists.get(ll[0],[])
 				loclist += [ll[1]]
 				self.theLists[ll[0]] = loclist
 			except:
@@ -1771,6 +1776,34 @@ The contents of the list are safe to include in the output if you like.
 	def fcsep_fn(self,tag,data):
 		return self.fCommaSep(data)
 
+	def max_fn(self,tag,data):
+		o = '0'
+		p = data.split(' ')
+		if len(p) == 2:
+			try:
+				a = int(p[0])
+				b = int(p[1])
+			except:
+				pass
+			else:
+				if a > b:	o = str(a)
+				else:		o = str(b)
+		return o
+
+	def min_fn(self,tag,data):
+		o = '0'
+		p = data.split(' ')
+		if len(p) == 2:
+			try:
+				a = int(p[0])
+				b = int(p[1])
+			except:
+				pass
+			else:
+				if a < b:	o = str(a)
+				else:		o = str(b)
+		return o
+
 	def math_fn(self,tag,data):
 		o = ''
 		try:
@@ -1825,7 +1858,7 @@ The contents of the list are safe to include in the output if you like.
 			return data
 		if ll[1] == '': return data
 		l = len(ll[2])
-		if l >= w: return data
+		if l >= w: return ll[2]
 		pad = ll[1] * (w-l)
 		return pad+ll[2]
 
@@ -1838,7 +1871,7 @@ The contents of the list are safe to include in the output if you like.
 			return data
 		if ll[1] == '': return data
 		l = len(ll[2])
-		if l >= w: return data
+		if l >= w: return ll[2]
 		pad = ll[1] * (w-l)
 		return ll[2]+pad
 
@@ -1943,6 +1976,8 @@ The contents of the list are safe to include in the output if you like.
 					'inc'	: self.math_fn,		# P1 + 1
 					'dec'	: self.math_fn,		# P1 - 1
 					'len'	: self.len_fn,		# length(P1)
+					'max'	: self.max_fn,		# max v1 v2
+					'min'	: self.min_fn,		# min v1 v2
 
 					# conditionals
 					# ------------
@@ -2583,6 +2618,13 @@ bar}
 	xprint("Example 32 -- Data dictionaries")
 	print mod.do(test)
 
+	# One task programmers constantly run into is formatting
+	# section headings. Here, we'll tackle it directly. This
+	# isn't so much a HTML task (unless you're using non-prop
+	# fonts) as it is a "let's document something in text"
+	# task, but it serves to demonstrate just how far you
+	# can go in making something happen within macro():
+	# ------------------------------------------------------
 	test  = ''
 	test += '[style sline [center -[v csize],#, [b] ]\n]'
 	test += '[style cline # [ljust [sub [v csize] 4], ,[b]] #\n]'
@@ -2599,17 +2641,43 @@ bar}
 	xprint("Example 33 -- Justice: Just Justifying justification, Justin.")
 	print mod.do(test)
 
+	# Ok, let's reprise that into something actually useful in practice.
+	# There are two items of interest: the title of the block and the content.
+	# The block be should as wide as the content, and since we have the content,
+	# we'll calculate that size. Then we can generate the appropriate size block.
+	# This is a fairly complex use of styles, but the end result meets the
+	# goal of macro, which is that it should reduce a text formatting task
+	# to very little work:
+	# ----------------------------------------------------------------------
 	test  = ''
-	test += '[local csize 25]'
-	test += '[style sline [center -[v csize],#, [b] ]\n]'
-	test += '[style cline # [ljust [sub [v csize] 4], ,[b]] #\n]'
-	test += '[style eline [dup [v csize],#]\n]'
-	test += '[style cctr [ltol blkl,[b]][dlist style=cline,blkl]]'
-	test += '[style cblock [splitcount 1][split [co],[b]]{sline [parm 0]}{cline}{cctr [parm 1]}{cline}{eline}]'
+	test += '[style sline # [center -[sub [v csize] 4], , [b] ] #\n]'			# The line types:	start (header)
+	test += '[style cline # [ljust [sub [v csize] 4], ,[b]] #\n]'	#					center (body)
+	test += '[style eline [dup [v csize],#]\n]'						#					end (filled bar)
 
+	# These four provide the functionality of finding the longest line in the
+	# content. Includes the title length, too, because we put it in slist to start.
+	# This also splits the body into a list of lines for use by style cctr later.
+	# ---------------------------------------------------------------------------
+	test += '[style mm [local csize [max [v csize] [b]]]]'
+	test += '[style ccalc [local csize 0][dlist style=mm,slist]]'
+	test += '[style getlen [append slist,[len [b]]]]'
+	test += '[style wcalc [ltol blkl,[b]][dlist style=getlen,blkl]{ccalc}[local csize [add [v csize] 4]]]'
+
+	# This handles all lines in the body
+	# ----------------------------------
+	test += '[style cctr [dlist style=cline,blkl]]'
+
+	# This is the top level style that uses all of the above to do the job at hand:
+	# -----------------------------------------------------------------------------
+	test += '[style cblock [splitcount 1][split [co],[b]][append slist,[len [parm 0]]]{wcalc [parm 1]}{eline}{sline [parm 0]}{eline}{cline}{cctr [parm 1]}{cline}{eline}]'
+
+	# So this is how it's used: super-simple.
+	# ---------------------------------------
 	test += '{cblock The Title,The Body\n'
 	test += 'more body\n'
-	test += 'still more body}'
+	test += 'still more body\n'
+	test += 'and a last body line, long-ish}'
+	test += '[style mw ([b])]'
 
-	xprint("Example 34 -- Justice: Just Justifying justification, Justin, V2.")
+	xprint("Example 34 -- Auto-sized comment block")
 	print mod.do(test)
