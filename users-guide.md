@@ -1095,10 +1095,13 @@ duplicates it. They can produce significantly different results when the
 content alters variables or lists. Here's an example of such a
 difference:
 
-    [local counter 1]
 	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
-	[dup 3,{numberit}] = "1: 1: 1: "
-	[repeat 3,{numberit}] = "1: 2: 3:"
+
+    [local counter 1]
+	[dup 3,{numberit}]    = "1: 1: 1: "
+
+    [local counter 1]
+	[repeat 3,{numberit}] = "1: 2: 3: "
 
 You cannot put \[repeat\] inside a style or define a style within
 \[repeat\].
