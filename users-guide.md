@@ -1062,7 +1062,7 @@ so generally this won't show up on the resulting HTML pages, assuming that's wha
 you are using `macro()` for in the first place. Still, it doesn't look nice
 when you are looking at the actual HTML.
 
-So `macro()` loos for lines that end in two spaces. When it sees them, it 'eats'
+So `macro()` looks for lines that end in two spaces. When it sees them, it 'eats'
 both the two spaces, and the following linefeed. This allows you to define a style
 without anything appearing in the output.
 
@@ -1070,6 +1070,10 @@ Example:
 
     '[style hello hi, [b]]' ---- this will produce a linefeed in the output
 	'[style hello hi, [b]]  ' -- this will *not* produce a linefeed in the output
+
+You can disable this behavior by invoking `macro()` as follows:
+
+    obj = macro(nodinner=True) # don't eat space-space-linefeed sequences
 
 ### Using Styles
 
