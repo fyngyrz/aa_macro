@@ -893,9 +893,12 @@ Note that this is *not* the same as \[repeat\].
 produce significantly different results when the content alters variables
 or lists. Here's an example of such a difference:
 
-    [local counter 1]
 	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
+
+    [local counter 1]
 	[dup 3,{numberit}]    = "1: 1: 1: "
+
+    [local counter 1]
 	[repeat 3,{numberit}] = "1: 2: 3: "
 
 **\[find (sep=X,)thisStringXcontent\]**  
