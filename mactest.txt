@@ -241,6 +241,30 @@ line3]
 [dlist nlist]
 [list hamlist,W3OZ Larry,N2MGA,AA7AS Ben,w2jvm Harold,W2GGI Robert,N5CST!Johann!,KE4TP-Pete]  
 [style hwrap [b][nl]]  
+[local cbar 123456789 ]  
+[local cont this is line one	
+this is line two 
+	this is line three
+this is line    four and I'm really not kidding about this at all, no fooling, folks
+and		 this is the last line]  
+
+Word wrap at 72 columns
+[dup 8,[v cbar]]
+[wwrap 72,[v cont]]  
+
+Word wrap at 31 columns
+[dup 4,[v cbar]]
+[wwrap 31,[v cont]]  
+
+Word wrap at 72 columns, with style
+[style mywrap ([b])[nl]]  
+[dup 8,[v cbar]]
+[wwrap wrap=mywrap,72,[v cont]]  
+
+Word wrap at 31 columns, with style
+[style mywrap ([b])[nl]]  
+[dup 4,[v cbar]]
+[wwrap wrap=mywrap,31,[v cont]]  
 
 Unsorted list:
 --------------

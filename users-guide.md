@@ -749,6 +749,98 @@ Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"
 
+**\[wwrap \(wrap=style,\)col,content\]**
+This word wraps when content exceeds column `col`. Whitespace
+is collapsed.
+
+If no style is provided, the "wrap" consists of a trailing newline at
+the end of each wrapped line.
+
+If wrap is provided, then if you want a newline, you must provide
+it within the style. For example:
+
+    [style wordwrapper ([b])[nl]]
+
+Nominally wrapped result;
+
+	This is a test. This
+	is only a test.
+
+Output after styling:
+
+	(This is a test. This)
+	(is only a test.)
+
+With no newline:
+
+    [style wordwrapper ([b])]
+
+Nominally wrapped result;
+
+	This is a test. This
+	is only a test.
+
+Output after styling:
+
+	(This is a test. This)(is only a test.)
+
+Example of wrapping not exceeding `col`;
+
+	[wwrap 31,this is a test of the emergency broadcast system.
+	If this had been a real emergency, we would not be explaining
+	to you that this is a test. This is only a test.]
+
+Result:
+	------------------------------|
+	123456789 123456789 123456789 123456789 
+
+	This is a test of the emergency
+	broadcast system. If this had
+	been a real emergency, we would
+	not be explaining to you that
+	this is a test. This is only a
+	test.
+
+Characters added by a line-wrap style are not counted towards the
+wrapping trigger. This allows the style to add HTML and other changes
+without changing the point where the *content* wraps. To put this
+another way, if your style adds printable characters, then the line
+may exceed the length set by the `col` setting. The difference is as
+follows.
+
+Wrapped to 31 characters without a style, this line's result will
+not exceed 31 characters per line, not counting the newline:
+
+	------------------------------|
+	123456789 123456789 123456789 123456789 
+	This is a test of the emergency
+
+Still wrapped to 31, but wrapped with a style that adds parens and a
+newline, this line's result exceeds 31 by two characters, the parens
+that the style added:
+
+	------------------------------|
+	123456789 123456789 123456789 123456789 
+	(This is a test of the emergency)
+
+Characters within the content that are evaulated prior to the wrap
+*are* counted;
+
+	[wwrap 31,this is a test of the emergency broadcast system.
+	If this had been a <b>real</b> emergency, we would not be explaining
+	to you that this is a test. This is only a test.]
+
+Result:
+	------------------------------|
+	123456789 123456789 123456789 123456789 
+
+	This is a test of the emergency
+	broadcast system. If this had
+	been a <b>real</b> emergency,
+	we would not be explaining to
+	you that this is a test. This
+	is only a test.
+
 **\[len content\]**
 Return the length of content in characters.
 

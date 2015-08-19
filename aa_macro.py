@@ -291,6 +291,7 @@ class macro(object):
 	[len content]									# return length of content in characters
 	[lc content]									# return length of content in lines
 	[wc content]									# return length of content in words
+	[wwrap (wrap=style,)col,content]				# wrap content at col - styles usually want newlines
 	[roman decNumber]								# convert decimal to roman (1...4000)
 	[dtohex decNumber]								# convert decimal to hexadecimal
 	[dtooct decNumber]								# convert decimal to octal
@@ -716,6 +717,69 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [wwrap (wrap=style,)cols,content]
+	def wwrap_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['wrap'],data)
+		wrap = ''
+		for el in opts:
+			if el[0] == 'wrap=':
+				t = self.styles.get(el[1],'')
+				if t != '':
+					wrap = el[1]
+		p = data.split(',',1)
+		if len(p) == 2:
+			try:
+				col = int(p[0])
+			except:
+				pass
+			else:
+				llist = p[1].split('\n')
+				if len(llist) != 0:
+					wlist = []
+					for el in llist:
+						if el != '':
+							el = el.replace('\t',' ')
+							oel = ''
+							while oel != el:
+								oel = el
+								el = el.replace('  ',' ')
+							el = el.strip()
+							wlist += el.split(' ')
+					ll = 0
+					bol = True
+					li = ''
+					for w in wlist:
+						uw = w
+						if bol != True:
+							uw = ' ' + w
+						wl = len(uw)
+						if ll + wl > col:	# then wrap exceeded
+							if bol == True:	# 	then word is longer than wrap can handle
+								li = w
+								w = ''
+							# current line is ready for output
+							# --------------------------------
+							if wrap != '':	# use style?
+								o += self.do('[s ' + wrap + ' ' + li + ']')
+							else:			# no style
+								o += li + '\n'
+							bol = True
+							li = w
+							ll = len(li)
+							if ll != 0:
+								bol = False
+						else:				# ll not exceeded, join word to line
+							bol = False
+							li += uw
+							ll += wl
+					if ll != '':	# IF line pending
+						if wrap != '':	# IF use style
+							o += self.do('[s ' + wrap + ' ' + li + ']')
+						else:			# ELSE no style
+							o += li + '\n'
+		return o
 
 	def hsort_fn(self,tag,data):
 		o = ''
@@ -2309,6 +2373,7 @@ The contents of the list are safe to include in the output if you like.
 					'wc'	: self.wc_fn,		# word count content
 					'soundex': self.sex_fn,		# soundex surname coding
 					'strip'	: self.strip_fn,	# [strip htmlContent] - remove HTML tags
+					'wwrap'	: self.wwrap_fn,	# [wwrap (wrap=style,)cols,content] - word wrap content at/before cols
 
 					# Miscellaneous
 					# -------------
