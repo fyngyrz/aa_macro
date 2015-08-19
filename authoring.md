@@ -5,7 +5,7 @@ authoring using `Macro()`.
 
 ## Style definition
 
-### Making a Style Defintion Disappear Completely
+### Making a Style Definition Disappear Completely
 
 It aids clarity to place each style on its own line. However,
 conceptually, the newline at the end of the line is *outside*

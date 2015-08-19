@@ -752,7 +752,7 @@ Return the length of content in lines.
 **\[wc content\]**
 Return the length of content in words.
 
-    [lc this is a test
+    [wc this is a test
 	of the emergency broadcast system] = "9"
 
 **\[chr n\]**  
@@ -1045,11 +1045,33 @@ The line feed charaacter.
 
 ## Styles
 
+### Defining Styles
+
 **\[style styleName styleContent\]**  
 This defines a local style of styleName.
 
 **\[gstyle styleName styleContent\]**  
 This defines a global style of styleName.
+
+It aids clarity to put style definitions on their own lines. However
+because the end of the line \(the line feed\) is *outside* the style,
+it is treated as part of the actual content, and appears in the result.
+
+In HTML, whitespace is collapsed \(except within regions such as `<pre></pre>` tags\)
+so generally this won't show up on the resulting HTML pages, assuming that's what
+you are using `macro()` for in the first place. Still, it doesn't look nice
+when you are looking at the actual HTML.
+
+So `macro()` loos for lines that end in two spaces. When it sees them, it 'eats'
+both the two spaces, and the following linefeed. This allows you to define a style
+without anything appearing in the output.
+
+Example:
+
+    '[style hello hi, [b]]' ---- this will produce a linefeed in the output
+	'[style hello hi, [b]]  ' -- this will *not* produce a linefeed in the output
+
+### Using Styles
 
 **\[s styleName\( content\)\]**  
 This invokes a style of styleName with the content, if any. A local
