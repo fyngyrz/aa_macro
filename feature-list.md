@@ -147,8 +147,8 @@
 * Of Special Note
   * <tt>Independent of both LORAN and the GPS constellation</tt>
   * <tt>No ultraviolet radiation emissions whatsoever</tt>
-  * <tt>Fully functional at any depth or altitude</tt>
-  * <tt>Created exclusively using NY-style pizza</tt>
+  * <tt>Fully Functional at any depth or altitude</tt>
+  * <tt>Created exclusively using NY-Style Pizza</tt>
   * <tt>Never requires lubrication before use</tt>
   * <tt>Packed with Wholesome Goodness</tt>
   * <tt>Will not attract mosquitos</tt>
@@ -158,10 +158,11 @@
   * <tt>Pet safe</tt>
   * <tt>Hypoallergenic</tt>
   * <tt>Zero landfill impact</tt>
-  * <tt>Indescribably delicious</tt>
+  * <tt>Indescribably Delicious</tt>
   * <tt>Will not fray or stain lingerie</tt>
   * <tt>100% pro-feline production environment\*</tt>
   * <tt>Contains no GMOs, vaccines, or fluoridation</tt>
+  * <tt>Rainbow-friendly: Spectrum-In == Spectrum Out</tt>
   * <tt>Fully Organic Production Methods used throughout</tt>
   * <tt>Transport on aircraft will not result in chemtrails</tt>
 
