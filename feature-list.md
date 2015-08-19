@@ -58,6 +58,7 @@
       * case-sensitive
       * case-insensitive
       * by integer at start of item
+	  * by ham radio callsign at start of item
     * append an item
     * change an item
     * output a list, each item wrapped in a style
@@ -97,6 +98,7 @@
       * case-sensitive
       * case-insensitive
       * by integer at start of line
+	  * by ham radio callsign at start of line
   * Variables
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing

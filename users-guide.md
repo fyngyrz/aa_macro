@@ -445,7 +445,18 @@ format:
 
     [list sep=|,myList 1,joe|3,barry|2,matilda]
 	[isort myList]
-	[dlist wrap=lwrap,myList] = "(1,joe) (2,matilda) (3,barry) "
+	[dlist style=lwrap,myList] = "(1,joe) (2,matilda) (3,barry) "
+
+**\[lhsort listName\]**  
+Sorts listName by ham radio callsign at start of item; the callsign must
+be separated from the following content in the item by a
+non-alphanumeric character such as a space, comma, dash, etc:
+
+	[list sep=|,myList,aa7as (Ben)|N5CST (Johann)|W3Oz (Larry)]
+	[lhsort myList]
+	[style hwrap [ne [v call],, ][b][local call [b]]]
+	[local call]
+	[dlist style=hwrap,myList] = "W3Oz (Larry), N5CST (Johann), aa7as (Ben)"
 
 **\[cmap listName\]**
 This built-in creates a 256-entry list of all the possible 8-bit characters
@@ -886,6 +897,13 @@ Output of [issort content]:
     3,line 1
 	5,line 2
 	27,line 3
+
+**\[hsort content\]**
+This sorts lines of content by a ham radio callsign at the beginning
+of each line. The callsign must be separated from the rest of the
+content in the line, if any, by a non-alphanumerica character:
+
+    [hsort content]
 
 **\[inter iStr,L|R,everyN,content\]**  
 This intersperses iStr within content starting either from the

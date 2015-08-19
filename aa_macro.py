@@ -20,8 +20,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
 				 written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 18th, 2015     (for Class)
-  LastDocRev: August 18th, 2015     (for Class)
+     LastRev: August 19th, 2015     (for Class)
+  LastDocRev: August 19th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -47,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.29
+     Version: 1.0.30
      History:                    (for Class)
+	 	1.0.30
+			* added [hsort], [lhsort]
 	 	1.0.29
 			* added [strip]
 	 	1.0.28
@@ -231,6 +233,7 @@ class macro(object):
 													  [e myblist,4] = 'IV'
 	[asort listName]								# sort the list as case-sensitive text
 	[aisort listName]								# sort the list as case-insensitive text
+	[lhsort listName]								# sort the list by leading ham radio callsign
 	[isort (sep=x,)listName]						# sort the list according to a leading numeric value
 													  ie [1,this thing][2,that thing] sep default: ','
 
@@ -312,6 +315,7 @@ class macro(object):
 	[ssort content]									# sort lines cases-INsensitive
 	[sisort content]								# sort lines cases-sensitive
 	[issort content]								# sort lines by leading integer,comma,content
+	[hsort content]									# sort lines by leading ham radio callsign
 	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
@@ -452,6 +456,8 @@ class macro(object):
 		self.gstyles = {}
 		self.stack = []
 		self.parms = []
+		self.padCallLocalToggle = 0
+		self.padCallLocalRegion = -1
 		self.sexdigs = '01230120022455012623010202'
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
@@ -471,6 +477,24 @@ class macro(object):
 		if nd != False:
 			nd = True
 		self.noDinner = nd
+
+	def cReduce(self,txtCall):
+		l = re.split('([0-9]*)',txtCall.upper(),1)
+		if len(l) != 3:
+			return 'z',0,'t'
+		return l[0],int(l[1]),l[2]
+
+	def sCallsignKeyF(self,line):
+		txtCall = ''
+		for c in line:
+			if ((c >= 'a' and c <= 'z') or
+				(c >= 'A' and c <= 'Z') or
+				(c >= '0' and c <= '9')):
+				txtCall += c
+			else:
+				break
+		a,b,c = self.cReduce(txtCall)
+		return b,a,c
 
 	def gis(self,fn):
 		def rhead(fn, length):
@@ -692,6 +716,21 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def hsort_fn(self,tag,data):
+		o = ''
+		tlist = data.split('\n')
+		if len(tlist) > 1:
+			tlist = sorted(tlist,key=self.sCallsignKeyF)
+			o = '\n'.join(tlist)
+		return o
+
+	def lhsort_fn(self,tag,data):
+		tlist = self.theLists.get(data,[])
+		if len(tlist) > 1:
+			tlist = sorted(tlist,key=self.sCallsignKeyF)
+			self.theLists[data] = tlist
+		return ''
 
 	def olpcount(self,string,pattern):
 		l = len(pattern)
@@ -2146,9 +2185,10 @@ The contents of the list are safe to include in the output if you like.
 					'lset'	: self.lset_fn,		# [lset listName,index,stuff]
 					'cmap'	: self.cmap_fn,		# [cmap listName]
 					'dlist'	: self.dlist_fn,	# [dlist (style=styleName,)listName] dump list
-					'asort'	: self.asort_fn,	# [asort listName]
-					'aisort': self.aisort_fn,	# [aisort listName]
-					'isort'	: self.isort_fn,	# [isort listName]
+					'asort'	: self.asort_fn,	# [asort listName] sort by alpha, case-sensitive
+					'aisort': self.aisort_fn,	# [aisort listName] sort by alpha, case-insensitive
+					'isort'	: self.isort_fn,	# [isort listName] sort by leading integer,
+					'lhsort': self.lhsort_fn,	# [lhsort listName] sort by leading ham radio callsign
 					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
 
 					# HTML list handling
@@ -2263,6 +2303,7 @@ The contents of the list are safe to include in the output if you like.
 					'ssort'	: self.ssort_fn,	# [ssort content] - sorts lines case-sensitive
 					'sisort': self.sisort_fn,	# [sisort content] - sorts lines case-INsensitive
 					'issort': self.issort_fn,	# [issort content] - sorts lines by leading integer string
+					'hsort'	: self.hsort_fn,	# [hsort content] - sorts lines by leading ham radio callsign
 					'len'	: self.len_fn,		# length(P1)
 					'lc'	: self.lc_fn,		# line count content
 					'wc'	: self.wc_fn,		# word count content

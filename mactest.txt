@@ -198,6 +198,14 @@ sep=|,overlaps=yes,casesens=yes,AA: [count sep=|,overlaps=yes,casesens=yes,AA|[v
 [local cont [color 567 testing [b 1 [i 2] 3]]]
 content: [v cont]
 stripped of tags: [strip [v cont]]
+Hamcalls:
+[hsort W3OZ Larry
+N2MGA
+AA7AS,Ben
+w2jvm Harold
+W2GGI Robert
+N5CST!Johann!
+KE4TP-Pete]
 ]
 
 {h2 Data Lists}
@@ -231,6 +239,25 @@ stripped of tags: [strip [v cont]]
 line 2
 line3]
 [dlist nlist]
+[list hamlist,W3OZ Larry,N2MGA,AA7AS Ben,w2jvm Harold,W2GGI Robert,N5CST!Johann!,KE4TP-Pete]  
+[style hwrap [b][nl]]  
+
+Unsorted list:
+--------------
+[dlist style=hwrap,hamlist]  
+
+Sorted List:
+------------
+[lhsort hamlist]  
+[dlist style=hwrap,hamlist]  
+
+With nice interspersion:
+------------------------
+[list sep=|,myList,aa7as (Ben)|N5CST (Johann)|W3Oz (Larry)]  
+[lhsort myList]  
+[style hwrap [ne [v call],, ][b][local call [b]]]  
+[local call]  
+[dlist style=hwrap,myList]
 
 {h2 Data Dictionaries}
 [dict mydict,foo:bar,gee:whiz]'
