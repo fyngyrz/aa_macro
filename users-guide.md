@@ -396,7 +396,7 @@ are some list creation examples:
     [list myList,joe,mary,fred,luna]
 	[list sep=|,myList,Michelle|Stella|Terrie]
 
-**\[ltol listName,content\]**
+**\[ltol listName,content\]**  
 This splits lines \(text separated by newline characters\) into
 a list:
 
@@ -458,7 +458,7 @@ non-alphanumeric character such as a space, comma, dash, etc:
 	[local call]
 	[dlist style=hwrap,myList] = "W3Oz (Larry), N5CST (Johann), aa7as (Ben)"
 
-**\[cmap listName\]**
+**\[cmap listName\]**  
 This built-in creates a 256-entry list of all the possible 8-bit characters
 mapped directly to the list index. For instance, the ASCII character A is
 coded with a decimal 65; so if you do this...
@@ -497,7 +497,7 @@ or create a dictionary with one item. The keysep defaults to a colon:
     [dset mystuff,widget:thing-a-ma-bob]
     [dset mystuff,plink:plank, plunk]
 
-**\[d dictName,key\]**
+**\[d dictName,key\]**  
 This allows you to retrive one entry from a dictionary:
 
     [d mystuff,this] = "that"
@@ -552,11 +552,11 @@ with styles and variables, they come into their own. First, the operations:
 
     [div 20 4] = "5"
 
-**\[max v1 v2\]**
+**\[max v1 v2\]**  
 
     [max 10 5] = "10"
 
-**\[min v1 v2\]**
+**\[min v1 v2\]**  
 
     [min 10 5] = "5"
 
@@ -702,13 +702,13 @@ Convert content to upper case:
 
     [lower thIs Is a test] = "this is a test"
 
-**\[soundex (len=n,)content\]**
+**\[soundex (len=n,)content\]**  
 Returns the Soundex code for the content, Defaults
 to len of 4:
 
     [soundex Knuth] = "K530"
 
-**\[strip content\]**
+**\[strip content\]**  
 Strips HTML tags:
 
 	[strip <i>test</i>] = "test"
@@ -719,37 +719,37 @@ Convert a decimal number to a roman numeral:
     [roman 9] = 'ix'
 	[upper [roman 14]] = "XIV"
 
-**\[dtohex decNumber\]**
+**\[dtohex decNumber\]**  
 Convert a decimal number to a hexadecimal number:
 
 	[dtohex 17] = "11"
 
-**\[dtooct decNumber\]**
+**\[dtooct decNumber\]**  
 Convert a decimal number to an octal number:
 
 	[dtooct 9] = "11"
 
-**\[dtobin decNumber\]**
+**\[dtobin decNumber\]**  
 Convert a decimal number to a binary number:
 
 	[dtobin 3] = "11"
 
-**\[htodec hexadecimalNumber\]**
+**\[htodec hexadecimalNumber\]**  
 Convert an hexadecimal number to a decimal number:
 
 	[htodec 11] = "17"
 
-**\[otodec octalNumber\]**
+**\[otodec octalNumber\]**  
 Convert an octal number to a decimal number:
 
 	[otodec 11] = "9"
 
-**\[htodec binaryNumber\]**
+**\[htodec binaryNumber\]**  
 Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"
 
-**\[wwrap \(wrap=style,\)col,content\]**
+**\[wwrap \(wrap=style,\)col,content\]**  
 This word wraps when content exceeds column `col`. Whitespace
 is collapsed.
 
@@ -841,18 +841,18 @@ Result:
 	you that this is a test. This
 	is only a test.
 
-**\[len content\]**
+**\[len content\]**  
 Return the length of content in characters.
 
     [len foo] = "3"
 
-**\[lc content\]**
+**\[lc content\]**  
 Return the length of content in lines.
 
     [lc this is a test
 	of the emergency broadcast system] = "2"
 
-**\[wc content\]**
+**\[wc content\]**  
 Return the length of content in words.
 
     [wc this is a test
@@ -911,7 +911,7 @@ with another string:
 
     [replace foo,bar,I went to the foo today] = "I went to the bar today"
 
-**\[count \(sep=X,\)\(overlaps=yes,\)\(casesens=yes,patternXcontent\)\]**
+**\[count \(sep=X,\)\(overlaps=yes,\)\(casesens=yes,patternXcontent\)\]**  
 Returns the number of occuraces of pattern in content. overlaps=yes
 will return 2 for aa in aaa; otherwise aa in aaa returns 1. casesens=yes
 returns 1 for AA in AAa; otherwise returns 2 for AA in AAa. The two
@@ -990,7 +990,7 @@ Output of [issort content]:
 	5,line 2
 	27,line 3
 
-**\[hsort content\]**
+**\[hsort content\]**  
 This sorts lines of content by a ham radio callsign at the beginning
 of each line. The callsign must be separated from the rest of the
 content in the line, if any, by a non-alphanumerica character:
@@ -1211,7 +1211,7 @@ styles are not used.
 **\[spage\]**  
 Unsets all local styles. Global styles are not affected.
 
-**\[ghost \(source=global|local\)\]**
+**\[ghost \(source=global|local\)\]**  
 This outputs a style verbatim, without processing it. Invoked without
 the source option, it works like \[s styleName\] and \{styleName\}, which
 is to say it will output a local style if one exists, otherwise it will
