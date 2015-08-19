@@ -791,6 +791,7 @@ Example of wrapping not exceeding `col`;
 	to you that this is a test. This is only a test.]
 
 Result:
+
 	------------------------------|
 	123456789 123456789 123456789 123456789 
 
