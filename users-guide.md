@@ -73,6 +73,29 @@ inputtext become essentially the same, which is not nearly as useful for
 many types of multi-page documents. However, for many single page
 documents, this is all you need.
 
+The reason the above works just like that is because the class `__str__`
+method returns the output text just as `object.do()` does. Then print
+knows enough to use that when the object is thrown in its
+face, so to speak. But not everything in Python is so smart. For instance,
+this won't work...
+
+	print 'This is ' + macro('[i some interesting content]') + " right here"
+
+...because the `+` operator implementation for strings doesn't know
+enough to go grab a string method of an object. It's trivial to work
+around, though...
+
+	print 'This is ' + str(macro('[i some interesting content]')) + " right here"
+
+...and in fact, that form will work everywhere, including with print...
+
+	print str(macro('[i some interesting content]'))
+
+...so perhaps that's the best way to appraoch it. I'm unclear on
+why Python's `+` operator doesn't look for the `__str__` method
+when it already knows it is concatinating a string, but... that's
+how it works.
+
 ## A \(very\) Brief Introduction to Styles and Built-Ins
 
 Styles are the heart of what class `macro()` is about. The built-ins you'll
