@@ -57,7 +57,7 @@ itself is pretty much a doddle:
 
 That's it. There's a little bit you can do with parameters to the
 `macro()` invocation, and there are some useful utilities within
-the classin particular, the `sanitize()` method), but generally,
+the class \(in particular, the `sanitize()` method\), but generally,
 the above is all you need. It's up to you to provide uesful
 input text, of course.
 
@@ -91,7 +91,7 @@ around, though...
 
 	print str(macro('[i some interesting content]'))
 
-...so perhaps that's the best way to appraoch it. I'm unclear on
+...so perhaps that's the best way to approach it. I'm unclear on
 why Python's `+` operator doesn't look for the `__str__` method
 when it already knows it is concatinating a string, but... that's
 how it works.
