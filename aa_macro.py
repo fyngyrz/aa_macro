@@ -28,7 +28,10 @@ class macro(object):
                  as something new, thus preserving all behavior and the API.
                  The only intentional exceptions to this are if a bug is found
                  that does not match the intended behavior, or I determine there
-                 is some kind of security risk.
+                 is some kind of security risk. What I *will* do is not document
+				 older and less capable versions of a function, unless the new
+				 functionality is incapable of doing something the older
+				 version(s) could do.
     Examples: At bottom. Run in shell like so:    python aa_macro.py
               The best way to use them is open a shell and run them there,
 			  and open a shell with aa_macro.py in an editor or reader,
@@ -47,8 +50,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.32
+     Version: 1.0.33
      History:                    (for Class)
+	 	1.0.33
+			* Moved the 'dothis' named parameter to first in class for simplest invocation
 	 	1.0.32
 			* added [lslice]
 	 	1.0.31
@@ -448,7 +453,7 @@ class macro(object):
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
 """
-	def __init__(self,mode='3.2',back="ffffff",dothis=None,nodinner=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False):
 		self.setMode(mode)
 		self.setBack(back)
 		self.setNoDinner(nodinner)

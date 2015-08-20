@@ -40,6 +40,39 @@ Instances in which this would be useful include those where you change the
 style before the content would be used, or if the style uses other elements
 which themselves change before the content is used.
 
+## Basic Practical Usage
+
+Using \(and re-using\)class `macro()` flexibly in the context of Python
+itself is pretty much a doddle:
+
+	from aa_macro import *
+
+	mod = macro()
+	inputtext = '[i some content]'
+	outputext = mod.do(inputtext)
+	print outputtext
+	inputtext = '[i more content]'
+	outputext = mod.do(inputtext)
+	print outputtext
+
+That's it. There's a little bit you can do with parameters to the
+`macro()` invocation, and there are some useful utilities within
+the classin particular, the `sanitize()` method), but generally,
+the above is all you need. It's up to you to provide uesful
+input text, of course.
+
+There's a more concise way of doing the whole thing, too:
+
+	from aa_macro import *
+
+	print macro('[i some content]')
+
+The downside of this is because it does not result in a reusable
+instantiation of the class, global and local contexts within the
+inputtext become essentially the same, which is not nearly as useful for
+many types of multi-page documents. However, for many single page
+documents, this is all you need.
+
 ## A \(very\) Brief Introduction to Styles and Built-Ins
 
 Styles are the heart of what class `macro()` is about. The built-ins you'll
@@ -49,7 +82,7 @@ the built-ins.
 
 ### Built-ins
 
-First, here's the built-in for italics. You specify a built-in using square
+Here is the built-in for italics. You specify a built-in using square
 brackets. Here's how to do italics:
 
     [i my text]
@@ -65,7 +98,10 @@ The notation I use to show this in this document is:
 ### Built-in Parameter Handling
 
 Generally, the syntax is, the keyword for the built-in, followed
-by a space, followed by the parameter\(s.\)
+by a space, followed by the parameter\(s\) which, if there are more
+than one, may be separated by spaces or commas, depending on the
+particular built-in and what the parameter is likely to consist
+of.
 
 If, however, you invoke a built-in that expects parameters with a
 trailing space and no parameter\(s\) after that, it will use the most
