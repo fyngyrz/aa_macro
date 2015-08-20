@@ -123,6 +123,43 @@ me using the information at the top of the `aa_macro.py` file.
  * Don't define a style within a built-in
  * Recursive style use is okay, *but*, you have to provide a sane exit strategy
  * Style names may contain any character except a space (0x20) or a newline (0x0a)
+ * Styles that use other styles can be defined in any order, but:
+ * Styles must be defined before they are used to generate content
+
+Those last two rules call for some examples. Styles can be defined in
+any order with regard to each other because they are simply stored until
+they are actually used; execution is deferred until use. So all you're
+doing when you define a style is putting it away in exactly that form.
+
+These patterns will all work:
+
+	[style s1 [b]] ------ style first; stored and deferred
+	{s1 test} ----------- then generate - s1 is defined, all good.
+
+	[style s1 [b]] ------ style s1; stored and deferred
+	[style s2 {s1 [b]}] - style s2 uses style s1; stored and deferred
+	{s2 test} ----------- then generate - s2 uses s1, both are present, all good.
+
+	[style s2 {s1 [b]}] - style s2 uses style s1; stored and deferred
+	[style s1 [b]] ------ style s1; stored and deferred
+	{s2 test} ----------- then generate - s2 uses s1, both are present, all good.
+
+None of these patterns will work:
+
+	{s1 test} ----------- can't generate, s1 style not created yet
+	[style s1 [b]] ------ style s1; stored and deferred, but too late
+
+	[style s1 [b]] ------ style s1; stored and deferred
+	{s2 test} ----------- can't generate, s2 style not created yet
+	[style s2 {s1 [b]}] - style s2 stored and deferred, but too late
+
+	[style s2 {s1 [b]}] - style s2 stored and deferred
+	{s2 test} ----------- can't generate, s1 style, used by s2, not created yet
+	[style s1 [b]] ------ style s1; stored and deferred, but too late
+
+	{s2 test} ----------- can't generate, neither s1 or s2 created yet
+	[style s2 {s1 [b]}] - style s2 stored and deferred
+	[style s1 [b]] ------ style s1; stored and deferred, but too late for attempt at generation
 
 ## Built-In Reference
 
@@ -423,7 +460,39 @@ Returns the length (number of list-items in) a list.
 
 	[list mylist,a,b,c]
 	[llen mylist] = "3"
-  
+
+**\[lslice sliceSpec,listToSlice,resultGoesInThisList\]**  
+Slices one list into another, or the same, list.
+`sliceSpec` can be any of the following, where a, b and c
+are integers:
+
+	a ------ pulls that element out of the list
+	a:b ---- pulls from a to b-1
+	a:b:c -- pulls from a to b-1, stepping by c
+	:b ----- pulls from beginning to b-1
+	a: ----- pulls from a to end
+	::c ---- pulls from begining to end, stepping by c
+	:b:c --- pulls from beginning to b-1, stepping by c
+	a::c --- pulls from a to end, stepping by c
+
+Examples:
+
+	[list srcList,a,b,c,d]
+	[lslice 1:3,srcList,tgtList]
+	[dlist tgtList] = "bc"
+
+	[list srcList,a,b,c,d]
+	[lslice :2,srcList,srcList]
+	[dlist srcList] = "ab"
+
+	[list srcList,a,b,c,d]
+	[lslice 2,srcList,srcList]
+	[dlist srcList] = "c"
+
+	[list srcList,a,b,c,d]
+	[lslice ::-1,srcList,srcList]
+	[dlist srcList] = "dcba"
+
 **\[dlist \(wrap=styleName,\)listName\]**  
 Dumps/displays a list, optionally wrapped in a style:
 
@@ -655,7 +724,21 @@ Otherwise, there is no result.
 
 **\[slice sliceSpec,content\]**  
 This built-in returns a portion of the content. It works just like
-Python's slicing:
+Python's slicing.
+
+`sliceSpec` can be any of the following, where a, b and c
+are integers:
+
+	a ------ pulls that element out of the list
+	a:b ---- pulls from a to b-1
+	a:b:c -- pulls from a to b-1, stepping by c
+	:b ----- pulls from beginning to b-1
+	a: ----- pulls from a to end
+	::c ---- pulls from begining to end, stepping by c
+	:b:c --- pulls from beginning to b-1, stepping by c
+	a::c --- pulls from a to end, stepping by c
+
+Examples:
 
     [slice 3:6,foobarbip] = "bar"
 	[slice :3,foobarbip] = "foo"

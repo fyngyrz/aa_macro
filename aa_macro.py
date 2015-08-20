@@ -47,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.31
+     Version: 1.0.32
      History:                    (for Class)
+	 	1.0.32
+			* added [lslice]
 	 	1.0.31
 			* added [llen]
 	 	1.0.30
@@ -221,6 +223,7 @@ class macro(object):
 	Data Lists
 	----------
 	[append listname,item]							# add an item to a list
+	[slice sliceSpec,listToSlice,resultList]		# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
 	[lset listName,index,stuff]						# set a list item by index (must exist)
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
@@ -1223,6 +1226,40 @@ The contents of the list are safe to include in the output if you like.
 			o = self.parms[int(data)]
 		except:
 			pass
+		return o
+
+	# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
+	def lslice_fn(self,tag,data):
+		o = ''
+		ll = []
+		p = data.split(',',2)
+		if len(p) == 3:
+			spec,src,tgt = p
+			lsrc = self.theLists.get(src,[])
+			if lsrc != [] and tgt != '':
+				try:
+					slist = spec.split(':')
+					if len(slist) == 1:
+						ll = [lsrc[int(slist[0])]]
+					elif len(slist) == 2:
+						a = None
+						b = None
+						if slist[0] != '': a = int(slist[0])
+						if slist[1] != '': b = int(slist[1])
+						ll = lsrc[a:b]
+					elif len(slist)==3:
+						a = None
+						b = None
+						c = None
+						if slist[0] != '': a = int(slist[0])
+						if slist[1] != '': b = int(slist[1])
+						if slist[2] != '': c = int(slist[2])
+						ll = lsrc[a:b:c]
+					else:
+						o = ' ?lsplit? '
+				except:
+					pass
+				self.theLists[tgt] = ll
 		return o
 
 	def slice_fn(self,tag,data):
@@ -2263,6 +2300,7 @@ The contents of the list are safe to include in the output if you like.
 					'lhsort': self.lhsort_fn,	# [lhsort listName] sort by leading ham radio callsign
 					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
 					'llen'	: self.llen_fn,		# [llen listName] length of list
+					'lslice': self.lslice_fn,	# [lslice sliceSpec,listToSlice,intoList]
 
 					# HTML list handling
 					# P1[,P2]...[,Pn]
