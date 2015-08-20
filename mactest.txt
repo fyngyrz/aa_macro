@@ -210,6 +210,7 @@ KE4TP-Pete]
 
 {h2 Data Lists}
 [list lowers,a,b,c]  
+list length of a,b,c: [llen lowers]
 [e lowers,2] [e lowers,1] [e lowers,0]
 [list sep=|,uppers,A|B|C]  
 [append uppers,amphetamine]  

@@ -61,6 +61,7 @@
 	  * by ham radio callsign at start of item
     * append an item
     * change an item
+	* length of list
     * output a list, each item wrapped in a style
     * output a list item
     * create an 8-bit character map

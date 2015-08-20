@@ -20,8 +20,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
 				 written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 19th, 2015     (for Class)
-  LastDocRev: August 19th, 2015     (for Class)
+     LastRev: August 20th, 2015     (for Class)
+  LastDocRev: August 20th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -47,8 +47,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.30
+     Version: 1.0.31
      History:                    (for Class)
+	 	1.0.31
+			* added [llen]
 	 	1.0.30
 			* added [hsort], [lhsort]
 	 	1.0.29
@@ -220,6 +222,7 @@ class macro(object):
 	----------
 	[append listname,item]							# add an item to a list
 	[lset listName,index,stuff]						# set a list item by index (must exist)
+	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[dlist (style=X,)listName]						# output list, optionally wrapped with style X
 	[translate listName,text]						# characters are mapped to listName (see examples)
@@ -717,6 +720,11 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [llen listName]
+	def llen_fn(self,tag,data):
+		ll = self.theLists.get(data,[])
+		return str(len(ll))
 
 	# [wwrap (wrap=style,)cols,content]
 	def wwrap_fn(self,tag,data):
@@ -2254,6 +2262,7 @@ The contents of the list are safe to include in the output if you like.
 					'isort'	: self.isort_fn,	# [isort listName] sort by leading integer,
 					'lhsort': self.lhsort_fn,	# [lhsort listName] sort by leading ham radio callsign
 					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
+					'llen'	: self.llen_fn,		# [llen listName] length of list
 
 					# HTML list handling
 					# P1[,P2]...[,Pn]

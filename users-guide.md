@@ -417,6 +417,12 @@ This changes the value of an existing list item, where the first item is numbere
 zero, and the last item index is the length of the list minus one:
 
     [lset myList,2,leroy]
+
+**\[llen listName\]**  
+Returns the length (number of list-items in) a list.
+
+	[list mylist,a,b,c]
+	[llen mylist] = "3"
   
 **\[dlist \(wrap=styleName,\)listName\]**  
 Dumps/displays a list, optionally wrapped in a style:
