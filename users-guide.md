@@ -4,10 +4,12 @@
 
 ### How Text is Processed
 
-Class `macro()` generally processes content in an inside-to-outside,
-left-to-right order. This has implications for certain types of
-operations and may result in some surprises when your content is
-complex. Here is a quick example of the text processing process:
+Class `macro()` internal operation is generally described as processing
+content from an input stream to an output stream \(an internal stream,
+not an IO stream\) in an inside-to-outside, left-to-right order. This
+has implications for certain types of content and may result in some
+surprises when your content is complex. Here is a quick example of the
+text processing process:
 
     input: [p [i foo] [u bar]]
 	step1: [p <i>foo</i> [u bar]]
@@ -161,9 +163,50 @@ None of these patterns will work:
 	[style s2 {s1 [b]}] - style s2 stored and deferred
 	[style s1 [b]] ------ style s1; stored and deferred, but too late for attempt at generation
 
+## Global versus Local
+
+Class `macro()` provides both local and global style and variable
+handling. The point of this is to allow page-local environments
+separate from the multi-page document-wide environment. This makes
+creating a document processing system much, much easier as the
+system itself need not keep track of very much at all other
+than the pages of the document and any global styles in a database.
+
+Generally, style use \(and in particular, the style shorthand,
+`{style}`\) and variable retrieval look for a local instance first, then
+if that is not found, a global instance is used.
+
+Variable invocation works the same way: Local first, global if no
+local instance exists.
+
+However, class `macro()` provides specific style and variable syntax
+that allows only the local or only the global instance to be retrieved,
+so there is no lock-in to the default behavior.
+
+### Quick reference to the Local and Global mechanisms
+
+#### Instance Creation
+
+    [style styleName content] ------ local style definition
+	[gstyle styleName content] ----- global style definition
+
+	[local variableName content] --- local variable definition / setting / resetting
+	[global variableName content] -- global variable definition / setting / resetting
+
+#### Instance Use
+
+	{styleName( content)} -- use local, or if none, global style (shorthand for [s ...], next:)
+	[s styleName( content)] -- use local, or if none, global style
+	[glos styleName( content)] -- use global style
+	[locs styleName( content)] -- use local style
+
+	[v variableName] -- use local, or if none, global variable, or if neither, returns nothing
+	[lv variableName] -- use local variable instance, or if none, returns nothing
+	[gv variableName] -- use global variable instance, or if none, returns nothing
+
 ## Built-In Reference
 
-### Text Styling
+### Text Span and Block Appearance
 
 **\[p content\]**  
 The content is wrapped with HTML paragraph tags:
@@ -181,20 +224,26 @@ The content is wrapped with HTML bold tags, or a span if in HTML 4.01s mode:
     [b my verbiage] = <b>my verbiage</b>
 	[b my verbiage] = <span style="font-weight: bold;">my verbiage</span>
 
+> Note that \[b\] is not the same as \[b content\]; \[b\] is the
+built-in that produces all the passed content within a style. Refer to
+the description of \[b\] within the style documentation further along.
+This overloading is possible because \[b\] \(as bold styling\) makes no
+sense whatsoever without content to apply that bold styling to.
+
 **\[i content\]**  
-The content is wrapped with HTML italics tags, or a span if in HTML 4.01s mode:
+The content is wrapped with HTML italics tags, or a span, if in HTML 4.01s mode:
 
     [i my verbiage] = <i>my verbiage</i>
 	[i my verbiage] = <span style="font-style: italic;">my verbiage</span>
 
 **\[u content\]**  
-The content is wrapped with HTML underline tags, or a span if in HTML 4.01s mode:
+The content is wrapped with HTML underline tags, or a span, if in HTML 4.01s mode:
 
     [u my content] = <u>my content</u>
 	[u my content] = <span style="text-decoration: underline;">my content</span>
 
 **\[color HEX3|HEX6 content\]**  
-The content is wrapped with HTML font tags, or a span if in HTML 4.01s mode. If in HTML
+The content is wrapped with HTML font tags, or a span, if in HTML 4.01s mode. If in HTML
 4.01s mode, the background color is also assigned and used. You can set the background color
 when instantiating the macro object as a passed parameter to the class, or you can use the
 `[back]` built-in to set it from the body of the processed text. The default for the background
@@ -592,6 +641,14 @@ Pop an element off of the stack:
 
 	[push foo]
     [pop] = "foo"
+
+You may want to pop the stack without producing the item on it. In that case,
+you would simply do this:
+
+	[comment [pop]]
+
+Because the pop occurs in the context of the comment, it does not appear in the
+output stream.
 
 **\[fetch\]**  
 Assuming there is data on the stack, this allows you to get at it
