@@ -45,15 +45,17 @@ which themselves change before the content is used.
 Using \(and re-using\)class `macro()` flexibly in the context of Python
 itself is pretty much a doddle:
 
-	from aa_macro import *
+```python
+from aa_macro import *
 
-	mod = macro()
-	inputtext = '[i some content]'
-	outputext = mod.do(inputtext)
-	print outputtext
-	inputtext = '[i more content]'
-	outputext = mod.do(inputtext)
-	print outputtext
+mod = macro()
+inputtext = '[i some content]'
+outputext = mod.do(inputtext)
+print outputtext
+inputtext = '[i more content]'
+outputext = mod.do(inputtext)
+print outputtext
+```
 
 That's it. There's a little bit you can do with parameters to the
 `macro()` invocation, and there are some useful utilities within
@@ -63,9 +65,11 @@ input text, of course.
 
 There's a more concise way of doing the whole thing, too:
 
-	from aa_macro import *
+```python
+from aa_macro import *
 
-	print macro('[i some content]')
+print macro('[i some content]')
+```
 
 The downside of this is because it does not result in a reusable
 instantiation of the class, global and local contexts within the
@@ -79,17 +83,23 @@ knows enough to use that when the object is thrown in its
 face, so to speak. But not everything in Python is so smart. For instance,
 this won't work...
 
-	print 'This is ' + macro('[i some interesting content]') + " right here"
+```python
+print 'This is ' + macro('[i some interesting content]') + " right here"
+```
 
 ...because the `+` operator implementation for strings doesn't know
 enough to go grab a string method of an object. It's trivial to work
 around, though...
 
-	print 'This is ' + str(macro('[i some interesting content]')) + " right here"
+```python
+print 'This is ' + str(macro('[i some interesting content]')) + " right here"
+```
 
 ...and in fact, that form will work everywhere, including with print...
 
-	print str(macro('[i some interesting content]'))
+```python
+print str(macro('[i some interesting content]'))
+```
 
 ...so perhaps that's the best way to approach it. I'm unclear on
 why Python's `+` operator doesn't look for the `__str__` method
