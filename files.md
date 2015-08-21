@@ -4,6 +4,8 @@ File | Project Component
 ---- | -----------------
 [aa_ansiicolor.py](aa_ansiicolor.py) | Python import library used by unit tests
 [aa_macro.py](aa_macro.py) | Python import library implementing project functionality
+[aagen](aagen) | command line utility to filter / process input macro() src
+[aagen-example.txt](aagen-example.txt) | Example source file for [aagen](aagen)
 [authoring.md](authoring.md) | Tips on how to author for [aa_macro.py](aa_macro.py)
 [enhancement.md](enhancement.md) | Guide to adding functionality to [aa_macro.py](aa_macro.py)
 [expected.html](expected.html) | Used by unit tests
