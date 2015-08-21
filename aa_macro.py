@@ -29,9 +29,9 @@ class macro(object):
                  The only intentional exceptions to this are if a bug is found
                  that does not match the intended behavior, or I determine there
                  is some kind of security risk. What I *will* do is not document
-				 older and less capable versions of a function, unless the new
-				 functionality is incapable of doing something the older
-				 version(s) could do.
+                 older and less capable versions of a function, unless the new
+                 functionality is incapable of doing something the older
+                 version(s) could do.
     Examples: At bottom. Run in shell like so:    python aa_macro.py
               The best way to use them is open a shell and run them there,
 			  and open a shell with aa_macro.py in an editor or reader,
@@ -121,26 +121,26 @@ class macro(object):
 			* if you end a line with two trailing spaces, object.do()
 			  will "eat" them, and the following newline, unles you
 			  set nodinner=True
-     	1.0.6
+        1.0.6
      	    * added sanitize() utility to help make user input safer
      		* sped up [roman numberString] when fed zero
      		* added home page to class header
      		* added polcies to class header
      		* updated class documentation
-	 	1.0.5
+        1.0.5
 			* added warning about parsing user input
 			* wrote a walkthrough for generating roman numerals, consequently I...
 			* added [upper textString]
 			* added [lower textString]
 			* added [roman numberString]
-	 	1.0.4
+        1.0.4
 			* added advice on how to use examples
-	    1.0.3
+        1.0.3
 			* spiffied up the class docs a little
 			* added [split splitSpec,contentToSplit]
 			* added [parm N]
 			* added to examples
-	 	1.0.2
+        1.0.2
 			* added new URL link mechanism [a (tab,)URL(,LinkedText)]
 				[link] and [web] will remain as per my "I will never
 				take away something you may have used" policy, but
@@ -148,9 +148,9 @@ class macro(object):
 			* added escape for all commas [nc TextToBeEscaped]
 			* added non-rendering [comment content] capability
 			* added [slice sliceSpec,contentToSlice] capability
-	 	1.0.1
-			* added HTML paragraphs as [p paragraph]
-		1.0.0
+        1.0.1
+        	* added HTML paragraphs as [p paragraph]
+        1.0.0
 			* Initial Release
 
 ==> Anything with a * in the first column needs recoding to incorporate (sep=X,)
