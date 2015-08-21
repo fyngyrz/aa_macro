@@ -20,8 +20,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 20th, 2015     (for Class)
-  LastDocRev: August 20th, 2015     (for Class)
+     LastRev: August 21st, 2015     (for Class)
+  LastDocRev: August 21st, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -50,8 +50,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.33
+     Version: 1.0.34
      History:                    (for Class)
+	 	1.0.34
+			* added [lpop], [lpush] (synonym for append)
 	 	1.0.33
 			* Moved the 'dothis' named parameter to first in class for simplest invocation
 	 	1.0.32
@@ -227,8 +229,10 @@ class macro(object):
 
 	Data Lists
 	----------
-	[append listname,item]							# add an item to a list
+	[append listname,item]							# add an item to the end of a list
+	[lpush listname,item]							# add an item to the end of a list (synonym for [append])
 	[slice sliceSpec,listToSlice,resultList]		# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
+	[lpop listName(,index)]							# [lpop] == [lpop -1] remove list item
 	[lset listName,index,stuff]						# set a list item by index (must exist)
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
@@ -1231,6 +1235,26 @@ The contents of the list are safe to include in the output if you like.
 			o = self.parms[int(data)]
 		except:
 			pass
+		return o
+
+	# [lpop listName(,index)]
+	def lpop_fn(self,tag,data):
+		o = ''
+		p = data.split(',',1)
+		if len(p) == 1:
+			name = p[0]
+			dex = -1
+		elif len(p) == 2:
+			name = p[0]
+			try:
+				dex = int(p[1])
+			except:
+				dex = -1
+		if name != '':
+			try:
+				o = self.theLists[name].pop(dex)
+			except:
+				pass
 		return o
 
 	# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
@@ -2295,6 +2319,7 @@ The contents of the list are safe to include in the output if you like.
 					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]
 					'e'		: self.element_fn,	# fetch element:[e listName,n] = list[n]
 					'append': self.append_fn,	# [append listName,stuff]
+					'lpush'	: self.append_fn,	# [lpush listName,stuff]
 					'translate':self.translate_fn, # [translate listName,stuff]
 					'lset'	: self.lset_fn,		# [lset listName,index,stuff]
 					'cmap'	: self.cmap_fn,		# [cmap listName]
@@ -2306,6 +2331,7 @@ The contents of the list are safe to include in the output if you like.
 					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
 					'llen'	: self.llen_fn,		# [llen listName] length of list
 					'lslice': self.lslice_fn,	# [lslice sliceSpec,listToSlice,intoList]
+					'lpop'	: self.lpop_fn,		# [lpop listName( index)]
 
 					# HTML list handling
 					# P1[,P2]...[,Pn]

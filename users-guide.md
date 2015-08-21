@@ -564,10 +564,24 @@ a list:
 	[dlist style=lwrap,mylist] = "(line 1) (line 2) (line 3) "
 
 **\[append listName,item\]**  
-This built-in adds an element to the end of a list:
+**\[lpush listName,item\]**  
+These synonymous built-ins add an element to the end of a list:
 
     [list myList,joe,mary,fred,luna]
-	[append myList betty]
+	[append myList betty] or [lpush myList betty]
+
+**\[lpop listName\(,index\)\]**  
+Remove and return the last item, or the item specified by the index,
+from the list. You can use negative numbers to index from the end
+of the list, or positive numbers to index from the front. These two
+examples do the same thing, removing and returning the last item in
+the list:
+
+	[list myList,a,b,c]
+	[lpop myList] = "c"
+
+	[list myList,a,b,c]
+	[lpop myList,-1] = "c"
 
 **\[lset listName,indexN,item\]**  
 This changes the value of an existing list item, where the first item is numbered

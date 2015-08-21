@@ -63,6 +63,7 @@
     * change an item
 	* length of list
 	* list slicing
+	* lists as stacks (push,pop)
     * output a list, each item wrapped in a style
     * output a list item
     * create an 8-bit character map
@@ -106,7 +107,7 @@
     * Locals suitable for by-page processing
 	* Globals suitable for by-document processing
 	* Fully clearable within object
-  * Stack
+  * General Stack
     * Push on
 	* Push N deep
 	* Pop
