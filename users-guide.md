@@ -54,7 +54,7 @@ inputtext = '[i some content]'
 outputext = mod.do(inputtext)
 print outputtext
 
-inputtext = '[i more content]'	# as we're using the same object, anything...
+inputtext = ' [i more content]'	# as we're using the same object, anything...
 outputext = mod.do(inputtext)	# ...set up in it is still in context here
 print outputtext
 ```
@@ -70,7 +70,7 @@ There's a more concise way of doing the whole thing, too:
 ```python
 from aa_macro import *
 
-print macro('[i some content]')
+print macro('[i some content] [i more content]')
 ```
 
 The downside of this is because it does not result in a reusable
