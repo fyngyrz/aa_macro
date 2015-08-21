@@ -10,7 +10,7 @@ class macro(object):
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
      Project: aa_macro.py
     Homepage: https://github.com/fyngyrz/aa_macro
-	 License: None. It's free. *Really* free. Defy invalid social and legal norms.
+     License: None. It's free. *Really* free. Defy invalid social and legal norms.
  Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly warned. Phbbbbt.
               2) My code is blackbox, meaning I wrote it without reference to other people's code
               3) I can't check other people's contributions effectively, so if you use any version
@@ -18,7 +18,7 @@ class macro(object):
                  the use of OPC, which may or may not be protected by copyright, patent, and the
                  like, because our intellectual property system is pathological. The risks and
                  responsibilities and any subsequent consequences are entirely yours. Have you
-				 written your congresscritter about patent and copyright reform yet?
+                 written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
      LastRev: August 20th, 2015     (for Class)
   LastDocRev: August 20th, 2015     (for Class)
