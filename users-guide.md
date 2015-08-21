@@ -42,6 +42,17 @@ which themselves change before the content is used.
 
 ## Basic Practical Usage
 
+### From the Command Line
+
+You can use the command line tool in the repo:
+
+Command | Operation
+------- | ---------
+aagen aagen-example.txt | for output to stdout
+aagen aagen-example.txt -f aagen-example.html | for output to file
+
+### From Python
+
 Using \(and re-using\)class `macro()` flexibly in the context of Python
 itself is pretty much a doddle:
 
