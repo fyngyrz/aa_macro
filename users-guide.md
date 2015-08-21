@@ -53,7 +53,7 @@ Command | Operation
 
 ### From Python
 
-Using \(and re-using\)class `macro()` flexibly in the context of Python
+Using \(and re-using\) class `macro()` flexibly in the context of Python
 itself is pretty much a doddle:
 
 ```python
@@ -73,7 +73,7 @@ print outputtext
 That's it. There's a little bit you can do with parameters to the
 `macro()` invocation, and there are some useful utilities within
 the class \(in particular, the `sanitize()` method\), but generally,
-the above is all you need. It's up to you to provide uesful
+the above is all you need. It's up to you to provide useful
 input text, of course.
 
 There's a more concise way of doing the whole thing, too:
