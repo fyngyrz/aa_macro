@@ -49,11 +49,13 @@ itself is pretty much a doddle:
 from aa_macro import *
 
 mod = macro()
+
 inputtext = '[i some content]'
 outputext = mod.do(inputtext)
 print outputtext
-inputtext = '[i more content]'
-outputext = mod.do(inputtext)
+
+inputtext = '[i more content]'	# as we're using the same object, anything...
+outputext = mod.do(inputtext)	# ...set up in it is still in context here
 print outputtext
 ```
 
