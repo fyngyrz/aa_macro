@@ -48,8 +48,8 @@ You can use the command line tool in the repo:
 
 Command | Operation
 ------- | ---------
-aagen aagen-example.txt | for output to stdout
-aagen aagen-example.txt -f aagen-example.html | for output to file
+`aagen aagen-example.txt` | for output to stdout
+`aagen aagen-example.txt -f aagen-example.html` | for output to file
 
 ### From Python
 
