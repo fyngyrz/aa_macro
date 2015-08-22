@@ -2,19 +2,22 @@
 
 > Also see: [project file descriptions](files.md)
 
-If you're like me, you don't particularly appreciate WYSIWYG HTML/CSS
-editors, as they usually generate terrible code, can break with any application
-or operating system upgrade, and in the end, you have zero control over
-where and when it all breaks. So something to make generation of
-HTML and CSS easier, of which I had direct control... that really seemed
-like a fine idea to me. And so. :\)
+I don't particularly appreciate WYSIWYG HTML/CSS editors, as they
+usually generate terrible code, can break with any application or
+operating system upgrade, and in the end, I have zero control over where
+and when it all breaks. So something to make generation of HTML and CSS
+easier, of which I had direct control... that really seemed like a fine
+idea to me. And so. :\)
 
-This class provides a means for you to generate HTML or other types of
-text documents using Python as the intermediary engine. There are no
-external dependencies that aren't actually part of the Python
-distribution. Consequently the class is relatively lightweight and
-trivially installed &mdash; just drop the `aa_macro.py` file in and
-you're done.
+This project provides a means for me, and anyone else who wants to, to
+generate HTML or other types of text documents using Python as the
+intermediary engine. There are no external dependencies that aren't
+actually part of the Python distribution. Consequently the class is
+relatively lightweight and trivially installed &mdash; just drop the
+`aa_macro.py` file in and you're done. You'll probably want the [aagen
+utility](aagen) as well if you're looking to just make documents, but
+you don't need it if you're going to be using the class directly in your
+own Python applications.
 
 > Don't be intimidated by the number of files in the repo; everything
 except [aa_macro.py](aa_macro.py) is either documentation, sample files,
