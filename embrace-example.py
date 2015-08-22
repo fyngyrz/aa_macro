@@ -23,7 +23,8 @@ class plug(object):
 	# [i content] - over-ride existing built-in, use <em> instead of <i>
 	def i_fn(self,tag,data):
 		return '<em>' + data + '</em>'
-	
+
+	# [dtcase] - dump the macro() notcase table
 	def dtcase_fn(self,tag,data):
 		o = ''
 		for el in self.parent.notcase:
