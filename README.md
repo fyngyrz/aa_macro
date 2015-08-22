@@ -6,7 +6,8 @@ I don't particularly appreciate WYSIWYG HTML/CSS editors, as they
 usually generate terrible code, can break with any application or
 operating system upgrade, and in the end, I have zero control over where
 and when it all breaks. So something to make generation of HTML and CSS
-easier, of which I had direct control... that really seemed like a fine
+easier, of which I had direct control... and which depended upon
+nothing outside of Python itself... that really seemed like a fine
 idea to me. And so. :\)
 
 This project provides a means for me, and anyone else who wants to, to
