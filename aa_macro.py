@@ -54,7 +54,7 @@ class macro(object):
      Version: 1.0.35
      History:                    (for Class)
 	 	1.0.35
-			* added [include], [embrace], [lf]
+			* added [include], [embrace], [lf], [expand]
 	 	1.0.34
 			* added [lpop], [lpush] (synonym for append)
 	 	1.0.33
@@ -260,6 +260,8 @@ class macro(object):
 	[dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)] # create multivalue dictionary
 	[dset (keysep=Y,)dictName,keyYvalue]			# set a single dictionary value (can create dict)
 	[d dictName,key]								# retrieve a single dictionary value
+	[expand dictName,content]						# replace words in content with words in dict
+													  dict to be constructed with lower-case keys
 
 	Stack
 	-----
@@ -1811,6 +1813,70 @@ The contents of the list are safe to include in the output if you like.
 				o += w
 		return o
 
+	def isuln(self,c):
+		if c >= 'a' and c <= 'z': return True
+		if c >= 'A' and c <= 'Z': return True
+		if c >= '0' and c <= '9': return True
+		return False
+
+	def specialexpand(self,word,theDict):
+		rword = word[::-1]
+		pre = ''
+		post = ''
+		w = ''
+		state = 0
+		cont = ''
+		for c in word:
+			if state == 0:
+				if self.isuln(c) == False:
+					pre += c
+				else:
+					state = 1
+					cont += c
+			else:
+				cont += c
+		state = 0
+		for c in rword:
+			if state == 0:
+				if self.isuln(c) == False:
+					post = c + post
+					cont = cont[:-1]
+				else:
+					state = 1
+			else:
+				pass
+		res = theDict.get(cont.lower(),'')
+		if res != '':
+			fl = cont[0]
+			word = res
+			if fl >= 'A' and fl <= 'Z':
+				word = res[0].upper() + res[1:]
+			word = pre + word + post
+		return word
+
+	# [expand dict,content]
+	def expand_fn(self,tag,data):
+		o = ''
+		p = data.split(',',1)
+		if len(p) == 2:
+			dict,content = p
+			ncontent = ''
+			content = content.replace('\t',' ')
+			content = content.replace('\n',' ')
+			content = content.replace('\r',' ')
+			while ncontent != content:
+				ncontent = content
+				content = content.replace('  ',' ')
+			d = self.theDicts.get(dict,{})
+			if d != {}: # TODO: space collapse and tab / LF conversion
+				wlist = content.split(' ')
+				for w in wlist:
+					w = self.specialexpand(w,d)
+					if o != '':
+						o += ' '
+					o += w
+		return o
+
 	# [isort listName]
 	def isort_fn(self,tag,data):
 		try:
@@ -2367,6 +2433,7 @@ The contents of the list are safe to include in the output if you like.
 					'dict'	: self.dict_fn,		# [dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)]
 					'setd'	: self.setd,		# [setd (keysep=Y,)dictName,keyYvalue]
 					'd'		: self.d_fn,		# [d dictName,key] = "value"
+					'expand': self.expand_fn,	# [expand dict,content]
 
 					# Data list handling
 					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]

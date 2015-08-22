@@ -95,6 +95,7 @@
 	* Sentence casing - Tropic of consumption
 	* Title casing - Tropic of Consumption
 	* Special casing - html to HTML, internet to Internet, etc.
+	* Word/keyword expansion/replacement
 	* Soundex coding
 	* HTML tag stripping
 	* String interspersion

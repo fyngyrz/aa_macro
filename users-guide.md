@@ -1203,6 +1203,57 @@ every other word will be capitalized:
 
     [capt thIs Is a test] = "This Is a Test"
 
+**\[expand dictName,content\]**  'expand' for expand  
+Convert whitespace-separated strings, stripped of any leading and/or
+trailing non-alpha characters, by extracted lowercase alpha keywords
+against the supplied dictionary.
+
+Whitespace is collapsed by this built in.
+
+If a keyword has its first letter capitalized, then the first letter of
+the expansion will also be capitalized. The keyword is determined as
+follows:
+
+Leading and trailing non-alpha characters are not used as part of the
+keyword but will remain present around any expansion; non-alpha
+characters between the first and last alpha characters, whether inside
+leading and trailing non-alpha characters or not, are not part of the
+keyword:
+
+Whitespace-delineated String | Effective Keyword
+---------------------------- | -----------------
+foo | foo
+be$%funked | be$%funked
+$%befunked$% | befunked
+$%be$%funked | be$%funked
+be$%funked$% | be$%funked
+
+	[dict tonedown,befunked:bewildered,clueless:confused,afraid:nervous]
+	[expand tonedown,Befunked, afraid and *clueless*.] = "Bewildered, nervous and *confused*."
+
+The expansion can be more than one word and may
+contain any character simply based on what is in the
+dictionary entry:
+
+	[dict dbldown,silly:a flaming-idiot]
+	[expand dbldown,This person is silly!] = "This person is a flaming-idiot!"
+
+Keywords are converted to lower case before they are used to
+determine which dictionary entry to use, so only lower-case
+keys will enable expansion.
+
+These will expand:
+
+    [dict t,foo:bar]
+	[expand t,foo] = "bar"
+	[expand t,Foo] = "Bar"
+
+These will *not* expand:
+
+    [dict t,Foo:bar]
+	[expand t,foo] = ""
+	[expand t,Foo] = "" \("Foo" converted to "foo" before dictionary lookup\)
+
 **\[scase content\]**  'scase' for special casing  
 Convert space-separated words, minding embedded and attached special
 characters, in content to specially cased words in a list. First you set
