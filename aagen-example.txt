@@ -1,2 +1,2 @@
-[style i [i [b]]]  
-{i italicize this}
+[style peanut [i [b]]]  
+{peanut italicize this}

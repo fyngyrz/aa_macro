@@ -361,3 +361,12 @@ ben]
 [ghost source=global,h3]
 [ghost source=local,h3]
 ]
+[p 
+[include aagen-example.txt]  
+aw, nuts: {peanut butter}
+[embrace embrace-example.py]  
+happy extension: [happy this is a good thing]
+unhappy extension: [unhappy this is a bad thing]
+back-reference to parent by embraced module: [dtcase]
+Replacement of [lb]i[rb]: [i emphasize me]
+]

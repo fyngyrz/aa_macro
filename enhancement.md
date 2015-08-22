@@ -1,5 +1,12 @@
 # Enhancing class `macro()`
 
+## Externally Extending and/or Replacing [aa_macro.py](aa_macro.py) Functionalty
+
+See (extend-example.py)[extend-example.py] for a model of
+how to do everything you need to do.
+
+## Changing [aa_macro.py](aa_macro.py) Itself
+
 Have an idea for a cool built-in? It can be very easy to do.
 
 A minimum of two tasks are typically involved. This is the 'hard"

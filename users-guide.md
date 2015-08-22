@@ -290,17 +290,17 @@ so there is no lock-in to the default behavior.
 
 ### Text Span and Block Appearance
 
-**\[p content\]**  
+**\[p content\]**  'p' for paragraph  
 The content is wrapped with HTML paragraph tags:
 
     [p my verbiage] = <p>my verbiage</p>
 
-**\[bq content\]**  
+**\[bq content\]**  'bq' for blockquote  
 The content is wrapped with HTML blockquote tags:
 
     [bq my verbiage] = <blockquote>my verbiage</blockquote>
 
-**\[b content\]**  
+**\[b content\]**  'b' for bold  
 The content is wrapped with HTML bold tags, or a span if in HTML 4.01s mode:
 
     [b my verbiage] = <b>my verbiage</b>
@@ -312,19 +312,19 @@ the description of \[b\] within the style documentation further along.
 This overloading is possible because \[b\] \(as bold styling\) makes no
 sense whatsoever without content to apply that bold styling to.
 
-**\[i content\]**  
+**\[i content\]**  'i' for italics  
 The content is wrapped with HTML italics tags, or a span, if in HTML 4.01s mode:
 
     [i my verbiage] = <i>my verbiage</i>
 	[i my verbiage] = <span style="font-style: italic;">my verbiage</span>
 
-**\[u content\]**  
+**\[u content\]**  'u' for underline  
 The content is wrapped with HTML underline tags, or a span, if in HTML 4.01s mode:
 
     [u my content] = <u>my content</u>
 	[u my content] = <span style="text-decoration: underline;">my content</span>
 
-**\[color HEX3|HEX6 content\]**  
+**\[color HEX3|HEX6 content\]**  'color' for text color  
 The content is wrapped with HTML font tags, or a span, if in HTML 4.01s mode. If in HTML
 4.01s mode, the background color is also assigned and used. You can set the background color
 when instantiating the macro object as a passed parameter to the class, or you can use the
@@ -337,7 +337,7 @@ color is white \(FFFFFF\):
 
 ### Linking
 
-**\[a \(tab,\)URL\(,linked content\)\]**  
+**\[a \(tab,\)URL\(,linked content\)\]**  'a' for anchor  
 If the keyword "tab" is present as shown, the link will request the browser open a new
 tab or window. If not, the link will be a standard link. If the linked content is present,
 then the link will wrap that content. If it is not present, the link will wrap its own
@@ -350,7 +350,7 @@ address:
 
 ### Images
 
-**\[img \(imageTitle,\)imageURL\( linkURL\)\]**  
+**\[img \(imageTitle,\)imageURL\( linkURL\)\]**  img for image  
 Creates an HTML image tag. If  imageTitle is present, it will be placed
 into both the alt and title attributes of the image tag. If linkURL is
 present, then the image tag will be wrapped with link tags to linkURL:
@@ -360,7 +360,8 @@ present, then the image tag will be wrapped with link tags to linkURL:
 	[img pic.jpg /foo.html] = <a href="/foo.html"><img src="pic.jpg"></a>
 	[img foo,pic.jpg /foo.html] = <a href="/foo.html"><img title="foo" alt="foo" src="pic.jpg"></a>
 
-**\[locimg \(imageTitle,\)imageURL\( linkURL\)\]**  
+**\[locimg \(imageTitle,\)imageURL\( linkURL\)\]**  'locimg' for local image  
+**\[lipath path]**  'lipath' for local image path  
 The \[locimg\] built-in works exactly like the \[img\] built-in, except
 it is designed to be made aware of the image's location in the server's
 file system using the related \[lipath\] tag. It uses this information
@@ -377,7 +378,7 @@ they are downloaded. The image types the \[locimg\] tag understands are
 
 ### HTML Lists
 
-**\[ul \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  
+**\[ul \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  'ul' for unordered list  
 This produces an unordered list. If the wrap= parameter is
 supplied, then each list element will be wrapped with the
 specified style. List elements are separated by commas,
@@ -400,7 +401,7 @@ Style wrapping works like this:
     [style splats ![b]!]
     [ul wrap=splats,joe,fred] = <ul><li>!joe!</li><li>!fred!</li></ul>
 
-**\[ol \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  
+**\[ol \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  'ol' for ordered list  
 This produces an ordered list. If the wrap= parameter is
 supplied, then each list element will be wrapped with the
 specified style. List elements are separated by commas,
@@ -423,17 +424,19 @@ Style wrapping works like this:
     [style splats ![b]!]
     [ol wrap=splats,joe,fred] = <ol><li>!joe!</li><li>!fred!</li></ol>
 
-**\[iful \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  
+**\[iful \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  'iful' for conditional unordered list  
 The \[iful\] built-in works exactly like the \[ul\] built-in \(see above\)
 except that if there is only one item supplied, it does not produce a list.
 
-**\[ifol \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  
+**\[ifol \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  'ifol' for conditional ordered list  
 The \[ifol\] built-in works exactly like the \[ol\] built-in \(see above\)
 except that if there is only one item supplied, it does not produce a list.
 
-**\[t \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  
-The \[t\] built-in is used to wrap one or more items in a style. If
-no style is provided, the items are produced without the separators:
+**\[t \(wrap=style,\)\(sep=X,\)item\(Xitem\)\]**  't' for treatment  
+The \[t\] built-in is used to wrap one or more items in a style and so
+apply a common treatment individually to each item of the provided
+content. If no style is provided, the items are produced without the
+separators:
 
     [style at @[b]@]
 	[t wrap=at,joe,fred] = @joe@@fred@
@@ -449,27 +452,27 @@ While the syntax may seem obvious and perhaps even trite at first, the
 examples below will demonstrate the considerable power of this
 methodology. First, the built-ins themselves:
 
-**\[table \(options,\)content\]**  
+**\[table \(options,\)content\]**  'table' for HTML table  
 The table built-in is to be wrapped around row content:
 
     [table content] = <table>content</table>
 	[table border=1,content] = <table border=1>content</table>
 
-**\[row \(options,\)content\]**  
+**\[row \(options,\)content\]**  'row' for HTML table row  
 The row built-in is tobe wrapped around header or cell content:
 
     [row content] = <tr>content</tr>
 	[row bgcolor="#ffdddd",content] = <tr bgcolor="#FFDDDD">content</tr>
 
 
-**\[header \(options,\)content\]**  
+**\[header \(options,\)content\]**  'header' for HTML table header cell  
 The header built-in is to be wrapped around header cell content:
 
     [header content] = <th>content</th>
 	[header align="right",content] = <th align="right">content</th>
 
 
-**\[cell \(options,\)content\]**  
+**\[cell \(options,\)content\]**  'cell' for HTML table data cell  
 The cell built-in should be wrapped around normal table cell content:
 
     [cell content] = <td>content</td>
@@ -528,43 +531,44 @@ With those in place, the example table can now be written as:
 ### Variables
 
 **\[local varName varContent\]**  or **\[vs varName varContent\]**  \(synonomous\)
+'local' for local variable  
 Places varContent into a local variable with the identifier varName.
 
     [local myvar Ben]
 
-**\[global varName varContent\]**  
+**\[global varName varContent\]**  'global' for global variable  
 Places varContent into a global variable with the identifier varName.
 
    [global myvar Asia]
    [global myvar2 Leo]
 
-**\[v varName\]**  
+**\[v varName\]**  'v' for variable  
 Produces the content stored in varName. If a local variable identified as
 varName, that is produced. If not, then if there is a global variable
 identifed as varName, that is produced instead. If neither class of
 variable has been set, then there is no result.
 
-**\[gv varName\]**  
+**\[gv varName\]**  'gv' for global variable  
 Produces the content stored in a global variable identified as varName.
 If no global variable has been set, then there is no result.
 
-**\[lv varName\]**  
+**\[lv varName\]**  'lv' for local variable  
 Produces the content stored in a local variable identified as varName.
 If no local variable has been set, then there is no result.
 
-**\[page\]**  
+**\[page\]**  'page' for a conceptually blank page  
 Unsets all local variables. Global variables are not affected.
 
 ### Data Lists
 
-**\[list \(sep=X,\)listName,item\(Xitem\)\]**  
+**\[list \(sep=X,\)listName,item\(Xitem\)\]**  'list' to create a list  
 This built-in creates a list in one operation. Here
 are some list creation examples:
 
     [list myList,joe,mary,fred,luna]
 	[list sep=|,myList,Michelle|Stella|Terrie]
 
-**\[ltol listName,content\]**  
+**\[ltol listName,content\]**  'ltol' for lines to list  
 This splits lines \(text separated by newline characters\) into
 a list:
 
@@ -574,14 +578,14 @@ a list:
 	[style lwrap ([b]) ]
 	[dlist style=lwrap,mylist] = "(line 1) (line 2) (line 3) "
 
-**\[append listName,item\]**  
-**\[lpush listName,item\]**  
+**\[append listName,item\]**  'append' for appending an item to a list  
+**\[lpush listName,item\]**  'lpush' for list push onto end of list  
 These synonymous built-ins add an element to the end of a list:
 
     [list myList,joe,mary,fred,luna]
 	[append myList betty] or [lpush myList betty]
 
-**\[lpop listName\(,index\)\]**  
+**\[lpop listName\(,index\)\]**  'lpop' for list pop  
 Remove and return the last item, or the item specified by the index,
 from the list. You can use negative numbers to index from the end
 of the list, or positive numbers to index from the front. These two
@@ -594,19 +598,20 @@ the list:
 	[list myList,a,b,c]
 	[lpop myList,-1] = "c"
 
-**\[lset listName,indexN,item\]**  
+**\[lset listName,indexN,item\]**  'lset' for list set element  
 This changes the value of an existing list item, where the first item is numbered
 zero, and the last item index is the length of the list minus one:
 
     [lset myList,2,leroy]
 
-**\[llen listName\]**  
+**\[llen listName\]**  'llen' for list length  
 Returns the length (number of list-items in) a list.
 
 	[list mylist,a,b,c]
 	[llen mylist] = "3"
 
 **\[lslice sliceSpec,listToSlice,resultGoesInThisList\]**  
+'lslice' for list slice  
 Slices one list into another, or the same, list.
 `sliceSpec` can be any of the following, where a, b and c
 are integers:
@@ -638,27 +643,27 @@ Examples:
 	[lslice ::-1,srcList,srcList]
 	[dlist srcList] = "dcba"
 
-**\[dlist \(wrap=styleName,\)listName\]**  
+**\[dlist \(wrap=styleName,\)listName\]**  'dlist' for dump list  
 Dumps/displays a list, optionally wrapped in a style:
 
     [dlist myList] = joemaryleroylunabetty
 	[style lwrap ([b]) ]
 	[dlist wrap=lwrap,myList] = "(joe) (mary) (leroy) (luna) (betty) "
 
-**\[e listName,indexN\]**  
+**\[e listName,indexN\]**  'e' for element of list  
 This outputs one list item selected by indexN:
 
     [e myList 2] = "leroy"
 
-**\[asort listName\]**  
-Sorts listName alphabetically, case-sensitive (capital letters come first.)
+**\[asort listName\]**  'asort' for alphabetic sort \(of list\)  
+Sorts listName alphabetically, case-sensitive \(capital letters come first.\)
 
 	[asort myList]
 
-**\[aisort\]**  
+**\[aisort\]**  'aisort' for alphabetic insensitive sort \(of list\)  
 Sorts listName alphabetically, case-INsensitive \(capital letters same as lower case.\)
 
-**\[isort \(sep=X,)listName\]**  
+**\[isort \(sep=X,)listName\]**  'isort' for integer sort \(of list\)  
 Sort listName by a leading integer, separated from the rest of the list items
 by a comma or the optional separator. So the list would be in this kind of
 format:
@@ -667,7 +672,7 @@ format:
 	[isort myList]
 	[dlist style=lwrap,myList] = "(1,joe) (2,matilda) (3,barry) "
 
-**\[lhsort listName\]**  
+**\[lhsort listName\]**  'lhsort' for list ham sort  
 Sorts listName by ham radio callsign at start of item; the callsign must
 be separated from the following content in the item by a
 non-alphanumeric character such as a space, comma, dash, etc:
@@ -678,7 +683,7 @@ non-alphanumeric character such as a space, comma, dash, etc:
 	[local call]
 	[dlist style=hwrap,myList] = "W3Oz (Larry), N5CST (Johann), aa7as (Ben)"
 
-**\[cmap listName\]**  
+**\[cmap listName\]**  'cmap' for character map  
 This built-in creates a 256-entry list of all the possible 8-bit characters
 mapped directly to the list index. For instance, the ASCII character A is
 coded with a decimal 65; so if you do this...
@@ -699,25 +704,26 @@ any character coding you like. Simple transposition ciphers, easily
 generated sequences of format characters, all are easily built using
 this capability.
 
-**\[translate listName,content\]**  
+**\[translate listName,content\]**  'translate' for translation  
 See \[cmap\], just above
 
 ### Data Dictionaries
 
 **\[dict (sep=X,)(keysep=Y)dictName,keyYvalue(XkeyYvalue)\]**  
+'dict' for dictionary  
 This allows you to create a multi-entry dictionary. sep defaults
 to a comma, and keysep defaults to a colon.
 
     [dict mystuff,foo:bar,this:that,she:he,widget:wodget]
 
-**\[dset (keysep=Y)dictName,keyYvalue\]**  
+**\[dset (keysep=Y)dictName,keyYvalue\]**  'dset' for dictionary set  
 This allows you to update or create one item in an existing dictionary,
 or create a dictionary with one item. The keysep defaults to a colon:
 
     [dset mystuff,widget:thing-a-ma-bob]
     [dset mystuff,plink:plank, plunk]
 
-**\[d dictName,key\]**  
+**\[d dictName,key\]**  'd' for dictionary element  
 This allows you to retrive one entry from a dictionary:
 
     [d mystuff,this] = "that"
@@ -726,12 +732,12 @@ This allows you to retrive one entry from a dictionary:
 
 ### Stack Operations
 
-**\[push content\]**  
+**\[push content\]**  'push' for push to stack   
 Push an element on to the top of the stack:
 
     [push foo]
 
-**\[pop\]**  
+**\[pop\]**  'pop' for pop off of stack  
 
 Pop an element off of the stack:
 
@@ -746,7 +752,7 @@ you would simply do this:
 Because the pop occurs in the context of the comment, it does not appear in the
 output stream.
 
-**\[fetch\]**  
+**\[fetch\]**  'fetch' for fetch item from stack  
 Assuming there is data on the stack, this allows you to get at it
 without popping the stack:
 
@@ -756,43 +762,43 @@ without popping the stack:
 	[push constitution]
 	[fetch 1] = "argle-bargle"
 
-**\[flush\]**  
-This emtpies the stack; all content is discarded.
+**\[flush\]**  'flush' for flush the stack  
+This empties the stack; all content is discarded.
 
 ### Math
 
 The math capabilities are underwhelming used by themselves, but in combination
 with styles and variables, they come into their own. First, the operations:
 
-**\[add value addend\]**  
+**\[add value addend\]**  'add' for addition  
 
     [add 5 4] = "9"
 
-**\[sub value subtrahend\]**  
+**\[sub value subtrahend\]**  'sub' for subtract  
 
     [sub 5 4] = "1"
 
-**\[mul value multiplier\]**  
+**\[mul value multiplier\]**  'mul' for multiply  
 
     [mul 5 4] = "20"
 
-**\[div value divisor\]**  
+**\[div value divisor\]**  'div' for divide  
 
     [div 20 4] = "5"
 
-**\[max v1 v2\]**  
+**\[max v1 v2\]**  'max' for maximum  
 
     [max 10 5] = "10"
 
-**\[min v1 v2\]**  
+**\[min v1 v2\]**  'min' for minimum  
 
     [min 10 5] = "5"
 
-**\[inc value\]**  
+**\[inc value\]**  'inc' for increment  
 
     [inc 5] = "6"
 
-**\[dec value\]**  
+**\[dec value\]**  'dec' for decrement  
 
     [dec 5] = "4"
 
@@ -831,42 +837,42 @@ Which you would use as follows:
 
 ### Conditionals
 
-**\[even value conditionalContent\]**  
+**\[even value conditionalContent\]**  'even' for even  
 "value" is numeric. If it is even, conditionalContent is the result. If the
 value is odd, then there is no result.
 
 	[if 1,testing] = ""
     [if 2,testing] = "testing"
 
-**\[odd value conditionalContent\]**  
+**\[odd value conditionalContent\]**  'odd' for odd  
 "value" is numeric. If it is odd, conditionalContent is the result. If the
 value is even, then there is no result.
 
 	[if 1,testing] = "testing"
     [if 2,testing] = ""
 
-**\[if value match conditionalContent\]**  
+**\[if value match conditionalContent\]**  'if' for if  
 When value and match are identical, conditionalContent is the result.
 Otherwise, there is no result.
 
     [if foo,bar,testing] = ""
 	[if foo,foo,testing] = "testing"
 
-**\[else value notMatch conditionalContent\]**  
+**\[else value notMatch conditionalContent\]**  'else' for else  
 When value and match are not identical, conditionalContent is the result.
 Otherwise, there is no result.
 
     [else foo,bar,testing] = "testing"
 	[else foo,foo,testing] = ""
 
-**\[ne value,conditionalContent\]**  
+**\[ne value,conditionalContent\]**  'ne' for not equal  
 When value has no content, conditionalContent is the result.
 Otherwise, there is no result.
 
     [ne ,testing] = "testing"
 	[ne foo,testing] = ""
 
-**\[eq value,conditionalContent\]**  
+**\[eq value,conditionalContent\]**  'eq' for equal  
 When value has content, conditionalContent is the result.
 Otherwise, there is no result.
 
@@ -875,7 +881,7 @@ Otherwise, there is no result.
 
 ### Parsing and Text Processing
 
-**\[slice sliceSpec,content\]**  
+**\[slice sliceSpec,content\]**  'slice' for slice  
 This built-in returns a portion of the content. It works just like
 Python's slicing.
 
@@ -904,11 +910,11 @@ seems almost too obvious:
     [style reverse [slice ::-1,[b]]]
 	{reverse xyzzy} = "yzzyx"
 
-**\[splitcount n\]**  
+**\[splitcount n\]**  'splitcount' for splitcount  
 Allows you to limit the number of splits that \[split\] will
 perform. See \[split\], below.
 
-**\[\split X,item\(Xitem\)]**  
+**\[\split X,item\(Xitem\)]**  'split' for split  
 The split built-in takes content and splits it for use by the \[parm\] built-in.
 The idea is that for some styles, you will want to pass more than one parameter,
 as shown in the math examples above. It takes a separator parameter, and then
@@ -931,67 +937,67 @@ although to use a comma, you must use the comma escape, "\[co\]"
 	[parm 1] = "Becky Thatcher"
 	[parm 2] = "Tom Sawyer, and Huckleberry Finn"
 
-**\[parm n\]**  
+**\[parm n\]**  'parm' for parameter  
 See \[split\], above.
 
-**\[upper content\]**  
+**\[upper content\]**  'upper' for uppercase  
 Convert content to upper case:
 
     [upper thIs Is a test] = "THIS IS A TEST"
 
-**\[lower content\]**  
+**\[lower content\]**  'lower' for lower case  
 Convert content to upper case:
 
     [lower thIs Is a test] = "this is a test"
 
-**\[soundex (len=n,)content\]**  
+**\[soundex (len=n,)content\]**  'soundex' for soundex  
 Returns the Soundex code for the content, Defaults
 to len of 4:
 
     [soundex Knuth] = "K530"
 
-**\[strip content\]**  
+**\[strip content\]**  'strip' for strip  
 Strips HTML tags:
 
 	[strip <i>test</i>] = "test"
 
-**\[roman decNumber\]**  
+**\[roman decNumber\]**  'roman' for roman  
 Convert a decimal number to a roman numeral:
 
     [roman 9] = 'ix'
 	[upper [roman 14]] = "XIV"
 
-**\[dtohex decNumber\]**  
+**\[dtohex decNumber\]**  'dtohex' for decimal to hexadecimal  
 Convert a decimal number to a hexadecimal number:
 
 	[dtohex 17] = "11"
 
-**\[dtooct decNumber\]**  
+**\[dtooct decNumber\]**  'dtooct' for decimal to octal  
 Convert a decimal number to an octal number:
 
 	[dtooct 9] = "11"
 
-**\[dtobin decNumber\]**  
+**\[dtobin decNumber\]**  'dtobin' for decimal to binary  
 Convert a decimal number to a binary number:
 
 	[dtobin 3] = "11"
 
-**\[htodec hexadecimalNumber\]**  
+**\[htodec hexadecimalNumber\]**  'htodec' for hexadeimal to decimal  
 Convert an hexadecimal number to a decimal number:
 
 	[htodec 11] = "17"
 
-**\[otodec octalNumber\]**  
+**\[otodec octalNumber\]**  'otodec' for octal to decimal  
 Convert an octal number to a decimal number:
 
 	[otodec 11] = "9"
 
-**\[htodec binaryNumber\]**  
+**\[btodec binaryNumber\]**  'btodec' for binary to decimal  
 Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"
 
-**\[wwrap \(wrap=style,\)col,content\]**  
+**\[wwrap \(wrap=style,\)col,content\]**  'wwrap' for word wrap  
 This word wraps when content exceeds column `col`. Whitespace
 is collapsed.
 
@@ -1085,46 +1091,46 @@ Result:
 	you that this is a test. This
 	is only a test.
 
-**\[len content\]**  
+**\[len content\]**  'len' for length  
 Return the length of content in characters.
 
     [len foo] = "3"
 
-**\[lc content\]**  
+**\[lc content\]**  'lc' for line count  
 Return the length of content in lines.
 
     [lc this is a test
 	of the emergency broadcast system] = "2"
 
-**\[wc content\]**  
+**\[wc content\]**  'wc' for word count  
 Return the length of content in words.
 
     [wc this is a test
 	of the emergency broadcast system] = "9"
 
-**\[chr n\]**  
+**\[chr n\]**  'chr' for character  
 Convert a number from 0-255 to the associated ASCII character:
 
     [chr 65] = "A"
 	[chr 48] = "0"
 
-**\[ord character\]**  
+**\[ord character\]**  'ord' for ordinal  
 Convert an ASCII character to it's associated ASCII ordinal:
 
     [ord A] = "65"
 	[ord 0] = "48"
 
-**\[csep intNumber\]**  
+**\[csep intNumber\]**  'csep' for comma separate  
 Comma-separate an integer:
 
     [csep 1999333] = "1,999,333"
 
-**\[fcsep floatNumber\]**  
+**\[fcsep floatNumber\]**  'fcsep' for floating comma separate  
 Comma-separate a floating point number:
 
     [fcsep 1999333.01] = "1,999,333.01"
 
-**\[dup n,content\]**  
+**\[dup n,content\]**  'dup' for duplicate  
 Duplicate the content.
 
     [dup 5 foo] = "foofoofoofoofoo"
@@ -1143,7 +1149,7 @@ or lists. Here's an example of such a difference:
     [local counter 1]
 	[repeat 3,{numberit}] = "1: 2: 3: "
 
-**\[find (sep=X,)thisStringXcontent\]**  
+**\[find (sep=X,)thisStringXcontent\]**  'find' for find  
 This returns the index of where \(if\) thisString was
 \(not\) found in the content. If not found, the value
 returned is -1.
@@ -1152,13 +1158,14 @@ returned is -1.
     [find foo,foobarbip] = "0"
     [find bar,foobarbip] = "3"
 
-**\[replace (sep=X,)repStringXwithStringXcontent\]**  
+**\[replace (sep=X,)repStringXwithStringXcontent\]**  'replace' for replace  
 This allows you to replace one \(sub\)string in the content
 with another string:
 
     [replace foo,bar,I went to the foo today] = "I went to the bar today"
 
 **\[count \(sep=X,\)\(overlaps=yes,\)\(casesens=yes,patternXcontent\)\]**  
+'count' for count  
 Returns the number of occuraces of pattern in content. overlaps=yes
 will return 2 for aa in aaa; otherwise aa in aaa returns 1. casesens=yes
 returns 1 for AA in AAa; otherwise returns 2 for AA in AAa. The two
@@ -1169,17 +1176,17 @@ options may be combined. sep defaults to a comma.
 	[count casesens=yes,Aa,AaAaaa] = 2
 	[count casesens=yes,overlaps=yes,Aa,AaAaaa] = 2
 
-**\[caps content\]**  
+**\[caps content\]**  'caps' for caps  
 Convert content to sentence case:
 
     [caps thIs Is a test] = "This is a test"
 
-**\[capw content\]**  
+**\[capw content\]**  'capw' for capitalize words  
 Convert content to Word case:
 
     [capw thIs Is a test] = "This Is A Test"
 
-**\[capt content\]**  
+**\[capt content\]**  'capt' for capitalize titles  
 Convert content to title case:
 
     [capt thIs Is a test] = "This is a Test"
@@ -1196,7 +1203,7 @@ every other word will be capitalized:
 
     [capt thIs Is a test] = "This Is a Test"
 
-**\[scase content\]**  
+**\[scase content\]**  'scase' for special casing  
 Convert space-separated words, minding embedded and attached special
 characters, in content to specially cased words in a list. First you set
 up a list containing words exactly as you want them converted. The you
@@ -1213,13 +1220,13 @@ in it, that word goes in the list *without* the special character:
 	[scase cvt,He's the grand poo-bah: Really!] = "He's the grand Poo-Bah: Really!"
 	[scase cvt,She's just a l00ky-loo.] = "She's just a Looky-Loo."]
 
-**\[ssort content\]**  
+**\[ssort content\]**  'ssort' for string sort  
 This sorts lines of content in a case-sensitive manner.
 
-**\[sisort content\]**  
+**\[sisort content\]**  'sisort' for string insensitive sort  
 This sorts lines of content in a case-insensitive manner.
 
-**\[issort content\]**  
+**\[issort content\]**  'issort' for integer string sort  
 This sorts lines of content by an integer followed by a comma
 at the beginning of each line, like this:
 
@@ -1237,31 +1244,31 @@ Output of [issort content]:
 	5,line 2
 	27,line 3
 
-**\[hsort content\]**  
+**\[hsort content\]**  'hsort' for ham sort  
 This sorts lines of content by a ham radio callsign at the beginning
 of each line. The callsign must be separated from the rest of the
 content in the line, if any, by a non-alphanumerica character:
 
     [hsort content]
 
-**\[inter iStr,L|R,everyN,content\]**  
+**\[inter iStr,L|R,everyN,content\]**  'inter' for intersperse  
 This intersperses iStr within content starting either from the
 left or the right:
 
     [inter -,L,4,123456789] = "1234-5678-9"
     [inter -,R,4,123456789] = "1-2345-6789"
 
-**\[rjust width,padChar,content\]**  
+**\[rjust width,padChar,content\]**  'rjust' for right justify  
 This justifies a string to the right inside a known field-width.
 
     [rjust 6,#,foo] = "###foo"
 
-**\[ljust width,padChar,content\]**  
+**\[ljust width,padChar,content\]**  'ljust' for left justify  
 This justifies a string to the left inside a known field-width.
 
     [ljust 6,#,foo] = "foo###"
 
-**\[center width,padChar,content\]**  
+**\[center width,padChar,content\]**  'center' for center  
 This justifies a string to the center inside a known field-width.
 
     [center 9,#,foo] = "###foo"
@@ -1326,7 +1333,24 @@ generation in the examples within `aa_macro.py`
 
 ### Miscellanea
 
-**\[repeat n,content\]**  
+**\[include fileName\]**  'include' for include  
+This allows you to include, or import, a file containing styles and/or
+content at any point in the text stream:
+
+    [import myStyles]
+
+You can also import content when instantiating the module
+by utilizing the `dothis` module parameter.
+
+**\[embrace moduleName\]**  'embrace' for embrace  
+This allows you to add, extend, or replace existing built-in
+functionality. See the embrace-example.py file for specific
+examples of how to implement your own embracable module. To
+use an already existing module:
+
+	[embrace alreadyExistingModule.py]
+
+**\[repeat n,content\]**  'repeat' for repeat  
 Repeat the content.
 
     [repeat 5 foo] = "foofoofoofoofoo"
@@ -1350,7 +1374,7 @@ You cannot put \[repeat\] inside a style or define a style within
 
 However, you can *use* styles inside \[repeat\] as shown above.
 
-**\[comment remarks\]**  
+**\[comment remarks\]**  'comment' for comment  
 Anything inside the comment built-in is thrown away during evaluation.
 
 	[comment this is a test] = ""
@@ -1370,47 +1394,49 @@ keyword...
 	and so is this
 	] = ""
 
-**\[back HEX3|HEX6\]**  
+**\[back HEX3|HEX6\]**  'back' for background  
 This sets the background color used by the \[color\] built-in,
 but is only effective in HTML 4.01s mode because it can only
 be set via a span.
 
-**\[mode 3.2|4.01s\]**  
+**\[mode 3.2|4.01s\]**  'mode' for mode  
 This controls how some text formatting is specified, basically it
 switches between older style HTML tags and the CSS styles that
 were intended to supercede the older style tags.
 
 ### Escapes
 
-**\[co\]**  
+**\[co\]**  'co' for comma  
 The comma character.
 
-**\[sp\]**  
+**\[sp\]**  'sp' for space  
 The space.
 
-**\[lb\]**  
+**\[lb\]**  'lb' for left bracket  
 The left square bracket character.
 
-**\[rb\]**  
+**\[rb\]**  'rb' for right bracket  
 The right square bracket character.
 
-**\[ls\]**  
+**\[ls\]**  'ls' for left squiggly  
 The left squiggly brace character.
 
-**\[rs\]**  
+**\[rs\]**  'rs' for right squiggly  
 The right squiggly brace character.
 
-**\[lf\]**  
+**\[lf\]** pr **\[nl\]**  
+'lf' for line feed  
+'nl' for new list  
 The line feed charaacter.
 
 ## Styles
 
 ### Defining Styles
 
-**\[style styleName styleContent\]**  
+**\[style styleName styleContent\]**  'style' for style  
 This defines a local style of styleName.
 
-**\[gstyle styleName styleContent\]**  
+**\[gstyle styleName styleContent\]**  'gstyle' for global style 
 This defines a global style of styleName.
 
 It aids clarity to put style definitions on their own lines. However
@@ -1437,7 +1463,7 @@ You can disable this behavior by invoking `macro()` as follows:
 
 ### Using Styles
 
-**\[s styleName\( content\)\]**  
+**\[s styleName\( content\)\]**  's' for style  
 This invokes a style of styleName with the content, if any. A local
 style is used if it exists, otherwise a global style is used.
 
@@ -1450,18 +1476,18 @@ prior usage patterns.
 This invokes a style of styleName with the content, if any. It is the
 preferred shorthand for \[s styleName\]
 
-**\[glos styleName\( content\)\]**  
+**\[glos styleName\( content\)\]**  'glos' for global style  
 This invokes a local style of styleName with the content, if any. Local
 styles are not used.
 
-**\[locs styleName\( content\)\]**  
+**\[locs styleName\( content\)\]**  'locs' for local style  
 This invokes a global style of styleName with the content, if any. Global
 styles are not used.
 
-**\[spage\]**  
+**\[spage\]**  'spage' for style page  
 Unsets all local styles. Global styles are not affected.
 
-**\[ghost \(source=global|local\)\]**  
+**\[ghost \(source=global|local\)\]**  'ghost' for ghost  
 This outputs a style verbatim, without processing it. Invoked without
 the source option, it works like \[s styleName\] and \{styleName\}, which
 is to say it will output a local style if one exists, otherwise it will

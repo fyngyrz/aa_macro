@@ -3,6 +3,7 @@
 import re
 import imghdr
 import struct
+import imp
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -20,8 +21,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 21st, 2015     (for Class)
-  LastDocRev: August 21st, 2015     (for Class)
+     LastRev: August 22nd, 2015     (for Class)
+  LastDocRev: August 22nd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -50,8 +51,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.34
+     Version: 1.0.35
      History:                    (for Class)
+	 	1.0.35
+			* added [include], [embrace], [lf]
 	 	1.0.34
 			* added [lpop], [lpush] (synonym for append)
 	 	1.0.33
@@ -345,6 +348,9 @@ class macro(object):
 	[comment content]								# content does not render
 	[back HEX3|HEX6]								# set back color for HTML 4.01s operations
 	[mode 3.2|4.01s]								# set HTML version/mode
+	[include filename]								# grab some previously defined content, styles, etc.
+	[embrace modulename]							# install new built-ins, and/or replace existing ones
+													  see 'embrace-example.py'
 	
 	Escape Codes:
 	-------------
@@ -355,6 +361,7 @@ class macro(object):
 	[ls]							# produces HTML '{' as &#123;
 	[rs]							# produces HTML '}' as &#125;
 	[lf]							# produces HTML newline (0x0a)
+	[nl]							# produces HTML newline (0x0a)
 	
 	Styles
 	------
@@ -732,6 +739,32 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [include filename]
+	def inclu_fn(self,tag,data):
+		o = ''
+		if data != '':
+			try:
+				fh = open(data)
+			except:
+				pass
+			else:
+				try:
+					textContent = fh.read()
+				except:
+					try:
+						fh.close()
+					except:
+						pass
+				else:
+					try:
+						fh.close()
+					except:
+						pass
+					else:
+						o = self.do(textContent)
+		return o
+			
 
 	# [llen listName]
 	def llen_fn(self,tag,data):
@@ -2288,6 +2321,25 @@ The contents of the list are safe to include in the output if you like.
 			return pad+ll[2]+rpad
 		return pad+ll[2]
 
+	def hug_fn(self,tag,data):
+		o = ''
+		p = data.split('.py')
+		try:
+			huggee = imp.load_source('plug',data)
+		except:
+			o += ' !embrace import! '
+			pass
+		else:
+			try:
+				exclass = huggee.plug()
+				exclass.install(self)
+				exfns = exclass.gettable()
+				for key in exfns.keys():
+					self.fns[key] = exfns[key]
+			except Exception,e:
+				o = ' !embrace "%s" fail: %s! ' % (data,e)
+		return o
+
 	def setFuncs(self): #    '':self._fn,
 		self.fns = {
 					# escape codes
@@ -2299,6 +2351,7 @@ The contents of the list are safe to include in the output if you like.
 					'ls'	: self.ls_fn,		#	{	left brace
 					'rs'	: self.rs_fn,		#	}	right brace
 					'nl'	: self.nl_fn,		#   newline (0x0a)
+					'lf'	: self.nl_fn,		#   newline (0x0a)
 
 					# basic text formatting
 					# ---------------------
@@ -2461,6 +2514,8 @@ The contents of the list are safe to include in the output if you like.
 					'mode'	: self.mode_fn,		# [mode 3.2] or [mode 4.01s] sets HTML output mode
 					'back'	: self.back_fn,		# P1=HHH or HHHHHH then P2 is what gets colored
 					'ghost'	: self.ghost_fn,	# [ghost styleName] print verbatim
+					'include':self.inclu_fn,	# [include filename] grab some styles, etc.
+					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
 		}
 
 	def do(self,s):
