@@ -30,6 +30,8 @@ tasks and challenges. You can do anything from format a simple paragraph
 to generate a complete manual with indexes, table of contents,
 footnotes, completely custom styles and more.
 
+`macro()` can be extended or altered in any way by external plug-ins.
+
 In addition, I've provided a [basic tool](martomac.README.md) that
 translates from markdown to `macro()` format; utilizing this, your
 documentation options become essentially unlimited. This provides a path
