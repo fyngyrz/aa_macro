@@ -5,7 +5,7 @@
 I don't particularly appreciate WYSIWYG HTML/CSS editors, as they may
 generate sub-par code, may break with any application or library or
 operating system upgrade, and in the end, I have zero control over where
-and when it they break or any particular assurance I can easily correct
+and when they break, or any particular assurance I can easily correct
 the problem\(s\) if and when they occur. So something to make generation
 of HTML and CSS easier, of which I had direct control... and which
 depended upon nothing outside of Python itself... that really seemed
