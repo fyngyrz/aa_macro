@@ -4,19 +4,25 @@
 # the [embrace module] convention
 # ---------------------------------
 
+# The class MUST be named 'plug'
+# ------------------------------
 class plug(object):
 	def __init__(self):
 		self.settable()
 
+	# This method MUST be named 'install'
 	# This provides a reference to the parent class, macro()
+	# ------------------------------------------------------
 	def install(self,parent):
 		self.parent = parent
 
-	# [happy content] - extension
+	# [happy content] - extension of existing built-ins
+	# -------------------------------------------------
 	def happy_fn(self,tag,data):	# an extension of macro() built-ins
 		return data + ' :)'
 
-	# [unhappy content] - extension
+	# [unhappy content] - extension of existing built-ins
+	# ---------------------------------------------------
 	def unhappy_fn(self,tag,data):	# another extension of macro() built-ins
 		return data + ' :('
 
@@ -41,7 +47,7 @@ class plug(object):
 			'dtcase'	: self.dtcase_fn,	# access macro() varaibles
 		}
 
-	# This MUST be named "gettable()"
-	# -------------------------------
+	# This method MUST be named "gettable()"
+	# --------------------------------------
 	def gettable(self):
 		return self.extensions
