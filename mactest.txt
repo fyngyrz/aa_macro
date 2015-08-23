@@ -4,10 +4,11 @@
 [style test [b]]  
 [style code <code>[b]</code>]  
 [style hello Why hello, [b], how are you?]  
-{h1 Test Results: aa_macro.py]
+{h1 Test Results: aa_macro.py}
 
-{h2 Text Formatting]
+{h2 Text Formatting}
 [mode 4.01s]  
+
 [back 028]  
 {h3 HTML 4.01s Mode:}
 [p [b bold text]]
@@ -377,4 +378,6 @@ happy extension: [happy this is a good thing]
 unhappy extension: [unhappy this is a bad thing]
 back-reference to parent by embraced module: [dtcase]
 Replacement of [lb]i[rb]: [i emphasize me]
+[list makeEnts,&|&amp;,"|&quot;]  
+[lsub makeEnts,"She & me & some Tequila"]
 ]

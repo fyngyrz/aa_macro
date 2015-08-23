@@ -21,8 +21,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 22nd, 2015     (for Class)
-  LastDocRev: August 22nd, 2015     (for Class)
+     LastRev: August 23rd, 2015     (for Class)
+  LastDocRev: August 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -51,8 +51,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.35
+     Version: 1.0.36
      History:                    (for Class)
+	 	1.0.36
+			* added [lsub]
 	 	1.0.35
 			* added [include], [embrace], [lf], [expand]
 	 	1.0.34
@@ -239,6 +241,7 @@ class macro(object):
 	[lset listName,index,stuff]						# set a list item by index (must exist)
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
+	[lsub (sep=X,)listName,content]					# sequenced replacement by list
 	[dlist (style=X,)listName]						# output list, optionally wrapped with style X
 	[translate listName,text]						# characters are mapped to listName (see examples)
 	[scase listName,content]						# Case words as they are cased in listName
@@ -741,6 +744,29 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [lsub (sep=X,)listName,content] - sep defaults to '|'
+	def lsub_fn(self,tag,data):
+		o = ''
+		sep = '|'
+		opts,data = self.popts(['sep'],data)
+		p = data.split(',',1)
+		if len(p) == 2:
+			ln,content = p
+			for el in opts:
+				if el[0] == 'sep=':
+					sep = el[1]
+			ll = self.theLists.get(ln,[])
+			if ll != []:
+				for el in ll:
+					p = el.split(sep)
+					if len(p) == 2:
+						t,r = p
+						content = content.replace(t,r)
+				o = content
+		else:
+			o = data
+		return o
 
 	# [include filename]
 	def inclu_fn(self,tag,data):
@@ -2452,6 +2478,7 @@ The contents of the list are safe to include in the output if you like.
 					'llen'	: self.llen_fn,		# [llen listName] length of list
 					'lslice': self.lslice_fn,	# [lslice sliceSpec,listToSlice,intoList]
 					'lpop'	: self.lpop_fn,		# [lpop listName( index)]
+					'lsub'	: self.lsub_fn,		# [lsub (sep=X,)listName,content]
 
 					# HTML list handling
 					# P1[,P2]...[,Pn]

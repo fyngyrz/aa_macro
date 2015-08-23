@@ -660,6 +660,22 @@ This outputs one list item selected by indexN:
 
     [e myList 2] = "leroy"
 
+**\[lsub \(sep=X,\)listName,content\]**  'lsub' for list substitution  
+This takes a list of the form AsepB, where the default sep value is the
+"|" character.
+
+Every instance of A in the content, for every AsepB element in the
+list, is replaced with B, replacements being performed in the order
+of the AsepB list items. For instance:
+
+    [list entList,&|&amp;,"|&quot;]
+	[lsub entList,"She & Me & some Tequilia"] = "&quot;She &amp; Me &amp; some Tequila&quot;"
+
+You can use it the other way around just as easily:
+
+	[list normList,&amp;|&,&quot;|"]
+	[lsub normList,"&quot;She &amp; Me &amp; some Tequila&quot;"] = "She & Me & some Tequilia"
+
 **\[asort listName\]**  'asort' for alphabetic sort \(of list\)  
 Sorts listName alphabetically, case-sensitive \(capital letters come first.\)
 
