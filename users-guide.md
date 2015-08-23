@@ -245,6 +245,11 @@ None of these patterns will work:
 	[style s2 {s1 [b]}] - style s2 stored and deferred
 	[style s1 [b]] ------ style s1; stored and deferred, but too late for attempt at generation
 
+For the same reasons, you can create styles that will contain operations
+that will be present after a future \[import\] or \[embrace\], but you
+can't *use* those styles until the actual \[import\] or \[embrace\] has
+been processed in the usual inside-out, left-to-right fashion.
+
 ## Global versus Local
 
 Class `macro()` provides both local and global style and variable
