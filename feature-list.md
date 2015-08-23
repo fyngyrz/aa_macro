@@ -63,6 +63,7 @@
     * change an item
 	* length of list
 	* list slicing
+	* list concatination
 	* lists as stacks (push,pop)
     * output a list, each item wrapped in a style
     * output a list item

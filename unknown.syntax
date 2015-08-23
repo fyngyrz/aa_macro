@@ -24,6 +24,7 @@ context default brightgreen blue
 # Data List Handling
 	keyword whole [list kcolor
 	keyword whole [e kcolor
+	keyword whole [lcc kcolor
 	keyword whole [append kcolor
 	keyword whole [lpush kcolor
 	keyword whole [translate kcolor

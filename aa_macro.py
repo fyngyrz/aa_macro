@@ -51,8 +51,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.36
+     Version: 1.0.37
      History:                    (for Class)
+	 	1.0.37
+			* added [lcc]
 	 	1.0.36
 			* added [lsub]
 	 	1.0.35
@@ -239,6 +241,7 @@ class macro(object):
 	[slice sliceSpec,listToSlice,resultList]		# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
 	[lpop listName(,index)]							# [lpop] == [lpop -1] remove list item
 	[lset listName,index,stuff]						# set a list item by index (must exist)
+	[lcc srcList,addList,tgtList]					# concatinate lists
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
@@ -744,6 +747,18 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	# [lcc listOne,listTwo,listResult]
+	def lcc_fn(self,tag,data):
+		o = ''
+		p = data.split(',',2)
+		if len(p) == 3:
+			ln1,ln2,lnr = p
+			if lnr != '':
+				l1 = self.theLists.get(ln1,[])
+				l2 = self.theLists.get(ln2,[])
+				self.theLists[lnr] = l1 + l2
+		return o
 
 	# [lsub (sep=X,)listName,content] - sep defaults to '|'
 	def lsub_fn(self,tag,data):
@@ -2468,6 +2483,7 @@ The contents of the list are safe to include in the output if you like.
 					'lpush'	: self.append_fn,	# [lpush listName,stuff]
 					'translate':self.translate_fn, # [translate listName,stuff]
 					'lset'	: self.lset_fn,		# [lset listName,index,stuff]
+					'lcc'	: self.lcc_fn,		# [lcc listNameA,listNameB,listNameC] C = A concat B
 					'cmap'	: self.cmap_fn,		# [cmap listName]
 					'dlist'	: self.dlist_fn,	# [dlist (style=styleName,)listName] dump list
 					'asort'	: self.asort_fn,	# [asort listName] sort by alpha, case-sensitive

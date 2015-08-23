@@ -660,6 +660,16 @@ This outputs one list item selected by indexN:
 
     [e myList 2] = "leroy"
 
+**\[lcc listOne,listTwo,listResult\]**  'lcc' for list concatinate  
+Takes two lists as input, creates or replaces the third with the result.
+The list designated to receive the result may be either of the two lists
+being concatinated, a new list, or another existing list.
+
+    [list lone,a,b,c]
+	[list ltwo,d,e,f]
+	[lcc lone,ltwo,lthree]]
+	[dlist lthree] = "abcdef"
+
 **\[lsub \(sep=X,\)listName,content\]**  'lsub' for list substitution  
 This takes a list of the form AsepB, where the default sep value is the
 "|" character.
