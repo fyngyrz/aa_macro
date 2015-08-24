@@ -18,6 +18,7 @@ File | Project Component
 [mtm.md](mtm.md) | Test file for [martomac.py](martomac.py)
 [mycustommd.mac](mycustommd.mac) | Sample file for [martomac.py](martomac.py) \-m option
 [README.md](README.md) | General explanation of project intent, fit
+[tease.png](tease.pg) | Image used in [README.md](README.md)
 [test.gif](test.gif) | Test image for unit tests
 [test.jpg](test.jpg) | Test image for unit tests
 [test.png](test.png) | Test image for unit tests

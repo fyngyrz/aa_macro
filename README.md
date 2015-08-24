@@ -2,6 +2,8 @@
 
 > Also see: [project file descriptions](files.md)
 
+![macro\(\)](tease.png)
+
 I don't particularly appreciate WYSIWYG HTML/CSS editors, as they may
 generate sub-par code, may break with any application or library or
 operating system upgrade, and in the end, I have zero control over where
