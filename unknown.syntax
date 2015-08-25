@@ -6,6 +6,7 @@ context default brightgreen blue
 	define stylecolor white
 	define delimcolor brightmagenta
 	define barcolor white
+
 #  Basic text formatting
 	keyword whole [color kcolor
 	keyword whole [i kcolor
@@ -83,6 +84,8 @@ context default brightgreen blue
 	keyword whole [odd kcolor
 	keyword whole [ne kcolor
 	keyword whole [eq kcolor
+	keyword whole [ifle kcolor
+	keyword whole [ifge kcolor
 
 # Variable Handling
 	keyword whole [local kcolor

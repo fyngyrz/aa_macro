@@ -136,6 +136,10 @@
 	* On parameter non-match
 	* On parameter present
 	* On parameter non-present
+	* On parameter odd
+	* On parameter even
+	* On Parameter less than or equal
+	* On Parameter greater than or equal
   * Miscellaneous
     * "Include" files
 	* Embrace, extend or supercede any built-in function

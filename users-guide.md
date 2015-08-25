@@ -872,15 +872,15 @@ Which you would use as follows:
 "value" is numeric. If it is even, conditionalContent is the result. If the
 value is odd, then there is no result.
 
-	[if 1,testing] = ""
-    [if 2,testing] = "testing"
+	[even 1,testing] = ""
+    [even 2,testing] = "testing"
 
 **\[odd value conditionalContent\]**  'odd' for odd  
 "value" is numeric. If it is odd, conditionalContent is the result. If the
 value is even, then there is no result.
 
-	[if 1,testing] = "testing"
-    [if 2,testing] = ""
+	[odd 1,testing] = "testing"
+    [odd 2,testing] = ""
 
 **\[if value match conditionalContent\]**  'if' for if  
 When value and match are identical, conditionalContent is the result.
@@ -909,6 +909,22 @@ Otherwise, there is no result.
 
     [eq ,testing] = ""
 	[eq foo,testing] = "testing"
+
+**\[ifle iValue1,iValue2,content\]**  '' for if less or equal  
+When iValue1 <= iValue2, content is the result. Otherwise, there
+is no result.
+
+	[ifle 5,4,foo] = ""
+	[ifle 5,5,foo] = "foo"
+	[ifle 5,6,foo] = "foo"
+
+**\[ifge iValue1,iValue2,content\]**  '' for if greater or equal  
+When iValue1 >= iValue2, content is the result. Otherwise, there
+is no result.
+
+	[ifge 5,4,foo] = "foo"
+	[ifge 5,5,foo] = "foo"
+	[ifge 5,6,foo] = ""
 
 ### Parsing and Text Processing
 

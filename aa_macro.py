@@ -21,8 +21,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 23rd, 2015     (for Class)
-  LastDocRev: August 23rd, 2015     (for Class)
+     LastRev: August 25th, 2015     (for Class)
+  LastDocRev: August 25th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
@@ -51,8 +51,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.37
+     Version: 1.0.38
      History:                    (for Class)
+	 	1.0.38
+			* added [ifge], [ifle]
 	 	1.0.37
 			* added [lcc]
 	 	1.0.36
@@ -289,13 +291,14 @@ class macro(object):
 
 	Conditionals
 	------------
-*	[even value conditionalContent]					# use conditional content if value is even
-*	[odd value conditionalContent]					# use conditional content if value is odd
-*	[if value match conditionalContent]				# use conditional content if value == match
-*	[else value match conditionalContent]			# use conditional content if value != match
-*	[ne value,conditionalContent]					# use conditional content if value Not Empty
-*	[eq value,conditionalContent]					# use conditional content if value Empty
-	
+*	[even value conditionalContent]					# use cc if value is even
+*	[odd value conditionalContent]					# use cc if value is odd
+*	[if value match conditionalContent]				# use cc if value == match
+*	[else value match conditionalContent]			# use cc if value != match
+*	[ne value,conditionalContent]					# use cc if value Not Empty
+*	[eq value,conditionalContent]					# use cc if value Empty
+*   [ifge iValue,iValue,conditionalContent]			# use cc if integer1 >= integer2
+*   [ifle iValue,iValue,conditionalContent]			# use cc if integer1 <= integer2
 	
 	Parsing and text processing
 	---------------------------
@@ -2166,6 +2169,34 @@ The contents of the list are safe to include in the output if you like.
 				o = dlist[1]
 		return o
 
+	def ifle_fn(self,tag,data):
+		o = ''
+		p = data.split(',',2)
+		if len(p) == 3:
+			a,b,c = p
+			try:
+				a = int(a)
+				b = int(b)
+				if a <= b:
+					o = c
+			except:
+				pass
+		return o
+
+	def ifge_fn(self,tag,data):
+		o = ''
+		p = data.split(',',2)
+		if len(p) == 3:
+			a,b,c = p
+			try:
+				a = int(a)
+				b = int(b)
+				if a >= b:
+					o = c
+			except:
+				pass
+		return o
+
 	def ifelse_fn(self,tag,data):
 		o = ''
 		try:
@@ -2545,6 +2576,8 @@ The contents of the list are safe to include in the output if you like.
 					'odd'	: self.evenodd_fn,	# if P1 odd then P2
 					'ne'	: self.ne_fn,		# if P1 non-empty,P2 (p1,p2)
 					'eq'	: self.eq_fn,		# if P1 empty,P2 (p1,p2)
+					'ifle'	: self.ifle_fn,		# if P1 <= P2 then P3
+					'ifge'	: self.ifge_fn,		# if P1 >= P2 then P3
 
 					# variable handling
 					# -----------------
