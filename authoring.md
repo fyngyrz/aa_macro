@@ -16,12 +16,12 @@ both the two spaces and the subsequent newline.
 
 ### Defining Styles Over Multiple Lines
 
-You can define a style over multiple lines by placing two spaces
-at the end of each line. Here's a fun use of styles, where one
-of the style is  built over multiple lines for clarity, with interespersed lines
-to separate the styles and content. The interspersed lines are simply two spaces
-and a newline; consequently, they are stripped out so they make perfect
-spacers.
+You can define a style over multiple lines by placing two spaces at the
+end of each line. Here's a fun use of styles, where one of the styles is 
+built over multiple lines for clarity, with interspersed lines used to
+separate the styles and content. The interspersed lines are simply two
+spaces and a newline; consequently, they are stripped out so they make
+perfect spacers.
 
 This is a set of styles that provides a way to created ordered lists
 with reference labels. The reason to do this is that later
