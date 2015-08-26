@@ -147,6 +147,55 @@ Referring to item #3, I prefer cherries. However...
 ...when it comes to pasta, I prefer #5 over the others.
 ```
 
+You can also use the \[fref\] and \[resolve\] built-ins to refer
+to things that have not yet been defined, like this:
+
+```
+Foodiness
+
+Pay attention when I talk about pasta in items [fref l1], [fref l2]
+and [fref l3].
+
+{oo}
+{oi nut,line of nuttiness}
+{oi spop,soda}
+{oi fruit,fruity line}
+{oi rock,stone-age line}
+
+Referring to item {oref fruit}, I prefer cherries. However...
+
+{oi spag,spaghetti}
+{oi shel,shells}
+{oi ling,linguini}
+
+...when it comes to pasta, I prefer {oref lconv} over the others.
+[resolve l1,{oref spag}]  
+[resolve l2,{oref shel}]  
+[resolve l3,{oref ling}]  
+```
+
+Which comes out as:
+
+```
+Foodiness
+
+Pay attention when I talk about pasta in items #5, #6
+and #7.
+
+1: line of nuttiness
+2: soda
+3: fruity line
+4: stone-age line
+
+Referring to item #3, I prefer cherries. However...
+
+5: spaghetti
+6: shells
+7: linguini
+
+...when it comes to pasta, I prefer #5 over the others.
+```
+
 Pretty spiffy, no? :\)
 
 ### Back-Referencing and Order of Definition
