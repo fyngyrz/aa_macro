@@ -1,2 +1,12 @@
-[style peanut [i [b]]]  
-{peanut italicize this}
+[style html <HTML>[b]</HTML>[nl]]  
+[style body [nl]<BODY>[b]</BODY>[nl]]  
+[style head [nl]<HEAD>[b]</HEAD>]  
+[style title [nl]<TITLE>[b]</TITLE>[nl]]  
+[style hi Why hello, [b], how are you?]  
+
+{html {head {title aagen Example}}  
+{body 
+[p 
+{hi Ebenezer}
+]
+}}
