@@ -107,6 +107,48 @@ Referring to item #2, I prefer cherries. However...
 ...when it comes to pasta, I prefer #4 over the others.
 ```
 
+Coming back later, we can change the list to add an item up front,
+and the back-references will adjust themselves accordingly. Source:
+
+```
+Foodiness
+
+{oo}
+{oi nut,line of nuttiness}
+{oi spop,soda}
+{oi fruit,fruity line}
+{oi rock,stone-age line}
+
+Referring to item {oref fruit}, I prefer cherries. However...
+
+{oi spag,spaghetti}
+{oi shel,shells}
+{oi ling,linguini}
+
+...when it comes to pasta, I prefer {oref lconv} over the others.
+```
+
+Now we get this:
+
+```
+Foodiness
+
+1: line of nuttiness
+2: soda
+3: fruity line
+4: stone-age line
+
+Referring to item #3, I prefer cherries. However...
+
+5: spaghetti
+6: shells
+7: linguini
+
+...when it comes to pasta, I prefer #5 over the others.
+```
+
+Pretty spiffy, no? :\)
+
 ### Back-Referencing and Order of Definition
 
 Styles are not evaluated until they are used. This means that as long as all
