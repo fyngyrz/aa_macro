@@ -211,9 +211,9 @@ that using the HTML entity for "$":
 
 Now we can do these things:
 
-`{i {$}chapter}` = "*$chapter*"
-`{i chapter}` = "*chapter*"
-`{i $chapter}` = "*Introduction to the Work*"
+`{i {$}chapter}` = "*$chapter*"  
+`{i chapter}` = "*chapter*"  
+`{i $chapter}` = "*Introduction to the Work*"  
 
 ## Too Terse?
 
