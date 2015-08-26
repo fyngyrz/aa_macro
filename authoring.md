@@ -18,7 +18,7 @@ both the two spaces and the subsequent newline.
 
 You can define a style over multiple lines by placing two spaces at the
 end of each line. Here's a fun use of styles, where one of the styles is 
-built over multiple lines for clarity, with interspersed lines used to
+built over four lines for clarity, with interspersed lines used to
 separate the styles and content. The interspersed lines are simply two
 spaces and a newline; consequently, they are stripped out so they make
 perfect spacers.
@@ -30,8 +30,8 @@ item in the list, even if you add other items later.
 
 Style | Function
 ----- | --------
-\{oo\} | instantiates the list, setting the list ordinal to zero.
 \{oostyle\} | the list style, in this case number, colon, space, item.
+\{oo\} | instantiates the list, setting the list ordinal to zero.
 \{oi\} | manages the numbering and association with the item lable.
 \{oref\} | emplaces the actual number of the lable-referenced list item.
 
