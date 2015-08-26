@@ -2548,6 +2548,7 @@ The contents of the list are safe to include in the output if you like.
 					# Data dictionary handling
 					'dict'	: self.dict_fn,		# [dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)]
 					'setd'	: self.setd,		# [setd (keysep=Y,)dictName,keyYvalue]
+					'dset'	: self.setd,		# [dset (keysep=Y,)dictName,keyYvalue]
 					'd'		: self.d_fn,		# [d dictName,key] = "value"
 					'expand': self.expand_fn,	# [expand dict,content]
 

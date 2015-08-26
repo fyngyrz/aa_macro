@@ -1,7 +1,7 @@
 # Authoring in Macro\(\)
 
-This is a collection of ideas and approaches that are useful in
-authoring using `Macro()`.
+This is a collection of ideas and approaches that may be interesting with
+regard to authoring using `Macro()`.
 
 ## Style definition
 
@@ -16,8 +16,96 @@ both the two spaces and the subsequent newline.
 
 ### Defining Styles Over Multiple Lines
 
-You can define a style over multiple lines by placing a
-newline directly after the style name instead of a space.
+You can define a style over multiple lines by placing two spaces
+at the end of each line. Here's a fun use of styles, where one
+of the style is  built over multiple lines for clarity, with interespersed lines
+to separate the styles and content. The interspersed lines are simply two spaces
+and a newline; consequently, they are stripped out so they make perfect
+spacers.
+
+This is a set of styles that provides a way to created ordered lists
+with reference labels. The reason to do this is that later
+back-references to the list will always be to the correctly numbered
+item in the list, even if you add other items later.
+
+Style | Function
+----- | --------
+\{oo\} | instantiates the list, setting the list ordinal to zero.
+\{oostyle\} | the list style, in this case number, colon, space, item.
+\{oi\} | manages the numbering and association with the item lable.
+\{oref\} | emplaces the actual number of the lable-referenced list item.
+
+```
+[style oo [local lcount 0]]  
+  
+[style oostyle [v lcount]: [b]]  
+  
+[style oi [local lcount [add [v lcount] 1]]  
+[splitcount 1][split [co],[b]]  
+[dset lmem,[parm 0]:[v lcount]]  
+{oostyle [parm 1]}]  
+  
+[style oref #[d lmem,[b]]]  
+  
+Foodieness
+
+{oo}
+{oi nut,line of nuttiness}
+{oi fruit,fruity line}
+{oi rock,stone-age line}
+
+Referring to item {oref fruit}, I prefer cherries.
+```
+
+The output of the above is:
+
+```
+Foodiness
+
+1: line of nuttiness
+2: fruity line
+3: stone-age line
+
+Referring to item #2, I prefer cherries.
+```
+
+This type of list generation also allows list splitting around content,
+as the list context does not end until the next list is instantiated.
+
+```
+Foodiness
+
+{oo}
+{oi nut,line of nuttiness}
+{oi fruit,fruity line}
+{oi rock,stone-age line}
+
+Referring to item {oref fruit}, I prefer cherries. However...
+
+{oi spag,spaghetti}
+{oi shel,shells}
+{oi ling,linguini}
+
+...when it comes to pasta, I prefer {oref lconv} over the others.
+```
+
+The output of that is:
+
+```
+Foodiness
+
+1: line of nuttiness
+2: fruity line
+3: stone-age line
+
+Referring to item #2, I prefer cherries. However...
+
+4: spaghetti
+5: shells
+6: linguini
+
+...when it comes to pasta, I prefer #4 over the others.
+```
 
 ### Back-Referencing and Order of Definition
 
