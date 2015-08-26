@@ -244,10 +244,11 @@ it's fun. Well, I think it's fun. But again, I'm a little odd. :\)
 
 ## More
 
-At the top of the class in the `aa_macro.py` file, all the
-various features are described. At the end of the class there are a
-series of examples that will execute if you simply type this at the
-command line:
+At the top of the class in the [aa_macro.py](aa_macro.py) file, all the
+various features are described in what amounts to a quick-reference
+style format. At the end of the import library containing the class
+there are a series of examples that will execute if you simply type this
+at the command line:
 
     python aa_macro.py
 
