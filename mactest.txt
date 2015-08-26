@@ -372,7 +372,6 @@ ben]
 [expand dbldown,This person is silly!]
 [p 
 [include aagen-example.txt]  
-aw, nuts: {peanut butter}
 [embrace embrace-example.py]  
 happy extension: [happy this is a good thing]
 unhappy extension: [unhappy this is a bad thing]
@@ -392,3 +391,8 @@ if 5 >= 4 lte = [ifge 5,4,gte]
 if 5 >= 5 lte = [ifge 5,5,gte]
 if 5 >= 6 lte = [ifge 5,6,gte]
 [sys echo shell test]
+-----
+[fref thing] and again: [fref thing]
+-----
+[resolve thing,foobar, brother]  
+-----

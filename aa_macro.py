@@ -54,10 +54,12 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.39
+     Version: 1.0.40
      History:                    (for Class)
+	 	1.0.40
+			* added [fref], [resolve]
 	 	1.0.39
-			# added [date], [time], [sys]
+			* added [date], [time], [sys]
 	 	1.0.38
 			* added [ifge], [ifle]
 	 	1.0.37
@@ -362,6 +364,8 @@ class macro(object):
 	----
 	[date]											# date processing took place
 	[time]											# time processing took place
+	[fref label]									# forward reference
+	[resolve label,content]							# resolve forward reference(s) to lable
 	[sys shellCommand]								# execute shell command
 	[repeat count content]							# repeat content count times
 	[comment content]								# content does not render
@@ -498,6 +502,8 @@ class macro(object):
 		self.gstyles = {}
 		self.stack = []
 		self.parms = []
+		self.refs = {}
+		self.refcounter = 0
 		self.padCallLocalToggle = 0
 		self.padCallLocalRegion = -1
 		self.noshell = noshell
@@ -759,6 +765,26 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def mkey(self,key):
+		return 'hY#n_K+fR'+key+'6/tt@8f*d0!!rf'
+
+	# [fref label]
+	def fref_fn(self,tag,data):
+		o = ''
+		if data != '':
+			key = self.mkey(data)
+			o += key
+		return o
+
+	# [reso label,content]
+	def reso_fn(self,tag,data):
+		p = data.split(',',1)
+		if len(p) == 2:
+			k,c = p
+			key = self.mkey(k)
+			self.refs[key] = c
+		return ''
 
 	def sys_fn(self,tag,data):
 		o = ''
@@ -2707,6 +2733,8 @@ The contents of the list are safe to include in the output if you like.
 					'time'	: self.time_fn,		# [time] Generation time
 					'date'	: self.date_fn,		# [date] Generation date
 					'sys'	: self.sys_fn,		# [sys SHELLCMD]
+					'fref'	: self.fref_fn,		# forward reference
+					'resolve': self.reso_fn,	# resolve forward reference	
 		}
 
 	def do(self,s):
@@ -2780,6 +2808,8 @@ The contents of the list are safe to include in the output if you like.
 					tag += c
 			else:
 				o += c
+		for key in self.refs.keys():
+			o = o.replace(key,self.refs.get(key,''))
 		self.result = o
 		return o
 

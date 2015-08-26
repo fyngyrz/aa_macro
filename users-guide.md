@@ -1645,3 +1645,13 @@ If the global style does not exist, there will be no output.
 
 With source=local, it will output the local style, or if the local style
 does not exist, there will be no output.
+
+**\[fref label\]**  fref for forward reference  
+This places a marker in the content to be resolved by a corresponding
+\[resolve label,content\] instance later in the content. It is useful
+for referring to something that has yet to be processed. This is a global
+forward reference, so make sure your labels are unique all across your
+document.
+
+**\[resolve label,content\]**  fref for resolve
+This inserts `content` into all previous ocurrances of \[fref labl\].

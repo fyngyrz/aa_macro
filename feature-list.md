@@ -148,6 +148,7 @@
 	* HTML 3.2 and 4.01s modes
 	* time and date
 	* execute shell command and incorporate output
+	* forward-reference resolution
 
 * Utilities
   * Built-in example suite

@@ -165,6 +165,8 @@ context default brightgreen blue
 	keyword whole [date kcolor
 	keyword whole [time kcolor
 	keyword whole [sys kcolor
+	keyword whole [fref kcolor
+	keyword whole [resolve kcolor
  
     keyword { scolor
     keyword } scolor
