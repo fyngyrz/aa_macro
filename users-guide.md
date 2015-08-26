@@ -19,14 +19,16 @@ text processing process:
 There are two exceptions to this rule. The first is any definition of a
 `[style]`, and the second is `[repeat]`. In both cases, processing the
 content of these built-ins is deferred. This allows their effects to
-vary based on subsequent events in the processing stream, rather than
-the conditions that obtain at the time of style definition, or in the
-case of repeat, at the time of the first repeat.
+vary based on events in the processing stream concurrent with the actual
+invocation of the style, rather than the conditions that obtain at the
+time of style definition. In the case of repeat, evaluation occurs
+within the context of each repeat, rather than just once-and-done.
 
-If you want a style to process immediately for later use in that precise
-form, then the best way to go about that is to use the style immediately,
-and then store the result in a variable for later placement. This preserves
-the style result. An example of such a style use is as follows:
+If you want a style to process immediately for later use in the context
+that is extant when it is defined, then the best way to go about that is
+to use the style immediately, storing the result in a variable for later
+placement. This preserves the style result. An example of such a style
+use is as follows:
 
     [style dollars $[b]$]
 	[local forlater {dollars moneybags}]
