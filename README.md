@@ -154,7 +154,8 @@ or libraries, of tools that do exactly what you want them to.
 
 ## A \(much\) more complex example
 
-So, my friend looked at this readme, and he, in a fit of Perl-like cognition, says to me:
+So, my friend looked at an earlier version of this readme, and he, in a
+fit of Perl-like cognition, says to me:
 
 "...so rather than this: `{h1 chapter}` I'd like `{h1 $chapter}`"
 
@@ -210,9 +211,9 @@ that using the HTML entity for "$":
 
 Now we can do these things:
 
-    {i {$}chapter} = <i>$chapter</i>
-	{i chapter} = <i>chapter</i>
-	{i $chapter} = <i>Introduction to the Work</i>
+    {i {$}chapter} = "*$chapter*"
+	{i chapter} = "*chapter*"
+	{i $chapter} = "*Introduction to the Work*"
 
 ## Too Terse?
 
