@@ -24,9 +24,9 @@ spaces and a newline; consequently, they are stripped out so they make
 perfect spacers.
 
 This is a set of styles that provides a way to created ordered lists
-with reference labels. The reason to do this is that later
-back-references to the list will always be to the correctly numbered
-item in the list, even if you add other items later.
+with reference labels. The reason to do this is that references to the
+list items can always be to the correctly numbered item in the list,
+even if you add other items later.
 
 Style | Function
 ----- | --------
