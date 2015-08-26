@@ -162,6 +162,9 @@ context default brightgreen blue
 	keyword whole [ghost kcolor
 	keyword whole [include kcolor
 	keyword whole [embrace kcolor
+	keyword whole [date kcolor
+	keyword whole [time kcolor
+	keyword whole [sys kcolor
  
     keyword { scolor
     keyword } scolor

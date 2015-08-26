@@ -146,6 +146,8 @@
     * Comments \(do not appear in output\)
 	* Escapes for all processor encodings
 	* HTML 3.2 and 4.01s modes
+	* time and date
+	* execute shell command and incorporate output
 
 * Utilities
   * Built-in example suite

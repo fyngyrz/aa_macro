@@ -4,6 +4,8 @@ import re
 import imghdr
 import struct
 import imp
+import time
+import subprocess
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -21,9 +23,10 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 25th, 2015     (for Class)
-  LastDocRev: August 25th, 2015     (for Class)
+     LastRev: August 26th, 2015     (for Class)
+  LastDocRev: August 26th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
+     Dev Env: OS X 10.6.8, Python 2.6.1
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality. Anything new will be implemented
                  as something new, thus preserving all behavior and the API.
@@ -51,8 +54,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.38
+     Version: 1.0.39
      History:                    (for Class)
+	 	1.0.39
+			# added [date], [time], [sys]
 	 	1.0.38
 			* added [ifge], [ifle]
 	 	1.0.37
@@ -355,6 +360,9 @@ class macro(object):
 
 	Misc
 	----
+	[date]											# date processing took place
+	[time]											# time processing took place
+	[sys shellCommand]								# execute shell command
 	[repeat count content]							# repeat content count times
 	[comment content]								# content does not render
 	[back HEX3|HEX6]								# set back color for HTML 4.01s operations
@@ -475,7 +483,7 @@ class macro(object):
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
 """
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False):
 		self.setMode(mode)
 		self.setBack(back)
 		self.setNoDinner(nodinner)
@@ -492,6 +500,7 @@ class macro(object):
 		self.parms = []
 		self.padCallLocalToggle = 0
 		self.padCallLocalRegion = -1
+		self.noshell = noshell
 		self.sexdigs = '01230120022455012623010202'
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
@@ -750,6 +759,41 @@ The contents of the list are safe to include in the output if you like.
 					result += ','
 				result += el
 		return ropts,result
+
+	def sys_fn(self,tag,data):
+		o = ''
+		if self.noshell == True: return o
+		if data != '':
+			try:
+				s = subprocess.Popen(data, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+				while True:
+					tl = s.stdout.readline()
+					if not tl: break
+					o += tl
+			except Exception,e:
+				o += 'System call failed: "%s" (%s)' % (e,data)
+		return o
+
+	def time_fn(self,tag,data):
+		t = time.localtime()
+		sh = str(t[3])
+		sm = str(t[4])
+		ss = str(t[5])
+		if t[3] < 10: sh = '0'+sh
+		if t[4] < 10: sm = '0'+sm
+		if t[5] < 10: ss = '0'+ss
+		return(sh+sm+ss)
+
+	def date_fn(self,tag,data):
+		t = time.localtime()
+		sy = str(t[0])
+		sm = str(t[1])
+		if (t[1] < 10):
+			sm = '0'+sm
+		sd = str(t[2])
+		if (t[2] < 10):
+			sd = '0'+sd
+		return(sy+sm+sd)
 
 	# [lcc listOne,listTwo,listResult]
 	def lcc_fn(self,tag,data):
@@ -2659,6 +2703,9 @@ The contents of the list are safe to include in the output if you like.
 					'ghost'	: self.ghost_fn,	# [ghost styleName] print verbatim
 					'include':self.inclu_fn,	# [include filename] grab some styles, etc.
 					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
+					'time'	: self.time_fn,		# [time] Generation time
+					'date'	: self.date_fn,		# [date] Generation date
+					'sys'	: self.sys_fn,		# [sys SHELLCMD]
 		}
 
 	def do(self,s):

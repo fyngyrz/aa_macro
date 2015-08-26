@@ -886,15 +886,15 @@ value is even, then there is no result.
 When value and match are identical, conditionalContent is the result.
 Otherwise, there is no result.
 
-    [if foo,bar,testing] = ""
-	[if foo,foo,testing] = "testing"
+    [if foo bar testing] = ""
+	[if foo foo testing] = "testing"
 
 **\[else value notMatch conditionalContent\]**  'else' for else  
 When value and match are not identical, conditionalContent is the result.
 Otherwise, there is no result.
 
-    [else foo,bar,testing] = "testing"
-	[else foo,foo,testing] = ""
+    [else foo bar testing] = "testing"
+	[else foo foo testing] = ""
 
 **\[ne value,conditionalContent\]**  'ne' for not equal  
 When value has no content, conditionalContent is the result.
@@ -1430,6 +1430,52 @@ Output:
 generation in the examples within `aa_macro.py`
 
 ### Miscellanea
+
+**\[sys shellCommand\]**  sys for system  
+This provides a means to execute a system command.
+
+If the command creates output, it will be incorporated into
+the `macro()` processing stream.
+
+If the command encounters a problem, the stderr results will
+also be incorporated into the processing stream.
+
+If you wish to suppress the output of the command with regard
+to the prrocessing stream, execute it within a \[comment\] and
+that will prevent the results from appearing.
+
+	[sys echo shell test] = "shell test"
+	[comment [sys echo shell test]] = ""
+
+As shell commands can present a significant security risk,
+there is a means to disable this capability when instantiating
+the class:
+
+```python
+mod = macro(noshell=True)
+```
+
+If noshell is True, then \[sys\] does nothing:
+
+	[sys echo shell test] = ""
+
+**\[date\]** date for date  
+Returns the date the file was processed in YYYYmmDD format.
+
+	[date] = "20150825"
+	[date][time] = "20150825124602"
+	[slice 0:4,[date]] = "2015"
+	[slice 4:6,[date]] = "08"
+	[slice 6:8,[date]] = "25"
+
+**\[time\]** time for time  
+Returns the time the file was processed in HHm format.
+
+	[time] = "124602"
+	[date][time] = "20150825124602"
+	[slice 0:2,[time]] = "12"
+	[slice 2:4,[time]] = "46"
+	[slice 4:6,[time]] = "02"
 
 **\[include fileName\]**  'include' for include  
 This allows you to include, or import, a file containing styles and/or
