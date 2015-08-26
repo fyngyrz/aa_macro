@@ -206,7 +206,7 @@ me using the information at the top of the `aa_macro.py` file.
 #### Style Rules
 
  * Don't define a style within another style definition
- * Don't define a style within a built-in
+ * Don't define a style within a built-in or style invocation
  * Recursive style use is okay, *but*, you have to provide a sane exit strategy
  * Style names may contain any character except a space (0x20) or a newline (0x0a)
  * Styles that use other styles can be defined in any order, but:
