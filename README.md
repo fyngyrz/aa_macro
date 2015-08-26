@@ -251,4 +251,6 @@ command line:
 
     python aa_macro.py
 
+Finally, and much more completely, there is the [users-guide.md](users-guide.md).
+
 Enjoy. :\)
