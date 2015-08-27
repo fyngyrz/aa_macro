@@ -11,7 +11,11 @@
 			);
 		},
 		{	name = 'meta.preprocessor.body.aa_macro';
-			begin = '\<';
+			begin = '\<[a-zA-z]';
+			end = '\>';
+		},
+		{	name = 'meta.preprocessor.body.aa_macro';
+			begin = '\</[a-zA-z]';
 			end = '\>';
 		},
 		{	name = 'constant.character.escape.body.aa_macro';
@@ -22,10 +26,6 @@
 					match = '[a-zA-Z0-9]';
 				},
 			);
-		},
-		{	name = 'meta.preprocessor.body.aa_macro';
-			begin = '\<';
-			end = '\>';
 		},
 		{	name = 'keyword.bodyc.aa_macro';
 			match = '\]';
