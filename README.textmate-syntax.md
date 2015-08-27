@@ -17,7 +17,7 @@ Here's how I have mine set up:
 
 These are the circumstances under which I developed this syntax file:
 
-OS X 10.6.8, Mac Pro Dual Xeon 8-core, Textmate Version 1.5.11 (1635)
+<tt>OS X 10.6.8, Mac Pro Dual Xeon 8-core, Textmate Version 1.5.11 (1635)</tt>
 
 Note there are later versions of both Textmate and OS X, and using those may require
 some additional work.
