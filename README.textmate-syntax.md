@@ -11,4 +11,4 @@ under "Fonts and Colors."
 
 Here's how I have mine set up:
 
-!(textmate-syntax.png)
+![Textmate Syntax](textmate-syntax.png)
