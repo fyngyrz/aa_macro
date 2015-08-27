@@ -24,6 +24,7 @@ File | Project Component
 [test.png](test.png) | Test image for unit tests
 [test_aa_macro.py](test_aa_macro.py) | Unit tests
 [testing.README.md](testing.README.md) | General explanation of unit tests
+[textmate-syntax.txt](textmate-syntax.txt) | OS X Textmate editor syntax highlighting
 [todo.md](todo.md) | List of remaining project goals
 [unknown.syntax](unknown.syntax) | Midnight Commander syntax highlighting for macro\(\)
 [users-guide.md](users-guide.md) | How to use class `macro()` to process text
