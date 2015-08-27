@@ -12,3 +12,7 @@ under "Fonts and Colors."
 Here's how I have mine set up:
 
 ![Textmate Syntax](textmate-syntax.png)
+
+## Environment
+
+OS X 10.6.8, Mac Pro Dual Xeon 8-core, Textmate Version 1.5.11 (1635)
