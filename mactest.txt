@@ -4,6 +4,7 @@
 [style test [b]]  
 [style code <code>[b]</code>]  
 [style hello Why hello, [b], how are you?]  
+  
 {h1 Test Results: aa_macro.py}
 
 {h2 Text Formatting}
@@ -119,12 +120,12 @@
 
 {h2 stack}
 [p 
-[push X]stack="[pop]"
-[push X][push Y][push Z]stack="[pop]","[pop]",[pop]"
-[push 3,bugger]stack="[pop]","[pop]","[pop]"
-[push X][push Y][push Z][flush]stack="[pop]","[pop]","[pop]"
+[push X]stack="[pop ]"
+[push X][push Y][push Z]stack="[pop ]","[pop ]",[pop ]"
+[push 3,bugger]stack="[pop ]","[pop ]","[pop ]"
+[push X][push Y][push Z][flush]stack="[pop ]","[pop ]","[pop ]"
 [push X][push Y][push Z]stack 1="[fetch 1]"[flush]
-[push sep=|,5|five]"[pop]","[pop]","[pop]","[pop]","[pop]"
+[push sep=|,5|five]"[pop ]","[pop ]","[pop ]","[pop ]","[pop ]"
 ]
 
 {h2 Math}

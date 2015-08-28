@@ -1,204 +1,56 @@
-context default brightgreen blue
+context default green blue
 
     define kcolor white
 	define bcolor white
-	define scolor brightred
-	define stylecolor white
-	define delimcolor brightmagenta
 	define barcolor white
+	define commacolor white
+	define htmlcolor white
 
-#  Basic text formatting
-	keyword whole [color kcolor
-	keyword whole [i kcolor
-	keyword whole [b kcolor
-	keyword whole [u kcolor
-	keyword whole [p kcolor
-	keyword whole [q kcolor
-	keyword whole [bq kcolor
+	define squigglycolor brightcyan
+	define stylecolor red
 
-# Data Dictionary Handling
-	keyword whole [dict kcolor
-	keyword whole [setd kcolor
-	keyword whole [d kcolor
-	keyword whole [expand kcolor
+	define bracecolor brightmagenta
+	define builtincolor yellow
 
-# Data List Handling
-	keyword whole [list kcolor
-	keyword whole [e kcolor
-	keyword whole [lcc kcolor
-	keyword whole [append kcolor
-	keyword whole [lpush kcolor
-	keyword whole [translate kcolor
-	keyword whole [lset kcolor
-	keyword whole [cmap kcolor
-	keyword whole [dlist kcolor
-	keyword whole [asort kcolor
-	keyword whole [aisort kcolor
-	keyword whole [isort kcolor
-	keyword whole [lhsort kcolor
-	keyword whole [ltol kcolor
-	keyword whole [llen kcolor
-	keyword whole [lslice kcolor
-	keyword whole [lpop kcolor
-	keyword whole [lsub kcolor
-
-# HTML list handling
-
-	keyword whole [ol kcolor
-	keyword whole [ul kcolor
-	keyword whole [ifol kcolor
-	keyword whole [iful kcolor
-	keyword whole [t kcolor
-
-# HTML tables
-	keyword whole [table kcolor
-	keyword whole [row kcolor
-	keyword whole [header kcolor
-	keyword whole [cell kcolor
-
-# Internet Interfacing
-	keyword whole [a kcolor
-	keyword whole [link kcolor
-	keyword whole [web kcolor
-	keyword whole [urlencode kcolor
-
-# Image Handling
-	keyword whole [img kcolor
-	keyword whole [locimg kcolor
-	keyword whole [lipath kcolor
-
-# Math
-	keyword whole [add kcolor
-	keyword whole [sub kcolor
-	keyword whole [mul kcolor
-	keyword whole [div kcolor
-	keyword whole [inc kcolor
-	keyword whole [dec kcolor
-	keyword whole [max kcolor
-	keyword whole [min kcolor
-
-# Conditionals
-	keyword whole [if kcolor
-	keyword whole [else kcolor
-	keyword whole [even kcolor
-	keyword whole [odd kcolor
-	keyword whole [ne kcolor
-	keyword whole [eq kcolor
-	keyword whole [ifle kcolor
-	keyword whole [ifge kcolor
-
-# Variable Handling
-	keyword whole [local kcolor
-	keyword whole [vs kcolor
-	keyword whole [global kcolor
-	keyword whole [page kcolor
-	keyword whole [spage kcolor
-	keyword whole [gv kcolor
-	keyword whole [lv kcolor
-	keyword whole [v kcolor
-	keyword whole [clear kcolor
-
-# Stack
-	keyword whole [pop kcolor
-	keyword whole [push kcolor
-	keyword whole [fetch kcolor
-	keyword whole [flush kcolor
-
-# Style Handling
-	keyword whole [gstyle stylecolor
-	keyword whole [style stylecolor
-	keyword whole [s kcolor
-	keyword whole [glos kcolor
-	keyword whole [locs kcolor
-
-# Parsing and Text Processing
-	keyword whole [splitcount kcolor
-	keyword whole [slice kcolor
-	keyword whole [split kcolor
-	keyword whole [rstrip kcolor
-	keyword whole [parm kcolor
-	keyword whole [upper kcolor
-	keyword whole [lower kcolor
-	keyword whole [roman kcolor
-	keyword whole [dtohex kcolor
-	keyword whole [dtooct kcolor
-	keyword whole [dtobin kcolor
-	keyword whole [htodec kcolor
-	keyword whole [otodec kcolor
-	keyword whole [btodec kcolor
-	keyword whole [chr kcolor
-	keyword whole [ord kcolor
-	keyword whole [csep kcolor
-	keyword whole [fcsep kcolor
-	keyword whole [dup kcolor
-	keyword whole [find kcolor
-	keyword whole [count kcolor
-	keyword whole [replace kcolor
-	keyword whole [rjust kcolor
-	keyword whole [ljust kcolor
-	keyword whole [center kcolor
-	keyword whole [capt kcolor
-	keyword whole [caps kcolor
-	keyword whole [capw kcolor
-	keyword whole [scase kcolor
-	keyword whole [inter kcolor
-	keyword whole [ssort kcolor
-	keyword whole [sisort kcolor
-	keyword whole [issort kcolor
-	keyword whole [hsort kcolor
-	keyword whole [len kcolor
-	keyword whole [lc kcolor
-	keyword whole [wc kcolor
-	keyword whole [soundex kcolor
-	keyword whole [strip kcolor
-	keyword whole [wwrap kcolor
-
-# Miscellaneous
-	keyword whole [repeat kcolor
-	keyword whole [nc kcolor
-	keyword whole [comment kcolor
-	keyword whole [mode kcolor
-	keyword whole [back kcolor
-	keyword whole [ghost kcolor
-	keyword whole [include kcolor
-	keyword whole [embrace kcolor
-	keyword whole [date kcolor
-	keyword whole [time kcolor
-	keyword whole [sys kcolor
-	keyword whole [fref kcolor
-	keyword whole [resolve kcolor
- 
-    keyword { scolor
-    keyword } scolor
-    keyword ( blue
-    keyword ) blue
-    keyword [ bcolor
-    keyword ] bcolor
-	keyword , delimcolor
+	keyword , commacolor
 	keyword | barcolor
+	keyword [b] yellow red
+	keyword whole co builtincolor
+	keyword whole sp builtincolor
+	keyword whole lb builtincolor
+	keyword whole rb builtincolor
+	keyword whole ls builtincolor
+	keyword whole rs builtincolor
+	keyword whole nl builtincolor
+	keyword whole lf builtincolor
+	keyword [parm yellow red
+	keyword >= green
+	keyword <= green
+	keyword [ bracecolor
+	keyword ] bracecolor
+	keyword { squigglycolor
+	keyword } squigglycolor
 
-#    spellcheck
+	context < > htmlcolor
+	keyword { squigglycolor
+	keyword } squigglycolor
+	keyword [ bracecolor
+	keyword ] bracecolor
 
-#context exclusive { } brightcyan
-#	keyword , red
+	context exclusive { \s stylecolor
+	keyword { squigglycolor
+	keyword } squigglycolor
+	keyword [ bracecolor
+	keyword ] bracecolor
 
-#context exclusive [ ] brightgreen
-# macro() contexts
-#    keyword [ brightmagenta
-#    keyword ] kcolor
-#    keyword { brightred
-#    keyword } brightred
-#	keyword , red
+	context exclusive [ \s builtincolor
+	keyword { squigglycolor
+	keyword } squigglycolor
+	keyword [ bracecolor
+	keyword ] bracecolor
 
-# Escape Codes
-	keyword whole co yellow black
-	keyword whole sp yellow black
-	keyword whole lb yellow black
-	keyword whole rb yellow black
-	keyword whole ls yellow black
-	keyword whole rs yellow black
-	keyword whole nl yellow black
-	keyword whole lf yellow black
-
-
-
+	context exclusive { } green
+	keyword [ bracecolor
+	keyword ] bracecolor
+	keyword { squigglycolor
+	keyword } squigglycolor
