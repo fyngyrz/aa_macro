@@ -170,6 +170,8 @@ I have a [upper [roman 427]] Hemi ox-cart
 11 hex to dec: [htodec 11]
 11 oct to dec: [otodec 11]
 11 bin to dec: [btodec 11]
+97 hex to binary: [dtobin [htodec 97]]
+11010110 to hex: [upper [dtohex [btodec 11010110]]]
 [local cont this is a test
 of the emergency broadcast system]
 content:
