@@ -23,7 +23,22 @@ context default green blue
 	keyword whole rs builtincolor
 	keyword whole nl builtincolor
 	keyword whole lf builtincolor
-	keyword [parm yellow red
+	keyword parm\s10 yellow red
+	keyword parm\s11 yellow red
+	keyword parm\s12 yellow red
+	keyword parm\s13 yellow red
+	keyword parm\s14 yellow red
+	keyword parm\s15 yellow red
+	keyword parm\s0 yellow red
+	keyword parm\s1 yellow red
+	keyword parm\s2 yellow red
+	keyword parm\s3 yellow red
+	keyword parm\s4 yellow red
+	keyword parm\s5 yellow red
+	keyword parm\s6 yellow red
+	keyword parm\s7 yellow red
+	keyword parm\s8 yellow red
+	keyword parm\s9 yellow red
 	keyword >= green
 	keyword <= green
 	keyword [ bracecolor
@@ -42,15 +57,69 @@ context default green blue
 	keyword } squigglycolor
 	keyword [ bracecolor
 	keyword ] bracecolor
+	keyword parm\s10 yellow red
+	keyword parm\s11 yellow red
+	keyword parm\s12 yellow red
+	keyword parm\s13 yellow red
+	keyword parm\s14 yellow red
+	keyword parm\s15 yellow red
+	keyword parm\s0 yellow red
+	keyword parm\s1 yellow red
+	keyword parm\s2 yellow red
+	keyword parm\s3 yellow red
+	keyword parm\s4 yellow red
+	keyword parm\s5 yellow red
+	keyword parm\s6 yellow red
+	keyword parm\s7 yellow red
+	keyword parm\s8 yellow red
+	keyword parm\s9 yellow red
+	keyword >= green
+	keyword <= green
 
 	context exclusive [ \s builtincolor
 	keyword { squigglycolor
 	keyword } squigglycolor
 	keyword [ bracecolor
 	keyword ] bracecolor
+	keyword parm\s10 yellow red
+	keyword parm\s11 yellow red
+	keyword parm\s12 yellow red
+	keyword parm\s13 yellow red
+	keyword parm\s14 yellow red
+	keyword parm\s15 yellow red
+	keyword parm\s0 yellow red
+	keyword parm\s1 yellow red
+	keyword parm\s2 yellow red
+	keyword parm\s3 yellow red
+	keyword parm\s4 yellow red
+	keyword parm\s5 yellow red
+	keyword parm\s6 yellow red
+	keyword parm\s7 yellow red
+	keyword parm\s8 yellow red
+	keyword parm\s9 yellow red
+	keyword >= green
+	keyword <= green
 
 	context exclusive { } green
 	keyword [ bracecolor
 	keyword ] bracecolor
 	keyword { squigglycolor
 	keyword } squigglycolor
+	keyword parm\s10 yellow red
+	keyword parm\s11 yellow red
+	keyword parm\s12 yellow red
+	keyword parm\s13 yellow red
+	keyword parm\s14 yellow red
+	keyword parm\s15 yellow red
+	keyword parm\s0 yellow red
+	keyword parm\s1 yellow red
+	keyword parm\s2 yellow red
+	keyword parm\s3 yellow red
+	keyword parm\s4 yellow red
+	keyword parm\s5 yellow red
+	keyword parm\s6 yellow red
+	keyword parm\s7 yellow red
+	keyword parm\s8 yellow red
+	keyword parm\s9 yellow red
+	keyword >= green
+	keyword <= green

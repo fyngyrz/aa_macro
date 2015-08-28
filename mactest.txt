@@ -399,3 +399,5 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 -----
 [resolve thing,foobar, brother]  
 -----
+[style showab [split [co],[b]][parm 0][parm 1]]
+{showab C,D,E}
