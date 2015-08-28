@@ -143,36 +143,50 @@ The notation I use to show this in this document is:
 
     [i my text] = "<i>my text<\i>"
 
-### Built-in Parameter Handling
+## Built-in Parameter and Content Handling for Both Styles and Built-ins
 
-Generally, the syntax is, the keyword for the built-in, followed
-by a space, followed by the parameter\(s\) which, if there are more
-than one, may be separated by spaces or commas, depending on the
-particular built-in and what the parameter is likely to consist
-of.
+Generally, the syntax is, the keyword or stylename, followed by a space,
+followed by the parameter\(s\) and/or content. Of which, if there is
+more than one, may be separated by spaces or commas, depending on the
+particular built-in and what the parameter is likely to consist of.
 
-If, however, you invoke a built-in that expects parameters with a
-trailing space and no parameter\(s\) after that, it will use the most
-recently encountered parameter\(s.\) If you truly intend to pass no
-content, then follow the built-in with a space. Here's an example using
-the wordcount built-in:
+If, however, you invoke anything that expects parameters and/or content
+without a trailing space after the keyword or stylename, it will use the
+most recently encountered parameter\(s.\)
 
-    [local cont this is a test of the emergency broadcast system.]
+In order to ensure you pass no parameters, you must follow the built-in
+or stylename with a space. Here's a demonstration using the wordcount
+built-in:
 
-	[wc [v cont]] = "9"
-	[wc] = "9"
+	[wc this is a test] = "4"
+	[wc] = "4"
 	[wc ] = "0"
 
-The content there was evaulated *once*, that is, the \[v cont\]
-statement that retrieved the variable `cont` did so when evaluated
-during the first \[wc\] invocation, and that already-evaulated content
-was provided to the second \[wc\] without re-evaulation.
+The content \(this is a test\) was evaulated *once*. By this I mean that
+the content was determined when evaluated during the first \[wc\]
+invocation, then that content was provided to the second \[wc\] without
+re-evaulation. The third \[wc\] returned zero because it had a trailing
+space and no further content.
 
 Another example \(in HTML 3.2 mode\):
 
-    [b style [color F84 me]] = "<b>style <font color="#FF8844">me<font></b>"
-    [i] = "<i>style <font color="#FF8844">me<font></i>"
-	[u] = "<u>style <font color="#FF8844">me<font></u>"
+    [b fancy [color F84 me] up] = "<b>fancy <font color="#FF8844">me<font></b> up"
+    [i] = "<i>fancy <font color="#FF8844">me<font></i> up"
+	[u] = "<u>fancy <font color="#FF8844">me<font></u> up"
+
+What is happening there is that because `macro()` evaluates from the inside out
+and then left to right, the actual content that reaches the \[b\] \(bold\) built-in
+is the result of the \[color\] built-in, not the \[color\] built-in itself.
+
+So when you intend to provide no content to a style or a built-in that normally
+expects content or keywords, always put a space after a stylename or built-in.
+
+In the case of something that does *not* expect content, such as \[co\]
+\(the comma escape\), the space is not necessary.
+
+Most of the time this won't cause you any trouble; and from time to time,
+you may be able to take advantage of the fact that the previous content
+remains available.
 
 ### Styles
 
