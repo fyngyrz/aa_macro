@@ -589,6 +589,11 @@ are some list creation examples:
     [list myList,joe,mary,fred,luna]
 	[list sep=|,myList,Michelle|Stella|Terrie]
 
+**\[lcopy srcList,dstList\]** 'lcopy'  for list copy  
+Copy an existing list to a new or existing list. If
+no list by srcName exists, dstList will be set to
+an empty list.
+
 **\[ltol listName,content\]**  'ltol' for lines to list  
 This splits lines \(text separated by newline characters\) into
 a list:
@@ -762,6 +767,16 @@ This allows you to create a multi-entry dictionary. sep defaults
 to a comma, and keysep defaults to a colon.
 
     [dict mystuff,foo:bar,this:that,she:he,widget:wodget]
+
+**\[dcopy srcList,dstList\]** 'dcopy'  for dictionary copy  
+Copy an existing dictionary to a new or existing dictionary. If
+no dictionary by srcName exists, dstDict will be set to
+an empty dictionary.
+
+**\[dkeys srcDict,dstList\]**  'dkeys' for dictionary keys  
+Copy the keys for srcDict to a new or existing list. If
+no dictionary or srcDict name exists, dstList is set to
+an empty list.
 
 **\[dset (keysep=Y)dictName,keyYvalue\]**  'dset' for dictionary set  
 This allows you to update or create one item in an existing dictionary,

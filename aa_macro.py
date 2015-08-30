@@ -23,8 +23,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 26th, 2015     (for Class)
-  LastDocRev: August 26th, 2015     (for Class)
+     LastRev: August 30th, 2015     (for Class)
+  LastDocRev: August 30th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
     Policies: 1) I will make every effort to never remove functionality or
@@ -54,8 +54,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.40
+     Version: 1.0.41
      History:                    (for Class)
+	 	1.0.41
+			* added [lcopy], [dcopy], [dkeys]
 	 	1.0.40
 			* added [fref], [resolve]
 	 	1.0.39
@@ -246,6 +248,7 @@ class macro(object):
 	Data Lists
 	----------
 	[append listname,item]							# add an item to the end of a list
+	[lcopy srcList,destList]						# copy a list to a new or existing list
 	[lpush listname,item]							# add an item to the end of a list (synonym for [append])
 	[slice sliceSpec,listToSlice,resultList]		# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
 	[lpop listName(,index)]							# [lpop] == [lpop -1] remove list item
@@ -273,6 +276,8 @@ class macro(object):
 	Dictionaries
 	------------
 	[dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)] # create multivalue dictionary
+	[dcopy srcDict,dstDict]							# copy a dictionary to a new or existing list
+	[dkeys srcDict,dstList]							# dictionary keys --> new or existing list
 	[dset (keysep=Y,)dictName,keyYvalue]			# set a single dictionary value (can create dict)
 	[d dictName,key]								# retrieve a single dictionary value
 	[expand dictName,content]						# replace words in content with words in dict
@@ -769,6 +774,54 @@ The contents of the list are safe to include in the output if you like.
 	def mkey(self,key):
 		return 'hY#n_K+fR'+key+'6/tt@8f*d0!!rf'
 
+	# [dkeys srcDict,dstList]
+	def dkeys_fn(self,tag,data):
+		o = ''
+		p = data.split(',',1)
+		if len(p) ==  2:
+			a,b = p
+			if a != '' and b != '':
+				try:
+					self.theLists[b] = self.theDicts.get(a,{}).keys()
+				except:
+					try:
+						self.theLists[b] = []
+					except:
+						pass
+		return o
+
+	# [dcopy srcDict,dstDict]
+	def dcopy_fn(self,tag,data):
+		o = ''
+		p = data.split(',',1)
+		if len(p) ==  2:
+			a,b = p
+			if a != '' and b != '':
+				try:
+					self.theDicts[b] = self.theDicts.get(a,{})
+				except:
+					try:
+						self.theDicts[b] = {}
+					except:
+						pass
+		return o
+
+	# [lcopy srcList,dstList]
+	def lcopy_fn(self,tag,data):
+		o = ''
+		p = data.split(',',1)
+		if len(p) ==  2:
+			a,b = p
+			if a != '' and b != '':
+				try:
+					self.theLists[b] = self.theLists.get(a,[])
+				except:
+					try:
+						self.theLists[b] = []
+					except:
+						pass
+		return o
+
 	# [fref label]
 	def fref_fn(self,tag,data):
 		o = ''
@@ -1184,7 +1237,7 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	# [setd (keysep=X,)dictName,keyXvalue]
-	def setd(self,tag,data):
+	def setd_fn(self,tag,data):
 		o = ''
 		opts,data = self.popts(['keysep'],data)
 		keysep = ':'
@@ -2573,13 +2626,16 @@ The contents of the list are safe to include in the output if you like.
 
 					# Data dictionary handling
 					'dict'	: self.dict_fn,		# [dict (sep=X,)(keysep=Y,)dictName,keyYvalue(XkeyYvalue)]
-					'setd'	: self.setd,		# [setd (keysep=Y,)dictName,keyYvalue]
-					'dset'	: self.setd,		# [dset (keysep=Y,)dictName,keyYvalue]
+					'dcopy'	: self.dcopy_fn,	# [dcopy srcDict,dstDict] copy dictionary
+					'dkeys'	: self.dkeys_fn,	# [dkeys srcDict,dstList] dictionary keys --> list
+					'setd'	: self.setd_fn,		# [setd (keysep=Y,)dictName,keyYvalue]
+					'dset'	: self.setd_fn,		# [dset (keysep=Y,)dictName,keyYvalue]
 					'd'		: self.d_fn,		# [d dictName,key] = "value"
 					'expand': self.expand_fn,	# [expand dict,content]
 
 					# Data list handling
 					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]
+					'lcopy'	: self.lcopy_fn,	# [lcopy srcList,dstList] copy list
 					'e'		: self.element_fn,	# fetch element:[e listName,n] = list[n]
 					'append': self.append_fn,	# [append listName,stuff]
 					'lpush'	: self.append_fn,	# [lpush listName,stuff]
