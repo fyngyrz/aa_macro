@@ -53,6 +53,7 @@
 	* Line-Item to List switching capable
   * Data lists
     * set up a list
+	* copy lists
 	* split lines into list
     * sort list
       * case-sensitive
@@ -71,6 +72,8 @@
     * translate by the character map
   * Data dictionaries
     * Create dictionary
+	* Copy dictionaries
+	* Retrieve dictionary keys to a list
 	* Set dictionary value
 	* Retrieve dictionary value
   * Tables
