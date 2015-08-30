@@ -669,12 +669,16 @@ Examples:
 	[lslice ::-1,srcList,srcList]
 	[dlist srcList] = "dcba"
 
-**\[dlist \(wrap=styleName,\)listName\]**  'dlist' for dump list  
+**\[dlist \(wrap=styleName,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
 Dumps/displays a list, optionally wrapped in a style:
 
     [dlist myList] = joemaryleroylunabetty
 	[style lwrap ([b]) ]
 	[dlist wrap=lwrap,myList] = "(joe) (mary) (leroy) (luna) (betty) "
+
+If parms=PRE is supplied, then the list element is prefixed with PRE.
+
+If posts=PST is supplied, then the list element is postfixed with PST.
 
 **\[e listName,indexN\]**  'e' for element of list  
 This outputs one list item selected by indexN:

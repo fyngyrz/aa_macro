@@ -54,8 +54,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.41
+     Version: 1.0.42
      History:                    (for Class)
+	 	1.0.42
+			* added parms=X and posts=X to [dlist]
 	 	1.0.41
 			* added [lcopy], [dcopy], [dkeys]
 	 	1.0.40
@@ -257,7 +259,9 @@ class macro(object):
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
-	[dlist (style=X,)listName]						# output list, optionally wrapped with style X
+	[dlist (style=X,)(parms=X,)(posts=X,)listName]	# output list elements, can be wrapped with style X
+													  and with parms, if any, prefixed to list element
+													  and with posts, if any, postfixed to list element
 	[translate listName,text]						# characters are mapped to listName (see examples)
 	[scase listName,content]						# Case words as they are cased in listName
 	[ltol listName,content]							# splits lines into a list
@@ -2108,28 +2112,35 @@ The contents of the list are safe to include in the output if you like.
 	# [dlist (style=styleName,)listName]
 	def dlist_fn(self,tag,data):
 		o = ''
-		ll = data.split(',',1)
+		opts,data = self.popts(['style','parms','posts'],data)
+		style = ''
+		parms = ''
+		posts = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
+			elif el[0] == 'parms=':
+				parms = el[1]
+			elif el[0] == 'posts=':
+				posts = el[1]
 		using = False
-		if len(ll) == 2: # wrap with style case
-			if ll[0][:6] == 'style=':
-				using = True
-				style=ll[0][6:]
-				if style != '':
-					listname = ll[1]
-					if self.styles.get(style,'') != '':
-						if ll[1] != '':
-							try:
-								for el in self.theLists[listname]:
-									ss = '[s %s %s]' % (style,el)
-									o += self.do(ss)
-							except:
-								pass
-		if using == False:
+		if style != '': # wrap with style mode
+			listname = data
+			if listname != '':
+				if self.styles.get(style,'') != '':
+					using = True
+					try:
+						for el in self.theLists[listname]:
+							ss = '[s %s %s%s%s]' % (style,parms,el,posts)
+							o += self.do(ss)
+					except:
+						pass
+		if using == False:	# no style wrapping mode
 			listname = data
 			if listname != '':
 				try:
 					for el in self.theLists[listname]:
-						o += el
+						o += parms+el+posts
 				except:
 					pass
 		return o
