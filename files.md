@@ -17,6 +17,8 @@ File | Project Component
 [martomac.py](martomac.py) | Markdown-to-aa\_macro() format convertor
 [mtm.md](mtm.md) | Test file for [martomac.py](martomac.py)
 [mycustommd.mac](mycustommd.mac) | Sample file for [martomac.py](martomac.py) \-m option
+[quickref.txt](quickref.txt) | Quick reference source in macro\(\) format
+[quickref.html](quickref.html) | Quick reference in HTML
 [README.md](README.md) | General explanation of project intent, fit
 [tease.png](tease.pg) | Image used in [README.md](README.md)
 [test.gif](test.gif) | Test image for unit tests

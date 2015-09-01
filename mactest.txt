@@ -107,8 +107,14 @@
 [p [t wrap=code,sep=|,d|e|f]]
 
 {h2 Tables}
-[table [row [header col 1][header col 2]][row [cell test1][cell test2]]]
-[table border=0,[row [header bgcolor="#ffffff",col 1][header col 2]][row bgcolor="#888888",[cell test1][cell align="center", test2]]]
+[table 
+[row [header col 1][header col 2]]
+[row [cell test1][cell test2]]
+]
+[table border=0,
+[row [header bgcolor="#ffffff",col 1][header col 2]]
+[row bgcolor="#888888",[cell test1][cell align="center", test2]]
+]
 
 {h2 Variables}
 [p 

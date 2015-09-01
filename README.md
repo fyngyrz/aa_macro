@@ -252,6 +252,7 @@ at the command line:
 
     python aa_macro.py
 
-Finally, and much more completely, there is the [user guide](users-guide.md).
+Finally, and much more completely, there is the [user guide](users-guide.md),
+as well as the [quick reference](quickref.html)
 
 Enjoy. :\)

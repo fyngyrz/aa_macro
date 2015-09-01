@@ -23,19 +23,22 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: August 30th, 2015     (for Class)
-  LastDocRev: August 30th, 2015     (for Class)
+     LastRev: September 1st, 2015     (for Class)
+  LastDocRev: September 1st, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
+	  Status:  BETA
     Policies: 1) I will make every effort to never remove functionality or
-                 alter existing functionality. Anything new will be implemented
-                 as something new, thus preserving all behavior and the API.
-                 The only intentional exceptions to this are if a bug is found
-                 that does not match the intended behavior, or I determine there
-                 is some kind of security risk. What I *will* do is not document
-                 older and less capable versions of a function, unless the new
-                 functionality is incapable of doing something the older
-                 version(s) could do.
+                 alter existing functionality once past BETA stage. Anything
+				 new will be implemented as something new, thus preserving all
+				 behavior and the API. The only intentional exceptions to this
+				 are if a bug is found that does not match the intended behavior,
+				 or I determine there is some kind of security risk. What I
+				 *will* do is not document older and less capable versions of a
+				 function, unless the new functionality is incapable of doing
+				 something the older version(s) could do. Remember, this only
+				 applies to production code. Until the BETA status is removed,
+				 ANYTHING may change. Sorry this was unclear previously.
     Examples: At bottom. Run in shell like so:    python aa_macro.py
               The best way to use them is open a shell and run them there,
 			  and open a shell with aa_macro.py in an editor or reader,
@@ -54,8 +57,11 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.42
+     Version: 1.0.43
      History:                    (for Class)
+	 	1.0.43
+			* removed auto-generation of newlines in [table] and [row]
+			* added [vb] escape for |
 	 	1.0.42
 			* added parms=X and posts=X to [dlist]
 	 	1.0.41
@@ -392,6 +398,7 @@ class macro(object):
 	[rb]							# produces HTML ']' as &#93;
 	[ls]							# produces HTML '{' as &#123;
 	[rs]							# produces HTML '}' as &#125;
+	[vb]							# produces HTML '|' as &#124;
 	[lf]							# produces HTML newline (0x0a)
 	[nl]							# produces HTML newline (0x0a)
 	
@@ -1699,16 +1706,16 @@ The contents of the list are safe to include in the output if you like.
 		o = '<table'
 		plist = data.split(',',1)
 		if len(plist) == 1:
-			o += '>\n'
+			o += '>'
 			o += plist[0]
 		elif len(plist) == 2: # table params
 			params = plist[0].replace('&quot;','"')
 			o += ' '+params
-			o += '>\n'
+			o += '>'
 			o += plist[1]
 		else:
 			return ' bad parameters for table '
-		o += '</table>\n'
+		o += '</table>'
 		return o
 
 	def row_fn(self,tag,data):
@@ -1724,7 +1731,7 @@ The contents of the list are safe to include in the output if you like.
 			o += plist[1]
 		else:
 			return ' bad parameters for row '
-		o += '</tr>\n'
+		o += '</tr>'
 		return o
 
 	def header_fn(self,tag,data):
@@ -1894,6 +1901,9 @@ The contents of the list are safe to include in the output if you like.
 
 	def ls_fn(self,tag,data):
 		return '&#123;'
+
+	def vb_fn(self,tag,data):
+		return '&#124;'
 
 	def rs_fn(self,tag,data):
 		return '&#125;'
@@ -2622,6 +2632,7 @@ The contents of the list are safe to include in the output if you like.
 					'rb'	: self.rb_fn,		#	]	right square bracket
 					'ls'	: self.ls_fn,		#	{	left brace
 					'rs'	: self.rs_fn,		#	}	right brace
+					'vb'	: self.vb_fn,		#   |   vertical bar
 					'nl'	: self.nl_fn,		#   newline (0x0a)
 					'lf'	: self.nl_fn,		#   newline (0x0a)
 

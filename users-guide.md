@@ -716,7 +716,7 @@ Sorts listName alphabetically, case-sensitive \(capital letters come first.\)
 
 	[asort myList]
 
-**\[aisort\]**  'aisort' for alphabetic insensitive sort \(of list\)  
+**\[aisort listName\]**  'aisort' for alphabetic insensitive sort \(of list\)  
 Sorts listName alphabetically, case-INsensitive \(capital letters same as lower case.\)
 
 **\[isort \(sep=X,)listName\]**  'isort' for integer sort \(of list\)  
@@ -772,9 +772,9 @@ to a comma, and keysep defaults to a colon.
 
     [dict mystuff,foo:bar,this:that,she:he,widget:wodget]
 
-**\[dcopy srcList,dstList\]** 'dcopy'  for dictionary copy  
+**\[dcopy srcDict,dstDict\]** 'dcopy'  for dictionary copy  
 Copy an existing dictionary to a new or existing dictionary. If
-no dictionary by srcName exists, dstDict will be set to
+no dictionary srcDict exists, dstDict will be set to
 an empty dictionary.
 
 **\[dkeys srcDict,dstList\]**  'dkeys' for dictionary keys  
@@ -818,7 +818,7 @@ you would simply do this:
 Because the pop occurs in the context of the comment, it does not appear in the
 output stream.
 
-**\[fetch\]**  'fetch' for fetch item from stack  
+**\[fetch itemIndex\]**  'fetch' for fetch item from stack  
 Assuming there is data on the stack, this allows you to get at it
 without popping the stack:
 
@@ -996,7 +996,7 @@ seems almost too obvious:
 Allows you to limit the number of splits that \[split\] will
 perform. See \[split\], below.
 
-**\[\split X,item\(Xitem\)]**  'split' for split  
+**\[split X,item\(Xitem\)]**  'split' for split  
 The split built-in takes content and splits it for use by the \[parm\] built-in.
 The idea is that for some styles, you will want to pass more than one parameter,
 as shown in the math examples above. It takes a separator parameter, and then
@@ -1336,7 +1336,7 @@ These will *not* expand:
 	[expand t,foo] = ""
 	[expand t,Foo] = "" \("Foo" converted to "foo" before dictionary lookup\)
 
-**\[scase content\]**  'scase' for special casing  
+**\[scase listName,content\]**  'scase' for special casing  
 Convert space-separated words, minding embedded and attached special
 characters, in content to specially cased words in a list. First you set
 up a list containing words exactly as you want them converted. The you
@@ -1602,6 +1602,9 @@ The left squiggly brace character.
 
 **\[rs\]**  'rs' for right squiggly  
 The right squiggly brace character.
+
+**\[vb\]**  'vb' for vertical bar  
+The vertical bar character.
 
 **\[lf\]** pr **\[nl\]**  
 'lf' for line feed  

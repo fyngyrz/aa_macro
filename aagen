@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 from aa_macro import *
 
 report = False
@@ -52,6 +53,7 @@ def usage():
 	optr('s','suppress','','Suppress stdout usage printout when error')
 	optr('nc','ncolor','','Don\'t use console color (color requires aa_ansiicolor)')
 	optr('ng','nogen','','Don\'t generate output')
+	optr('o','open','','Send output to OS X HTML browser')
 	print "-------------------------------------------------------------------------------"
 
 def error(msg):
@@ -72,6 +74,7 @@ ofn = ''
 ifn = ''
 off = False
 gfn = False
+osx = False
 noparms = True
 for arg in argv:
 	if off == True:
@@ -83,6 +86,9 @@ for arg in argv:
 			error('No filename specified after "-file"')
 	elif idarg(arg,'--file') == True or idarg(arg,'-f') == True:
 		off = True
+		noparms = False
+	elif idarg(arg,'--open') == True or idarg(arg,'-o') == True:
+		osx = True
 		noparms = False
 	elif idarg(arg,'--report') == True or idarg(arg,'-r') == True:
 		report = True
@@ -155,6 +161,11 @@ else:
 			sys.stdout.write(o)
 	except:
 		error('Could not write to stdout')
+
+if osx == True:
+	if gfn == True:
+		cmd = 'open "%s"' % (ofn)
+		os.system(cmd)
 
 if report == True:
 	print lx('     Read ','green') + lx('%d' % (il,),'white')+lx(' characters','green')
