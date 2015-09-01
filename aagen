@@ -54,6 +54,7 @@ def usage():
 	optr('nc','ncolor','','Don\'t use console color (color requires aa_ansiicolor)')
 	optr('ng','nogen','','Don\'t generate output')
 	optr('o','open','','Send output to OS X HTML browser')
+	optr('i','include','includeFileName','Process this file first')
 	print "-------------------------------------------------------------------------------"
 
 def error(msg):
@@ -72,7 +73,10 @@ def idarg(arg,match):
 
 ofn = ''
 ifn = ''
+mfn = ''
 off = False
+mff = False
+mmff = False
 gfn = False
 osx = False
 noparms = True
@@ -83,12 +87,22 @@ for arg in argv:
 		if arg != '':
 			gfn = True
 		else:
-			error('No filename specified after "-file"')
+			error('No filename specified after "--file or -f"')
+	elif mff == True:
+		mfn = arg
+		mff = False
+		if arg != '':
+			mmff = True
+		else:
+			error('No filename specified after "--include or -i"')
 	elif idarg(arg,'--file') == True or idarg(arg,'-f') == True:
 		off = True
 		noparms = False
 	elif idarg(arg,'--open') == True or idarg(arg,'-o') == True:
 		osx = True
+		noparms = False
+	elif idarg(arg,'--include') == True or idarg(arg,'-i') == True:
+		mff = True
 		noparms = False
 	elif idarg(arg,'--report') == True or idarg(arg,'-r') == True:
 		report = True
@@ -138,8 +152,34 @@ if gfn == True:
 			pass
 		error('Cannot open outputFileName "%s" for writing' % (ofn,))
 
+icontent = ''
+if mmff == True:
+	try:
+		mfh = open(mfn)
+	except:
+		error('Cannot open includeFileName "%s" for reading' % (mfn,))
+	else:
+		try:
+			icontent = mfh.read()
+		except:
+			try:
+				mfh.close()
+			except:
+				pass
+			error('Cannot read includeFileName "%s"' % (mfn,))
+		else:
+			try:
+				mfh.close()
+			except:
+				error('Could not close includeFileName "%s"' % (mfn,))
+
 il = len(inputText)
-o = str(macro(inputText))
+if icontent != '':
+	mod = macro()
+	mod.do(icontent)
+	o = mod.do(inputText)
+else:
+	o = str(macro(inputText))
 ol = len(o)
 	
 if gfn == True:

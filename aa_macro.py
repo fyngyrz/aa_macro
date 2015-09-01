@@ -57,8 +57,10 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.43
+     Version: 1.0.44
      History:                    (for Class)
+	 	1.0.44
+			* added style=styleName to all conditionals
 	 	1.0.43
 			* removed auto-generation of newlines in [table] and [row]
 			* added [vb] escape for |
@@ -2299,22 +2301,41 @@ The contents of the list are safe to include in the output if you like.
 
 	def ne_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		dlist = data.split(',',1)
 		if len(dlist) == 2:
 			if dlist[0] != '':
 				o = dlist[1]
+				if style != '':
+					self.do("[s %s]" % style)
 		return o
 
 	def eq_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		dlist = data.split(',',1)
 		if len(dlist) == 2:
 			if dlist[0] == '':
 				o = dlist[1]
+				if style != '':
+					self.do("[s %s]" % style)
 		return o
 
 	def ifle_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		p = data.split(',',2)
 		if len(p) == 3:
 			a,b,c = p
@@ -2323,12 +2344,19 @@ The contents of the list are safe to include in the output if you like.
 				b = int(b)
 				if a <= b:
 					o = c
+					if style != '':
+						self.do("[s %s]" % style)
 			except:
 				pass
 		return o
 
 	def ifge_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		p = data.split(',',2)
 		if len(p) == 3:
 			a,b,c = p
@@ -2337,20 +2365,31 @@ The contents of the list are safe to include in the output if you like.
 				b = int(b)
 				if a >= b:
 					o = c
+					if style != '':
+						self.do("[s %s]" % style)
 			except:
 				pass
 		return o
 
 	def ifelse_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		try:
 			d1,d2,d3 = data.split(' ',2)
 			if tag == 'if':
 				if d1 == d2:
 					o += d3
+					if style != '':
+						self.do("[s %s]" % style)
 			else:
 				if d1 != d2:
 					o += d3
+					if style != '':
+						self.do("[s %s]" % style)
 		except:
 			pass
 		return o
@@ -2388,6 +2427,11 @@ The contents of the list are safe to include in the output if you like.
 
 	def evenodd_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
 		try:
 			d1,d2 = data.split(' ',1)
 			x = int(d1)
@@ -2399,6 +2443,8 @@ The contents of the list are safe to include in the output if you like.
 				z = 0
 			if x & 1 == z:
 				o += d2
+				if style != '':
+					self.do("[s %s]" % style)
 		return o
 
 	def find_fn(self,tag,data):

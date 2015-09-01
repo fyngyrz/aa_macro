@@ -1,0 +1,42 @@
+[style h1 # [b]]  
+[style h2 ## [b]]  
+[style # [comment [b]]]  
+[style page [b]]  
+   
+[style p [b][nl]]  
+[style b **[b]**]  
+  
+[style lb [lb]]  
+[style rb [rb]]  
+[style co [co]]  
+[style q &quot;]  
+  
+[local toggle 0]  
+[style ac   
+[local toggle [inc [v toggle]]]  
+[even [v toggle] 181818]  
+[odd [v toggle] 000000]  
+]  
+  
+[style rezero [local toggle 0]]  
+  
+[style table [b]]  
+  
+[style tinter [dup [len [parm 1]],-] | ----[nl]]  
+  
+[style bistyle   
+[splitcount 1][split ~,[b]][local tx [parm 1]]  
+[ifge style=rezero,[len [v tx]],1,[nl][v tx] | &nbsp;[nl]{tinter}]  
+[splitcount 1][split |,[parm 0]] {lb}[parm 0]{rb} | [parm 1]
+]  
+  
+[style bxstyle   
+[splitcount 1][split ~,[b]][local tx [parm 1]]  
+[splitcount 1][split |,[parm 0]]{lb}[parm 0]{rb} | [parm 1]
+]  
+  
+[style c content]{# "content"}  
+[style cc [b]]{# content}  
+[style o \([b]\)]{# optional parameters}  
+[style r [b]]{# required parameters}  
+  

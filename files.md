@@ -17,6 +17,8 @@ File | Project Component
 [martomac.py](martomac.py) | Markdown-to-aa\_macro() format convertor
 [mtm.md](mtm.md) | Test file for [martomac.py](martomac.py)
 [mycustommd.mac](mycustommd.mac) | Sample file for [martomac.py](martomac.py) \-m option
+[qr_html.txt](qr_html.txt) | style file to generate HTML from quickref.txt
+[qr_markdown.html](qr_markdown.html) | style file to generate markdown from quickref.txt
 [quickref.txt](quickref.txt) | Quick reference source in macro\(\) format
 [quickref.html](quickref.html) | Quick reference in HTML
 [README.md](README.md) | General explanation of project intent, fit

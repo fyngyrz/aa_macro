@@ -903,49 +903,66 @@ Which you would use as follows:
 
 ### Conditionals
 
-**\[even value conditionalContent\]**  'even' for even  
+Remember that `macro()` works inside out, left to right. This  means
+that any built-ins or styles within the conditional are evaluated
+*before* the decision is made, so trying to conditionally change
+something, such as an increment or only sometimes setting a varaible
+won't work. Basically what happens is that the content is always
+evaluated, but is  discarded if the condition isn't true. Consequently
+the event will happen every time:
+
+    [ifge 5,3,[local v 0]test] = v set to 0 and "test"
+    [ifge 2,3,[local v 0]test] = v set to 0 and ""
+
+There is an additional behavior that will do what you want.
+
+Supply a styleName to the conditional that contains what you want
+done if the conditional evaluates to generate content. This
+style is *only* evaluated in that case.
+
+**\[even \(style=styleName,\)value conditionalContent\]**  'even' for even  
 "value" is numeric. If it is even, conditionalContent is the result. If the
 value is odd, then there is no result.
 
 	[even 1,testing] = ""
     [even 2,testing] = "testing"
 
-**\[odd value conditionalContent\]**  'odd' for odd  
+**\[odd \(style=styleName,\)value conditionalContent\]**  'odd' for odd  
 "value" is numeric. If it is odd, conditionalContent is the result. If the
 value is even, then there is no result.
 
 	[odd 1,testing] = "testing"
     [odd 2,testing] = ""
 
-**\[if value match conditionalContent\]**  'if' for if  
+**\[if \(style=styleName,\)value match conditionalContent\]**  'if' for if  
 When value and match are identical, conditionalContent is the result.
 Otherwise, there is no result.
 
     [if foo bar testing] = ""
 	[if foo foo testing] = "testing"
 
-**\[else value notMatch conditionalContent\]**  'else' for else  
+**\[else \(style=styleName,\)value notMatch conditionalContent\]**  'else' for else  
 When value and match are not identical, conditionalContent is the result.
 Otherwise, there is no result.
 
     [else foo bar testing] = "testing"
 	[else foo foo testing] = ""
 
-**\[ne value,conditionalContent\]**  'ne' for not equal  
+**\[ne \(style=styleName,\)value,conditionalContent\]**  'ne' for not equal  
 When value has no content, conditionalContent is the result.
 Otherwise, there is no result.
 
     [ne ,testing] = "testing"
 	[ne foo,testing] = ""
 
-**\[eq value,conditionalContent\]**  'eq' for equal  
+**\[eq \(style=styleName,\)value,conditionalContent\]**  'eq' for equal  
 When value has content, conditionalContent is the result.
 Otherwise, there is no result.
 
     [eq ,testing] = ""
 	[eq foo,testing] = "testing"
 
-**\[ifle iValue1,iValue2,content\]**  '' for if less or equal  
+**\[ifle \(style=styleName,\)iValue1,iValue2,content\]**  '' for if less or equal  
 When iValue1 <= iValue2, content is the result. Otherwise, there
 is no result.
 
@@ -953,7 +970,7 @@ is no result.
 	[ifle 5,5,foo] = "foo"
 	[ifle 5,6,foo] = "foo"
 
-**\[ifge iValue1,iValue2,content\]**  '' for if greater or equal  
+**\[ifge \(style=styleName,\)iValue1,iValue2,content\]**  '' for if greater or equal  
 When iValue1 >= iValue2, content is the result. Otherwise, there
 is no result.
 

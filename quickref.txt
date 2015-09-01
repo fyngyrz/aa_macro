@@ -1,37 +1,3 @@
-[style h1 <h1>[b]</h1>]  
-[style h2 <h2>[b]</h2>]  
-[style # [comment [b]]]  
-[style page   
-<HTML>
-<HEADER>
-<TITLE>Macro() Quick Reference</TITLE>
-</HEADER>
-<BODY TEXT="#FFFFFF" BGCOLOR="#00000">
-[b]  
-</BODY>
-</HTML>
-]  
-[style lb [color 0ff [lb]]]  
-[style rb [color 0ff [rb]]]  
-[style co [co]]  
-[style q &quot;]  
-  
-[style bistyle   
-[splitcount 1][split ~,[b]][local tx [parm 1]]  
-[ifge [len [v tx]],1,[row [header  colspan=2,&nbsp;]][row [header bgcolor="#444444" colspan=2,[color 0ff [v tx]]]][nl]]
-[row [splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
-]  
-  
-[style bxstyle   
-[splitcount 1][split ~,[b]][local tx [parm 1]]  
-[row [splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
-]  
-  
-[style c [b [color FF0 content]]]{# "content"}  
-[style cc [b [color FF0 [b]]]]{# content}  
-[style o [b [color f00 [b]]]]{# optional parameters}  
-[style r [b [color 0F0 [b]]]]{# required parameters}  
-  
 [append bil,p {c}| HTML paragraph~HTML Text Styling]  
 [append bil,bq {c}| HTML blockquote]  
 [append bil,b {c}| HTML bold]  
@@ -191,22 +157,22 @@
 {h1 Macro() Quick Reference}
 {h2 Functional Groupings}
 
-[p 
-[b key:] built-in {o options} {r required} {cc content}
-]
+{p 
+{b key:} built-in {o options} {r required} {cc content}  
+}  
 
-[table 
+{table 
 [dlist style=bistyle,bil]  
-]
+}
 
 {h2 Alphabetical Order}
 
-[p 
-[b key:] built-in {o options} {r required} {cc content}
-]
+{p   
+{b key:} built-in {o options} {r required} {cc content}  
+}  
 
 [asort bil]  
-[table 
+{table 
 [dlist style=bxstyle,bil]  
-]
+}
 }
