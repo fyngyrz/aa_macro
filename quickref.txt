@@ -1,5 +1,6 @@
 [style h1 <h1>[b]</h1>]  
-[style # [comment [b]]]
+[style h2 <h2>[b]</h2>]  
+[style # [comment [b]]]  
 [style page   
 <HTML>
 <HEADER>
@@ -14,56 +15,62 @@
 [style rb [color 0ff [rb]]]  
 [style co [co]]  
 [style q &quot;]  
+  
 [style bistyle   
-[row [splitcount 1][split |,[b]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
-]
+[splitcount 1][split ~,[b]][local tx [parm 1]]  
+[ifge [len [v tx]],1,[row [header  colspan=2,&nbsp;]][row [header bgcolor="#444444" colspan=2,[color 0ff [v tx]]]][nl]]
+[row [splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
+]  
+  
+[style bxstyle   
+[splitcount 1][split ~,[b]][local tx [parm 1]]  
+[row [splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
+]  
   
 [style c [b [color FF0 content]]]{# "content"}  
 [style cc [b [color FF0 [b]]]]{# content}  
 [style o [b [color f00 [b]]]]{# optional parameters}  
 [style r [b [color 0F0 [b]]]]{# required parameters}  
   
-{h1 Macro() Quick Reference}
-
-[append bil,p {c}| HTML paragraph]  
+[append bil,p {c}| HTML paragraph~HTML Text Styling]  
 [append bil,bq {c}| HTML blockquote]  
 [append bil,b {c}| HTML bold]  
 [append bil,i {c}| HTML italics]  
 [append bil,u {c}| HTML underline]  
 [append bil,color {r HEX3[vb]HEX6} {c}| HTML text color]  
   
-[append bil,a {o tab{co}}{r URL}{o {co}linkedContent}| HTML link]  
+[append bil,a {o tab{co}}{r URL}{o {co}linkedContent}| HTML link~HTML Linking]  
   
-[append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image]  
+[append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image~HTML Images]  
 [append bil,locimg {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image, with size (uses {lb}lipath{rb})]  
 [append bil,lipath {r pathToImages}| path for {lb}locimg{rb}]  
   
-[append bil,ul {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML unordered list]  
+[append bil,ul {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML unordered list~HTML Lists]  
 [append bil,ol {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML ordered list]  
 [append bil,iful {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML unordered list IF &gt; one item]  
 [append bil,ifol {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML ordered list IF &gt; one item]  
 [append bil,t {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| style wrap around item(s)]  
-
-[append bil,table {o options{co}}{c}| HTML table]  
+  
+[append bil,table {o options{co}}{c}| HTML table~HTML Tables]  
 [append bil,row {o options{co}}{c}| HTML table row]  
 [append bil,header {o options{co}}{c}| HTML table header cell]  
 [append bil,cell {o options{co}}{c}| HTML table data cell]  
   
-[append bil,local {r varname} {cc varContent}| local variable definition]  
+[append bil,local {r varname} {cc varContent}| local variable definition~Variables]  
 [append bil,vs {r varName} {cc varContent}| local variable definition]  
 [append bil,global {r varName} {cc varContent}| global variable definition]  
 [append bil,v {r varName}| local/global variable]  
 [append bil,gv {r varName}| global variable]  
 [append bil,lv {r varName}| local variable]  
   
-[append bil,list {o sep=X{co}}{r listname}{co}{cc itemContent}{o XitemContent}| create or overwrite a list]
-[append bil,lcopy {r sourceList} {r destinationList}| copy list to new or existing list]
-[append bil,ltol {r listName} {c}| convert lines of content to list]
-[append bil,append {r listName}{co}{cc itemContent}| append an item to a list (can create new list)]
-[append bil,lpush {r listName}{co}{cc itemContent}| append an item to a list (can create new list)]
-[append bil,lpop {r listName{co}}{o listIndex}| pop an item out of a list at top, or at listIndex]
-[append bil,lset {r listName{co}}{r listIndex{co}}{cc itemContent}| Set a list item]
-[append bil,llen {r listName}| returns length of list]
+[append bil,list {o sep=X{co}}{r listname}{co}{cc itemContent}{o XitemContent}| create or overwrite a list~Data Lists]  
+[append bil,lcopy {r sourceList} {r destinationList}| copy list to new or existing list]  
+[append bil,ltol {r listName} {c}| convert lines of content to list]  
+[append bil,append {r listName}{co}{cc itemContent}| append an item to a list (can create new list)]  
+[append bil,lpush {r listName}{co}{cc itemContent}| append an item to a list (can create new list)]  
+[append bil,lpop {r listName{co}}{o listIndex}| pop an item out of a list at top, or at listIndex]  
+[append bil,lset {r listName{co}}{r listIndex{co}}{cc itemContent}| Set a list item]  
+[append bil,llen {r listName}| returns length of list]  
 [append bil,lslice {r sliceSpec{co}}{r listName{co}}{r targetList}| slice listName to targetList] 
 [append bil,dlist {o wrap=styleName{co]}{o parms=PRE{co}}{o posts=PST{co}}listName| dump a list]  
 [append bil,e {r listName{co}}{r listIndex}| output item from list of length n (listIndex = 0 to n-1)]  
@@ -76,42 +83,42 @@
 [append bil,cmap {r listName}| create 1:1 character map]  
 [append bil,translate {r listName{co}}{c}| translate content using character map formatted list]  
   
-[append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}{r keyYvalue{o XkeyYvalue}}}| create/replace dictionary]  
+[append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}{r keyYvalue{o XkeyYvalue}}}| create/replace dictionary~Data Dictionaries]  
 [append bil,dcopy {r sourceDictionary{co}}{r destinationDictionary}| copy/replace destination with source]  
 [append bil,dkeys {r sourceDictionary{co}}{r destinationList}| create a [b list] of keys from source]  
 [append bil,dset {o keysep=Y{co}}{r dictName{co}}{r keyYvalue}| create/replace dictionary item]  
 [append bil,d {r dictName{co}{r key}}| retrieve a dictionary value using key]  
   
-[append bil,push {c}| Push an item on to the general stack]  
+[append bil,push {c}| Push an item on to the general stack~General Stack]  
 [append bil,pop| Pop an item off the top of the general stack]  
 [append bil,fetch {r itemIndex}| fetch any item from stack - 0 is top of stack]  
 [append bil,flush| delete stack contents]  
   
-[append bil,add {r value} {r addend}| add two numbers]
-[append bil,sub {r value} {r subtrahend}| subtract two numbers]
-[append bil,mul {r value} {r multiplier}| multiply two numbers]
-[append bil,div {r value} {r divisor}| divide two numbers]
-[append bil,max {r value1} {r value2}| maximum of two numbers]
-[append bil,min {r value1} {r value2}| minimum of two numbers]
-[append bil,inc {r value}| add one to value]
-[append bil,dec {r value}| subtract one from value]
+[append bil,add {r value} {r addend}| add two numbers~Math]  
+[append bil,sub {r value} {r subtrahend}| subtract two numbers]  
+[append bil,mul {r value} {r multiplier}| multiply two numbers]  
+[append bil,div {r value} {r divisor}| divide two numbers]  
+[append bil,max {r value1} {r value2}| maximum of two numbers]  
+[append bil,min {r value1} {r value2}| minimum of two numbers]  
+[append bil,inc {r value}| add one to value]  
+[append bil,dec {r value}| subtract one from value]  
   
-[append bil,even {r value} {c}| if value is even{co} then content]
-[append bil,odd {r value} {c}| if value is odd{co} then content]
-[append bil,if {r value} {r match} {c}| if match{co} then content]
-[append bil,else {r value} {r match} {c}| if [b not] match{co} then content]
-[append bil,ne {r value{co}}{c}| if value is empty{co} then content]
-[append bil,eq {r value{co}}{c}| if value is [b not] empty{co} then content]
-[append bil,ifle {r value1{co}}{r value2 {co}}{c}| if value1 &lt;= value2{co} then content]
-[append bil,ifge {r value1{co}}{r value2 {co}}{c}| if value1 &gt;= value2{co} then content]
+[append bil,even {r value} {c}| if value is even{co} then content~Conditional Content]  
+[append bil,odd {r value} {c}| if value is odd{co} then content]  
+[append bil,if {r value} {r match} {c}| if match{co} then content]  
+[append bil,else {r value} {r match} {c}| if [b not] match{co} then content]  
+[append bil,ne {r value{co}}{c}| if value is empty{co} then content]  
+[append bil,eq {r value{co}}{c}| if value is [b not] empty{co} then content]  
+[append bil,ifle {r value1{co}}{r value2 {co}}{c}| if value1 &lt;= value2{co} then content]  
+[append bil,ifge {r value1{co}}{r value2 {co}}{c}| if value1 &gt;= value2{co} then content]  
   
-[append bil,slice {r sliceSpec{co}{c}}| slice content]  
+[append bil,slice {r sliceSpec{co}{c}}| slice content~Text Processing]  
 [append bil,splitcount {r value}| Maximum number of splits to perform in next {lb}split{rb}]  
 [append bil,split {r X{co}}{c}{o Xcontent}| split for use with {lb}parm{rb}]  
 [append bil,parm {r value}| returns results of {lb}split{rb}]  
 [append bil,upper {c}| convert to uppercase]  
 [append bil,lower {c}| convert to lowercase]  
-[append bil,soundex {o len=N{co}}{c}| return  soundex value of content]  
+[append bil,soundex {o len=N{co}}{c}| return soundex value of content]  
 [append bil,strip {c}| strip HTML tags out]  
 [append bil,roman {r value}| returns lower case roman numeral]  
 [append bil,dtohex {r value}| decimal to hexadecimal conversion]  
@@ -130,7 +137,7 @@
 [append bil,fcsep {r value}| comma-separate a floating point number]  
 [append bil,dup {r value{co}{c}}| duplicate content [i after] evaluation (also see {lb}repeat{rb})]  
 [append bil,find {o sep=X{co}}{r stringXcontent}| find string in content{co} sep default = {q}{co}{q}]  
-[append bil,replace {o sep=X{co}}{r targetXreplacementXcontent}| ]  
+[append bil,replace {o sep=X{co}}{r targetXreplacementXcontent}| target replaced with replacement in content]  
 [append bil,count {o sep=X{co}}{o overlaps=yes{co}}{o casesens=yes{co}}{r patternXcontent}| count incidences]  
 [append bil,caps {c}| sentence case]  
 [append bil,capw {c}| word case]  
@@ -146,7 +153,7 @@
 [append bil,ljust {r width{co}}{r padChar{co}}{c}| left justify]  
 [append bil,center {r width{co}}{r padChar{co}}{c}| center (neg width indicates pad both sides)]  
   
-[append bil,sys {r shellCommand}| invoke an operating system command. Output is captured]  
+[append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  
 [append bil,time| The time of macro() processing (use CGI for live time in HTML)]  
 [append bil,include {r fileName}| include macro() source file]  
@@ -156,35 +163,50 @@
 [append bil,back {r HEX3[vb]HEX6}| HTML background text color for HTML 4.01s mode [i only]]  
 [append bil,mode {r 3.2[vb]4.01s}| set HTML mode]  
   
-[append bil,co| comma]  
+[append bil,co| comma~Escapes]  
 [append bil,sp| space]  
 [append bil,lb| left square bracket]  
 [append bil,rb| right square bracket]  
 [append bil,ls| left squiggly bracket]  
 [append bil,rs| right squiggly bracket]  
 [append bil,lf[vb]nl| new line]  
-
-[append bil,style {r styleName} {r styleContent}| local style]  
+  
+[append bil,style {r styleName} {r styleContent}| local style~Styles]  
 [append bil,gstyle {r styleName} {r styleContent}| global style]  
-[append bil,s {r stylename}{o  styleParameters}| invoke style{co} local{co} if no local{co} then global]  
-[append bil,glos {r stylename}{o  styleParameters}| invoke global style]  
-[append bil,locs {r stylename}{o  styleParameters}| invoke local style]  
+[append bil,s {r stylename}{o styleParameters}| invoke style{co} local{co} if no local{co} then global]  
+[append bil,glos {r stylename}{o styleParameters}| invoke global style]  
+[append bil,locs {r stylename}{o styleParameters}| invoke local style]  
 [append bil,spage| reset local styles to [i none]]  
 [append bil,ghost {o source=global[vb]local{co}}{r stylename}| output style without processing it]  
 [append bil,fref {r lable}| forward (or backward) reference]  
 [append bil,resolve {r lable{co}}{c}| resolve reference]  
   
-[asort bil]  
   
   
   
-{# The following generates the page}
+{# The following generates the page}  
 {# --------------------------------}  
   
 {page   
+{h1 Macro() Quick Reference}
+{h2 Functional Groupings}
+
+[p 
+[b key:] built-in {o options} {r required} {cc content}
+]
+
 [table 
-[row [header colspan=2,Built-Ins]]
-[row [header colspan=2,built-in {o options} {r required} {cc content}]]
 [dlist style=bistyle,bil]  
+]
+
+{h2 Alphabetical Order}
+
+[p 
+[b key:] built-in {o options} {r required} {cc content}
+]
+
+[asort bil]  
+[table 
+[dlist style=bxstyle,bil]  
 ]
 }
