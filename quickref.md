@@ -28,11 +28,11 @@ HTML Images | &nbsp;
 
 HTML Lists | &nbsp;
 ---------- | ----
- &#91;ul \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML unordered list
- &#91;ol \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML ordered list
- &#91;iful \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML unordered list IF &gt; one item
- &#91;ifol \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML ordered list IF &gt; one item
- &#91;t \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  style wrap around item(s)
+ &#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML unordered list
+ &#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML ordered list
+ &#91;iful \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML unordered list IF &gt; one item
+ &#91;ifol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML ordered list IF &gt; one item
+ &#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  style wrap around item(s)
 
 HTML Tables | &nbsp;
 ----------- | ----
@@ -248,8 +248,8 @@ Styles | &nbsp;
 &#91;if value match content&#93; |  if match&#44; then content
 &#91;ifge value1&#44;value2 &#44;content&#93; |  if value1 &gt;= value2&#44; then content
 &#91;ifle value1&#44;value2 &#44;content&#93; |  if value1 &lt;= value2&#44; then content
-&#91;ifol \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML ordered list IF &gt; one item
-&#91;iful \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML unordered list IF &gt; one item
+&#91;ifol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML ordered list IF &gt; one item
+&#91;iful \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML unordered list IF &gt; one item
 &#91;img \(imageTitle&#44;\)imageURL \(linkURL\)&#93; |  HTML image
 &#91;inc value&#93; |  add one to value
 &#91;include fileName&#93; |  include macro() source file
@@ -285,7 +285,7 @@ Styles | &nbsp;
 &#91;mul value multiplier&#93; |  multiply two numbers
 &#91;ne value&#44;content&#93; |  if value is empty&#44; then content
 &#91;odd value content&#93; |  if value is odd&#44; then content
-&#91;ol \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML ordered list
+&#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML ordered list
 &#91;ord character&#93; |  return ASCII code value in decimal
 &#91;otodec value&#93; |  octal to decimal conversion
 &#91;p content&#93; |  HTML paragraph
@@ -313,12 +313,12 @@ Styles | &nbsp;
 &#91;style styleName styleContent&#93; |  local style
 &#91;sub value subtrahend&#93; |  subtract two numbers
 &#91;sys shellCommand&#93; |  invoke an operating system command. Output is captured
-&#91;t \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  style wrap around item(s)
+&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  style wrap around item(s)
 &#91;table \(options&#44;\)content&#93; |  HTML table
 &#91;time&#93; |  The time of macro() processing (use CGI for live time in HTML)
 &#91;translate listName&#44;content&#93; |  translate content using character map formatted list
 &#91;u content&#93; |  HTML underline
-&#91;ul \(wrap=style&#44;\(sep=X&#44;\)\)itemContent\(XitemContent\)&#93; |  HTML unordered list
+&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93; |  HTML unordered list
 &#91;upper content&#93; |  convert to uppercase
 &#91;v varName&#93; |  local/global variable
 &#91;vs varName varContent&#93; |  local variable definition

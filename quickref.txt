@@ -11,11 +11,11 @@
 [append bil,locimg {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image, with size (uses {lb}lipath{rb})]  
 [append bil,lipath {r pathToImages}| path for {lb}locimg{rb}]  
   
-[append bil,ul {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML unordered list~HTML Lists]  
-[append bil,ol {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML ordered list]  
-[append bil,iful {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML unordered list IF &gt; one item]  
-[append bil,ifol {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| HTML ordered list IF &gt; one item]  
-[append bil,t {o wrap=style{co}{o sep=X{co}}}{cc itemContent{o XitemContent}}| style wrap around item(s)]  
+[append bil,ul {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML unordered list~HTML Lists]  
+[append bil,ol {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML ordered list]  
+[append bil,iful {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML unordered list IF &gt; one item]  
+[append bil,ifol {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML ordered list IF &gt; one item]  
+[append bil,t {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| style wrap around item(s)]  
   
 [append bil,table {o options{co}}{c}| HTML table~HTML Tables]  
 [append bil,row {o options{co}}{c}| HTML table row]  
