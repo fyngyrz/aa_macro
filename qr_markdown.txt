@@ -30,9 +30,9 @@
 [splitcount 1][split |,[parm 0]] {lb}[parm 0]{rb} | [parm 1]
 ]  
   
-[style bxstyle   
+[style bistyle   
 [splitcount 1][split ~,[b]][local tx [parm 1]]  
-[splitcount 1][split |,[parm 0]]{lb}[parm 0]{rb} | [parm 1]
+[splitcount 1][split |,[parm 0]] {lb}[parm 0]{rb} | [parm 1]
 ]  
   
 [style c content]{# "content"}  
