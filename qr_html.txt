@@ -37,12 +37,12 @@
 [style bistyle   
 [splitcount 1][split ~,[b]][local tx [parm 1]]  
 [ifge style=rezero,[len [v tx]],1,[row [header colspan=2,&nbsp;]][row [header bgcolor="#444444" colspan=2,[color 0ff [v tx]]]][nl]]  
-[row bgcolor="#{ac}",[splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
+[row bgcolor="#{ac}",[splitcount 1][split |,[parm 0]][cell {tt {lb}[parm 0]{rb}}][cell [parm 1]]]
 ]  
   
 [style bxstyle   
 [splitcount 1][split ~,[b]][local tx [parm 1]]  
-[row [splitcount 1][split |,[parm 0]][cell {lb}[parm 0]{rb}][cell [parm 1]]]
+[row [splitcount 1][split |,[parm 0]][cell {tt {lb}[parm 0]{rb}}][cell [parm 1]]]
 ]  
   
 [style c [b [color FF0 content]]]{# "content"}  

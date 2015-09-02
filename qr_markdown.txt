@@ -31,12 +31,12 @@
 [style bistyle   
 [splitcount 1][split ~,[b]][local tx [parm 1]]  
 [ifge style=rezero,[len [v tx]],1,[nl][v tx] | &nbsp;[nl]{tinter}]  
-[splitcount 1][split |,[parm 0]] {lb}[parm 0]{rb} | [parm 1]
+[splitcount 1][split |,[parm 0]] {tt {lb}[parm 0]{rb}} | [parm 1]
 ]  
   
 [style bxstyle   
 [splitcount 1][split ~,[b]][local tx [parm 1]]  
-[splitcount 1][split |,[parm 0]] {lb}[parm 0]{rb} | [parm 1]
+[splitcount 1][split |,[parm 0]] {tt {lb}[parm 0]{rb}} | [parm 1]
 ]  
   
 [style c content]{# "content"}  
