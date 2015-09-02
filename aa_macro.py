@@ -23,8 +23,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: September 1st, 2015     (for Class)
-  LastDocRev: September 1st, 2015     (for Class)
+     LastRev: September 2nd, 2015     (for Class)
+  LastDocRev: September 2nd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.44 Beta
+     Version: 1.0.45 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2187,9 +2187,9 @@ The contents of the list are safe to include in the output if you like.
 		dlist = data.split(',',1)
 		if len(dlist) == 2:
 			if dlist[0] != '':
-				o = dlist[1]
 				if style != '':
-					self.do("[s %s]" % style)
+					o += self.do("[s %s]" % style)
+				o += dlist[1]
 		return o
 
 	def eq_fn(self,tag,data):
@@ -2202,9 +2202,9 @@ The contents of the list are safe to include in the output if you like.
 		dlist = data.split(',',1)
 		if len(dlist) == 2:
 			if dlist[0] == '':
-				o = dlist[1]
 				if style != '':
-					self.do("[s %s]" % style)
+					o += self.do("[s %s]" % style)
+				o += dlist[1]
 		return o
 
 	def ifle_fn(self,tag,data):
@@ -2221,9 +2221,9 @@ The contents of the list are safe to include in the output if you like.
 				a = int(a)
 				b = int(b)
 				if a <= b:
-					o = c
 					if style != '':
-						self.do("[s %s]" % style)
+						o += self.do("[s %s]" % style)
+					o += c
 			except:
 				pass
 		return o
@@ -2242,9 +2242,9 @@ The contents of the list are safe to include in the output if you like.
 				a = int(a)
 				b = int(b)
 				if a >= b:
-					o = c
 					if style != '':
-						self.do("[s %s]" % style)
+						o += self.do("[s %s]" % style)
+					o += c
 			except:
 				pass
 		return o
@@ -2260,14 +2260,14 @@ The contents of the list are safe to include in the output if you like.
 			d1,d2,d3 = data.split(' ',2)
 			if tag == 'if':
 				if d1 == d2:
-					o += d3
 					if style != '':
-						self.do("[s %s]" % style)
+						o += self.do("[s %s]" % style)
+					o += d3
 			else:
 				if d1 != d2:
-					o += d3
 					if style != '':
-						self.do("[s %s]" % style)
+						o += self.do("[s %s]" % style)
+					o += d3
 		except:
 			pass
 		return o

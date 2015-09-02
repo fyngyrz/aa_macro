@@ -7,6 +7,10 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.45 - September 2nd, 2015
+ * conditional styles now add output to processing stream:  
+ [if], [else], [even], [odd], [ne], [eq], [ifge], [ifle]
+
 1.0.44 - September 1st, 2015
  * added style=styleName to all conditionals
 
