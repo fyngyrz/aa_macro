@@ -158,7 +158,7 @@
 {h2 Functional Groupings}
 
 {p 
-{b key:} built-in {o options} {r required} {cc content}  
+{i key:} built-in {o options} {r required} {cc content}  
 }  
 
 {table 
@@ -168,7 +168,7 @@
 {h2 Alphabetical Order}
 
 {p   
-{b key:} built-in {o options} {r required} {cc content}  
+{i key:} built-in {o options} {r required} {cc content}  
 }  
 
 [asort bil]  

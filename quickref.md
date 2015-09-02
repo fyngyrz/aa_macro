@@ -3,7 +3,7 @@
 ## Functional Groupings
 
 
-**key:** built-in \(options\) **required** content
+_key:_ built-in \(options\) **required** content
 
 
 
@@ -188,7 +188,7 @@ Styles | &nbsp;
 
 ## Alphabetical Order
 
-**key:** built-in \(options\) **required** content
+_key:_ built-in \(options\) **required** content
 
 Built-in | &nbsp;
 -------- | ----

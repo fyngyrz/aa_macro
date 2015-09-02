@@ -5,6 +5,7 @@
    
 [style p [b][nl]]  
 [style b **[b]**]  
+[style i _[b]_]  
   
 [style lb [lb]]  
 [style rb [rb]]  
