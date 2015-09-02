@@ -74,11 +74,11 @@ Data Lists | &nbsp;
 
 Data Dictionaries | &nbsp;
 ----------------- | ----
- &#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;**keyYvalue\(XkeyYvalue\)****&#93; |  create/replace dictionary
+ &#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93; |  create/replace dictionary
  &#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93; |  copy/replace destination with source
  &#91;dkeys **sourceDictionary&#44;****destinationList**&#93; |  create a <b>list</b> of keys from source
  &#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93; |  create/replace dictionary item
- &#91;d **dictName&#44;**key****&#93; |  retrieve a dictionary value using key
+ &#91;d **dictName&#44;****key**&#93; |  retrieve a dictionary value using key
 
 General Stack | &nbsp;
 ------------- | ----
@@ -213,11 +213,11 @@ Built-in | &nbsp;
  &#91;count \(sep=X&#44;\)\(overlaps=yes&#44;\)\(casesens=yes&#44;\)**patternXcontent**&#93; |  count incidences
  &#91;co&#93; |  comma
  &#91;csep **value**&#93; |  comma-separate an integer
- &#91;d **dictName&#44;**key****&#93; |  retrieve a dictionary value using key
+ &#91;d **dictName&#44;****key**&#93; |  retrieve a dictionary value using key
  &#91;date&#93; |  The date of macro() processing (use CGI for live date in HTML)
  &#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93; |  copy/replace destination with source
  &#91;dec **value**&#93; |  subtract one from value
- &#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;**keyYvalue\(XkeyYvalue\)****&#93; |  create/replace dictionary
+ &#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93; |  create/replace dictionary
  &#91;div **value** **divisor**&#93; |  divide two numbers
  &#91;dkeys **sourceDictionary&#44;****destinationList**&#93; |  create a <b>list</b> of keys from source
  &#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(posts=PST&#44;\)listName&#93; |  dump a list
