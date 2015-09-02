@@ -61,7 +61,8 @@ class macro(object):
      History:                    (for Class)
 	 	See changelog.md
 
-==> Anything with a * in the first column needs recoding to incorporate (sep=X,)
+	Todo:
+		Anything with a * in the first column needs recoding to incorporate (sep=X,)
 
 	Available built-ins:
 	====================
