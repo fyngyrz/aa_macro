@@ -177,9 +177,9 @@ Styles | &nbsp;
 ------ | ----
  &#91;style **styleName** **styleContent**&#93; |  local style
  &#91;gstyle **styleName** **styleContent**&#93; |  global style
- &#91;s **stylename**\(styleParameters\)&#93; |  invoke style&#44; local&#44; if no local&#44; then global
- &#91;glos **stylename**\(styleParameters\)&#93; |  invoke global style
- &#91;locs **stylename**\(styleParameters\)&#93; |  invoke local style
+ &#91;s **stylename**\( styleParameters\)&#93; |  invoke style&#44; local&#44; if no local&#44; then global
+ &#91;glos **stylename**\( styleParameters\)&#93; |  invoke global style
+ &#91;locs **stylename**\( styleParameters\)&#93; |  invoke local style
  &#91;spage&#93; |  reset local styles to <i>none</i>
  &#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93; |  output style without processing it
  &#91;fref **lable**&#93; |  forward (or backward) reference
@@ -239,7 +239,7 @@ Built-in | &nbsp;
  &#91;fref **lable**&#93; |  forward (or backward) reference
  &#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93; |  output style without processing it
  &#91;global **varName** varContent&#93; |  global variable definition
- &#91;glos **stylename**\(styleParameters\)&#93; |  invoke global style
+ &#91;glos **stylename**\( styleParameters\)&#93; |  invoke global style
  &#91;gstyle **styleName** **styleContent**&#93; |  global style
  &#91;gv **varName**&#93; |  global variable
  &#91;header \(options&#44;\)content&#93; |  HTML table header cell
@@ -270,7 +270,7 @@ Built-in | &nbsp;
  &#91;llen **listName**&#93; |  returns length of list
  &#91;local **varname** varContent&#93; |  local variable definition
  &#91;locimg \(imageTitle&#44;\)**imageURL** \(linkURL\)&#93; |  HTML image, with size (uses &#91;lipath&#93;)
- &#91;locs **stylename**\(styleParameters\)&#93; |  invoke local style
+ &#91;locs **stylename**\( styleParameters\)&#93; |  invoke local style
  &#91;lower content&#93; |  convert to lowercase
  &#91;lpop **listName&#44;**\(listIndex\)&#93; |  pop an item out of a list at top, or at listIndex
  &#91;lpush **listName**&#44;itemContent&#93; |  append an item to a list (can create new list)
@@ -301,7 +301,7 @@ Built-in | &nbsp;
  &#91;roman **value**&#93; |  returns lower case roman numeral
  &#91;row \(options&#44;\)content&#93; |  HTML table row
  &#91;rs&#93; |  right squiggly bracket
- &#91;s **stylename**\(styleParameters\)&#93; |  invoke style&#44; local&#44; if no local&#44; then global
+ &#91;s **stylename**\( styleParameters\)&#93; |  invoke style&#44; local&#44; if no local&#44; then global
  &#91;sisort content&#93; |  case-insensitive sort of lines
  &#91;slice **sliceSpec&#44;content**&#93; |  slice content
  &#91;soundex \(len=N&#44;\)content&#93; |  return soundex value of content

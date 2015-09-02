@@ -139,9 +139,9 @@
   
 [append bil,style {r styleName} {r styleContent}| local style~Styles]  
 [append bil,gstyle {r styleName} {r styleContent}| global style]  
-[append bil,s {r stylename}{o styleParameters}| invoke style{co} local{co} if no local{co} then global]  
-[append bil,glos {r stylename}{o styleParameters}| invoke global style]  
-[append bil,locs {r stylename}{o styleParameters}| invoke local style]  
+[append bil,s {r stylename}{o  styleParameters}| invoke style{co} local{co} if no local{co} then global]  
+[append bil,glos {r stylename}{o  styleParameters}| invoke global style]  
+[append bil,locs {r stylename}{o  styleParameters}| invoke local style]  
 [append bil,spage| reset local styles to [i none]]  
 [append bil,ghost {o source=global[vb]local{co}}{r stylename}| output style without processing it]  
 [append bil,fref {r lable}| forward (or backward) reference]  
