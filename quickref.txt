@@ -49,11 +49,11 @@
 [append bil,cmap {r listName}| create 1:1 character map]  
 [append bil,translate {r listName{co}}{c}| translate content using character map formatted list]  
   
-[append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}{r keyYvalue{o XkeyYvalue}}}| create/replace dictionary~Data Dictionaries]  
+[append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}}{r keyYvalue{o XkeyYvalue}}| create/replace dictionary~Data Dictionaries]  
 [append bil,dcopy {r sourceDictionary{co}}{r destinationDictionary}| copy/replace destination with source]  
 [append bil,dkeys {r sourceDictionary{co}}{r destinationList}| create a [b list] of keys from source]  
 [append bil,dset {o keysep=Y{co}}{r dictName{co}}{r keyYvalue}| create/replace dictionary item]  
-[append bil,d {r dictName{co}{r key}}| retrieve a dictionary value using key]  
+[append bil,d {r dictName{co}}{r key}| retrieve a dictionary value using key]  
   
 [append bil,push {c}| Push an item on to the general stack~General Stack]  
 [append bil,pop| Pop an item off the top of the general stack]  
