@@ -1,3 +1,26 @@
+[comment   
+The task here is to create two tables of built-ins, the first being
+grouped by function, and the second in alpha betical order.
+
+"bil" is a data list. The first append creates it; the following ones
+add more items. As it is a list, and not a dictionary, it has a defined
+ordering which is used here to group the various types of built-ins
+together. Each append describes one built-in.
+
+Once the list is created, it is displayed, in order. The style used for
+this parses out the "~" separated component in the list item as a heading
+title; when it exists, it creates a header line.
+
+Then the list is sorted, and redisplayed, this time using a style that is
+mostly similar, but does not act upon the "~" separated information.
+
+The styles controlling how this list are presented are in the qr_html.txt
+and qr_markdown.txt files. These provide a means to generate HTML or
+markdown, respectively. Generation of output files is performed as follows:
+
+HTML:     aagen -i qr_html.txt -f quickref.html quickref.txt
+Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
+]  
 [append bil,p {c}| HTML paragraph~HTML Text Styling]  
 [append bil,bq {c}| HTML blockquote]  
 [append bil,b {c}| HTML bold]  
