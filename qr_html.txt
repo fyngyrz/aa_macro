@@ -15,7 +15,7 @@
 [style p [p [b]]]  
 [style b [b [b]]]  
 [style i [i [b]]]  
-[style tt [<tt>[b]</tt>]]  
+[style tt <tt>[b]</tt>]  
   
 [style table [table [b]]]  
 [style table2 [table [b]]]  
