@@ -1,4 +1,4 @@
-# macro() User's Guide
+# macro() BETA User's Guide
 
 ## General
 

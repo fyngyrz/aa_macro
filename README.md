@@ -1,4 +1,4 @@
-# [aa\_macro.py](aa_macro.py) -- class macro()
+# [aa\_macro.py](aa_macro.py) -- class macro() -- BETA
 
 > Also see: [project file descriptions](files.md)
 

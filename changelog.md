@@ -1,4 +1,4 @@
-# macro() Changelog
+# macro() BETA Changelog
 
 ### Note
 

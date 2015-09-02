@@ -177,7 +177,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 {# --------------------------------}  
   
 {page   
-{h1 Macro() Quick Reference}
+{h1 Macro() BETA Quick Reference}
 {h2 Functional Groupings}
 
 {p 
