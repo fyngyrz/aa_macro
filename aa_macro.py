@@ -315,14 +315,14 @@ class macro(object):
 
 	Conditionals
 	------------
-*	[even value conditionalContent]					# use cc if value is even
-*	[odd value conditionalContent]					# use cc if value is odd
-*	[if value match conditionalContent]				# use cc if value == match
-*	[else value match conditionalContent]			# use cc if value != match
-*	[ne value,conditionalContent]					# use cc if value Not Empty
-*	[eq value,conditionalContent]					# use cc if value Empty
-*   [ifge iValue,iValue,conditionalContent]			# use cc if integer1 >= integer2
-*   [ifle iValue,iValue,conditionalContent]			# use cc if integer1 <= integer2
+*	[even (style=styleName,)value conditionalContent]			# use cc if value is even
+*	[odd (style=styleName,)value conditionalContent]			# use cc if value is odd
+*	[if (style=styleName,)value match conditionalContent]		# use cc if value == match
+*	[else (style=styleName,)value match conditionalContent]		# use cc if value != match
+*	[ne (style=styleName,)value,conditionalContent]				# use cc if value Not Empty
+*	[eq (style=styleName,)value,conditionalContent]				# use cc if value Empty
+*   [ifge (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 >= integer2
+*   [ifle (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 <= integer2
 	
 	Parsing and text processing
 	---------------------------
