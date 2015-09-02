@@ -7,6 +7,7 @@ File | Project Component
 [aagen](aagen) | command line utility to filter / process input macro() src
 [aagen-example.txt](aagen-example.txt) | Example source file for [aagen](aagen)
 [authoring.md](authoring.md) | Tips on how to author for [aa_macro.py](aa_macro.py)
+[changelog.md](changelog.md) | Change log
 [enhancement.md](enhancement.md) | Guide to adding functionality to [aa_macro.py](aa_macro.py)
 [expected.html](expected.html) | Used by unit tests
 [feature-list.md](feature-list.md) | Project feature list
