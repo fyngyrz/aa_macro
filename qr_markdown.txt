@@ -40,5 +40,5 @@
 [style c content]{# "content"}  
 [style cc [b]]{# content}  
 [style o \([b]\)]{# optional parameters}  
-[style r [b]]{# required parameters}  
+[style r **[b]**]{# required parameters}  
   
