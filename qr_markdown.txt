@@ -21,6 +21,8 @@
 [style rezero [local toggle 0]]  
   
 [style table [b]]  
+[local t2t Built-in]  
+[style table2 [v t2t] | &nbsp;[nl][dup [len [v t2t]],-] | ----[b]]  
   
 [style tinter [dup [len [parm 1]],-] | ----[nl]]  
   

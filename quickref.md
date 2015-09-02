@@ -190,7 +190,8 @@ Styles | &nbsp;
 
 **key:** built-in \(options\) required content
 
-
+Built-in | &nbsp;
+-------- | ----
  &#91;a \(tab&#44;\)URL\(&#44;linkedContent\)&#93; |  HTML link
  &#91;add value addend&#93; |  add two numbers
  &#91;aisort listName&#93; |  ASCII case-insensitive sofr of list&#44; in place

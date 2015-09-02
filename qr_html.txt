@@ -15,7 +15,8 @@
 [style p [p [b]]]  
 [style b [b [b]]]  
   
-[style table [table [b]]]
+[style table [table [b]]]  
+[style table2 [table [b]]]  
   
 [style lb [color 0ff [lb]]]  
 [style rb [color 0ff [rb]]]  

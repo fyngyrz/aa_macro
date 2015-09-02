@@ -172,7 +172,7 @@
 }  
 
 [asort bil]  
-{table 
+{table2 
 [dlist style=bxstyle,bil]  
 }
 }
