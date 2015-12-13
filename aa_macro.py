@@ -823,9 +823,15 @@ The contents of the list are safe to include in the output if you like.
 					except:
 						pass
 					else:
+#						o = ''
+#						for line in textContent.splitlines():
+#							if line[-1:] == ' ':
+#								line = line.rstrip()
+#							o += line
+#						o = self.do(o)
 						o = self.do(textContent)
 		return o
-			
+
 
 	# [llen listName]
 	def llen_fn(self,tag,data):
@@ -1071,14 +1077,17 @@ The contents of the list are safe to include in the output if you like.
 			if el[0] == 'source=':
 				if el[1] == 'global':
 					sglobal = True
-				if el[1] == 'local':
+				elif el[1] == 'local':
 					slocal = True
 		if slocal == True:
 			o = self.styles.get(data,'')
+			o += 'slocall'
 		elif sglobal == True:
 			o = self.gstyles.get(data,'')
+			o += 'sglobal'
 		else:
 			o = self.styles.get(data,self.gstyles.get(data,''))
+			o += 'spriority'
 		return o
 
 	# [ltol listName,content]
@@ -2770,7 +2779,7 @@ The contents of the list are safe to include in the output if you like.
 			if c == '}': c = ']'
 			dex += 1
 			if state == OUT and c == '[':
-				if s[dex:dex+7] == '[style ' or s[dex:dex+8] == '[repeat ':
+				if s[dex:dex+8] == '[gstyle ' or s[dex:dex+7] == '[style ' or s[dex:dex+8] == '[repeat ':
 					state = DEFER
 					depth = 1
 					tag = ''

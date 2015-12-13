@@ -365,11 +365,12 @@ ben]
 [p 
 [repeat 5 five ]test1[comment Invisible Me]
 ]
-[gstyle h3 Third-level title]
+[gstyle h3 Third-level title <i>[b]</i>]
 [p 
 [ghost h3]
 [ghost source=global,h3]
 [ghost source=local,h3]
+{h3 humma humma}
 ]
 [dict mydict,messed:foo,up:bar,gee:darn,whiz:it,really:truly]  
 [local content Gee whiz, this  is //really// messed up!]  
