@@ -949,18 +949,20 @@ Otherwise, there is no result.
 	[else foo foo testing] = ""
 
 **\[ne \(style=styleName,\)value,conditionalContent\]**  'ne' for not equal  
-When value has no content, conditionalContent is the result.
-Otherwise, there is no result.
+When value has content, conditionalContent is the result.
+Otherwise, there is no result. If you supply a style, it follows the
+same rules.
 
-    [ne ,testing] = "testing"
-	[ne foo,testing] = ""
+    [ne ,testing] = ""
+	[ne foo,testing] = "testing"
 
 **\[eq \(style=styleName,\)value,conditionalContent\]**  'eq' for equal  
-When value has content, conditionalContent is the result.
-Otherwise, there is no result.
+When value has no content, conditionalContent is the result.
+Otherwise, there is no result. If you supply a style, it follows the
+same rules.
 
-    [eq ,testing] = ""
-	[eq foo,testing] = "testing"
+    [eq ,testing] = "testing"
+	[eq foo,testing] = ""
 
 **\[ifle \(style=styleName,\)iValue1,iValue2,content\]**  '' for if less or equal  
 When iValue1 <= iValue2, content is the result. Otherwise, there
