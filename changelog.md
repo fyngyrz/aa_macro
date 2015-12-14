@@ -7,8 +7,11 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.47 - December 13th, 2015
+ * Bug in [eq] remediated
+
 1.0.46 - December 13th, 2015
- * Bug in [gstyle ] remediated
+ * Bug in [gstyle] remediated
  * unit tests updated to test for above bug
 
 1.0.45 - September 2nd, 2015

@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.46 Beta
+     Version: 1.0.47 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2210,11 +2210,10 @@ The contents of the list are safe to include in the output if you like.
 			if el[0] == 'style=':
 				style = el[1]
 		dlist = data.split(',',1)
-		if len(dlist) == 2:
-			if dlist[0] == '':
-				if style != '':
-					o += self.do("[s %s]" % style)
-				o += dlist[1]
+		if len(dlist) == 1:
+			if style != '':
+				o += self.do("[s %s]" % style)
+			o += dlist[0]
 		return o
 
 	def ifle_fn(self,tag,data):
