@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: September 2nd, 2015     (for Class)
+     LastRev: December 13th, 2015     (for Class)
   LastDocRev: September 2nd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.45 Beta
+     Version: 1.0.46 Beta
      History:                    (for Class)
 	 	See changelog.md
 
