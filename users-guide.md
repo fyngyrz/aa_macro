@@ -1592,8 +1592,14 @@ use an already existing module:
 
 	[embrace alreadyExistingModule.py]
 
-**\[repeat n,content\]**  'repeat' for repeat  
-Repeat the content.
+**\[repeat N,content\]**  'repeat' for repeat  
+Repeat the content. N may be any of the following;
+
+* a positive integer
+* \[v variableName\] \(local variables take priority\)
+* \[lv variableName\]
+* \[gv variableName\]
+* \[parm N\]
 
     [repeat 5 foo] = "foofoofoofoofoo"
 
@@ -1731,6 +1737,16 @@ styles are not used.
 
 **\[spage\]**  'spage' for style page  
 Unsets all local styles. Global styles are not affected.
+
+**\[listg \(source=local\) listName\]**  'listg' for list generate  
+This creates a list containing the names of all the global or
+local styles. Global is the default. Once the list has been created
+you can use it with **\[dlist\]** and a custom output style to output the
+styles in a web-compatible format like this:
+
+	[style fldg [b [b]:<br>][ghost [b]]<br><br>]
+	[listg source=local,gslist]
+	[dlist style=fldg,gslist]
 
 **\[ghost \(source=global|local\)\]**  'ghost' for ghost  
 This outputs a style verbatim, without processing it. Invoked without

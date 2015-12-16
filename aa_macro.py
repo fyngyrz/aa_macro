@@ -1169,7 +1169,7 @@ The contents of the list are safe to include in the output if you like.
 	def listg_fn(self,tag,data):
 		o = ''
 		opts,data = self.popts(['source'],data)
-		source = 'local'
+		source = 'global'
 		for el in opts:
 			if el[0] == 'source=':
 				source = el[1]
@@ -1177,11 +1177,11 @@ The contents of the list are safe to include in the output if you like.
 			data = data.strip()
 			if len(data) > 0:
 				ll = []
-				if source == 'local':
-					for key in self.styles.keys():
+				if source == 'global':
+					for key in self.gstyles.keys():
 						ll.append(key)
 				else:
-					for key in self.gstyles.keys():
+					for key in self.styles.keys():
 						ll.append(key)
 				ll.sort()
 				self.theLists[data] = ll
