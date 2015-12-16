@@ -1601,6 +1601,8 @@ Repeat the content. N may be any of the following;
  * \[gv variableName\]
  * \[parm N\]
 
+Example:
+
     [repeat 5 foo] = "foofoofoofoofoo"
 
 Note that this is *not* the same as \[dup\]. \[repeat\] \(re-\)evaluates
