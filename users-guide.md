@@ -1595,11 +1595,11 @@ use an already existing module:
 **\[repeat N,content\]**  'repeat' for repeat  
 Repeat the content. N may be any of the following;
 
-* a positive integer
-* \[v variableName\] \(local variables take priority\)
-* \[lv variableName\]
-* \[gv variableName\]
-* \[parm N\]
+ * a positive integer
+ * \[v variableName\] \(local variables take priority\)
+ * \[lv variableName\]
+ * \[gv variableName\]
+ * \[parm N\]
 
     [repeat 5 foo] = "foofoofoofoofoo"
 
