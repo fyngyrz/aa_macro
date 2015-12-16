@@ -7,6 +7,17 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.48
+ * [repeat] now understands any of [v], [gv], [lv] and [parm]
+ * [listg (source=local,)listName] added
+ * [stage (mode=float,)(digits=N)start end steps step] added
+ * htodec,otodec,btodec,dtohex,dtooct,dtobin all have new digits=N option
+ * [dlist \(style=styleName,\)] syn for [dlist \(wrap=styleName,\)]
+ * unit tests updated
+ * users guide
+ * quickref
+ * features
+
 1.0.47 - December 13th, 2015
  * Bug in [eq] remediated
 

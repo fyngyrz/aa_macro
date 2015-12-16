@@ -166,6 +166,15 @@ max 5 10 = 10
 max 9 4 = 9
 min 5 10 = 5
 min 4 9 = 4
+stage 100 50 10 5 = 75
+stage 50 75 10 5 = 62
+stage mode=float,digits=1,0 1 10 5 = 0.5
+stage mode=float,digits=3,0 1 10 10 = 1.000
+stage mode=float,0 1.5 3 2 = 1.00
+stage mode=float,2.5 3.5 2 1 = 3.00
+stage mode=float,digits=6,0 10 3 1 = 3.333333
+stage mode=float,.5 .75 5 2 = 0.60
+stage mode=float,0 1 10 5.5 = 0.55
 </p>
 
 <h2>Conditionals</h2>
@@ -200,6 +209,15 @@ BEN
 11 bin to dec: 3
 97 hex to binary: 10010111
 11010110 to hex: D6
+
+7 dec to hex 2-digits: 07
+7 dec to oct 3-digits: 007
+9 dec to bin 8-digits: 00001001
+11 hex to dec 3-digits: 017
+11 oct to dec 3-digits: 009
+11 bin to dec 3-digits: 003
+
+
 
 content:
 this is a test
@@ -376,13 +394,18 @@ zander
 
 <h2>Miscellanea</h2>
 <p>
-five five five five five test1
+
+two two test1
+three three three 
+three again: three again: three again: 
+five five five five five 
+two two 
 </p>
 
 <p>
-<h3>[b]</h3>spriority
-Third-level title <i>[b]</i>sglobal
-<h3>[b]</h3>slocall
+&#60;h3&#62;&#91;b&#93;&#60;/h3&#62;
+Third-level title &#60;i&#62;&#91;b&#93;&#60;/i&#62;
+&#60;h3&#62;&#91;b&#93;&#60;/h3&#62;
 <h3>humma humma</h3>
 </p>
 Gee whiz, this  is //really// messed up!: Darn it, this is //truly// foo bar!

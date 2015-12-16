@@ -23,8 +23,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 13th, 2015     (for Class)
-  LastDocRev: September 2nd, 2015     (for Class)
+     LastRev: December 16th, 2015     (for Class)
+  LastDocRev: December 16th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.47 Beta
+     Version: 1.0.48 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -191,6 +191,7 @@ class macro(object):
 	[min v1 v2]										# return smaller value
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
+	[stage start end steps step]					# produce number in range
 
 	Conditionals
 	------------
@@ -264,6 +265,12 @@ class macro(object):
 	[resolve label,content]							# resolve forward reference(s) to lable
 	[sys shellCommand]								# execute shell command
 	[repeat count content]							# repeat content count times
+													# count may be any one of:
+													#	an integer
+													#	[v variableName] (local, or global if local does not exist)
+													#	[gv globalVariableName]
+													#	[lv localvariablename]
+													#   [parm parameterNumber] (from [split])
 	[comment content]								# content does not render
 	[back HEX3|HEX6]								# set back color for HTML 4.01s operations
 	[mode 3.2|4.01s]								# set HTML version/mode
@@ -305,6 +312,10 @@ class macro(object):
 
 	[spage]							# reset local environment: styles
 									  global styles are unaffected
+	
+	[ghost (source=local,) stylename]	# allows output of a style in web-compatible format
+	
+	[listg (source=local,)listName]		# names of global or local styles --> listname
 	
 	More on styles:
 	---------------
@@ -1010,42 +1021,98 @@ The contents of the list are safe to include in the output if you like.
 
 	# [dtohex decNumber]
 	def d2h_fn(self,tag,data):
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		o = ''
 		try:
 			n = int(data)
 		except:
 			pass
 		else:
-			o = '%x' % (n,)
+			if digits == -1:
+				o = '%x' % (n,)
+			else:
+				fmt = '%%0%dx' % (digits)
+				o = fmt % (n,)
 		return o
 
 	# [dtoct decNumber]
 	def d2o_fn(self,tag,data):
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		o = ''
 		try:
 			n = int(data)
 		except:
 			pass
 		else:
-			o = '%o' % (n,)
+			if digits == -1:
+				o = '%o' % (n,)
+			else:
+				fmt = '%%0%do' % (digits)
+				o = fmt % (n,)
 		return o
 
 	# [dtobin decNumber]
 	def d2b_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits =abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		try:
 			n = int(data)
 		except:
 			pass
 		else:
-			o = bin(n)[2:]
+			if digits == -1:
+				o = bin(n)[2:]
+			else:
+				o = bin(n)[2:].zfill(digits)
 		return o
 
 	# [htodec hexNumber]
 	def h2d_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		try:
-			o = str(int(data,16))
+			val = int(data,16)
+			if digits == -1:
+				o += str(val)
+			else:
+				fmt = '%%0%dd' % (digits)
+				o += fmt % (val)
 		except:
 			pass
 		return o
@@ -1053,8 +1120,23 @@ The contents of the list are safe to include in the output if you like.
 	# [otodec octNumber]
 	def o2d_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		try:
-			o = str(int(data,8))
+			val = int(data,8)
+			if digits == -1:
+				o += str(val)
+			else:
+				fmt = '%%0%dd' % (digits)
+				o += fmt % (val)
 		except:
 			pass
 		return o
@@ -1062,34 +1144,80 @@ The contents of the list are safe to include in the output if you like.
 	# [btod binNumber]
 	def b2d_fn(self,tag,data):
 		o = ''
+		opts,data = self.popts(['digits'],data)
+		digits = -1
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = abs(int(el[1]))
+				except:
+					digits = -1
+				if digits == 0:
+					digits = -1
 		try:
-			o = str(int(data,2))
+			val = int(data,2)
+			if digits == -1:
+				o += str(val)
+			else:
+				fmt = '%%0%dd' % (digits)
+				o += fmt % (val)
 		except:
 			pass
 		return o
 
+	# [listg (source=local,)listname]
+	def listg_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['source'],data)
+		source = 'local'
+		for el in opts:
+			if el[0] == 'source=':
+				source = el[1]
+		try:
+			data = data.strip()
+			if len(data) > 0:
+				ll = []
+				if source == 'local':
+					for key in self.styles.keys():
+						ll.append(key)
+				else:
+					for key in self.gstyles.keys():
+						ll.append(key)
+				ll.sort()
+				self.theLists[data] = ll
+		except Exception,e:
+			o += 'Error: %s' % (str(e))
+		return o
+
 	# [ghost (source=local|global,)styleName]
 	def ghost_fn(self,tag,data):
+		o = ''
 		opts,data = self.popts(['source'],data)
 		slocal = False
 		sglobal = False
+		t = ''
 		for el in opts:
 			if el[0] == 'source=':
 				if el[1] == 'global':
 					sglobal = True
-				elif el[1] == 'local':
+				if el[1] == 'local':
 					slocal = True
 		if slocal == True:
-			o = self.styles.get(data,'')
-			o += 'slocall'
+			t = self.styles.get(data,'')
 		elif sglobal == True:
-			o = self.gstyles.get(data,'')
-			o += 'sglobal'
+			t = self.gstyles.get(data,'')
 		else:
-			o = self.styles.get(data,self.gstyles.get(data,''))
-			o += 'spriority'
+			t = self.styles.get(data,self.gstyles.get(data,''))
+		t = t.replace('[','&#91;')
+		t = t.replace(']','&#93;')
+		t = t.replace('{','&#123;')
+		t = t.replace('}','&#125;')
+		t = t.replace(',','&#44;')
+		t = t.replace('<','&#60;')
+		t = t.replace('>','&#62;')
+		t = t.replace('"','&quot;')
+		o += t
 		return o
-
 	# [ltol listName,content]
 	def ltol_fn(self,tag,data):
 		o = ''
@@ -2012,12 +2140,12 @@ The contents of the list are safe to include in the output if you like.
 	# [dlist (style=styleName,)listName]
 	def dlist_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style','parms','posts'],data)
+		opts,data = self.popts(['wrap','style','parms','posts'],data)
 		style = ''
 		parms = ''
 		posts = ''
 		for el in opts:
-			if el[0] == 'style=':
+			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
 			elif el[0] == 'parms=':
 				parms = el[1]
@@ -2284,11 +2412,21 @@ The contents of the list are safe to include in the output if you like.
 	def comment_fn(self,tag,data):
 		return ''
 
+	# [repeat count stuff]
+	# count may be:
+	#	integer
+	#	[v name]
+	#	[lv name]
+	#	[gv name]
+	#	[parm number]
 	def repeat_fn(self,tag,data):
 		o = ''
 		try:
 			d1,d2 = data.split(' ',1)
-			if d1[:2] == '[v' or d1[:3] == '[gv':
+			if (d1[:2] == '[v' or
+				d1[:3] == '[gv' or
+				d1[:3] == '[lv' or
+				d1[:5] == '[parm'):
 				accum = ''
 				run = 1
 				skip = 1
@@ -2441,6 +2579,60 @@ The contents of the list are safe to include in the output if you like.
 			else:
 				if a < b:	o = str(a)
 				else:		o = str(b)
+		return o
+
+	def fsplit(self,data,splitter):
+		ll = data.split(splitter)
+		lx = []
+		for el in ll:
+			lx.append(float(el))
+		return lx
+
+	# [stage start end steps step]
+	def stage_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['mode','digits'],data)
+		mode = 'int'
+		digits = 2
+		for el in opts:
+			if el[0] == 'mode=':
+				mode = el[1]
+			if el[0] == 'digits=':
+				try:
+					digits = int(el[1])
+				except:
+					pass
+		try: # 250 123 16 1
+			start,end,steps,step = self.fsplit(data,' ')
+			iend = int(end)
+			steps = abs(steps)
+			step = abs(step)
+			if steps < 1.0:
+				steps = 1.0
+			perstep = (end-start) / steps
+			r = start + (perstep * step)
+			if mode == 'int':
+				r = int(r)
+				if perstep > 0:
+					if r > iend:
+						r = iend
+				else:
+					if r < iend:
+						r = iend
+			else:
+				if perstep > 0:
+					if r > end:
+						r = end
+				else:
+					if r < end:
+						r = end
+			if mode == 'int':
+				o = "%d" % (r)
+			else:
+				fmt = '%%.%df' % (digits)
+				o += fmt % (r)
+		except Exception,e:
+			o = 'Error with "%s": "%s" ' % (data,str(e))
 		return o
 
 	def math_fn(self,tag,data):
@@ -2649,6 +2841,7 @@ The contents of the list are safe to include in the output if you like.
 					'dec'	: self.math_fn,		# P1 - 1
 					'max'	: self.max_fn,		# max v1 v2
 					'min'	: self.min_fn,		# min v1 v2
+					'stage'	: self.stage_fn,	# stage start end steps step
 
 					# conditionals
 					# ------------
@@ -2739,6 +2932,7 @@ The contents of the list are safe to include in the output if you like.
 					'mode'	: self.mode_fn,		# [mode 3.2] or [mode 4.01s] sets HTML output mode
 					'back'	: self.back_fn,		# P1=HHH or HHHHHH then P2 is what gets colored
 					'ghost'	: self.ghost_fn,	# [ghost styleName] print verbatim
+					'listg'	: self.listg_fn,	# [listg (source=local,) listName]
 					'include':self.inclu_fn,	# [include filename] grab some styles, etc.
 					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
 					'time'	: self.time_fn,		# [time] Generation time

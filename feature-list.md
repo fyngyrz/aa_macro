@@ -28,6 +28,8 @@
 	  * Custom escape sequences
   * Can replace any built-in \(see built-ins, below\)
   * Fully independent namespace
+  * Utility list function \(creates data list of currently defined style\)
+  * Can output a style verbatim in HTML without processing for reference
 
 * Built-ins: `[builtIn options]` syntax
   * Text styling
@@ -132,8 +134,9 @@
 	* Float comma separation \(e.g. 1234.56 = 1,234.56\)
 	* Decimal to Roman numeral conversion \(e.g. 17 = "xvii"\)
 	* Decimal to character conversion \(e.g. 49 = "A"\)
-	* Decimal to base 16, 8 and 2 conversion
-	* Base 16, 8 and 2 conversion to decimal
+	* Decimal to base 16, 8 and 2 conversion, optional length control
+	* Base 16, 8 and 2 conversion to decimal, optional length control
+	* stage values between ranges to any number of steps
   * Conditionals
     * On parameter match
 	* On parameter non-match

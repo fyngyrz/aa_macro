@@ -669,12 +669,13 @@ Examples:
 	[lslice ::-1,srcList,srcList]
 	[dlist srcList] = "dcba"
 
-**\[dlist \(wrap=styleName,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
-Dumps/displays a list, optionally wrapped in a style:
+**\[dlist \(style=styleName,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
+Note: You may use either **style=styleName** or **wrap=styleName**  
+Dumps/displays a list, optionally wrapped in a style.
 
     [dlist myList] = joemaryleroylunabetty
 	[style lwrap ([b]) ]
-	[dlist wrap=lwrap,myList] = "(joe) (mary) (leroy) (luna) (betty) "
+	[dlist style=lwrap,myList] = "(joe) (mary) (leroy) (luna) (betty) "
 
 If parms=PRE is supplied, then the list element is prefixed with PRE.
 
@@ -833,8 +834,9 @@ This empties the stack; all content is discarded.
 
 ### Math
 
-The math capabilities are underwhelming used by themselves, but in combination
-with styles and variables, they come into their own. First, the operations:
+The basic math capabilities are underwhelming used by themselves, but in
+combination with styles and variables, they come into their own. First,
+the operations:
 
 **\[add value addend\]**  'add' for addition  
 
@@ -900,6 +902,48 @@ Which you would use as follows:
 	{addvars $x 3} = "8"
 	{addvars $x $y} = "9"
 	{addvars 2 $y} = "6"
+
+**\[stage (mode=float,)(digits=N,)start end steps step\]**  'stage' for stage
+stage allows you to step through a range from start to
+end by telling it how many steps there are in the
+range, and what step to produce a floor(integer) or floating point result for.
+mode is integer by default, and digits \(fractional part of float result\) is 2 by default
+Basic examples:
+
+    [stage 100 50 10 5] = "75"
+	[stage 50  75 10 5] = "62"
+	[stage mode=float,0 1.5 3 2] = 1.00
+	[stage mode=float,0 10 3 1] = 3.33
+	[stage mode=float,digits=6,0 10 3 1] = 3.333333
+	[stage mode=float,0 1 10 5.5] = 5.50
+
+Here's a basic example of a useful form with a controllable number of
+steps:
+
+    [style postinc [v [b]][local [b] [inc [v [b]]]]]
+    [style wtob [local ct [b]][repeat 16 [stage 100 150 15 {postinc ct}] ]]
+
+	{wtob 0} = 100 103 106 110 113 116 120 123 126 130 133 136 140 143 146 150
+
+In the example, because `ct` started at zero, instead of 15 steps, there
+were 16, which included the starting value. Starting at one, it works like
+this:
+
+    [style postinc [v [b]][local [b] [inc [v [b]]]]]
+    [style wtob [local ct [b]][repeat 16 [stage 100 150 15 {postinc ct}] ]]
+
+	{wtob 1} = 103 106 110 113 116 120 123 126 130 133 136 140 143 146 150
+
+Here's a very usable integer form you can set everything in:
+
+	[style lowstage [repeat [parm 1] [stage [parm 2] [parm 3] [parm 4] {postinc [parm 5]}] ]]
+	[style nstage [split [co],[b]][local [parm 5] [parm 0]]<br>{lowstage}]
+	
+	nstage startCount stepsToTake start end steps countVariable
+	{nstage 1,5,5,10,5,ct} = 6 7 8 9 10
+	{nstage 0,6,5,10,5,ct} = 5 6 7 8 9 10
+
+Possible uses include producing specialized counters, color ranage values and so on.
 
 ### Conditionals
 
@@ -1068,32 +1112,32 @@ Convert a decimal number to a roman numeral:
     [roman 9] = 'ix'
 	[upper [roman 14]] = "XIV"
 
-**\[dtohex decNumber\]**  'dtohex' for decimal to hexadecimal  
+**\[dtohex \(digits=N\)decNumber\]**  'dtohex' for decimal to hexadecimal  
 Convert a decimal number to a hexadecimal number:
 
 	[dtohex 17] = "11"
 
-**\[dtooct decNumber\]**  'dtooct' for decimal to octal  
+**\[dtooct \(digits=N\)decNumber\]**  'dtooct' for decimal to octal  
 Convert a decimal number to an octal number:
 
 	[dtooct 9] = "11"
 
-**\[dtobin decNumber\]**  'dtobin' for decimal to binary  
+**\[dtobin \(digits=N\)decNumber\]**  'dtobin' for decimal to binary  
 Convert a decimal number to a binary number:
 
 	[dtobin 3] = "11"
 
-**\[htodec hexadecimalNumber\]**  'htodec' for hexadeimal to decimal  
+**\[htodec \(digits=N\)hexadecimalNumber\]**  'htodec' for hexadeimal to decimal  
 Convert an hexadecimal number to a decimal number:
 
 	[htodec 11] = "17"
 
-**\[otodec octalNumber\]**  'otodec' for octal to decimal  
+**\[otodec \(digits=N\)octalNumber\]**  'otodec' for octal to decimal  
 Convert an octal number to a decimal number:
 
 	[otodec 11] = "9"
 
-**\[btodec binaryNumber\]**  'btodec' for binary to decimal  
+**\[btodec \(digits=N\)binaryNumber\]**  'btodec' for binary to decimal  
 Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"

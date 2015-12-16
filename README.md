@@ -4,7 +4,7 @@
 
 ![macro\(\)](tease.png)
 
-I don't particularly appreciate WYSIWYG HTML/CSS editors, as they may
+I don't use WYSIWYG HTML/CSS editors, as they may
 generate sub-par code, may break with any application or library or
 operating system upgrade, and in the end, I have zero control over where
 and when they break, or any particular assurance I can easily correct
@@ -41,12 +41,6 @@ to generate a complete manual with indexes, table of contents,
 footnotes, completely custom styles and more.
 
 `macro()` can be extended or altered in any way by external plug-ins.
-
-In addition, I've provided a [basic tool](martomac.README.md) that
-translates from markdown to `macro()` format; utilizing this, your
-documentation options become essentially unlimited. This provides a path
-to a much easier transition if you're inclined to move to
-`macro()`-based HTML coding from markdown.
 
 One of the reasons that `macro()` is more powerful is that although the
 idea is similar in that it enables you to generate HTML easily and that

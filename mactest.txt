@@ -146,6 +146,15 @@ max 5 10 = [max 5 10]
 max 9 4 = [max 9 4]
 min 5 10 = [min 5 10]
 min 4 9 = [min 4 9]
+stage 100 50 10 5 = [stage 100 50 10 5]
+stage 50 75 10 5 = [stage 50 75 10 5]
+stage mode=float,digits=1,0 1 10 5 = [stage mode=float,digits=1,0 1 10 5]
+stage mode=float,digits=3,0 1 10 10 = [stage mode=float,digits=3,0 1 10 10]
+stage mode=float,0 1.5 3 2 = [stage mode=float,0 1.5 3 2]
+stage mode=float,2.5 3.5 2 1 = [stage mode=float,2.5 3.5 2 1]
+stage mode=float,digits=6,0 10 3 1 = [stage mode=float,digits=6,0 10 3 1]
+stage mode=float,.5 .75 5 2 = [stage mode=float,.5 .75 5 2]
+stage mode=float,0 1 10 5.5 = [stage mode=float,0 1 10 5.5]
 ]
 
 {h2 Conditionals}
@@ -182,6 +191,15 @@ I have a [upper [roman 427]] Hemi ox-cart
 11 bin to dec: [btodec 11]
 97 hex to binary: [dtobin [htodec 97]]
 11010110 to hex: [upper [dtohex [btodec 11010110]]]
+
+7 dec to hex 2-digits: [dtohex digits=2,7]
+7 dec to oct 3-digits: [dtooct digits=3,7]
+9 dec to bin 8-digits: [dtobin digits=8,9]
+11 hex to dec 3-digits: [htodec digits=3,11]
+11 oct to dec 3-digits: [otodec digits=3,11]
+11 bin to dec 3-digits: [btodec digits=3,11]
+
+
 [local cont this is a test
 of the emergency broadcast system]
 content:
@@ -367,7 +385,14 @@ ben]
 
 {h2 Miscellanea}
 [p 
-[repeat 5 five ]test1[comment Invisible Me]
+[local v1 3]  
+[global v1 5]  
+[split [co],7,2,4]
+[repeat 2 two ]test1[comment Invisible Me]
+[repeat [v v1] three ]
+[repeat [lv v1] three again: ]
+[repeat [gv v1] five ]
+[repeat [parm 1] two ]
 ]
 [gstyle h3 Third-level title <i>[b]</i>]
 [p 
