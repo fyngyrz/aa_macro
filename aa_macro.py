@@ -1742,7 +1742,6 @@ The contents of the list are safe to include in the output if you like.
 	def row_fn(self,tag,data):
 		o = '<tr'
 		plist = data.split(',',1)
-		o += '--len=%d--' % (len(plist))
 		if len(plist) == 1:
 			o += '>'
 			o += plist[0]
