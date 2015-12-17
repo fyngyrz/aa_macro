@@ -1189,7 +1189,7 @@ The contents of the list are safe to include in the output if you like.
 			o += 'Error: %s' % (str(e))
 		return o
 
-	# [ghost (source=local|global,)styleName]
+	# [ghost (source=local|global,)(opt=square|curly)styleName]
 	def ghost_fn(self,tag,data):
 		o = ''
 		opts,data = self.popts(['source'],data)
@@ -1202,10 +1202,13 @@ The contents of the list are safe to include in the output if you like.
 					sglobal = True
 				if el[1] == 'local':
 					slocal = True
+		stag = ''
 		if slocal == True:
 			t = self.styles.get(data,'')
+			stag = 'style'
 		elif sglobal == True:
 			t = self.gstyles.get(data,'')
+			stag = 'gstyle'
 		else:
 			t = self.styles.get(data,self.gstyles.get(data,''))
 		t = t.replace('[','&#91;')
@@ -1739,6 +1742,7 @@ The contents of the list are safe to include in the output if you like.
 	def row_fn(self,tag,data):
 		o = '<tr'
 		plist = data.split(',',1)
+		o += '--len=%d--' % (len(plist))
 		if len(plist) == 1:
 			o += '>'
 			o += plist[0]
