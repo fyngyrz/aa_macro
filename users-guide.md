@@ -474,14 +474,14 @@ examples below will demonstrate the considerable power of this
 methodology. First, the built-ins themselves:
 
 **\[table \(options\),content\]**  'table' for HTML table  
-Note: the comma is _not_ optional
+Note: the comma is _not_ optional  
 The table built-in is to be wrapped around row content:
 
     [table content] = <table>content</table>
 	[table border=1,content] = <table border=1>content</table>
 
 **\[row \(options\),content\]**  'row' for HTML table row  
-Note: the comma is _not_ optional
+Note: the comma is _not_ optional  
 The row built-in is tobe wrapped around header or cell content:
 
     [row content] = <tr>content</tr>
@@ -489,7 +489,7 @@ The row built-in is tobe wrapped around header or cell content:
 
 
 **\[header \(options\),content\]**  'header' for HTML table header cell  
-Note: the comma is _not_ optional
+Note: the comma is _not_ optional  
 The header built-in is to be wrapped around header cell content:
 
     [header content] = <th>content</th>
@@ -497,7 +497,7 @@ The header built-in is to be wrapped around header cell content:
 
 
 **\[cell \(options\),content\]**  'cell' for HTML table data cell  
-Note: the comma is _not_ optional
+Note: the comma is _not_ optional  
 The cell built-in should be wrapped around normal table cell content:
 
     [cell content] = <td>content</td>
