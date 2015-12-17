@@ -505,7 +505,7 @@ The cell built-in should be wrapped around normal table cell content:
 
 Taken together, an entire table \(one row, one cell\) is built this way...
 
-    [table [row [cell content]]]
+    [table ,[row ,[cell ,content]]]
 
 ...which results in:
 
@@ -515,7 +515,7 @@ Using style, split and parm you can conveniently pre-define part or all
 of a table format. For instance, if you are using a two-cell per row
 table, you could do this...
 
-    [style myrow [split [b]][row [cell [parm 1]][cell [parm 2]]]]
+    [style myrow [split [b]],[row ,[cell ,[parm 1]][cell ,[parm 2]]]]
 
 ...and then your table can be done this way, allowing use of multiple rows...
 
@@ -531,7 +531,7 @@ table, you could do this...
 
 Or you can predefine the entire thing...
 
-    [style mytab [table [split [b]][row [cell [parm 1]][cell [parm 2]]]]]
+    [style mytab [table ,[split [b]][row ,[cell ,[parm 1]][cell ,[parm 2]]]]]
 
 ...which you'd use this way...
 
@@ -551,7 +551,7 @@ degree you choose. For instance, here's a minimalist version:
 
 With those in place, the example table can now be written as:
 
-	{t {r {c joe}{c larry}}}
+	{t ,{r ,{c ,joe}{c ,larry}}}
 
 ### Variables
 
