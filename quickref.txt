@@ -40,10 +40,10 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,ifol {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML ordered list IF &gt; one item]  
 [append bil,t {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| style wrap around item(s)]  
   
-[append bil,table {o options}{co}{c}| HTML table~HTML Tables]  
-[append bil,row {o options}{co}{c}| HTML table row]  
-[append bil,header {o options}{co}{c}| HTML table header cell]  
-[append bil,cell {o options}{co}{c}| HTML table data cell]  
+[append bil,table {o options}{co}{c}| HTML table \(comma is *not* optional\)~HTML Tables]  
+[append bil,row {o options}{co}{c}| HTML table row \(comma is *not* optional\)]  
+[append bil,header {o options}{co}{c}| HTML table header cell \(comma is *not* optional\)]  
+[append bil,cell {o options}{co}{c}| HTML table data cell \(comma is *not* optional\)]  
   
 [append bil,local {r varname} {cc varContent}| local variable definition~Variables]  
 [append bil,vs {r varName} {cc varContent}| local variable definition]  

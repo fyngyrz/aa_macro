@@ -36,10 +36,10 @@ HTML Lists | &nbsp;
 
 HTML Tables | &nbsp;
 ----------- | ----
- <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table
- <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row
- <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell
- <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell
+ <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
+ <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
+ <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
+ <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell \(comma is *not* optional\)
 
 Variables | &nbsp;
 --------- | ----
@@ -206,7 +206,7 @@ Built-in | &nbsp;
  <tt>&#91;caps content&#93;</tt> |  sentence case
  <tt>&#91;capt content&#93;</tt> |  title case
  <tt>&#91;capw content&#93;</tt> |  word case
- <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell
+ <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell \(comma is *not* optional\)
  <tt>&#91;center **width&#44;****padChar&#44;**content&#93;</tt> |  center (neg width indicates pad both sides)
  <tt>&#91;chr **value**&#93;</tt> |  return ASCII character of code=value
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
@@ -244,7 +244,7 @@ Built-in | &nbsp;
  <tt>&#91;glos **stylename**\(styleParameters\)&#93;</tt> |  invoke global style
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
- <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell
+ <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
  <tt>&#91;hsort content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
  <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
  <tt>&#91;i content&#93;</tt> |  HTML italics
@@ -302,7 +302,7 @@ Built-in | &nbsp;
  <tt>&#91;resolve **lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral
- <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row
+ <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
  <tt>&#91;rs&#93;</tt> |  right squiggly bracket
  <tt>&#91;s **stylename**\(styleParameters\)&#93;</tt> |  invoke style&#44; local&#44; if no local&#44; then global
  <tt>&#91;sisort content&#93;</tt> |  case-insensitive sort of lines
@@ -319,7 +319,7 @@ Built-in | &nbsp;
  <tt>&#91;sub **value** **subtrahend**&#93;</tt> |  subtract two numbers
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
- <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table
+ <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
  <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate **listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;u content&#93;</tt> |  HTML underline
