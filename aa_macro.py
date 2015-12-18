@@ -23,8 +23,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 16th, 2015     (for Class)
-  LastDocRev: December 16th, 2015     (for Class)
+     LastRev: December 17th, 2015     (for Class)
+  LastDocRev: December 17th, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.48 Beta
+     Version: 1.0.49 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -238,6 +238,7 @@ class macro(object):
 	[fcsep integer]									# e.g. [fcsep 1234.56] = "1,234.56"
 	[soundex content]								# returns soundex code
 	[strip content]									# strip out HTML tags
+	[stripe (charset=chars,)content]				# strip whitespace or chars in charset from ends of lines
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[count (overlaps=yes)(casesens=yes,)(sep=X,)patternXcontent] # count term occurances in content
@@ -939,6 +940,15 @@ The contents of the list are safe to include in the output if you like.
 	def strip_fn(self,tag,data):
 		return re.sub(r'<[^>]*>','',data)
 
+	# [stripe (charset=chars,)content]
+	def stripe_fn(self,tag,data):
+		cs = None
+		opts,data = self.popts(['charset'],data)
+		for el in opts:
+			if el[0] == 'charset=':
+				cs = el[1]
+		return data.strip(cs)
+
 	# [count (overlaps=yes,)(casesens=yes,)(sep=X)patternXcontent]
 	def count_fn(self,tag,data):
 		o = ''
@@ -1595,13 +1605,10 @@ The contents of the list are safe to include in the output if you like.
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.styles.get(md1,self.gstyles.get(md1,''))
-				if block == '':						# then there is no style M1
-					o += ' ? Unknown Style: "'+data+'" '
-				else:
-					block = block.replace('[b]',md2)
-					res = self.do(block)
-					o += res
+				block = self.styles.get(md1,self.gstyles.get(md1,'? Unknown Style ?'))
+				block = block.replace('[b]',md2)
+				res = self.do(block)
+				o += res
 		else:
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
 		return o
@@ -1624,13 +1631,10 @@ The contents of the list are safe to include in the output if you like.
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.gstyles.get(md1,'')
-				if block == '':
-					o += tag+data
-				else:
-					block = block.replace('[b]',md2)
-					res = self.do(block)
-					o += res
+				block = self.gstyles.get(md1,'? Unknown Global Style Invocation ?')
+				block = block.replace('[b]',md2)
+				res = self.do(block)
+				o += res
 		else:
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
 		return o
@@ -1653,13 +1657,10 @@ The contents of the list are safe to include in the output if you like.
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.styles.get(md1,'')
-				if block == '':
-					o += tag+data
-				else:
-					block = block.replace('[b]',md2)
-					res = self.do(block)
-					o += res
+				block = self.styles.get(md1,'? Unknown Local Style Invocation ?')
+				block = block.replace('[b]',md2)
+				res = self.do(block)
+				o += res
 		else:
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
 		return o
@@ -1731,7 +1732,9 @@ The contents of the list are safe to include in the output if you like.
 			o += plist[0]
 		elif len(plist) == 2: # table params
 			params = plist[0].replace('&quot;','"')
-			o += ' '+params
+			params = params.strip()
+			if params != '':
+				o += ' '+params
 			o += '>'
 			o += plist[1]
 		else:
@@ -1747,7 +1750,9 @@ The contents of the list are safe to include in the output if you like.
 			o += plist[0]
 		elif len(plist) == 2: # row params
 			params = plist[0].replace('&quot;','"')
-			o += ' '+params
+			params = params.strip()
+			if params != '':
+				o += ' '+params
 			o += '>'
 			o += plist[1]
 		else:
@@ -1763,7 +1768,9 @@ The contents of the list are safe to include in the output if you like.
 			o += plist[0]
 		elif len(plist) == 2: # header cell  params
 			params = plist[0].replace('&quot;','"')
-			o += ' '+params
+			params = params.strip()
+			if params != '':
+				o += ' '+params
 			o += '>'
 			o += plist[1]
 		else:
@@ -1779,7 +1786,9 @@ The contents of the list are safe to include in the output if you like.
 			o += plist[0]
 		elif len(plist) == 2: # table cell params
 			params = plist[0].replace('&quot;','"')
-			o += ' '+params
+			params = params.strip()
+			if params != '':
+				o += ' '+params
 			o += '>'
 			o += plist[1]
 		else:
@@ -1792,7 +1801,11 @@ The contents of the list are safe to include in the output if you like.
 			try:
 				d1,d2 = data.split(' ',1)
 			except:
-				return ' ?style?="%s","%s" ' % (str(tag),str(data))
+				if data != '':
+					d1 = data
+					d2 = ''
+				else:
+					return ' ?style?="%s","%s" ' % (str(tag),str(data))
 			self.styles[d1] = d2
 		return ''
 
@@ -1801,7 +1814,11 @@ The contents of the list are safe to include in the output if you like.
 			try:
 				d1,d2 = data.split(' ',1)
 			except:
-				return ' ?gstyle?="%s","%s" ' % (str(tag),str(data))
+				if data != '':
+					d1 = data
+					d2 = ''
+				else:
+					return ' ?gstyle?="%s","%s" ' % (str(tag),str(data))
 			self.gstyles[d1] = d2
 		return ''
 	
@@ -1834,7 +1851,7 @@ The contents of the list are safe to include in the output if you like.
 				run = False
 		plist = self.gis(self.lipath + tifn)
 		if len(plist) == 2:
-			xy = " width=%d height=%d" % (int(plist[0]),int(plist[1]))
+			xy = ' width="%d" height="%d"' % (int(plist[0]),int(plist[1]))
 		return xy
 
 	def lipath_fn(self,tag,data):
@@ -1856,13 +1873,13 @@ The contents of the list are safe to include in the output if you like.
 		except:
 			if tit == '':
 				if getxy == True: txy = self.xyhelper(data)
-				rv = '<img%s src="%s">' % (txy,data)
+				rv = '<img%s src="%s" alt="" title="">' % (txy,data)
 			if rv == '':
 				if getxy == True: txy = self.xyhelper(data)
 				rv = '<img%s alt="%s" title="%s" src="%s">' % (txy,tit,tit,data)
 		if rv == '' and tit == '':
 			if getxy == True: txy = self.xyhelper(d1)
-			rv = '<a href="%s" target="_blank"><img%s src="%s"></a>' % (d2,txy,d1)
+			rv = '<a href="%s" target="_blank"><img%s src="%s" alt="" title=""></a>' % (d2,txy,d1)
 		if rv == '':
 			if getxy == True: txy = self.xyhelper(d1)
 			rv ='<a href="%s" target="_blank"><img%s alt="%s" title="%s" src="%s"></a>' % (d2,txy,tit,tit,d1)
@@ -2890,6 +2907,7 @@ The contents of the list are safe to include in the output if you like.
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
 					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
+					'stripe': self.stripe_fn,	# [stripe (charset=chars,)stuff] whitespace, etc removal
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
 					'upper'	: self.upper_fn,	# [upper textString]
 					'lower'	: self.lower_fn,	# [lower textString]

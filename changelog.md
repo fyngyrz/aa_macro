@@ -7,6 +7,14 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.49
+ * [stripe (charset=chars,)content] added
+ * [img] now produces empty title and alt tags to comply with HTML 4.01 strict
+ * [style], [gstyle] and [lstyle] can now all be set to empty styles viz. [style styleName] with no content
+ * unittests
+ * users guide
+ * quickref
+
 1.0.48
  * [repeat] now understands any of [v], [gv], [lv] and [parm]
  * [listg (source=local,)listName] added

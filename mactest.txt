@@ -199,6 +199,15 @@ I have a [upper [roman 427]] Hemi ox-cart
 11 oct to dec 3-digits: [otodec digits=3,11]
 11 bin to dec 3-digits: [btodec digits=3,11]
 
+[style setme tothis]  
+should be "tothis": "{setme}"
+[style setme]  
+should be no content: "{setme}"
+[gstyle gsetme tothat]  
+should be "tothat": "{gsetme}"
+[gstyle gsetme]  
+should be no content: "{gsetme}"
+stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
 
 [local cont this is a test
 of the emergency broadcast system]

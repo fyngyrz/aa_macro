@@ -1105,6 +1105,12 @@ to len of 4:
 
     [soundex Knuth] = "K530"
 
+**\[stripe \(charset=chars,\)content\]**  'stripe' for strip ends
+Strips characters from end of line:
+
+	[stripe  test ] = "test"
+	[stripe charset=xy,xytestingyx] = "testing"
+
 **\[strip content\]**  'strip' for strip  
 Strips HTML tags:
 

@@ -109,6 +109,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,upper {c}| convert to uppercase]  
 [append bil,lower {c}| convert to lowercase]  
 [append bil,soundex {o len=N{co}}{c}| return soundex value of content]  
+[append bil,stripe (charset=chars,){c}| strip chars from both ends of line (default = spaces)]  
 [append bil,strip {c}| strip HTML tags out]  
 [append bil,roman {r value}| returns lower case roman numeral]  
 [append bil,dtohex (digits=N,){r value}| decimal to hexadecimal conversion]  
