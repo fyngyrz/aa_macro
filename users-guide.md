@@ -1,4 +1,4 @@
-# macro() BETA User's Guide
+# aa\_macro BETA User's Guide
 
 ## General
 
