@@ -7,6 +7,21 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.51
+ * [wepath] added, function of [locimg] changed (documented)
+ * [global] and [local] now accept empty: [global varName] and [local varName] (documented)
+ * [lsplit] added (documented)
+ * [lsplit] understands a single [sp] as a command to split on ' '
+ * [ljoin] added (documented)
+ * [hlit] added (documented)
+ * [usdate] added
+
+1.0.50
+ * [dlist] now understands local else global style wrapping (documented)
+ * [crush] added (documented)
+ * [clearl] added (documented)
+ * [if] now accepts wrap as a syn for style (dcoumented)
+
 1.0.49
  * [stripe (charset=chars,)content] added
  * [img] now produces empty title and alt tags to comply with HTML 4.01 strict

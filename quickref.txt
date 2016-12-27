@@ -31,8 +31,9 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,a {o tab{co}}{r URL}{o {co}linkedContent}| HTML link~HTML Linking]  
   
 [append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image~HTML Images]  
-[append bil,locimg {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image, with size (uses {lb}lipath{rb})]  
-[append bil,lipath {r pathToImages}| path for {lb}locimg{rb}]  
+[append bil,locimg {o imageTitle{co}}{r imageName} {o linkURL}| HTML image name, no path, with size (uses {lb}lipath{rb},{lb}wepath{rb})]  
+[append bil,lipath {r filePathToImages}| path for {lb}locimg{rb}]  
+[append bil,wepath {r webPathToImages}| path for {lb}locimg{rb}]  
   
 [append bil,ul {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML unordered list~HTML Lists]  
 [append bil,ol {o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML ordered list]  
@@ -46,13 +47,14 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,cell {o options}{co}{c}| HTML table data cell \(comma is *not* optional\)]  
   
 [append bil,local {r varname} {cc varContent}| local variable definition~Variables]  
-[append bil,vs {r varName} {cc varContent}| local variable definition]  
 [append bil,global {r varName} {cc varContent}| global variable definition]  
 [append bil,v {r varName}| local/global variable]  
+[append bil,vs {r varName} {cc varContent}| local variable definition]  
 [append bil,gv {r varName}| global variable]  
 [append bil,lv {r varName}| local variable]  
   
 [append bil,list {o sep=X{co}}{r listname}{co}{cc itemContent}{o XitemContent}| create or overwrite a list~Data Lists]  
+[append bil,clearl {r listName}| Discards list content]
 [append bil,lcopy {r sourceList} {r destinationList}| copy list to new or existing list]  
 [append bil,ltol {r listName} {c}| convert lines of content to list]  
 [append bil,append {r listName}{co}{cc itemContent}| append an item to a list (can create new list)]  
@@ -61,7 +63,9 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,lset {r listName{co}}{r listIndex{co}}{cc itemContent}| Set a list item]  
 [append bil,llen {r listName}| returns length of list]  
 [append bil,lslice {r sliceSpec{co}}{r listName{co}}{r targetList}| slice listName to targetList] 
-[append bil,dlist {o wrap=styleName{co]}{o parms=PRE{co}}{o posts=PST{co}}listName| dump a list]  
+[append bil,lsplit {o sep=^{co}}{o num=N{co}}{r listName}{co}{c}| split content into list]
+[append bil,ljoin {r listName}{co}{o joinTerm}]| Join a list with joinTerm(s) between elements]
+[append bil,dlist {o wrap=styleName{co}{o parms=PRE{co}}{o posts=PST{co}}listName| dump a list]  
 [append bil,e {r listName{co}}{r listIndex}| output item from list of length n (listIndex = 0 to n-1)]  
 [append bil,lcc {r listOne{co}}{r listTwo{co}}{r listResult}| list concatenate]  
 [append bil,lsub {o sep=X{co}}{r listName{co}}{c}| list of form AsepB, A=B in content]  
@@ -95,7 +99,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
   
 [append bil,even {r value} {c}| if value is even{co} then content~Conditional Content]  
 [append bil,odd {r value} {c}| if value is odd{co} then content]  
-[append bil,if {r value} {r match} {c}| if match{co} then content]  
+[append bil,if {o wrap[vb]style=styleName}{r value} {r match} {c}| if match{co} then content]  
 [append bil,else {r value} {r match} {c}| if [b not] match{co} then content]  
 [append bil,ne {r value{co}}{c}| if value is empty{co} then content]  
 [append bil,eq {r value{co}}{c}| if value is [b not] empty{co} then content]  
@@ -118,6 +122,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,htodec (digits=N,){r value}| hexadecimal to decimal conversion]  
 [append bil,otodec (digits=N,){r value}| octal to decimal conversion]  
 [append bil,btodec (digits=N,){r value}| binary to decimal conversion]  
+[append bil,crush {co}| return packed alphanumerics]  
 [append bil,wwrap {o wrap=style{co}}{r value{co}}{c}| word wrap content at column value]  
 [append bil,len {c}| return length of content in characters]  
 [append bil,wc {c}| return length of content in words]  
@@ -153,6 +158,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,comment {c}| suppress output. [i note: non-content operations still process]]  
 [append bil,back {r HEX3[vb]HEX6}| HTML background text color for HTML 4.01s mode [i only]]  
 [append bil,mode {r 3.2[vb]4.01s}| set HTML mode]  
+[append bil,hlit {r content}| places LITERAL content in local variable loc_hlit]
   
 [append bil,co| comma~Escapes]  
 [append bil,sp| space]  

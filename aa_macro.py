@@ -23,8 +23,8 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 18th, 2015     (for Class)
-  LastDocRev: December 18th, 2015     (for Class)
+     LastRev: December 23rd, 2015     (for Class)
+  LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.50 Beta
+     Version: 1.0.51 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -91,9 +91,12 @@ class macro(object):
 	Images
 	------
 	[img (title,)URL( linkTarget)]		# makes a link if linktarget present
-	[lipath localImagePath]				# sets path to local images. This is used by [locimg] to
+	[lipath localImagePath]				# sets filesystem path to local images. This is used by [locimg] to
 										  find the image and read it to obtain x,y dimensions
-										  [lipath] first, then [locimg]
+										  [lipath] and [wepath] first, then [locimg]
+	[wepath localImagePath]				# sets web path to images. This is used by [locimg] to
+										  find set the image's URL properly
+										  [lipath] and [wepath] first, then [locimg]
 	[locimg (title,)URL( linkTarget)]	# makes a link if linktarget present, also inserts img size
 										# [locimg] can read the size of jpg, png, and gif
 										# Examples:
@@ -136,10 +139,11 @@ class macro(object):
 
 	Data Lists
 	----------
-	[append listname,item]							# add an item to the end of a list
+	[append (opt=yes|no,)listname,item]				# add an item to the end of a list
 	[lcopy srcList,destList]						# copy a list to a new or existing list
 	[lpush listname,item]							# add an item to the end of a list (synonym for [append])
 	[slice sliceSpec,listToSlice,resultList]		# [lslice 3:6,mylist,mylist] or [lslice 3:6,myList,otherList]
+	[lsplit (sep=^,)listName,splitKey^contentToSplit] # [lsplit myList, ,A Good Test] = ['A','Good','Test']
 	[lpop listName(,index)]							# [lpop] == [lpop -1] remove list item
 	[lset listName,index,stuff]						# set a list item by index (must exist)
 	[lcc srcList,addList,tgtList]					# concatinate lists
@@ -150,6 +154,7 @@ class macro(object):
 													  and with parms, if any, prefixed to list element
 													  and with posts, if any, postfixed to list element
 	[translate listName,text]						# characters are mapped to listName (see examples)
+	[ljoin listname,joinContent]					# join a list into a string with interspersed content
 	[scase listName,content]						# Case words as they are cased in listName
 	[ltol listName,content]							# splits lines into a list
 	[list (sep=X,)listName,item(Xitem)]				# Create list: sep default: ','
@@ -232,6 +237,7 @@ class macro(object):
 	[htodec hexNumber]								# convert hexadecimal to decimal
 	[otodec octNumber]								# convert octal to decimal
 	[btodec binNumber]								# convert binary to decimal
+	[crush content]									# return only alphanumerics
 	[chr number]									# e.g. [chr 65] = "A"
 	[ord character]									# e.g. [ord A] = "65"
 	[csep integer]									# e.g. [csep 1234] = "1,234"
@@ -251,6 +257,7 @@ class macro(object):
 	[sisort content]								# sort lines cases-sensitive
 	[issort content]								# sort lines by leading integer,comma,content
 	[hsort content]									# sort lines by leading ham radio callsign
+	[hlit content]									# turn content into HTML; process NOTHING
 	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
@@ -424,7 +431,9 @@ class macro(object):
 						'but','or','nor']
 		self.result = ''
 		self.lipath = ''
+		self.wepath = ''
 		self.splitCount = 0
+		self.months = ['January','February','March','April','may','June','July','August','September','October','November','December']
 		if dothis != None:
 			self.do(dothis)
 
@@ -1463,6 +1472,11 @@ The contents of the list are safe to include in the output if you like.
 					self.parms = str(dl[1]).split(',')
 				else:
 					self.parms = str(dl[1]).split(',',n)
+			elif str(dl[0]) == '&#32;':
+				if n == 0:
+					self.parms = str(dl[1]).split(' ')
+				else:
+					self.parms = str(dl[1]).split(' ',n)
 			else:
 				if n == 0:
 					self.parms = str(dl[1]).split(str(dl[0]))
@@ -1529,7 +1543,7 @@ The contents of the list are safe to include in the output if you like.
 						if slist[2] != '': c = int(slist[2])
 						ll = lsrc[a:b:c]
 					else:
-						o = ' ?lsplit? '
+						o = ' ?lslice? '
 				except:
 					pass
 				self.theLists[tgt] = ll
@@ -1605,12 +1619,22 @@ The contents of the list are safe to include in the output if you like.
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.styles.get(md1,self.gstyles.get(md1,'? Unknown Style ?'))
+				block = self.styles.get(md1,self.gstyles.get(md1,'? Unknown Style \"%s\" ?' % (md1)))
 				block = block.replace('[b]',md2)
 				res = self.do(block)
 				o += res
 		else:
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
+		return o
+
+	# [crush content]
+	def crush_fn(self,tag,data):
+		o = ''
+		for c in data:
+			if ((c >= 'A' and c <= 'Z') or
+				(c >= 'a' and c <= 'z') or
+				(c >= '0' and c <= '9')):
+				o += c
 		return o
 
 	def glos_fn(self,tag,data):
@@ -1796,6 +1820,25 @@ The contents of the list are safe to include in the output if you like.
 		o += '</td>'
 		return o
 
+	# [hlit literalcontent]
+	def hlit_fn(self,tag,data):
+		o = ''
+		a = ''
+		for c in data:
+			if   c == '[': c = '[lb]'
+			elif c == ']': c = '[rb]'
+			elif c == '{': c = '[ls]'
+			elif c == '}': c = '[rs]'
+			elif c == '<': c = '&lt;'
+			elif c == '>': c = '&gt;'
+			elif c == '&': c = '&amp;'
+			elif c == '"': c = '&quot;'
+			elif c == '\n':c = '<br>'
+			a += c
+		o = self.do(a)
+		self.theLocals['loc_hlit'] = o
+		return ''
+
 	def style_fn(self,tag,data):
 		if data != '':
 			try:
@@ -1858,6 +1901,10 @@ The contents of the list are safe to include in the output if you like.
 		self.lipath = data
 		return ''
 
+	def wepath_fn(self,tag,data):
+		self.wepath = data
+		return ''
+
 	def low_img_fn(self,tag,data,getxy=False):
 		tit = ''
 		txy = ''
@@ -1873,16 +1920,16 @@ The contents of the list are safe to include in the output if you like.
 		except:
 			if tit == '':
 				if getxy == True: txy = self.xyhelper(data)
-				rv = '<img%s src="%s" alt="" title="">' % (txy,data)
+				rv = '<img%s src="%s" alt="" title="">' % (txy,self.wepath+data)
 			if rv == '':
 				if getxy == True: txy = self.xyhelper(data)
-				rv = '<img%s alt="%s" title="%s" src="%s">' % (txy,tit,tit,data)
+				rv = '<img%s alt="%s" title="%s" src="%s">' % (txy,tit,tit,self.wepath+data)
 		if rv == '' and tit == '':
 			if getxy == True: txy = self.xyhelper(d1)
-			rv = '<a href="%s" target="_blank"><img%s src="%s" alt="" title=""></a>' % (d2,txy,d1)
+			rv = '<a href="%s" target="_blank"><img%s src="%s" alt="" title=""></a>' % (d2,txy,self.wepath+d1)
 		if rv == '':
 			if getxy == True: txy = self.xyhelper(d1)
-			rv ='<a href="%s" target="_blank"><img%s alt="%s" title="%s" src="%s"></a>' % (d2,txy,tit,tit,d1)
+			rv ='<a href="%s" target="_blank"><img%s alt="%s" title="%s" src="%s"></a>' % (d2,txy,tit,tit,self.wepath+d1)
 		return rv
 
 	def img_fn(self,tag,data):
@@ -1928,6 +1975,26 @@ The contents of the list are safe to include in the output if you like.
 	def co_fn(self,tag,data):
 		return '&#44;'
 
+	# [usdate YYYYmmDD]
+	def usdate_fn(self,tag,data):
+		e = '? usdate: bad date ?'
+		if len(data) != 8: return e
+		for c in data:
+			if c < '0' or c > '9': return e
+		y = int(data[0:4])
+		m = int(data[4:6]) - 1
+		d = int(data[6:8])
+		if d < 1: return e
+		if d > 31: return e
+		if m < 0: return e
+		if m > 11: return e
+		th = 'th'
+		if   d == 1 or d == 21 or d == 31: th = 'st'
+		elif d == 2 or d == 22: th = 'nd'
+		elif d == 3 or d == 23: th = 'rd'
+		o = '%s %s%s, %s' % (self.months[m],str(d),th,str(y))
+		return o
+
 	def sp_fn(self,tag,data):
 		return '&#32;'
 
@@ -1940,11 +2007,11 @@ The contents of the list are safe to include in the output if you like.
 	def ls_fn(self,tag,data):
 		return '&#123;'
 
-	def vb_fn(self,tag,data):
-		return '&#124;'
-
 	def rs_fn(self,tag,data):
 		return '&#125;'
+
+	def vb_fn(self,tag,data):
+		return '&#124;'
 
 	def nl_fn(self,tag,data):
 		return '\n'
@@ -1958,6 +2025,12 @@ The contents of the list are safe to include in the output if you like.
 
 	def gv_fn(self,tag,data):
 		return self.theGlobals.get(data,'')
+
+	# [clearl listName]
+	def clearl_fn(self,tag,data):
+		if data != '':
+			self.theLists[data] = []
+		return ''
 
 	# [list (sep=X,)listName,listContent]
 	def list_fn(self,tag,data):
@@ -1975,6 +2048,54 @@ The contents of the list are safe to include in the output if you like.
 		loclist = ll[1].split(sep)
 		self.theLists[locname] = loclist
 		return o
+
+	# [ljoin listname,joinContent]
+	def ljoin_fn(self,tag,data):
+		ll = data.split(',',1)
+		if len(ll) != 2: return '? ljoin no join spec ?'
+		listname,joiner = ll
+		if listname == '': '? ljoin no list name ?'
+		ml = self.theLists.get(listname,[])
+		if ml == []: return ''
+		go = 0
+		o = ''
+		for el in ml:
+			if go == 1:
+				o += joiner
+			else:
+				go = 1
+			o += el
+		return o
+
+	# [lsplit (sep=^,)listName,splitKey^contentToSplit]
+	def lsplit_fn(self,tag,data):
+		sep = ','
+		splitcount = None
+		opts,data = self.popts(['sep','num'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+				if sep == '': return '? lsplit sep=EMPTY ?'
+			if el[0] == 'num=':
+				if el[1] == '': return '? lsplit num=EMPTY ?'
+				try:	splitcount = int(el[1])
+				except:	return "? lsplit num=NAN ?"
+		dlist = data.split(',',1)
+		if len(dlist) != 2:	return "? lsplit can't parse out listName ?"
+		listname,data = dlist
+		if listname == '':	return '? lsplit no list name ?'
+		dlist = data.split(sep)
+		if len(dlist) != 2:	return "? lsplit can't parse out splitKey ?"
+		splitby,data = dlist
+		if splitby == '&#44;':	splitby = ','
+		elif splitby == '&#32;':	splitby = ' '
+		if data == '':		self.theLists[listname] = []
+		else:
+			if splitcount == None:
+				self.theLists[listname] = data.split(splitby)
+			else:
+				self.theLists[listname] = data.split(splitby,splitcount)
+		return ''
 
 	def pullint(self,s):
 		try:
@@ -2175,7 +2296,7 @@ The contents of the list are safe to include in the output if you like.
 		if style != '': # wrap with style mode
 			listname = data
 			if listname != '':
-				if self.styles.get(style,'') != '':
+				if self.styles.get(style,self.gstyles.get(style,'')) != '':
 					using = True
 					try:
 						for el in self.theLists[listname]:
@@ -2227,14 +2348,22 @@ The contents of the list are safe to include in the output if you like.
 					pass
 		return o
 
-	# [append listname,text]
+	# [append (opt=yes|no,)listname,text]
 	def append_fn(self,tag,data):
+		opts,data = self.popts(['opt'],data)
+		opt = 'yes'
+		for el in opts:
+			if el[0] == 'opt=':
+				opt = el[1].lower()
+				if opt != 'no':
+					opt = 'yes'
 		ll = data.split(',',1)
 		if len(ll) == 2:
 			try:
-				loclist = self.theLists.get(ll[0],[])
-				loclist += [ll[1]]
-				self.theLists[ll[0]] = loclist
+				if opt == 'yes':
+					loclist = self.theLists.get(ll[0],[])
+					loclist += [ll[1]]
+					self.theLists[ll[0]] = loclist
 			except:
 				pass
 		return ''
@@ -2250,15 +2379,6 @@ The contents of the list are safe to include in the output if you like.
 			except:
 				pass
 		return o
-
-	def local_fn(self,tag,data):
-		try:
-			d1,d2 = data.split(' ',1)
-		except:
-			pass
-		else:
-			self.theLocals[d1]=d2
-		return ''
 
 	def clear_fn(self,tag,data):
 		if data != '':
@@ -2318,12 +2438,33 @@ The contents of the list are safe to include in the output if you like.
 					self.stack.append('')
 		return ''
 
-	def global_fn(self,tag,data):
+	def local_fn(self,tag,data):
+		go = 0
 		try:
 			d1,d2 = data.split(' ',1)
 		except:
-			pass
+			if data != '':
+				d1 = data
+				d2 = ''
+				go = 1
 		else:
+			go = 1
+		if go == 1:
+			self.theLocals[d1]=d2
+		return ''
+
+	def global_fn(self,tag,data):
+		go = 0
+		try:
+			d1,d2 = data.split(' ',1)
+		except:
+			if data != '':
+				d1 = data
+				d2  = ''
+				go = 1
+		else:
+			go = 1
+		if go == 1:
 			self.theGlobals[d1]=d2
 		return ''
 
@@ -2408,10 +2549,10 @@ The contents of the list are safe to include in the output if you like.
 
 	def ifelse_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style'],data)
+		opts,data = self.popts(['style','wrap'],data)
 		style = ''
 		for el in opts:
-			if el[0] == 'style=':
+			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
 		try:
 			d1,d2,d3 = data.split(' ',2)
@@ -2802,6 +2943,7 @@ The contents of the list are safe to include in the output if you like.
 
 					# Data list handling
 					'list'	: self.list_fn,		# create list:  [list (sep=X,)listName,listElements]
+					'clearl': self.clearl_fn,	# [clearl listName] make list empty
 					'lcopy'	: self.lcopy_fn,	# [lcopy srcList,dstList] copy list
 					'e'		: self.element_fn,	# fetch element:[e listName,n] = list[n]
 					'append': self.append_fn,	# [append listName,stuff]
@@ -2818,6 +2960,8 @@ The contents of the list are safe to include in the output if you like.
 					'ltol'	: self.ltol_fn,		# [ltol listName,content] content to list by line
 					'llen'	: self.llen_fn,		# [llen listName] length of list
 					'lslice': self.lslice_fn,	# [lslice sliceSpec,listToSlice,intoList]
+					'lsplit': self.lsplit_fn,	# [lsplit (sep=^,)listName,splitKey^contentToSplit]
+					'ljoin'	: self.ljoin_fn,	# [ljoin listName,joinContent]
 					'lpop'	: self.lpop_fn,		# [lpop listName( index)]
 					'lsub'	: self.lsub_fn,		# [lsub (sep=X,)listName,content]
 
@@ -2850,6 +2994,7 @@ The contents of the list are safe to include in the output if you like.
 					'img'	: self.img_fn,		# img emplacement from URL
 					'locimg': self.locimg_fn,	# local image (tries for x y sizes)
 					'lipath': self.lipath_fn,	# set local image path
+					'wepath': self.wepath_fn,	# set web image path
 
 					# math
 					# ----
@@ -2918,6 +3063,7 @@ The contents of the list are safe to include in the output if you like.
 					'htodec': self.h2d_fn,		# [htodec binaryString]
 					'otodec': self.o2d_fn,		# [otodec binaryString]
 					'btodec': self.b2d_fn,		# [btodec binaryString]
+					'crush'	: self.crush_fn,	# [crush content]
 					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 65] = "A"
 					'ord'	: self.ord_fn,		# [ord character] e.g. [ord A] = 65
 					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
@@ -2944,6 +3090,7 @@ The contents of the list are safe to include in the output if you like.
 					'soundex': self.sex_fn,		# soundex surname coding
 					'strip'	: self.strip_fn,	# [strip htmlContent] - remove HTML tags
 					'wwrap'	: self.wwrap_fn,	# [wwrap (wrap=style,)cols,content] - word wrap content at/before cols
+					'hlit'	: self.hlit_fn,		# [hlit content]
 
 					# Miscellaneous
 					# -------------
@@ -2958,6 +3105,7 @@ The contents of the list are safe to include in the output if you like.
 					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
 					'time'	: self.time_fn,		# [time] Generation time
 					'date'	: self.date_fn,		# [date] Generation date
+					'usdate': self.usdate_fn,	# [usdate YYYYmmDD]
 					'sys'	: self.sys_fn,		# [sys SHELLCMD]
 					'fref'	: self.fref_fn,		# forward reference
 					'resolve': self.reso_fn,	# resolve forward reference	
@@ -2993,7 +3141,10 @@ The contents of the list are safe to include in the output if you like.
 			if c == '}': c = ']'
 			dex += 1
 			if state == OUT and c == '[':
-				if s[dex:dex+8] == '[gstyle ' or s[dex:dex+7] == '[style ' or s[dex:dex+8] == '[repeat ':
+				if (s[dex:dex+8] == '[gstyle ' or
+					s[dex:dex+7] == '[style ' or
+					s[dex:dex+8] == '[repeat ' or
+					s[dex:dex+6] == '[hlit '):
 					state = DEFER
 					depth = 1
 					tag = ''

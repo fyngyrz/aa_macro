@@ -293,8 +293,8 @@ so there is no lock-in to the default behavior.
     [style styleName content] ------ local style definition
 	[gstyle styleName content] ----- global style definition
 
-	[local variableName content] --- local variable definition / setting / resetting
-	[global variableName content] -- global variable definition / setting / resetting
+	[local variableName( content)] --- local variable definition / setting / resetting
+	[global variableName( content)] -- global variable definition / setting / resetting
 
 #### Instance Use
 
@@ -383,19 +383,27 @@ present, then the image tag will be wrapped with link tags to linkURL:
 
 **\[locimg \(imageTitle,\)imageURL\( linkURL\)\]**  'locimg' for local image  
 **\[lipath path]**  'lipath' for local image path  
-The \[locimg\] built-in works exactly like the \[img\] built-in, except
-it is designed to be made aware of the image's location in the server's
-file system using the related \[lipath\] tag. It uses this information
-to look at the image and determine its dimensions, and then it inserts
-those dimensions into the HTML img tag. The end result of this is that
-browsers will have a much easier time rendering the page for the web
-visitor, and will not undergo reformatting of the page as each image
-loads, instead formatting it once and then inserting the images as
-they are downloaded. The image types the \[locimg\] tag understands are
+**\[wepath path]**  'wepath' for web image path  
+
+The \[locimg\] built-in works like the \[img\] built-in, except it is
+designed to be made aware of the image's filesystem and web-relative
+locations in the server's file system using the related \[lipath\] and
+\[wepath\] tags.
+
+It uses this information to look at the image and determine its
+dimensions, and then it inserts those dimensions into the HTML img tag.
+The end result of this is that browsers will have a much easier time
+rendering the page for the web visitor, and will not undergo
+reformatting of the page as each image loads, instead formatting it once
+and then inserting the images as they are downloaded. The image types
+the \[locimg\] tag understands are
 .png, .jpg, and .gif:
 
-    \[lipath /usr/www/mysite.com/htdocs/pics/\]
-	\[locimg pic.jpg\] = <img width=320 height=200 src="pic.jpg">
+    [lipath /usr/htmlsites/mysite.com/htdocs/pics/]
+	[wepath /pics/]
+	
+	[locimg pic.jpg] = <img width="320" height="200" src="/pics/pic.jpg">
+	[locimg a picture,pic.jpg] += title="a picture" alt="a picture"
 
 ### HTML Lists
 
@@ -555,17 +563,18 @@ With those in place, the example table can now be written as:
 
 ### Variables
 
-**\[local varName varContent\]**  or **\[vs varName varContent\]**  \(synonomous\)
+**\[local varName( varContent)\]**  or **\[vs varName( varContent)\]**  \(synonomous\)
 'local' for local variable  
 Places varContent into a local variable with the identifier varName.
 
-    [local myvar Ben]
+    [local mylvar Ben] -- [v mylvar] will now produce "Ben"
+	[local mylvar] ------ but now [v mylvar] produces nothing
 
-**\[global varName varContent\]**  'global' for global variable  
+**\[global varName( varContent)\]**  'global' for global variable  
 Places varContent into a global variable with the identifier varName.
 
-   [global myvar Asia]
-   [global myvar2 Leo]
+   [global mygvar Asia] -- [v mygvar] produces "Asia"
+   [global mygvar] ------- but now [v mygvar] produces nothing
 
 **\[v varName\]**  'v' for variable  
 Produces the content stored in varName. If a local variable identified as
@@ -594,9 +603,9 @@ are some list creation examples:
 	[list sep=|,myList,Michelle|Stella|Terrie]
 
 **\[lcopy srcList,dstList\]** 'lcopy'  for list copy  
-Copy an existing list to a new or existing list. If
-no list by srcName exists, dstList will be set to
-an empty list.
+
+**\[clearl listName\]** 'clearl'  for clear list
+Discard all content in the named list.
 
 **\[ltol listName,content\]**  'ltol' for lines to list  
 This splits lines \(text separated by newline characters\) into
@@ -640,6 +649,20 @@ Returns the length (number of list-items in) a list.
 	[list mylist,a,b,c]
 	[llen mylist] = "3"
 
+**\[ljoin listName,joinTerm\]** 'ljoin' for list join  
+Example:
+
+    [list mylist,one,two,three]
+    [ljoin mylist,-] = "one-two-three"
+	[ljoin mylist,[sp]] = "one two three"
+	[ljoin mylist,-flubber-] = "one-flubber-two-flubber-three"
+
+**\[lsplit (sep=^,)(num=N,)listName,splitKey^contentToSplit\]** 'lsplit' for list split  
+sep defaults to ','  
+Slices text content by splitkey, optionally a max of num times, into list listName.
+
+    [lsplit myList, ,A Good Test] = list of ['A','Good','Test']
+
 **\[lslice sliceSpec,listToSlice,resultGoesInThisList\]**  
 'lslice' for list slice  
 Slices one list into another, or the same, list.
@@ -675,7 +698,8 @@ Examples:
 
 **\[dlist \(style=styleName,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
 Note: You may use either **style=styleName** or **wrap=styleName**  
-Dumps/displays a list, optionally wrapped in a style.
+Dumps/displays a list, optionally wrapped in a style. If there is a local style, that
+is used. If not, and there is a global style, that is used.
 
     [dlist myList] = joemaryleroylunabetty
 	[style lwrap ([b]) ]
@@ -989,6 +1013,21 @@ Otherwise, there is no result.
     [if foo bar testing] = ""
 	[if foo foo testing] = "testing"
 
+Because content is evaluated first, and then included or not in the
+output stream, you can't put something like a list append or variable
+set in conditionalContent and have it *not* happen -- it will always
+happen. Instead, you can supply a style, which will only be invoked
+if the condition is met. You don't have to supply the conditionalContent,
+but you do need a trailing space. So this will append thing to somelist...
+
+	[style myfoo [append somelist,thing]]
+    [if style=myfoo,foo foo ]
+
+...while this will not:
+
+	[style myfoo [append somelist,thing]]
+    [if style=myfoo,foo bar ]
+
 **\[else \(style=styleName,\)value notMatch conditionalContent\]**  'else' for else  
 When value and match are not identical, conditionalContent is the result.
 Otherwise, there is no result.
@@ -996,10 +1035,25 @@ Otherwise, there is no result.
     [else foo bar testing] = "testing"
 	[else foo foo testing] = ""
 
+Because content is evaluated first, and then included or not in the
+output stream, you can't put something like a list append or variable
+set in conditionalContent and have it *not* happen -- it will always
+happen. Instead, you can supply a style, which will only be invoked
+if the condition is met. You don't have to supply the conditionalContent,
+but you do need a trailing space. So this will not append thing to somelist...
+
+	[style myfoo [append somelist,thing]]
+    [else style=myfoo,foo foo ]
+
+...while this will:
+
+	[style myfoo [append somelist,thing]]
+    [else style=myfoo,foo bar ]
+
 **\[ne \(style=styleName,\)value,conditionalContent\]**  'ne' for not equal  
 When value has content, conditionalContent is the result.
 Otherwise, there is no result. If you supply a style, it follows the
-same rules.
+same rules as \[if\] and \[else\].
 
     [ne ,testing] = ""
 	[ne foo,testing] = "testing"
@@ -1007,14 +1061,15 @@ same rules.
 **\[eq \(style=styleName,\)value,conditionalContent\]**  'eq' for equal  
 When value has no content, conditionalContent is the result.
 Otherwise, there is no result. If you supply a style, it follows the
-same rules.
+same rules as as \[if\] and \[else\].
 
     [eq ,testing] = "testing"
 	[eq foo,testing] = ""
 
 **\[ifle \(style=styleName,\)iValue1,iValue2,content\]**  '' for if less or equal  
 When iValue1 <= iValue2, content is the result. Otherwise, there
-is no result.
+is no result. If you supply a style, it follows the
+same rules as as \[if\] and \[else\].
 
 	[ifle 5,4,foo] = ""
 	[ifle 5,5,foo] = "foo"
@@ -1022,7 +1077,8 @@ is no result.
 
 **\[ifge \(style=styleName,\)iValue1,iValue2,content\]**  '' for if greater or equal  
 When iValue1 >= iValue2, content is the result. Otherwise, there
-is no result.
+is no result. If you supply a style, it follows the
+same rules as as \[if\] and \[else\].
 
 	[ifge 5,4,foo] = "foo"
 	[ifge 5,5,foo] = "foo"
@@ -1094,8 +1150,13 @@ Convert content to upper case:
 
     [upper thIs Is a test] = "THIS IS A TEST"
 
+**\[crush content\]**  'crush' for crush  
+Strips all characters except letters and numbers.
+
+    [crush This is a test.] = "Thisisatest"
+
 **\[lower content\]**  'lower' for lower case  
-Convert content to upper case:
+Convert content to lower case:
 
     [lower thIs Is a test] = "this is a test"
 
@@ -1633,6 +1694,32 @@ You cannot put \[repeat\] inside a style or define a style within
 \[repeat\].
 
 However, you can *use* styles inside \[repeat\] as shown above.
+
+**\[hlit content\]** 'hlit' for HTML Literal
+This, like styles, cannot be used anywhere but the outer context. You
+can't use it inside anything else. It will take _anything_ inside its
+brackets and convert it to a pure, literal HTML representation, then
+stuff the result into a local variable named `loc_hlit`
+
+If you need the result to be global, you can, right after the `hlit`
+operation, move the local to global. You'd do that like this:
+
+    [hlit <b>mytext{mystyle}[mybuiltin]</b>]
+	[global myglobal [v loc_hlit]]
+
+\[hlit\] performs the following translations:
+
+ * `[` to `&#91;`
+ * `]` to `&#93;`
+ * `{` to `&#123;`
+ * `}` to `&#125;`
+ * `<` to `&lt;`
+ * `>` to `&gt;`
+ * `"` to `&quot;`
+ * `\\n` to `<br>`
+
+The resulting data in the variable is suitable for immediate use in a
+normal HTML envronment.
 
 **\[comment remarks\]**  'comment' for comment  
 Anything inside the comment built-in is thrown away during evaluation.
