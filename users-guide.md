@@ -1695,9 +1695,9 @@ You cannot put \[repeat\] inside a style or define a style within
 
 However, you can *use* styles inside \[repeat\] as shown above.
 
-**\[hlit content\]** 'hlit' for HTML Literal
-**\[vlit variable-name\]** 'vlit' for HTML Literal
-**\[slit style-name\]** 'slit' for HTML Literal
+**\[hlit content\]** 'hlit' for HTML Literal  
+**\[vlit variable-name\]** 'vlit' for HTML Literal  
+**\[slit style-name\]** 'slit' for HTML Literal  
 
 These, like styles, cannot be used anywhere but an outer context. You
 can't use them inside anything else. These operations will take _anything_
