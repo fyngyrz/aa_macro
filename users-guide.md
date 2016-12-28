@@ -1732,7 +1732,7 @@ The resulting data in the variable is suitable for immediate use in a
 normal HTML envronment.
 
 There are pre-defined variables that aa_macro will "wrap" the translations
-with if the are set. This allows you to style the characters with color, etc.
+with if they are set. This allows you to style the characters with color, etc.
 The variables are:
 
 * `ppre_lb` and `ppos_lb` for left square brackets
