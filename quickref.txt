@@ -64,7 +64,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,llen {r listName}| returns length of list]  
 [append bil,lslice {r sliceSpec{co}}{r listName{co}}{r targetList}| slice listName to targetList] 
 [append bil,lsplit {o sep=^{co}}{o num=N{co}}{r listName}{co}{c}| split content into list]
-[append bil,ljoin {r listName}{co}{o joinTerm}]| Join a list with joinTerm(s) between elements]
+[append bil,ljoin {r listName}{co}{o joinTerm}| Join a list with joinTerm(s) between elements]
 [append bil,dlist {o wrap=styleName{co}{o parms=PRE{co}}{o posts=PST{co}}listName| dump a list]  
 [append bil,e {r listName{co}}{r listIndex}| output item from list of length n (listIndex = 0 to n-1)]  
 [append bil,lcc {r listOne{co}}{r listTwo{co}}{r listResult}| list concatenate]  
@@ -159,6 +159,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,back {r HEX3[vb]HEX6}| HTML background text color for HTML 4.01s mode [i only]]  
 [append bil,mode {r 3.2[vb]4.01s}| set HTML mode]  
 [append bil,hlit {r content}| places LITERAL content in local variable loc_hlit]
+[append bil,vlit {r variable-name}| places LITERAL content in local variable loc_vlit]
+[append bil,slit {r style-name}| places LITERAL content in local variable loc_slit]
   
 [append bil,co| comma~Escapes]  
 [append bil,sp| space]  

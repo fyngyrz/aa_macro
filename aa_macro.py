@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 23rd, 2015     (for Class)
+     LastRev: December 28th, 2016     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.51 Beta
+     Version: 1.0.52 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -258,6 +258,8 @@ class macro(object):
 	[issort content]								# sort lines by leading integer,comma,content
 	[hsort content]									# sort lines by leading ham radio callsign
 	[hlit content]									# turn content into HTML; process NOTHING
+	[vlit variable-name]							# turn variable content into HTML; process NOTHING
+	[slit style-name]								# turn style content into HTML; process NOTHING
 	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
@@ -1820,8 +1822,54 @@ The contents of the list are safe to include in the output if you like.
 		o += '</td>'
 		return o
 
+	def qvar(self,vName):
+		x = self.theLocals.get(vName,self.theGlobals.get(vName,''))
+		return str(x)
+
+	def pconvert(self,data):
+		a = ''
+		for c in data:
+			if   c == '[': c = self.qvar('ppre_lb')+'[lb]'+self.qvar('ppos_lb')
+			elif c == ']': c = self.qvar('ppre_rb')+'[rb]'+self.qvar('ppos_rb')
+			elif c == '{': c = self.qvar('ppre_ls')+'[ls]'+self.qvar('ppos_ls')
+			elif c == '}': c = self.qvar('ppre_rs')+'[rs]'+self.qvar('ppos_rs')
+			elif c == '<': c = self.qvar('ppre_la')+'&lt;'+self.qvar('ppos_la')
+			elif c == '>': c = self.qvar('ppre_ra')+'&gt;'+self.qvar('ppos_ra')
+			elif c == '&': c = self.qvar('ppre_amp')+'&amp;'+self.qvar('ppos_amp')
+			elif c == '"': c = self.qvar('ppre_quo')+'&quot;'+self.qvar('ppos_quo')
+			elif c == '\n':c = '<br>'
+			a += c
+		return a
+
 	# [hlit literalcontent]
 	def hlit_fn(self,tag,data):
+		o = ''
+		a = self.pconvert(data)
+		o = self.do(a)
+		self.theLocals['loc_hlit'] = o
+		return ''
+
+	# [vlit variablename]
+	def vlit_fn(self,tag,data):
+		l,x = self.fetchVar(data)
+		data = x
+		o = ''
+		a = self.pconvert(data)
+		o = self.do(a)
+		self.theLocals['loc_vlit'] = o
+		return ''
+
+	# [slit stylename]
+	def slit_fn(self,tag,data):
+		data = self.styles.get(data,self.gstyles.get(data,'? Unknown Style \"%s\" ?' % (md1)))
+		o = ''
+		a = self.pconvert(data)
+		o = self.do(a)
+		self.theLocals['loc_slit'] = o
+		return ''
+
+	# [hlit literalcontent]
+	def oldhlit_fn(self,tag,data):
 		o = ''
 		a = ''
 		for c in data:
@@ -3091,6 +3139,8 @@ The contents of the list are safe to include in the output if you like.
 					'strip'	: self.strip_fn,	# [strip htmlContent] - remove HTML tags
 					'wwrap'	: self.wwrap_fn,	# [wwrap (wrap=style,)cols,content] - word wrap content at/before cols
 					'hlit'	: self.hlit_fn,		# [hlit content]
+					'vlit'	: self.vlit_fn,		# [hlit variable-name]
+					'slit'	: self.slit_fn,		# [hlit style-name]
 
 					# Miscellaneous
 					# -------------

@@ -7,6 +7,11 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.52
+ * [vlit] added
+ * [slit] added
+ * styling variables added that affect [hlit], [vlit], and [slit]
+
 1.0.51
  * [wepath] added, function of [locimg] changed (documented)
  * [global] and [local] now accept empty: [global varName] and [local varName] (documented)

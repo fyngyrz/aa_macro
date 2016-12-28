@@ -1696,18 +1696,28 @@ You cannot put \[repeat\] inside a style or define a style within
 However, you can *use* styles inside \[repeat\] as shown above.
 
 **\[hlit content\]** 'hlit' for HTML Literal
-This, like styles, cannot be used anywhere but the outer context. You
-can't use it inside anything else. It will take _anything_ inside its
-brackets and convert it to a pure, literal HTML representation, then
-stuff the result into a local variable named `loc_hlit`
+**\[vlit variable-name\]** 'vlit' for HTML Literal
+**\[slit style-name\]** 'slit' for HTML Literal
 
-If you need the result to be global, you can, right after the `hlit`
-operation, move the local to global. You'd do that like this:
+These, like styles, cannot be used anywhere but an outer context. You
+can't use them inside anything else. These operations will take _anything_
+inside their scope and convert it to a pure, literal HTML representation,
+then stuff the result into local variables named `loc_hlit`, `loc_vlit`,
+and `loc_slit`, respectively.
+
+If you need the result to be global or another local, you can, right
+after the conversion operation, move the local to the other variable.
+You'd do that like this...
 
     [hlit <b>mytext{mystyle}[mybuiltin]</b>]
 	[global myglobal [v loc_hlit]]
 
-\[hlit\] performs the following translations:
+Or this:
+
+    [hlit <b>mytext{mystyle}[mybuiltin]</b>]
+	[local mylocal [v loc_hlit]]
+
+\[hlit\], \[vlit\] and \[slit\] perform the following translations:
 
  * `[` to `&#91;`
  * `]` to `&#93;`
@@ -1720,6 +1730,19 @@ operation, move the local to global. You'd do that like this:
 
 The resulting data in the variable is suitable for immediate use in a
 normal HTML envronment.
+
+There are pre-defined variables that aa_macro will "wrap" the translations
+with if the are set. This allows you to style the characters with color, etc.
+The variables are:
+
+* `ppre_lb` and `ppos_lb` for left square brackets
+* `ppre_rb` and `ppos_rb` for right square brackets
+* `ppre_ls` and `ppos_ls` for left sqiggly brackets
+* `ppre_rs` and `ppos_rs` for right squiggly brackets
+* `ppre_la` and `ppos_la` for left angle brackets
+* `ppre_ra` and `ppos_ra` for right angle brackets
+* `ppre_amp` and `ppos_amp` for ampersands
+* `ppre_quo` and `ppos_quo` for double quotes
 
 **\[comment remarks\]**  'comment' for comment  
 Anything inside the comment built-in is thrown away during evaluation.
