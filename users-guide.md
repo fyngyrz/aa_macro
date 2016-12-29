@@ -1717,7 +1717,7 @@ Or this:
     [hlit <b>mytext{mystyle}[mybuiltin]</b>]
 	[local mylocal [v loc_hlit]]
 
-\[hlit\], \[vlit\] and \[slit\] perform the following translations:
+\[hlit\], \[vlit\] and \[slit\] perform the following _default_ translations:
 
  * `[` to `&#91;`
  * `]` to `&#93;`
@@ -1731,9 +1731,36 @@ Or this:
 The resulting data in the variable is suitable for immediate use in a
 normal HTML envronment.
 
-There are pre-defined variables that aa_macro will "wrap" the translations
-with if they are set. This allows you to style the characters with color, etc.
-The variables are:
+You can override the default translation results by altering the content of predefined
+global variables. Here are the global variables and their default settings:
+
+```
+txl_lb = [lb]
+txl_rb = [rb]
+txl_ls = [ls]
+txl_rs = [rs]
+txl_lt = &lt;
+txl_gt = &gt;
+txl_qu = &quot;
+txl_am = &amp;
+txl_lf = <br>
+```
+
+So as an example, suppose you wanted the `\n` character translated to
+`<br><br>`. Here's how you would proceed:
+
+```
+[global txl_lf <br><br>] this would change the setting for all succeding pages
+[local txl_lf <br><br>] this would change the setting only on the current page
+...
+```
+
+From that point onward, all newlines translated by \[hlit\], \[vlit\] and \[slit\]
+will be replace with the new character sequence.
+
+In addition, there are pre-defined variables that aa_macro will "wrap"
+the translations with if they are set. This allows you to style the
+characters with color, etc. The variables are:
 
 * `ppre_lb` and `ppos_lb` for left square brackets
 * `ppre_rb` and `ppos_rb` for right square brackets
@@ -1743,6 +1770,21 @@ The variables are:
 * `ppre_ra` and `ppos_ra` for right angle brackets
 * `ppre_amp` and `ppos_amp` for ampersands
 * `ppre_quo` and `ppos_quo` for double quotes
+
+So if, for instance, you wanted all the translated ampersands to be blue
+on the local page, you could do this:
+
+```aa_macro
+[local ppre_amp <span style="color:#0000FF;">]
+[local ppos_amp </span>]
+```
+
+On the local page, then, all ampersands in a [hlit], [vlit], or [slit]
+translation would translate as:
+
+```html
+<span style="color:#0000FF;">&amp;</span>
+```
 
 **\[comment remarks\]**  'comment' for comment  
 Anything inside the comment built-in is thrown away during evaluation.

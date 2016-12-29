@@ -9,6 +9,7 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 1.0.53
  * [slit] bug fixed
+ * [hlit], [vlit] and [slit] translations now mapped through variables txl_...
 
 1.0.52
  * [vlit] added

@@ -435,6 +435,17 @@ class macro(object):
 		self.lipath = ''
 		self.wepath = ''
 		self.splitCount = 0
+
+		self.theGlobals['txl_lb'] = '[lb]'
+		self.theGlobals['txl_rb'] = '[rb]'
+		self.theGlobals['txl_ls'] = '[ls]'
+		self.theGlobals['txl_rs'] = '[rs]'
+		self.theGlobals['txl_lt'] = '&lt;'
+		self.theGlobals['txl_gt'] = '&gt;'
+		self.theGlobals['txl_am'] = '&amp;'
+		self.theGlobals['txl_qu'] = '&quot;'
+		self.theGlobals['txl_lf'] = '<br>'
+
 		self.months = ['January','February','March','April','may','June','July','August','September','October','November','December']
 		if dothis != None:
 			self.do(dothis)
@@ -1829,15 +1840,15 @@ The contents of the list are safe to include in the output if you like.
 	def pconvert(self,data):
 		a = ''
 		for c in data:
-			if   c == '[': c = self.qvar('ppre_lb')+'[lb]'+self.qvar('ppos_lb')
-			elif c == ']': c = self.qvar('ppre_rb')+'[rb]'+self.qvar('ppos_rb')
-			elif c == '{': c = self.qvar('ppre_ls')+'[ls]'+self.qvar('ppos_ls')
-			elif c == '}': c = self.qvar('ppre_rs')+'[rs]'+self.qvar('ppos_rs')
-			elif c == '<': c = self.qvar('ppre_la')+'&lt;'+self.qvar('ppos_la')
-			elif c == '>': c = self.qvar('ppre_ra')+'&gt;'+self.qvar('ppos_ra')
-			elif c == '&': c = self.qvar('ppre_amp')+'&amp;'+self.qvar('ppos_amp')
-			elif c == '"': c = self.qvar('ppre_quo')+'&quot;'+self.qvar('ppos_quo')
-			elif c == '\n':c = '<br>'
+			if   c == '[': c = self.qvar('ppre_lb')+self.qvar('txl_lb')+self.qvar('ppos_lb')
+			elif c == ']': c = self.qvar('ppre_rb')+self.qvar('txl_rb')+self.qvar('ppos_rb')
+			elif c == '{': c = self.qvar('ppre_ls')+self.qvar('txl_ls')+self.qvar('ppos_ls')
+			elif c == '}': c = self.qvar('ppre_rs')+self.qvar('txl_rs')+self.qvar('ppos_rs')
+			elif c == '<': c = self.qvar('ppre_la')+self.qvar('txl_lt')+self.qvar('ppos_la')
+			elif c == '>': c = self.qvar('ppre_ra')+self.qvar('txl_gt')+self.qvar('ppos_ra')
+			elif c == '&': c = self.qvar('ppre_amp')+self.qvar('txl_am')+self.qvar('ppos_amp')
+			elif c == '"': c = self.qvar('ppre_quo')+self.qvar('txl_qu')+self.qvar('ppos_quo')
+			elif c == '\n':c = self.qvar('ppre_lf')+self.qvar('txl_lf')+self.qvar('ppos_lf')
 			a += c
 		return a
 
