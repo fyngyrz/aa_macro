@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 28th, 2016     (for Class)
+     LastRev: December 29th, 2016     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.52 Beta
+     Version: 1.0.53 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -1861,7 +1861,7 @@ The contents of the list are safe to include in the output if you like.
 
 	# [slit stylename]
 	def slit_fn(self,tag,data):
-		data = self.styles.get(data,self.gstyles.get(data,'? Unknown Style \"%s\" ?' % (md1)))
+		data = self.styles.get(data,self.gstyles.get(data,'? Unknown Style \"%s\" ?' % (data)))
 		o = ''
 		a = self.pconvert(data)
 		o = self.do(a)
