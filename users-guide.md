@@ -275,9 +275,8 @@ creating a document processing system much, much easier as the
 system itself need not keep track of very much at all other
 than the pages of the document and any global styles in a database.
 
-Generally, style use \(and in particular, the style shorthand,
-`{style}`\) and variable retrieval look for a local instance first, then
-if that is not found, a global instance is used.
+Generally, style use and variable retrieval look for a local instance
+first, then if that is not found, a global instance is used.
 
 Variable invocation works the same way: Local first, global if no
 local instance exists.
@@ -298,8 +297,8 @@ so there is no lock-in to the default behavior.
 
 #### Instance Use
 
-	{styleName( content)} -- use local, or if none, global style (shorthand for [s ...], next:)
-	[s styleName( content)] -- use local, or if none, global style
+	{styleName( content)} -- use local, or if none, global style (preferred invocation)
+	[s styleName( content)] -- use local, or if none, global style (but use the above invocation)
 	[glos styleName( content)] -- use global style
 	[locs styleName( content)] -- use local style
 

@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.53 Beta
+     Version: 1.0.54 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -305,16 +305,18 @@ class macro(object):
 	[style styleName Style]			# Defines a local style. Use [b] for body of style
 	[gstyle styleName]				# Defines a global style. Use [b] for body of style
 
-	[s styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
-									  uses local style, if doesn't exist, then uses global style
-
 	[glos styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
 									  only uses global styles
 
 	[locs styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
 									  only uses local styles
 
-	{styleName contentToStyle}		# ...same as [s styleName], but simplified "squiggly" syntax
+	[s styleName contentToStyle]	# contentToStyle goes where [b] tag(s) is/are in style...
+									  uses local style, if doesn't exist, then uses global style
+									  but use {styleName contentToStyle} as shown next
+									  you can thank me later. :)
+
+	{styleName contentToStyle}		# ...same as [s styleName], in preferred "squiggly" syntax
 
 	==> Only if crtospace is True:
 	{styleNameNLcontentToStyle}		# ...same thing, but simplified "squiggly" syntax
@@ -3177,6 +3179,7 @@ The contents of the list are safe to include in the output if you like.
 			return ''
 		inout = 0
 		o = ''
+		fg = 1
 		OUT = 0
 		IN = 1
 		DEFER = 2
@@ -3191,17 +3194,19 @@ The contents of the list are safe to include in the output if you like.
 		# the newlines used this way into a space so as to simplify
 		# subsequent processing.
 		# ----------------------------------------------------------------
-		s = s.replace('{','[s ')
+		if fg == 0: s = s.replace('{','[s ')
 		s = re.sub(r'(\[s\s[\w-])\n',r'\1 ',s)
+		if fg == 1: re.sub(r'(\{[\w-])\n',r'\1 ',s)
 		if self.noDinner == False:
 			s = s.replace('  \n','')
 
 		dex = -1
 		tag = ''
 		for c in s:
-			if c == '}': c = ']'
+			if fg == 0:
+				if c == '}': c = ']'
 			dex += 1
-			if state == OUT and c == '[':
+			if state == OUT and (c == '[' or c == '{'):
 				if (s[dex:dex+8] == '[gstyle ' or
 					s[dex:dex+7] == '[style ' or
 					s[dex:dex+8] == '[repeat ' or
@@ -3209,15 +3214,22 @@ The contents of the list are safe to include in the output if you like.
 					state = DEFER
 					depth = 1
 					tag = ''
+					data = ''
+				elif c == '{': # this is equiv to '[s '
+					state = IN
+					tag = 's '
+					data = ''
+					depth = 1
 				else:
 					state = IN
 					tag = ''
 					data = ''
+					depth = 1
 			elif state == DEFER:
-				if c == '[':
+				if c == '[' or c == '{':
 					tag += c
 					depth += 1
-				elif c == ']':
+				elif c == ']' or c == '}':
 					depth -= 1
 					if depth == 0:
 						if tag.find(' ') > 0:
@@ -3228,7 +3240,7 @@ The contents of the list are safe to include in the output if you like.
 						tag += c
 				else:
 					tag += c
-			elif state == IN and c == ']':
+			elif state == IN and (c == ']' or c == '}'):
 				if tag.find(' ') > 0:
 					tag,data = tag.split(' ',1)
 				fx = self.doTag(tag,data)
@@ -3239,9 +3251,12 @@ The contents of the list are safe to include in the output if you like.
 					tag = macstack.pop()
 					tag += fx
 			elif state == IN:
-				if c == '[': # nesting
+				if c == '[' or c == '{': # nesting
 					macstack.append(tag)
-					tag = ''
+					if c == '{':
+						tag = 's '
+					else:
+						tag = ''
 				else:
 					tag += c
 			else:

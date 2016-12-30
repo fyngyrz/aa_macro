@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.54
+ * aa_macro no longer translates {stylename} to [s stylename], {} is now native
+
 1.0.53
  * [slit] bug fixed
  * [hlit], [vlit] and [slit] translations now mapped through variables txl_...
