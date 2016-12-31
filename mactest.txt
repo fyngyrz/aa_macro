@@ -208,6 +208,29 @@ should be "tothat": "{gsetme}"
 [gstyle gsetme]  
 should be no content: "{gsetme}"
 stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
+  
+[local txl_lf <br>[lf]]
+[gstyle key <span class="ckey">[b]</span>]  
+[gstyle keyhints 
+<div style="
+       width: 75%;
+border-style: solid;
+  background: #ffffff;
+  text-align: center;
+     padding: .5em;
+      margin: auto;
+">
+[i Keyboard Navigation]
+<hr width="75%">
+{key ,} Previous Page
+{key .} Next Page
+{key t} TOC
+{key i} Index
+</div>]  
+  
+[slit keyhints]
+[v loc_slit]
+
 
 [local cont this is a test
 of the emergency broadcast system]
