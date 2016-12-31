@@ -176,9 +176,9 @@ Miscellanea | &nbsp;
  <tt>&#91;comment content&#93;</tt> |  suppress output. <i>note: non-content operations still process</i>
  <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
- <tt>&#91;hlit **content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
- <tt>&#91;vlit **variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
- <tt>&#91;slit **style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
+ <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
+ <tt>&#91;vlit \(format=1&#44;\)**variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
+ <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
 
 Escapes | &nbsp;
 ------- | ----
@@ -263,7 +263,7 @@ Built-in | &nbsp;
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
  <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
- <tt>&#91;hlit **content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
+ <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
  <tt>&#91;hsort content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
  <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
  <tt>&#91;i content&#93;</tt> |  HTML italics
@@ -328,7 +328,7 @@ Built-in | &nbsp;
  <tt>&#91;s **stylename**\(styleParameters\)&#93;</tt> |  invoke style&#44; local&#44; if no local&#44; then global
  <tt>&#91;sisort content&#93;</tt> |  case-insensitive sort of lines
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
- <tt>&#91;slit **style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
+ <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
  <tt>&#91;soundex \(len=N&#44;\)content&#93;</tt> |  return soundex value of content
  <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
@@ -349,7 +349,7 @@ Built-in | &nbsp;
  <tt>&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
  <tt>&#91;v **varName**&#93;</tt> |  local/global variable
- <tt>&#91;vlit **variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
+ <tt>&#91;vlit \(format=1&#44;\)**variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
  <tt>&#91;vs **varName** varContent&#93;</tt> |  local variable definition
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
  <tt>&#91;wepath **webPathToImages**&#93;</tt> |  path for &#91;locimg&#93;

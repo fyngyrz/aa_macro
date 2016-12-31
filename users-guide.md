@@ -1694,15 +1694,21 @@ You cannot put \[repeat\] inside a style or define a style within
 
 However, you can *use* styles inside \[repeat\] as shown above.
 
-**\[hlit content\]** 'hlit' for HTML Literal  
-**\[vlit variable-name\]** 'vlit' for HTML Literal  
-**\[slit style-name\]** 'slit' for HTML Literal  
+**\[hlit (format=1,)content\]** 'hlit' for HTML Literal  
+**\[vlit (format=1,)variable-name\]** 'vlit' for HTML Literal  
+**\[slit (format=1,)(wrap=1,)style-name\]** 'slit' for HTML Literal  
 
 These, like styles, cannot be used anywhere but an outer context. You
 can't use them inside anything else. These operations will take _anything_
 inside their scope and convert it to a pure, literal HTML representation,
 then stuff the result into local variables named `loc_hlit`, `loc_vlit`,
 and `loc_slit`, respectively.
+
+If you include the `format=1` option, then the resulting formatting will
+use non-breaking spaces.
+
+If you include the `wrap=1` option (`[slit]` only), then the style name
+and capturing braces will be wrapped around the style content.
 
 If you need the result to be global or another local, you can, right
 after the conversion operation, move the local to the other variable.

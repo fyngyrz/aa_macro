@@ -153,9 +153,9 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,comment {c}| suppress output. [i note: non-content operations still process]]  
 [append bil,back {r HEX3[vb]HEX6}| HTML background text color for HTML 4.01s mode [i only]]  
 [append bil,mode {r 3.2[vb]4.01s}| set HTML mode]  
-[append bil,hlit {r content}| places LITERAL content in local variable loc_hlit]
-[append bil,vlit {r variable-name}| places LITERAL content in local variable loc_vlit]
-[append bil,slit {r style-name}| places LITERAL content in local variable loc_slit]
+[append bil,hlit {o format=1[co]}{r content}| places LITERAL content in local variable loc_hlit]
+[append bil,vlit {o format=1[co]}{r variable-name}| places LITERAL content in local variable loc_vlit]
+[append bil,slit {o format=1[co]}{o wrap=1[co]}{r style-name}| places LITERAL content in local variable loc_slit]
   
 [append bil,co| comma~Escapes]  
 [append bil,sp| space]  

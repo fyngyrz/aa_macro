@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 29th, 2016     (for Class)
+     LastRev: December 30th, 2016     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.54 Beta
+     Version: 1.0.56 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -257,9 +257,9 @@ class macro(object):
 	[sisort content]								# sort lines cases-sensitive
 	[issort content]								# sort lines by leading integer,comma,content
 	[hsort content]									# sort lines by leading ham radio callsign
-	[hlit content]									# turn content into HTML; process NOTHING
-	[vlit variable-name]							# turn variable content into HTML; process NOTHING
-	[slit style-name]								# turn style content into HTML; process NOTHING
+	[hlit (format=1,)content]						# turn content into HTML; process NOTHING
+	[vlit (format=1,)variable-name]					# turn variable content into HTML; process NOTHING
+	[slit (format=1,)(wrap=1,)style-name]			# turn style content into HTML; process NOTHING
 	[inter iStr,L|R,everyN,content]					# intersperse iStr every N in content from left or right
 *	[rjust width,padChar,content]					# e.g. [rjust 6,#,foo] = "###foo"
 *	[ljust width,padChar,content]					# e.g. [ljust 6,#,foo] = "foo###"
@@ -1841,42 +1841,152 @@ The contents of the list are safe to include in the output if you like.
 
 	def pconvert(self,data):
 		a = ''
-		for c in data:
-			if   c == '[': c = self.qvar('ppre_lb')+self.qvar('txl_lb')+self.qvar('ppos_lb')
-			elif c == ']': c = self.qvar('ppre_rb')+self.qvar('txl_rb')+self.qvar('ppos_rb')
-			elif c == '{': c = self.qvar('ppre_ls')+self.qvar('txl_ls')+self.qvar('ppos_ls')
-			elif c == '}': c = self.qvar('ppre_rs')+self.qvar('txl_rs')+self.qvar('ppos_rs')
+		vs = 'hIugTynhryXxV'
+		vll = len(vs)
+		inflag = 0
+		quotflag = 0
+		ll = len(data)
+		for i in range(0,ll):
+			c = data[i]
+			if   c == '[':
+				c = self.qvar('ppre_lb')+self.qvar('txl_lb')+self.qvar('ppos_lb')
+				inflag = 1
+				c += self.qvar('ppre_ak') #'<span style="color:#ffffff;">'
+			elif c == ']':
+				c = ''
+				if inflag == 1:
+					c = self.qvar('ppos_ak')#'</span>'
+					inflag = 0
+				elif inflag == 2:
+					c = self.qvar('ppos_sk')#'</span>'
+					inflag = 0
+				c += self.qvar('ppre_rb')+self.qvar('txl_rb')+self.qvar('ppos_rb')
+			elif c == '{':
+				c = self.qvar('ppre_ls')+self.qvar('txl_ls')+self.qvar('ppos_ls')
+				inflag = 2
+				c += self.qvar('ppre_sk') #'<span style="color:#00ff00;">'
+			elif c == '}':
+				c = ''
+				if inflag == 1:
+					c = self.qvar('ppos_ak')#'</span>'
+					inflag = 0
+				elif inflag == 2:
+					c = self.qvar('ppos_sk')#'</span>'
+					inflag = 0
+				c += self.qvar('ppre_rs')+self.qvar('txl_rs')+self.qvar('ppos_rs')
 			elif c == '<': c = self.qvar('ppre_la')+self.qvar('txl_lt')+self.qvar('ppos_la')
 			elif c == '>': c = self.qvar('ppre_ra')+self.qvar('txl_gt')+self.qvar('ppos_ra')
 			elif c == '&': c = self.qvar('ppre_amp')+self.qvar('txl_am')+self.qvar('ppos_amp')
-			elif c == '"': c = self.qvar('ppre_quo')+self.qvar('txl_qu')+self.qvar('ppos_quo')
-			elif c == '\n':c = self.qvar('ppre_lf')+self.qvar('txl_lf')+self.qvar('ppos_lf')
+			elif c == '"':
+				if quotflag == 0: # then not inside yet
+					c = self.qvar('ppre_quo')+self.qvar('txl_qu')+self.qvar('ppos_quo')
+					quotflag = 1
+				else: # we're inside
+					c = self.qvar('ppre_cqu')+self.qvar('txl_qu')+self.qvar('ppos_cqu')
+					quotflag = 0
+			elif c == '\n':
+				c = ''
+				if inflag == 1:
+					c = self.qvar('ppos_ak')#'</span>'
+					inflag = 0
+				elif inflag == 2:
+					c = self.qvar('ppos_sk')#'</span>'
+					inflag = 0
+				c += self.qvar('ppre_lf')+self.qvar('txl_lf')+self.qvar('ppos_lf')
+			elif c == ' ':
+				c = ''
+				if inflag == 1:
+					c = self.qvar('ppos_ak')#'</span>'
+					inflag = 0
+				elif inflag == 2:
+					c = self.qvar('ppos_sk')#'</span>'
+					inflag = 0
+				c += vs
 			a += c
 		return a
 
+	def chunky_spaces(self,s):
+		smax = -1
+		sctr = -1
+		vs = 'hIugTynhryXxV'
+		s = s.replace(vs,'&nbsp;')
+		return s
+
 	# [hlit literalcontent]
 	def hlit_fn(self,tag,data):
+		vs = 'hIugTynhryXxV'
+		opts,data = self.popts(['format'],data)
+		form = ''
+		sep = ','
+		for el in opts:
+			if el[0] == 'format=':
+				form = el[1]
 		o = ''
 		a = self.pconvert(data)
+		if form == 't' or form == 'T' or form == 1 or form == '1':
+			a = self.chunky_spaces(a)
+		else:
+			a = a.replace(vs,' ')
 		o = self.do(a)
 		self.theLocals['loc_hlit'] = o
 		return ''
 
 	# [vlit variablename]
 	def vlit_fn(self,tag,data):
+		vs = 'hIugTynhryXxV'
+		opts,data = self.popts(['format'],data)
+		form = ''
+		sep = ','
+		for el in opts:
+			if el[0] == 'format=':
+				form = el[1]
 		l,x = self.fetchVar(data)
 		data = x
 		o = ''
 		a = self.pconvert(data)
+		if form == 't' or form == 'T' or form == 1 or form == '1':
+			a = self.chunky_spaces(a)
+		else:
+			a = a.replace(vs,' ')
 		o = self.do(a)
 		self.theLocals['loc_vlit'] = o
 		return ''
 
+	def stylegetter(self,style):
+		mode = 1 # local
+		emsg = '? Unknown Style \"%s\" ?'
+		data = self.styles.get(style,'')
+		if data == '':
+			mode = 2 # global
+			data = self.gstyles.get(style,emsg)
+			if data == emsg:
+				mode = 0
+		return mode,data
+
 	# [slit stylename]
 	def slit_fn(self,tag,data):
-		data = self.styles.get(data,self.gstyles.get(data,'? Unknown Style \"%s\" ?' % (data)))
+		vs = 'hIugTynhryXxV'
+		opts,sname = self.popts(['format','wrap'],data)
+		form = ''
+		wrap = ''
+		sep = ','
+		for el in opts:
+			if el[0] == 'format=':
+				form = el[1]
+			elif el[0] == 'wrap=':
+				wrap = el[1]
+		mode,data = self.stylegetter(sname)
 		o = ''
+		if wrap == 't' or wrap == 'T' or wrap == 1 or wrap == '1':
+			if mode == 1: # local
+				data = '[style ' + sname + ' ' + data + ']'
+			elif mode == 2: # global
+				data = '[gstyle ' + sname + ' ' + data + ']'
 		a = self.pconvert(data)
+		if form == 't' or form == 'T' or form == 1 or form == '1':
+			a = self.chunky_spaces(a)
+		else:
+			a = a.replace(vs,' ')
 		o = self.do(a)
 		self.theLocals['loc_slit'] = o
 		return ''

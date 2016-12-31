@@ -7,6 +7,15 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.56
+ * [slit] got (wrap=1,) option
+ * Pretty-printing now handles in-quotes
+ * Pretty-printing now calls out keywords and stylenames
+ * new built-in variables for all of the above (see docs)
+
+1.0.55
+ * [hlit], [vlit] and [slit] all got (format=1,) options
+
 1.0.54
  * aa_macro no longer translates {stylename} to [s stylename], {} is now native
 
