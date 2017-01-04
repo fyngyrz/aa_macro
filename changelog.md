@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.57
+ * [hmap] added
+
 1.0.56
  * [slit] got (wrap=1,) option
  * Pretty-printing now handles in-quotes

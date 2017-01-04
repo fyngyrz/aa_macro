@@ -208,8 +208,10 @@ should be "tothat": "{gsetme}"
 [gstyle gsetme]  
 should be no content: "{gsetme}"
 stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
+[hmap hlist]  
+[translate hlist,ABC]  
   
-[local txl_lf <br>[lf]]
+[local txl_lf <br>[lf]]  
 [gstyle key <span class="ckey">[b]</span>]  
 [gstyle keyhints 
 <div style="

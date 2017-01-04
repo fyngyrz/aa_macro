@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 30th, 2016     (for Class)
+     LastRev: Janunary 3rd, 2017     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.56 Beta
+     Version: 1.0.57 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -149,6 +149,7 @@ class macro(object):
 	[lcc srcList,addList,tgtList]					# concatinate lists
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
+	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
 	[dlist (style=X,)(parms=X,)(posts=X,)listName]	# output list elements, can be wrapped with style X
 													  and with parms, if any, prefixed to list element
@@ -2494,6 +2495,15 @@ The contents of the list are safe to include in the output if you like.
 			self.theLists[data] = loclist
 		return ''
 
+	# [hmap listName]
+	def hmap_fn(self,tag,data):
+		if data != '':
+			loclist = []
+			for i in range(0,256):
+				loclist += ['%02x' % (i)]
+			self.theLists[data] = loclist
+		return ''
+
 	# [lset listname,index,stuff]
 	def lset_fn(self,tag,data):
 		ll = data.split(',',2)
@@ -3123,6 +3133,7 @@ The contents of the list are safe to include in the output if you like.
 					'lset'	: self.lset_fn,		# [lset listName,index,stuff]
 					'lcc'	: self.lcc_fn,		# [lcc listNameA,listNameB,listNameC] C = A concat B
 					'cmap'	: self.cmap_fn,		# [cmap listName]
+					'hmap'	: self.hmap_fn,		# [hmap listName]
 					'dlist'	: self.dlist_fn,	# [dlist (style=styleName,)listName] dump list
 					'asort'	: self.asort_fn,	# [asort listName] sort by alpha, case-sensitive
 					'aisort': self.aisort_fn,	# [aisort listName] sort by alpha, case-insensitive

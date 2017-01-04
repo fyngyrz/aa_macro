@@ -781,15 +781,31 @@ coded with a decimal 65; so if you do this...
 So far, sort of boring. But. You can now do this:
 
     [lset myList,65,!]
-	[translate Area fifty one] = "!rea fifty one"
+	[translate myList,Area fifty one] = "!rea fifty one"
 
 The idea is that you can cause the output of arbitrary characters using
 any character coding you like. Simple transposition ciphers, easily
 generated sequences of format characters, all are easily built using
 this capability.
 
+**\[hmap listName\]**  'cmap' for character map  
+This built-in creates a 256-entry list of all the possible 8-bit hex
+character representations mapped directly to the list index. For
+instance, the ASCII character A is coded with hex 41, B is 42, C is 43;
+so if you do this...
+
+    [hmap myList]
+
+Then this...
+
+    [translate myList,ABC]
+
+You get this:
+
+   414232
+
 **\[translate listName,content\]**  'translate' for translation  
-See \[cmap\], just above
+See \[cmap\] and \[hmap\], just above
 
 ### Data Dictionaries
 

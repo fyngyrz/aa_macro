@@ -81,6 +81,7 @@ Data Lists | &nbsp;
  <tt>&#91;isort \(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
  <tt>&#91;lhsort **listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
+ <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;translate **listName&#44;**content&#93;</tt> |  translate content using character map formatted list
 
 Data Dictionaries | &nbsp;
@@ -264,6 +265,7 @@ Built-in | &nbsp;
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
  <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
  <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
+ <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;hsort content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
  <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
  <tt>&#91;i content&#93;</tt> |  HTML italics

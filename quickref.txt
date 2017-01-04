@@ -69,6 +69,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,isort {o sep=X{co}}{r listName}| sort by leading integer{co} sep defaults to {q}{co}{q}]  
 [append bil,lhsort {r listName}| sort list by leading amateur radio callsign{co}, any non-alphanumeric sep]  
 [append bil,cmap {r listName}| create 1:1 character map]  
+[append bil,hmap {r listName}| create 1:1 character map to hex values]  
 [append bil,translate {r listName{co}}{c}| translate content using character map formatted list]  
   
 [append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}}{r keyYvalue{o XkeyYvalue}}| create/replace dictionary~Data Dictionaries]  
