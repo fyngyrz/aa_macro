@@ -223,6 +223,21 @@ should be "tothat": "tothat"
 should be no content: ""
 stripe charset=xy,xytestingyx = testing
 414243
+<span style="color: #008800"></span>
+<span style="color: #008800"><span style="color: #ff00ff">from</span> aa_macro <span style="color: #ff00ff">import</span> <span style="color:#00ffff;">*</span></span>
+<span style="color: #008800"></span>
+<span style="color: #008800">mod <span style="color:#00ffff;">=</span> macro<span style="color:#ff8844;">(</span><span style="color:#ff8844;">)</span></span>
+<span style="color: #008800"></span>
+<span style="color: #008800">inputtext <span style="color:#00ffff;">=</span> </span><span style="color: #ffffff">'</span><span style="color: #ff0000">&#91;i print \'some\' "content" from here&#93;&#91;local foo bar&#93;</span><span style="color: #ffffff">'</span><span style="color: #008800"></span>
+<span style="color: #008800">outputext <span style="color:#00ffff;">=</span> mod<span style="color:#00ffff;">.</span>do<span style="color:#ff8844;">(</span>inputtext<span style="color:#ff8844;">)</span></span>
+<span style="color: #008800"><span style="color: #ff00ff">print</span> outputtext</span>
+<span style="color: #008800"></span>
+<span style="color: #008800">inputtext <span style="color:#00ffff;">=</span> </span><span style="color: #ffffff">"</span><span style="color: #ff0000">&#91;b \"more\" 'content'&#93; &#91;v foo&#93;</span><span style="color: #ffffff">"</span><span style="color: #008800">  </span><span style="color: #ffff00"># as we're using the same object, anything...</span>
+<span style="color: #008800">outputext <span style="color:#00ffff;">=</span> mod<span style="color:#00ffff;">.</span>do<span style="color:#ff8844;">(</span>inputtext<span style="color:#ff8844;">)</span>           </span><span style="color: #ffff00"># ...set up in it is still in context here</span>
+<span style="color: #008800"><span style="color: #ff00ff">print</span> outputtext</span>
+<span style="color: #008800"></span>
+
+
 <br>
 &lt;div style=&quot;<br>
        width: 75%;<br>

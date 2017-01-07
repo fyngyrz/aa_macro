@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: Janunary 3rd, 2017     (for Class)
+     LastRev: Janunary 6th, 2017     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.57 Beta
+     Version: 1.0.58 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -150,6 +150,7 @@ class macro(object):
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
+	[postparse pythoncode]							# pretty-prints python (use black background)
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
 	[dlist (style=X,)(parms=X,)(posts=X,)listName]	# output list elements, can be wrapped with style X
 													  and with parms, if any, prefixed to list element
@@ -448,6 +449,32 @@ class macro(object):
 		self.theGlobals['txl_am'] = '&amp;'
 		self.theGlobals['txl_qu'] = '&quot;'
 		self.theGlobals['txl_lf'] = '<br>'
+		
+		self.theGlobals['pp_trigger'] = '#'
+
+		self.theGlobals['tx_pybrace'] = '<span style="color:#ff8844;">'
+		self.theGlobals['tx_pysym'] = '<span style="color:#00ffff;">'
+		self.theGlobals['tx_epybrace'] = '</span>'
+		self.theGlobals['tx_epysym'] = '</span>'
+
+		self.theGlobals['tx_prekey'] = '<span style="color: #ff00ff">'
+		self.theGlobals['tx_poskey'] = '</span>'
+		self.theGlobals['tx_prequo'] = '<span style="color: #ffffff">'
+		self.theGlobals['tx_posquo'] = '</span>'
+		self.theGlobals['tx_precod'] = '<span style="color: #008800">'
+		self.theGlobals['tx_poscod'] = '</span>'
+		self.theGlobals['tx_pretxt'] = '<span style="color: #ff0000">'
+		self.theGlobals['tx_postxt'] = '</span>'
+		self.theGlobals['tx_precom'] = '<span style="color: #ffff00">'
+		self.theGlobals['tx_poscom'] = '</span>'
+
+		self.keywords = ['and','del','from','not','while',
+					'as','elif','global','or','with',
+					'assert','else','if','pass','yeild',
+					'break','except','import','print',
+					'class','exec','in','raise',
+					'continue','finally','is','return',
+					'def','for','lambda','try']
 
 		self.months = ['January','February','March','April','may','June','July','August','September','October','November','December']
 		if dothis != None:
@@ -1906,6 +1933,187 @@ The contents of the list are safe to include in the output if you like.
 			a += c
 		return a
 
+	def key_up(self,symbol,context):
+		if context.strip() == '': return context
+		b = self.qvar('tx_prekey')
+		a = self.qvar('tx_poskey')
+		ll = len(context)
+		ls = len(symbol)
+		o = ''
+		i = 0
+		while i < ll:
+			if context[i:i+ls] == symbol: # if looks like symbol
+				llegit = True
+				rlegit = True
+				if i == 0: # beginning of context is legit
+					pass
+				else: # check for alpha to left
+					c = context[i-1]
+					if c >= 'a' and c <= 'z':
+						llegit = False
+				if llegit:
+					if i == ll-1: # end of context is legit
+						pass
+					else: # check for alpha to the right
+						c = context[i+ls]
+						if c >= 'a' and c <= 'z':
+							rlegit = False
+				if rlegit and llegit: # then we really found our thing
+					o += b+symbol+a
+				else: # this isn't our thing
+					o += symbol
+				i += ls
+			else: # doesn't match
+				o += context[i]
+				i += 1
+		return o
+
+	def sym_up(self,s,c,r,b,a):
+		c = c.replace(s,b+r+a)
+		return c
+
+	def setsyms(self,bc,sc,be,se):
+		self.symbols = [['//=','De',sc,se],['>>=','Re',sc,se], # 3x
+					['<<=','Le',sc,se],['**=','Me',sc,se],
+					['<=','le',sc,se],['>=','ge',sc,se], # 2x
+					['+=','pe',sc,se],['-=','me',sc,se],
+					['%=','Pe',sc,se],['&=','ae',sc,se],
+					['|=','oe',sc,se],['^=','te',sc,se],
+					['*=','ME',sc,se],['/=','de',sc,se],
+					['**','DM',sc,se],['//','DD',sc,se],
+					['<<','DL',sc,se],['>>','DR',sc,se],
+					['==','DE',sc,se],['!=','NE',sc,se],
+					['<>','nE',sc,se],
+					['%','pc',sc,se],['&','am',sc,se], # 1x
+					['|','or',sc,se],['^','ca',sc,se],
+					['+','pl',sc,se],['-','mi',sc,se],
+					['/','di',sc,se],['*','mu',sc,se],
+					['<','lt',sc,se],['>','gt',sc,se],
+					['[','lb',bc,be],[']','rb',bc,be],
+					['{','ls',bc,be],['}','rs',bc,be],
+					['(','lp',bc,be],[')','rp',bc,be],
+					['@','at',sc,se],['=','eq',sc,se],
+					[',','co',sc,se],[':','ko',sc,se],
+					['.','pE',sc,se],['`','bt',sc,se],
+					[';','sc',sc,se],['~','tl',sc,se]]
+
+	def keyword_up(self,o,c):
+		if c == None: return o
+		if len(c) == 0: return o
+		sympre = 'gYThvhY12'
+		sympos = 'gYt7txz97'
+		for sym in self.symbols: # sub out all the python symbols
+			if c != None:
+				c = c.replace(sym[0],sympre+sym[1]+sympos)
+		for kw in self.keywords: # highlight the keywords
+			if c != None:
+				c = self.key_up(kw,c)
+		for sym in self.symbols: # sub back in all the symbols
+			if c != None:
+				c = self.sym_up(sympre+sym[1]+sympos,c,sym[0],sym[2],sym[3])
+		if c == None:
+			c = 'ERROR: No Context'
+		return o + c
+
+	def unstate(self,state,o):
+		INSING = 1
+		INDOUB = 2
+		INCOMM = 3
+		INCODE = 4
+		postxt = self.qvar('tx_postxt')
+		poscom = self.qvar('tx_poscom')
+		if   state == INCOMM: o += self.qvar('tx_poscom')
+		elif state == INCODE: o += self.qvar('tx_poscod')
+		elif state == INSING: o += self.qvar('tx_posquo')
+		elif state == INDOUB: o += self.qvar('tx_posquo')
+		return o
+
+	def postparse_fn(self,tag,data):
+		INSING = 1
+		INDOUB = 2
+		INCOMM = 3
+		INCODE = 4
+		bc = self.qvar('tx_pybrace')
+		sc = self.qvar('tx_pysym')
+		be = self.qvar('tx_epybrace')
+		se = self.qvar('tx_epysym')
+		self.setsyms(bc,sc,be,se)
+		state = INCODE
+		i = -1
+		poslin = '\n'
+		prequo = self.qvar('tx_prequo')
+		posquo = self.qvar('tx_posquo')
+		precod = self.qvar('tx_precod')
+		poscod = self.qvar('tx_poscod')
+		pretxt = self.qvar('tx_pretxt')
+		postxt = self.qvar('tx_postxt')
+		precom = self.qvar('tx_precom')
+		poscom = self.qvar('tx_poscom')
+		codeblock = ''
+		state = INCODE
+		prevchar = ''
+		o = precod
+		for c in data:
+			i += 1
+			if c == poslin: # quit whatever at end of line, then enter INCODE
+				if state == INCODE:
+					o = self.keyword_up(o,codeblock)
+					codeblock = ''
+				o = self.unstate(state,o)
+				o += c
+				o += precod
+				state = INCODE
+			elif state == INCOMM:
+				o += c
+			elif state == INSING:
+				if c == "'" and prevchar != "\\":
+					o = self.unstate(state,o)
+					o += prequo
+					o += c
+					o += posquo
+					o += precod
+					state = INCODE
+				else:
+					o += c
+			elif state == INDOUB:
+				if c == '"' and prevchar != '\\':
+					o = self.unstate(state,o)
+					o += prequo
+					o += c
+					o += posquo
+					o += precod
+					state = INCODE
+				else:
+					o += c
+			elif state == INCODE:
+				if (prevchar != '\\' and c == '"') or (prevchar != '\\' and c == "'") or c == '#':
+					o = self.keyword_up(o,codeblock)
+					codeblock = ''
+				if c == '"': # switching to string
+					o = self.unstate(state,o)
+					o += prequo
+					o += c
+					o += posquo
+					o += pretxt
+					state = INDOUB
+				elif c == "'": # switching to string
+					o = self.unstate(state,o)
+					o += prequo
+					o += c
+					o += posquo
+					o += pretxt
+					state = INSING
+				elif c == '#':
+					o = self.unstate(state,o)
+					state = INCOMM
+					o += precom
+					o += c
+				else: # still in code
+					codeblock += c
+			prevchar = c
+		o = self.unstate(state,o)
+		return o
+
 	def chunky_spaces(self,s):
 		smax = -1
 		sctr = -1
@@ -3275,6 +3483,7 @@ The contents of the list are safe to include in the output if you like.
 					'hlit'	: self.hlit_fn,		# [hlit content]
 					'vlit'	: self.vlit_fn,		# [hlit variable-name]
 					'slit'	: self.slit_fn,		# [hlit style-name]
+					'postparse':self.postparse_fn, # [postparse text]
 
 					# Miscellaneous
 					# -------------

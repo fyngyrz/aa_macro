@@ -208,8 +208,24 @@ should be "tothat": "{gsetme}"
 [gstyle gsetme]  
 should be no content: "{gsetme}"
 stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
+  
 [hmap hlist]  
 [translate hlist,ABC]  
+
+[postparse 
+from aa_macro import *
+
+mod = macro()
+
+inputtext = '[lb]i print \'some\' "content" from here[rb][lb]local foo bar[rb]'
+outputext = mod.do(inputtext)
+print outputtext
+
+inputtext = "[lb]b \"more\" 'content'[rb] [lb]v foo[rb]"  # as we're using the same object, anything...
+outputext = mod.do(inputtext)           # ...set up in it is still in context here
+print outputtext
+]
+
   
 [local txl_lf <br>[lf]]  
 [gstyle key <span class="ckey">[b]</span>]  

@@ -807,6 +807,47 @@ You get this:
 **\[translate listName,content\]**  'translate' for translation  
 See \[cmap\] and \[hmap\], just above
 
+**\[postparse content\]**  'postparse' to prettyprint content  
+
+This built-in attempts to pretty-print Python 2-series source code.
+It does not handle line continuation, but in the specific case of
+line continuation in code segments, it will parse correctly.
+Multiline strings will not work. Perhaps someday. :)
+
+It uses the following global variables, set as shown:
+
+	# CSS style wrap for Python keywords: import, while, etc.
+    tx_prekey = '<span style="color: #ff00ff">'
+	tx_poskey = '</span>'
+
+	# CSS style wrap for single and double quotes
+    tx_prequo = '<span style="color: #ffffff">'
+	tx_posquo = '</span>'
+
+	# CSS style wrap for python code
+    tx_precod = '<span style="color: #008800">'
+	tx_poscod = '</span>'
+
+	# CSS style wrap for text inside quotes
+    tx_pretxt = '<span style="color: #ff0000">'
+	tx_postxt = '</span>'
+
+	# CSS style wrap for comment content
+    tx_precom = '<span style="color: #ffff00">'
+	tx_poscom = '</span>'
+
+	# CSS style wrap for {}, [], and ()
+	tx_pybrace = '<span style="color: #ff8844">'
+	tx_epybrace = '</span>'
+
+	# CSS style wrap for symbols such as ==, +, < and so on
+	tx_pysym = '<span style="color: #00ffff">'
+	tx_epysym = '</span>'
+
+You can change these any time prior to invoking \[postparse\] if you'd like
+to change how the prettyprinting works. Note that the settings here are
+designed with a black background in mind.
+
 ### Data Dictionaries
 
 **\[dict (sep=X,)(keysep=Y)dictName,keyYvalue(XkeyYvalue)\]**  
