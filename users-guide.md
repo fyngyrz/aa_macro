@@ -814,6 +814,13 @@ It does not handle line continuation, but in the specific case of
 line continuation in code segments, it will parse correctly.
 Multiline strings will not work. Perhaps someday. :)
 
+You can still use aa_macro code within the scope of Python source
+code fed to postparse; this cab be very handy, but it comes with a
+bit of work, too: You have to change all the Python source occurances
+of \[ and \] to \[lb\] and \[rb\], and all of the occurances of \{ and \}
+to \[ls\] and \[rs\], or aa_macro will try to parse the Python _as_
+aa_macro, and that won't be pretty.
+
 It uses the following global variables, set as shown:
 
 	# CSS style wrap for Python keywords: import, while, etc.
