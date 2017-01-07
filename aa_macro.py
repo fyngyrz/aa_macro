@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: Janunary 6th, 2017     (for Class)
+     LastRev: January 7th, 2017     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.58 Beta
+     Version: 1.0.59 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2111,6 +2111,9 @@ The contents of the list are safe to include in the output if you like.
 				else: # still in code
 					codeblock += c
 			prevchar = c
+		if state == INCODE and codeblock != '':
+			o = self.keyword_up(o,codeblock)
+			codeblock = ''
 		o = self.unstate(state,o)
 		return o
 

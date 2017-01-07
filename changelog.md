@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.59
+ * Bug in [postparse] with sub-line-sized code fragments fixed
+
 1.0.58
  * [postparse] added
 
