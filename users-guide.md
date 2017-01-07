@@ -791,18 +791,18 @@ this capability.
 **\[hmap listName\]**  'cmap' for character map  
 This built-in creates a 256-entry list of all the possible 8-bit hex
 character representations mapped directly to the list index. For
-instance, the ASCII character A is coded with hex 41, B is 42, C is 43;
+instance, the ASCII character A is coded with hex 41, B is 42, O is 4F;
 so if you do this...
 
     [hmap myList]
 
 Then this...
 
-    [translate myList,ABC]
+    [translate myList,ABO]
 
 You get this:
 
-   414232
+   41424F
 
 **\[translate listName,content\]**  'translate' for translation  
 See \[cmap\] and \[hmap\], just above
