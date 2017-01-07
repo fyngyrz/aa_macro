@@ -42,6 +42,8 @@
 	* Foreground text color
 	* Background text color \(in HTML 4.01s mode only\)
 	* Paragraphs
+	* pretty-printing aa_macro source code
+	* pretty-printing Python source code 
   * Linking
 	* Optional verbiage
 	* Optional stock phrasing

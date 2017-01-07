@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.60 Beta
+     Version: 1.0.61 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -150,7 +150,8 @@ class macro(object):
 	[llen listName]									# length of list
 	[cmap listName]									# creates 256-entry list of 1:1 8-bit char mappings
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
-	[postparse pythoncode]							# pretty-prints python (use black background)
+	[postparse pythoncode]							# pretty-prints python (must replace [] {})
+	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
 	[dlist (style=X,)(parms=X,)(posts=X,)listName]	# output list elements, can be wrapped with style X
 													  and with parms, if any, prefixed to list element
@@ -2028,6 +2029,21 @@ The contents of the list are safe to include in the output if you like.
 		elif state == INDOUB: o += self.qvar('tx_posquo')
 		return o
 
+	def pprep(self,o):
+		o = o.replace('[','xy3zy')
+		o = o.replace(']','[rb]')
+		o = o.replace('xy3zy','[lb]')
+		o = o.replace('{','xy3zy')
+		o = o.replace('}','[rs]')
+		o = o.replace('xy3zy','[ls]')
+		return o
+
+	def pythparse_fn(self,tag,data):
+		data = self.pprep(data)
+		o = self.postparse_fn(tag,data)
+		self.theGlobals['loc_pyth'] = o
+		return ''
+
 	def postparse_fn(self,tag,data):
 		INSING = 1
 		INDOUB = 2
@@ -3487,6 +3503,7 @@ The contents of the list are safe to include in the output if you like.
 					'vlit'	: self.vlit_fn,		# [hlit variable-name]
 					'slit'	: self.slit_fn,		# [hlit style-name]
 					'postparse':self.postparse_fn, # [postparse text]
+					'pythparse':self.pythparse_fn, # [pythparse text]
 
 					# Miscellaneous
 					# -------------
@@ -3540,10 +3557,11 @@ The contents of the list are safe to include in the output if you like.
 				if c == '}': c = ']'
 			dex += 1
 			if state == OUT and (c == '[' or c == '{'):
-				if (s[dex:dex+8] == '[gstyle ' or
-					s[dex:dex+7] == '[style ' or
-					s[dex:dex+8] == '[repeat ' or
-					s[dex:dex+6] == '[hlit '):
+				if (s[dex:dex+8]  == '[gstyle ' or
+					s[dex:dex+7]  == '[style ' or
+					s[dex:dex+8]  == '[repeat ' or
+					s[dex:dex+11] == '[pythparse ' or
+					s[dex:dex+6]  == '[hlit '):
 					state = DEFER
 					depth = 1
 					tag = ''
@@ -3574,17 +3592,20 @@ The contents of the list are safe to include in the output if you like.
 				else:
 					tag += c
 			elif state == IN and (c == ']' or c == '}'):
+				depth -= 1
 				if tag.find(' ') > 0:
 					tag,data = tag.split(' ',1)
 				fx = self.doTag(tag,data)
 				if len(macstack) == 0:
 					o += fx
 					state = OUT
+					depth = 0
 				else:
 					tag = macstack.pop()
 					tag += fx
 			elif state == IN:
 				if c == '[' or c == '{': # nesting
+					depth += 1
 					macstack.append(tag)
 					if c == '{':
 						tag = 's '

@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.61
+ * [pythparse] added
+
 1.0.60
  * Changed default color for nonkeyword python from 008800 to 00ff00
 

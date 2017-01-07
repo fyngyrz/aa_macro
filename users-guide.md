@@ -808,20 +808,55 @@ You get this:
 See \[cmap\] and \[hmap\], just above
 
 **\[postparse content\]**  'postparse' to prettyprint content  
+**\[pythparse content\]**  'pythparse' same, but into loc_pyth  
 
-This built-in attempts to pretty-print Python 2-series source code.
-It does not handle line continuation, but in the specific case of
-line continuation in code segments, it will parse correctly.
+These built-ins attempt to pretty-print Python 2-series source code.
+They do not handle line continuation, but in the specific case of
+line continuation in code segments, they will parse correctly.
 Multiline strings will not work. Perhaps someday. :)
 
-You can still use aa_macro code within the scope of Python source
-code fed to postparse; this can be very handy, but it comes with a
-bit of work, too: You have to change all the Python source occurances
-of `[` and `]` to `[lb]` and `[rb]`, and all of the occurances of `{` and `}`
-to `[ls]` and `[rs]`, or aa_macro will try to parse the Python _as_
-aa_macro, and that won't be pretty.
+`[ptyhparse]` generates prettyprinted Python into a local variable
+named `loc_pyth`.
 
-It uses the following global variables, set as shown:
+'[pythparse]' must be used at the top level; you can't embed it
+in a style. It can handle Python code without any changes, but again,
+_only_ in the top level context. If you want to include Python code
+deeper than top level, you must use `[postparse]`, and deal with
+`[]` and `{}` as described below. To transfer the result of `[pythparse]`
+into a deeper context, use a sequence like this:
+
+    [pythparse mylist=['tup0','tup1']]   create PP'd python
+    [local uselater [v loc_pyth]]        save in unique local variable
+
+Then, in your deeper code, you can do this:
+
+    {mystyle {myotherstyle [v uselater]}}
+
+The reason you transfer the PP'd source from `loc_pyth` to
+`uselater` is so if you need to use `[pythparse]` again, you
+can without overwriting the previous result. If you only use it
+once, you can certainly use the result directly:
+
+    {mystyle {myotherstyle [v loc_pyth]}}
+
+You _can_ use aa_macro code within the scope of Python source code fed
+to `[postparse]` at any parsing level, not just the top context; this
+can be very handy, but it comes with a bit of work, too: You have to
+change all the Python source occurances of `[` and `]` to `[lb]` and
+`[rb]`, and all of the occurances of `{` and `}` to `[ls]` and `[rs]`,
+or aa_macro will try to parse the Python _as_ aa_macro, and that won't
+be pretty.
+
+Take care: although `[pythparse]` takes raw Python, the aa_macro parser
+still has to wade through it to find the closing `]` for the
+`[pythparse]` built-in itself. So if there are unbalanced `{}` or `[]`
+anywhere in the Python source, that will break the parsing. An easy fix
+for this is to balance to a pair in the comments before \(if `]` or
+`}`\) or after \(if `[` or `{`\) the line of Python. Sorry about that,
+but it's sort of inherent in how all this works.
+
+Both `[pythparse]` and `[postparse]` use the following global variables,
+preset as shown (you can change these if you like):
 
 	# CSS style wrap for Python keywords: import, while, etc.
     tx_prekey = '<span style="color: #ff00ff">'

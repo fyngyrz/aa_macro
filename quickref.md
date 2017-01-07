@@ -7,6 +7,7 @@
 
 
 
+
 # Macro() BETA Quick Reference
 ## Functional Groupings
 
@@ -85,6 +86,7 @@ Data Lists | &nbsp;
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;translate **listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
+ <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
 
 Data Dictionaries | &nbsp;
 ----------------- | ----
@@ -322,6 +324,7 @@ Built-in | &nbsp;
  <tt>&#91;pop&#93;</tt> |  Pop an item off the top of the general stack
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;push content&#93;</tt> |  Push an item on to the general stack
+ <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
  <tt>&#91;replace \(sep=X&#44;\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content

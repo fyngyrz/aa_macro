@@ -211,43 +211,7 @@ stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
   
 [hmap hlist]  
 [translate hlist,ABC]  
-
-[postparse 
-from aa_macro import *
-
-mod = macro()
-
-inputtext = '[lb]i print \'some\' "content" from here[rb][lb]local foo bar[rb]'
-outputext = mod.do(inputtext)
-print outputtext
-
-inputtext = "[lb]b \"more\" 'content'[rb] [lb]v foo[rb]"  # as we're using the same object, anything...
-outputext = mod.do(inputtext)           # ...set up in it is still in context here
-print outputtext
-]
-
   
-[local txl_lf <br>[lf]]  
-[gstyle key <span class="ckey">[b]</span>]  
-[gstyle keyhints 
-<div style="
-       width: 75%;
-border-style: solid;
-  background: #ffffff;
-  text-align: center;
-     padding: .5em;
-      margin: auto;
-">
-[i Keyboard Navigation]
-<hr width="75%">
-{key ,} Previous Page
-{key .} Next Page
-{key t} TOC
-{key i} Index
-</div>]  
-  
-[slit keyhints]
-[v loc_slit]
 
 
 [local cont this is a test
@@ -289,6 +253,59 @@ W2GGI Robert
 N5CST!Johann!
 KE4TP-Pete]
 ]
+
+{h2 aa_macro and Python Parsing}
+[postparse 
+from aa_macro import *
+
+mod = macro()
+
+inputtext = '[lb]i print \'some\' "content" from here[rb][lb]local foo bar[rb]'
+outputext = mod.do(inputtext)
+print outputtext
+
+inputtext = "[lb]b \"more\" 'content'[rb] [lb]v foo[rb]"  # as we're using the same object, anything...
+outputext = mod.do(inputtext)           # ...set up in it is still in context here
+print outputtext
+]
+  
+[pythparse 
+from aa_macro import *
+
+mod = macro()
+
+inputtext = '[i print \'some\' "content" from here][local foo bar]'
+outputext = mod.do(inputtext)
+print outputtext
+
+inputtext = "[b \"more\" 'content'] [v foo]"  # as we're using the same object, anything...
+outputext = mod.do(inputtext)           # ...set up in it is still in context here
+print outputtext
+]  
+
+[v loc_pyth]
+
+[local txl_lf <br>[lf]]  
+[gstyle key <span class="ckey">[b]</span>]  
+[gstyle keyhints 
+<div style="
+       width: 75%;
+border-style: solid;
+  background: #ffffff;
+  text-align: center;
+     padding: .5em;
+      margin: auto;
+">
+[i Keyboard Navigation]
+<hr width="75%">
+{key ,} Previous Page
+{key .} Next Page
+{key t} TOC
+{key i} Index
+</div>]  
+  
+[slit keyhints]
+[v loc_slit]
 
 {h2 Data Lists}
 [list slicetest,a,2,c,4,e,6,g,8]  
