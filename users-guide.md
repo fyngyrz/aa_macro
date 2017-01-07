@@ -825,7 +825,7 @@ It uses the following global variables, set as shown:
 	tx_posquo = '</span>'
 
 	# CSS style wrap for python code
-    tx_precod = '<span style="color: #008800">'
+    tx_precod = '<span style="color: #00FF00">'
 	tx_poscod = '</span>'
 
 	# CSS style wrap for text inside quotes

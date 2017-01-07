@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.59 Beta
+     Version: 1.0.60 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -461,7 +461,7 @@ class macro(object):
 		self.theGlobals['tx_poskey'] = '</span>'
 		self.theGlobals['tx_prequo'] = '<span style="color: #ffffff">'
 		self.theGlobals['tx_posquo'] = '</span>'
-		self.theGlobals['tx_precod'] = '<span style="color: #008800">'
+		self.theGlobals['tx_precod'] = '<span style="color: #00ff00">'
 		self.theGlobals['tx_poscod'] = '</span>'
 		self.theGlobals['tx_pretxt'] = '<span style="color: #ff0000">'
 		self.theGlobals['tx_postxt'] = '</span>'
