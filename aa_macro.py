@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 7th, 2017     (for Class)
+     LastRev: January 8th, 2017     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.61 Beta
+     Version: 1.0.62 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -1508,6 +1508,7 @@ The contents of the list are safe to include in the output if you like.
 
 	def split_fn(self,tag,data):
 		o = ''
+		scount = 0
 		dl = data.split(',',1)
 		n = self.splitCount
 		if len(dl) == 2:
@@ -1526,8 +1527,10 @@ The contents of the list are safe to include in the output if you like.
 					self.parms = str(dl[1]).split(str(dl[0]))
 				else:
 					self.parms = str(dl[1]).split(str(dl[0]),n)
+			scount = len(self.parms)
 		else:
 			o = ' ?split? '
+		self.theLocals['loc_splitcount'] = str(scount)
 		self.splitCount = 0
 		return o
 
@@ -3056,9 +3059,30 @@ The contents of the list are safe to include in the output if you like.
 			o = str(ll[1].find(ll[0]))
 		return o
 
-	# [replace (sep=X,)repStringXwithStringXinString] X default=,
+	# [replace (sep=X,)(lf=1)repStringXwithStringXinString] X default=,
 	def replace_fn(self,tag,data):
 		mode = 0
+		opts,data = self.popts(['sep','lf'],data)
+		style = ''
+		sep = ','
+		o = ''
+		lf = False
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+			if el[0] == 'lf=':
+				if el[1] == '1':
+					lf = True
+		ll = data.split(sep,2)
+		if len(ll) != 3:
+			return 'ERROR: Bad replace format in '+data
+		if lf:
+			if ll[0] == 'lf': ll[0] = '\n'
+			if ll[1] == 'lf': ll[1] = '\n'
+		self.theGlobals['inner_diag'] = self.safeup(str(lf)+' '+str(ll)+'**'+o+'**')
+		o = ll[2].replace(ll[0],ll[1])
+		self.theGlobals['inner_diag'] = self.safeup(str(lf)+' '+str(ll)+'**'+o+'**')
+		return o
 		ll = data.split(',',1)
 		if len(ll) != 2: return data
 		if ll[0][:4] == 'sep=':
@@ -3067,15 +3091,25 @@ The contents of the list are safe to include in the output if you like.
 			mode = 1
 		if mode == 0:
 			a = ll[0]
+			if a == '[lf]': a = '\n'
 			ll = ll[1].split(',',1)
 			if len(ll) != 2: return data
 			b,c = ll
+			self.theGlobals['inner_diag'] = self.safeup('2:'+a+str(ll))
 		else:
 			ll = ll[1].split(sep,2)
 			if len(ll) != 3: return data
 			a,b,c = ll
+			self.theGlobals['inner_diag'] = self.safeup('3:'+str(ll))
 		o = c.replace(a,b)
 		return o
+
+	def safeup(self,s):
+		x = 'xy3zy'
+		s = s.replace('[',x)
+		s = s.replace(']','[rb]')
+		s = s.replace(x,'[lb]')
+		return s
 
 	def commaSep(self,n):
 		ou = ''

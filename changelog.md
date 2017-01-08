@@ -6,6 +6,11 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+
+1.0.62
+* [split] now sets local variable loc_splitcount
+* [replace] now has lf=1 option
+
 1.0.61
  * [pythparse] added
 

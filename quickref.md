@@ -155,7 +155,7 @@ Text Processing | &nbsp;
  <tt>&#91;fcsep **value**&#93;</tt> |  comma-separate a floating point number
  <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <i>after</i> evaluation (also see &#91;repeat&#93;)
  <tt>&#91;find \(sep=X&#44;\)**stringXcontent**&#93;</tt> |  find string in content&#44; sep default = &quot;&#44;&quot;
- <tt>&#91;replace \(sep=X&#44;\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
+ <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
  <tt>&#91;count \(sep=X&#44;\)\(overlaps=yes&#44;\)\(casesens=yes&#44;\)**patternXcontent**&#93;</tt> |  count incidences
  <tt>&#91;caps content&#93;</tt> |  sentence case
  <tt>&#91;capw content&#93;</tt> |  word case
@@ -327,7 +327,7 @@ Built-in | &nbsp;
  <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
- <tt>&#91;replace \(sep=X&#44;\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
+ <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
  <tt>&#91;resolve **lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral

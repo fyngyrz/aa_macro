@@ -1472,11 +1472,15 @@ returned is -1.
     [find foo,foobarbip] = "0"
     [find bar,foobarbip] = "3"
 
-**\[replace (sep=X,)repStringXwithStringXcontent\]**  'replace' for replace  
+**\[replace (sep=X,)(lf=1,)repStringXwithStringXcontent\]**  'replace' for replace  
 This allows you to replace one \(sub\)string in the content
 with another string:
 
     [replace foo,bar,I went to the foo today] = "I went to the bar today"
+
+If you supply the `lf=1` option, then if `repString` or `withString` are 'lf',
+the line feed character will be either replaced or used as the target. This
+is rarely needed, but may come into play when preformatted HTML is in use.
 
 **\[count \(sep=X,\)\(overlaps=yes,\)\(casesens=yes,patternXcontent\)\]**  
 'count' for count  
