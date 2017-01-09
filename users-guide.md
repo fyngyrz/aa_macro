@@ -695,7 +695,7 @@ Examples:
 	[lslice ::-1,srcList,srcList]
 	[dlist srcList] = "dcba"
 
-**\[dlist \(style=styleName,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
+**\[dlist \(style=styleName,\)\(inter=INT,\)\(parms=PRE,\)\(posts=PST,\)listName\]**  'dlist' for dump list  
 Note: You may use either **style=styleName** or **wrap=styleName**  
 Dumps/displays a list, optionally wrapped in a style. If there is a local style, that
 is used. If not, and there is a global style, that is used.
@@ -704,9 +704,17 @@ is used. If not, and there is a global style, that is used.
 	[style lwrap ([b]) ]
 	[dlist style=lwrap,myList] = "(joe) (mary) (leroy) (luna) (betty) "
 
-If parms=PRE is supplied, then the list element is prefixed with PRE.
+If parms=PRE is supplied, then the list element is prefixed with PRE:
 
-If posts=PST is supplied, then the list element is postfixed with PST.
+    PRE a PRE b PRE c
+
+If posts=PST is supplied, then the list element is postfixed with PST:
+
+    a PST b PST c PST
+
+If inter=INT is supplied, then the list elements are interspersed with TXT:
+
+    a INT b INT c
 
 **\[e listName,indexN\]**  'e' for element of list  
 This outputs one list item selected by indexN:

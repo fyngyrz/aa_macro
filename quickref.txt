@@ -59,7 +59,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,lslice {r sliceSpec{co}}{r listName{co}}{r targetList}| slice listName to targetList] 
 [append bil,lsplit {o sep=^{co}}{o num=N{co}}{r listName}{co}{c}| split content into list]
 [append bil,ljoin {r listName}{co}{o joinTerm}| Join a list with joinTerm(s) between elements]
-[append bil,dlist {o wrap=styleName{co}}{o parms=PRE{co}}{o posts=PST{co}}listName| dump a list]  
+[append bil,dlist {o wrap=styleName{co}}{o parms=PRE{co}}{o inter=INT{co}}{o posts=PST{co}}listName| dump a list]  
 [append bil,e {r listName{co}}{r listIndex}| output item from list of length n (listIndex = 0 to n-1)]  
 [append bil,lcc {r listOne{co}}{r listTwo{co}}{r listResult}| list concatenate]  
 

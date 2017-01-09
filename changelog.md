@@ -7,9 +7,12 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.63
+ * [dlist] now has inter=INT option
+
 1.0.62
-* [split] now sets local variable loc_splitcount
-* [replace] now has lf=1 option
+ * [split] now sets local variable loc_splitcount
+ * [replace] now has lf=1 option
 
 1.0.61
  * [pythparse] added

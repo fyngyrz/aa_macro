@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.62 Beta
+     Version: 1.0.63 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -153,9 +153,11 @@ class macro(object):
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
-	[dlist (style=X,)(parms=X,)(posts=X,)listName]	# output list elements, can be wrapped with style X
-													  and with parms, if any, prefixed to list element
-													  and with posts, if any, postfixed to list element
+	[dlist (style=X,)(parms=X,)(inter=X)(posts=X,)listName]
+													# output list elements, can be wrapped with style X
+													# and with parms, if any, prefixed to list elements
+													# and with posts, if any, postfixed to list elements
+													# and with inter, if any, interspersed between list elements
 	[translate listName,text]						# characters are mapped to listName (see examples)
 	[ljoin listname,joinContent]					# join a list into a string with interspersed content
 	[scase listName,content]						# Case words as they are cased in listName
@@ -2683,10 +2685,11 @@ The contents of the list are safe to include in the output if you like.
 	# [dlist (style=styleName,)listName]
 	def dlist_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['wrap','style','parms','posts'],data)
+		opts,data = self.popts(['wrap','style','parms','posts','inter'],data)
 		style = ''
 		parms = ''
 		posts = ''
+		inter = ''
 		for el in opts:
 			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
@@ -2694,6 +2697,8 @@ The contents of the list are safe to include in the output if you like.
 				parms = el[1]
 			elif el[0] == 'posts=':
 				posts = el[1]
+			elif el[0] == 'inter=':
+				inter = el[1]
 		using = False
 		if style != '': # wrap with style mode
 			listname = data
@@ -2701,17 +2706,29 @@ The contents of the list are safe to include in the output if you like.
 				if self.styles.get(style,self.gstyles.get(style,'')) != '':
 					using = True
 					try:
+						tc = len(self.theLists[listname])
+						i = 1
 						for el in self.theLists[listname]:
-							ss = '[s %s %s%s%s]' % (style,parms,el,posts)
+							tint = ''
+							if i != tc:
+								tint = inter
+							ss = '[s %s %s%s%s]%s' % (style,parms,el,posts,tint)
 							o += self.do(ss)
+							i += 1
 					except:
 						pass
 		if using == False:	# no style wrapping mode
 			listname = data
 			if listname != '':
 				try:
+					i = 1
+					tc = len(self.theLists[listname])
 					for el in self.theLists[listname]:
-						o += parms+el+posts
+						tint = ''
+						if i != tc:
+							tint = inter
+						o += parms+el+tint+posts
+						i += 1
 				except:
 					pass
 		return o
