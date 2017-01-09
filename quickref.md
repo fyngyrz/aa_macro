@@ -77,7 +77,7 @@ Data Lists | &nbsp;
  <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;lcc **listOne&#44;****listTwo&#44;****listResult**&#93;</tt> |  list concatenate
- <tt>&#91;lsub \(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
+ <tt>&#91;lsub \(ci=1&#44;\)\(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
  <tt>&#91;asort **listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;aisort **listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
  <tt>&#91;isort \(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
@@ -306,7 +306,7 @@ Built-in | &nbsp;
  <tt>&#91;lset **listName&#44;****listIndex&#44;**itemContent&#93;</tt> |  Set a list item
  <tt>&#91;lslice **sliceSpec&#44;****listName&#44;****targetList**&#93;</tt> |  slice listName to targetList
  <tt>&#91;lsplit \(sep=^&#44;\)\(num=N&#44;\)**listName**&#44;content&#93;</tt> |  split content into list
- <tt>&#91;lsub \(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
+ <tt>&#91;lsub \(ci=1&#44;\)\(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
  <tt>&#91;ls&#93;</tt> |  left squiggly bracket
  <tt>&#91;ltol **listName** content&#93;</tt> |  convert lines of content to list
  <tt>&#91;lv **varName**&#93;</tt> |  local variable

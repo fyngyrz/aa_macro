@@ -741,7 +741,7 @@ being concatinated, a new list, or another existing list.
 	[lcc lone,ltwo,lthree]]
 	[dlist lthree] = "abcdef"
 
-**\[lsub \(sep=X,\)listName,content\]**  'lsub' for list substitution  
+**\[lsub \(ci=1,\)\(sep=X,\)listName,content\]**  'lsub' for list substitution  
 This takes a list of the form AsepB, where the default sep value is the
 "|" character.
 
@@ -756,6 +756,8 @@ You can use it the other way around just as easily:
 
 	[list normList,&amp;|&,&quot;|"]
 	[lsub normList,"&quot;She &amp; Me &amp; some Tequila&quot;"] = "She & Me & some Tequilia"
+
+If you provide the `ci=1` option, the replacement is done case-insensitively.
 
 **\[asort listName\]**  'asort' for alphabetic sort \(of list\)  
 Sorts listName alphabetically, case-sensitive \(capital letters come first.\)

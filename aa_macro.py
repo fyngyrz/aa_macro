@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.65 Beta
+     Version: 1.0.66 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -152,7 +152,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
-	[lsub (sep=X,)listName,content]					# sequenced replacement by list
+	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
 													# and with parms, if any, prefixed to list elements
@@ -846,24 +846,51 @@ The contents of the list are safe to include in the output if you like.
 				self.theLists[lnr] = l1 + l2
 		return o
 
-	# [lsub (sep=X,)listName,content] - sep defaults to '|'
+	def ireplace(self,old,new,text):
+	    idx = 0
+	    while idx < len(text):
+	        index_l = text.lower().find(old.lower(), idx)
+	        if index_l == -1:
+	            return text
+	        text = text[:index_l] + new + text[index_l + len(old):]
+	        idx = index_l + len(old)
+	    return text
+
+	def cir(self,term,rterm,content):
+		ix0 = 0
+		while ix0 < len(content):
+			ix = content.lower().find(term.lower(), ix0)
+			if ix == -1:
+				return content
+			content = content[:ix] + rterm + content[ix + len(term):]
+			ix0 = ix + len(term)
+		return content
+
+	# [lsub (ci=1,)(sep=X,)listName,content] - sep defaults to '|'
 	def lsub_fn(self,tag,data):
 		o = ''
 		sep = '|'
-		opts,data = self.popts(['sep'],data)
+		ci = False
+		opts,data = self.popts(['sep','ci'],data)
 		p = data.split(',',1)
 		if len(p) == 2:
 			ln,content = p
 			for el in opts:
 				if el[0] == 'sep=':
 					sep = el[1]
+				if el[0] == 'ci=':
+					if el[1] == '1':
+						ci = True
 			ll = self.theLists.get(ln,[])
 			if ll != []:
 				for el in ll:
 					p = el.split(sep)
 					if len(p) == 2:
 						t,r = p
-						content = content.replace(t,r)
+						if ci:
+							content = self.cir(t,r,content)
+						else:
+							content = content.replace(t,r)
 				o = content
 		else:
 			o = data

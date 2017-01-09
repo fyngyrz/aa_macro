@@ -63,7 +63,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,e {r listName{co}}{r listIndex}| output item from list of length n (listIndex = 0 to n-1)]  
 [append bil,lcc {r listOne{co}}{r listTwo{co}}{r listResult}| list concatenate]  
 
-[append bil,lsub {o sep=X{co}}{r listName{co}}{c}| list of form AsepB, A=B in content]  
+[append bil,lsub {o ci=1{co}}{o sep=X{co}}{r listName{co}}{c}| list of form AsepB, A=B in content]  
 [append bil,asort {r listName}| ASCII alphabetic sort of list{co} in place]  
 [append bil,aisort {r listName}| ASCII case-insensitive sofr of list{co} in place]  
 [append bil,isort {o sep=X{co}}{r listName}| sort by leading integer{co} sep defaults to {q}{co}{q}]  
