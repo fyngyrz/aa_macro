@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.64
+ * [dlist] now has ntl=NTL option
+
 1.0.63
  * [dlist] now has inter=INT option
 

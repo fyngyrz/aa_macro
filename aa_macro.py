@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.63 Beta
+     Version: 1.0.64 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -153,11 +153,12 @@ class macro(object):
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
 	[lsub (sep=X,)listName,content]					# sequenced replacement by list
-	[dlist (style=X,)(parms=X,)(inter=X)(posts=X,)listName]
+	[dlist (style=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
 													# and with parms, if any, prefixed to list elements
 													# and with posts, if any, postfixed to list elements
 													# and with inter, if any, interspersed between list elements
+													# and ntl, if any, this goes between next to last and last
 	[translate listName,text]						# characters are mapped to listName (see examples)
 	[ljoin listname,joinContent]					# join a list into a string with interspersed content
 	[scase listName,content]						# Case words as they are cased in listName
@@ -2682,14 +2683,15 @@ The contents of the list are safe to include in the output if you like.
 			pass
 		return o
 
-	# [dlist (style=styleName,)listName]
+	# [dlist (style=styleName,)(wrap=styleName,)(parms=PRE,)(posts=PST,)(inter=INT,)(ntl=NTL,)listName]
 	def dlist_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['wrap','style','parms','posts','inter'],data)
+		opts,data = self.popts(['wrap','style','parms','posts','inter','ntl'],data)
 		style = ''
 		parms = ''
 		posts = ''
 		inter = ''
+		ntl = ''
 		for el in opts:
 			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
@@ -2699,6 +2701,8 @@ The contents of the list are safe to include in the output if you like.
 				posts = el[1]
 			elif el[0] == 'inter=':
 				inter = el[1]
+			elif el[0] == 'ntl=':
+				ntl = el[1]
 		using = False
 		if style != '': # wrap with style mode
 			listname = data
@@ -2712,6 +2716,8 @@ The contents of the list are safe to include in the output if you like.
 							tint = ''
 							if i != tc:
 								tint = inter
+							if tc > 1 and i == (tc - 1) and ntl != '':
+								tint = ntl
 							ss = '[s %s %s%s%s]%s' % (style,parms,el,posts,tint)
 							o += self.do(ss)
 							i += 1
@@ -2727,6 +2733,8 @@ The contents of the list are safe to include in the output if you like.
 						tint = ''
 						if i != tc:
 							tint = inter
+						if tc > 1 and i == (tc - 1) and ntl != '':
+							tint = ntl
 						o += parms+el+tint+posts
 						i += 1
 				except:

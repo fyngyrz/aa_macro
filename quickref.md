@@ -74,7 +74,7 @@ Data Lists | &nbsp;
  <tt>&#91;lslice **sliceSpec&#44;****listName&#44;****targetList**&#93;</tt> |  slice listName to targetList
  <tt>&#91;lsplit \(sep=^&#44;\)\(num=N&#44;\)**listName**&#44;content&#93;</tt> |  split content into list
  <tt>&#91;ljoin **listName**&#44;\(joinTerm\)&#93;</tt> |  Join a list with joinTerm(s) between elements
- <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
+ <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;lcc **listOne&#44;****listTwo&#44;****listResult**&#93;</tt> |  list concatenate
  <tt>&#91;lsub \(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
@@ -245,7 +245,7 @@ Built-in | &nbsp;
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;div **value** **divisor**&#93;</tt> |  divide two numbers
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
- <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
+ <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;dtobin (digits=N,)**value**&#93;</tt> |  decimal to binary conversion
  <tt>&#91;dtohex (digits=N,)**value**&#93;</tt> |  decimal to hexadecimal conversion
