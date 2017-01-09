@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.65
+ * [dlist] bugfix: non-style post= moved prior to inter= 
+
 1.0.64
  * [dlist] now has ntl=NTL option
 

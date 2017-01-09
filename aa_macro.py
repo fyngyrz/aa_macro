@@ -23,7 +23,7 @@ class macro(object):
                  responsibilities and any subsequent consequences are entirely yours. Have you
                  written your congresscritter about patent and copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 8th, 2017     (for Class)
+     LastRev: January 9th, 2017     (for Class)
   LastDocRev: December 23rd, 2015     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.64 Beta
+     Version: 1.0.65 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2735,7 +2735,7 @@ The contents of the list are safe to include in the output if you like.
 							tint = inter
 						if tc > 1 and i == (tc - 1) and ntl != '':
 							tint = ntl
-						o += parms+el+tint+posts
+						o += parms+el+posts+tint
 						i += 1
 				except:
 					pass
