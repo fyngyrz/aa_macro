@@ -846,16 +846,6 @@ The contents of the list are safe to include in the output if you like.
 				self.theLists[lnr] = l1 + l2
 		return o
 
-	def ireplace(self,old,new,text):
-	    idx = 0
-	    while idx < len(text):
-	        index_l = text.lower().find(old.lower(), idx)
-	        if index_l == -1:
-	            return text
-	        text = text[:index_l] + new + text[index_l + len(old):]
-	        idx = index_l + len(old)
-	    return text
-
 	def cir(self,term,rterm,content):
 		ix0 = 0
 		while ix0 < len(content):
