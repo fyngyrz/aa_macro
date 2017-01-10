@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.68 Beta
+     Version: 1.0.69 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2072,17 +2072,17 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def pprep(self,o):
-		o = o.replace('[','xy3zy')
+		o = o.replace('[','xy33y')
 		o = o.replace(']','[rb]')
-		o = o.replace('xy3zy','[lb]')
-		o = o.replace('{','xy3zy')
+		o = o.replace('xy33y','[lb]')
+		o = o.replace('{','xy33y')
 		o = o.replace('}','[rs]')
-		o = o.replace('xy3zy','[ls]')
+		o = o.replace('xy33y','[ls]')
 		return o
 
 	def pythparse_fn(self,tag,data):
-		data = self.pprep(data)
 		o = self.postparse_fn(tag,data)
+		o = self.pprep(o)
 		self.theGlobals['loc_pyth'] = o
 		return ''
 

@@ -835,7 +835,7 @@ They do not handle line continuation, but in the specific case of
 line continuation in code segments, they will parse correctly.
 Multiline strings will not work. Perhaps someday. :)
 
-`[ptyhparse]` generates prettyprinted Python into a local variable
+`[pythparse]` generates prettyprinted Python into a local variable
 named `loc_pyth`.
 
 '[pythparse]' must be used at the top level; you can't embed it

@@ -7,6 +7,9 @@ such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
 
+1.0.69
+ * bug in [pythparse], fixed
+
 1.0.68
  * [resolve] now has hex=1 option
 
