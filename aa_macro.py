@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.67 Beta
+     Version: 1.0.68 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -279,7 +279,7 @@ class macro(object):
 	[date]											# date processing took place
 	[time]											# time processing took place
 	[fref label]									# forward reference
-	[resolve label,content]							# resolve forward reference(s) to lable
+	[resolve (hex=1,)label,content]					# resolve forward label reference(s) to content
 	[sys shellCommand]								# execute shell command
 	[repeat count content]							# repeat content count times
 													# count may be any one of:
@@ -791,11 +791,29 @@ The contents of the list are safe to include in the output if you like.
 			o += key
 		return o
 
-	# [reso label,content]
+	# [reso (hex=1,)label,content]
 	def reso_fn(self,tag,data):
+		dh = ''
+		opts,data = self.popts(['hex'],data)
+		for el in opts:
+			if el[0] == 'hex=':
+				dh = el[1]
 		p = data.split(',',1)
 		if len(p) == 2:
 			k,c = p
+			if dh == '1':
+				em = 'bad hex value for resolve of label "'+k+'"'
+				kl = len(c)
+				cc = ''
+				if (kl & 1 == 0) and kl != 0: # has to be even, can't be non-zero
+					for i in range(0,kl,2):
+						try:
+							cc += chr(int(c[i:i+2],16))
+						except:
+							return em
+					c = cc
+				else:
+					return em
 			key = self.mkey(k)
 			self.refs[key] = c
 		return ''
@@ -3414,7 +3432,7 @@ The contents of the list are safe to include in the output if you like.
 		self.fns = {
 					# escape codes
 					# ------------
-					'co'	: self.co_fn,		#	,	comma
+					'co'	: self.co_fn,		#	,	HTML char-encoded comma
 					'sp'	: self.sp_fn,		#	,	space
 					'lb'	: self.lb_fn,		#	[	left square bracket
 					'rb'	: self.rb_fn,		#	]	right square bracket

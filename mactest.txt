@@ -503,6 +503,10 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 -----
 [resolve thing,foobar, brother]  
 -----
+[fref co] and again: [fref co]
+-----
+[resolve hex=1,co,2c]
+-----
 [style showab [split [co],[b]][parm 0][parm 1]]
 {showab C,D,E}
 [dict hcdict,Marty:KA7GKN,Ben:AA7AS,Larry:W3OZ,George:W4KVU]  

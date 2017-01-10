@@ -2060,5 +2060,16 @@ for referring to something that has yet to be processed. This is a global
 forward reference, so make sure your labels are unique all across your
 document.
 
-**\[resolve label,content\]**  fref for resolve
-This inserts `content` into all previous ocurrances of \[fref labl\].
+**\[resolve \(hex=1\)label,content\]**  fref for resolve
+This inserts `content` into all previous occurrances of \[fref labl\].
+
+If the `hex=1` option is supplied, then content must be a continuous string
+of 2-digit hexadecimal values. For instance, you could use this to emplace
+literal ASCII comma and space:
+
+    she[fref cosp]and I
+	[resolve hex=1,cosp,2c20]
+
+The result would be:
+
+    she, and I

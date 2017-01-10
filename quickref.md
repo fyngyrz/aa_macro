@@ -205,7 +205,7 @@ Styles | &nbsp;
  <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
- <tt>&#91;resolve **lable&#44;**content&#93;</tt> |  resolve reference
+ <tt>&#91;resolve \(hex=1&#44;\)**lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;listg \(mode=global&#93;</tt> | local&#44;\)**listName&#44;**content| resolve reference
 
 
@@ -328,7 +328,7 @@ Built-in | &nbsp;
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
  <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
- <tt>&#91;resolve **lable&#44;**content&#93;</tt> |  resolve reference
+ <tt>&#91;resolve \(hex=1&#44;\)**lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral
  <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)

@@ -176,7 +176,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,spage| reset local styles to [i none]]  
 [append bil,ghost {o source=global[vb]local{co}}{r stylename}| output style without processing it]  
 [append bil,fref {r lable}| forward (or backward) reference]  
-[append bil,resolve {r lable{co}}{c}| resolve reference]  
+[append bil,resolve {o hex=1{co}}{r lable{co}}{c}| resolve reference]  
 [append bil,listg {o mode=global|local{co}}{r listName{co}}{c}| resolve reference]  
   
 {# The following generates the page}  
