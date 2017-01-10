@@ -767,7 +767,7 @@ Sorts listName alphabetically, case-sensitive \(capital letters come first.\)
 **\[aisort listName\]**  'aisort' for alphabetic insensitive sort \(of list\)  
 Sorts listName alphabetically, case-INsensitive \(capital letters same as lower case.\)
 
-**\[isort \(sep=X,)listName\]**  'isort' for integer sort \(of list\)  
+**\[isort \(sep=X,\)listName\]**  'isort' for integer sort \(of list\)  
 Sort listName by a leading integer, separated from the rest of the list items
 by a comma or the optional separator. So the list would be in this kind of
 format:
@@ -818,13 +818,13 @@ so if you do this...
 
 Then this...
 
-    [translate myList,ABO]
+    [translate pre=0x,inter=[co] ,myList,ABO]
 
-You get this:
+You get this HTML:
 
-   41424F
+   0x41, 0x42, 0x4F
 
-**\[translate listName,content\]**  'translate' for translation  
+**\[translate \(pre=PRE,\)\(post=POST,\)\(inter=INTER,\)listName,content\]**  'translate' for translation  
 See \[cmap\] and \[hmap\], just above
 
 **\[postparse content\]**  'postparse' to prettyprint content  

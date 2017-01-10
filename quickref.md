@@ -84,7 +84,7 @@ Data Lists | &nbsp;
  <tt>&#91;lhsort **listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
- <tt>&#91;translate **listName&#44;**content&#93;</tt> |  translate content using character map formatted list
+ <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
 
@@ -352,7 +352,7 @@ Built-in | &nbsp;
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
  <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
- <tt>&#91;translate **listName&#44;**content&#93;</tt> |  translate content using character map formatted list
+ <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;u content&#93;</tt> |  HTML underline
  <tt>&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase

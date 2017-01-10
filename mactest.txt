@@ -210,10 +210,9 @@ should be no content: "{gsetme}"
 stripe charset=xy,xytestingyx = [stripe charset=xy,xytestingyx]
   
 [hmap hlist]  
-[translate hlist,ABC]  
+[translate hlist,ABC]
+[translate pre=0x,inter=[co] ,post=.,hlist,ABC]
   
-
-
 [local cont this is a test
 of the emergency broadcast system]
 content:

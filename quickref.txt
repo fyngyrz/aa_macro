@@ -70,7 +70,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,lhsort {r listName}| sort list by leading amateur radio callsign{co}, any non-alphanumeric sep]  
 [append bil,cmap {r listName}| create 1:1 character map]  
 [append bil,hmap {r listName}| create 1:1 character map to hex values]  
-[append bil,translate {r listName{co}}{c}| translate content using character map formatted list]  
+[append bil,translate {o pre=PRE{co}}{o post=POST{co}}{o inter=INTER{co}}{r listName{co}}{c}| translate content using character map formatted list]  
 [append bil,postparse {c}| pretty-print Python 2.7 code (use black background)]
 [append bil,pythparse {c}| pretty-print Python 2.7 code (use black background)]
   
