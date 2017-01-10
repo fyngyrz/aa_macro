@@ -2031,6 +2031,7 @@ styles are not used.
 Unsets all local styles. Global styles are not affected.
 
 **\[listg \(source=local\) listName\]**  'listg' for list generate  
+
 This creates a list containing the names of all the global or
 local styles. Global is the default. Once the list has been created
 you can use it with **\[dlist\]** and a custom output style to output the
@@ -2041,6 +2042,7 @@ styles in a web-compatible format like this:
 	[dlist style=fldg,gslist]
 
 **\[ghost \(source=global|local\)\]**  'ghost' for ghost  
+
 This outputs a style verbatim, without processing it. Invoked without
 the source option, it works like \[s styleName\] and \{styleName\}, which
 is to say it will output a local style if one exists, otherwise it will
@@ -2054,6 +2056,7 @@ With source=local, it will output the local style, or if the local style
 does not exist, there will be no output.
 
 **\[fref label\]**  fref for forward reference  
+
 This places a marker in the content to be resolved by a corresponding
 \[resolve label,content\] instance later in the content. It is useful
 for referring to something that has yet to be processed. This is a global
@@ -2061,6 +2064,7 @@ forward reference, so make sure your labels are unique all across your
 document.
 
 **\[resolve \(hex=1\)label,content\]**  fref for resolve
+
 This inserts `content` into all previous occurrances of \[fref labl\].
 
 If the `hex=1` option is supplied, then content must be a continuous string
