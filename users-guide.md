@@ -1464,6 +1464,16 @@ Comma-separate a floating point number:
 
     [fcsep 1999333.01] = "1,999,333.01"
 
+**\[th intNumber\]**  'th' for st, nd, rd, th...
+Return suffix for integer:
+
+    [th 3] = "rd"
+
+**\[nd intNumber\]**  'nd' for 1st, 2nd, 3rd, 4th...
+Return suffix for integer:
+
+    [nd 3] = "3rd"
+
 **\[dup n,content\]**  'dup' for duplicate  
 Duplicate the content.
 

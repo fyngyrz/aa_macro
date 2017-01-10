@@ -146,6 +146,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,rjust {r width{co}}{r padChar{co}}{c}| right justify]  
 [append bil,ljust {r width{co}}{r padChar{co}}{c}| left justify]  
 [append bil,center {r width{co}}{r padChar{co}}{c}| center (neg width indicates pad both sides)]  
+[append bil,th {r integer}| st, nd, rd, th...]  
+[append bil,nd {r integer}| 1st, 2nd, 3rd, 4th...]  
   
 [append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  

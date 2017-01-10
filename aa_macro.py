@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.69 Beta
+     Version: 1.0.70 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -273,6 +273,8 @@ class macro(object):
 *	[center width,padChar,content]					# e.g. [center 7,#,foo] = "##foo"
 													  negative width means pad both sides:
 														   [center -7,=,foo] = "==foo=="
+	[th integer]									# returns st, nd, rd, th...
+	[nd integer]									# returns 1st, 2nd, 3rd, 4th...
 
 	Misc
 	----
@@ -2416,6 +2418,25 @@ The contents of the list are safe to include in the output if you like.
 	def co_fn(self,tag,data):
 		return '&#44;'
 
+	def th_fn(self,tag,data):
+		try:
+			n = int(data)
+		except:
+			return ''
+		x = n % 10
+		th = 'th'
+		if x == 1 and n != 11: th = 'st'
+		elif x == 2 and n != 12: th = 'nd'
+		elif x == 3 and n != 13: th = 'rd'
+		return th
+
+	def nd_fn(self,tag,data):
+		try:
+			n = int(data)
+		except:
+			return ''
+		return str(n)+self.th_fn('',n)
+
 	# [usdate YYYYmmDD]
 	def usdate_fn(self,tag,data):
 		e = '? usdate: bad date ?'
@@ -3616,6 +3637,8 @@ The contents of the list are safe to include in the output if you like.
 					'slit'	: self.slit_fn,		# [hlit style-name]
 					'postparse':self.postparse_fn, # [postparse text]
 					'pythparse':self.pythparse_fn, # [pythparse text]
+					'th'	: self.th_fn,		# [th integer] = st, nd, rd, th
+					'nd'	: self.nd_fn,		# [th integer] = 1st, 2nd, 3rd, 4th
 
 					# Miscellaneous
 					# -------------

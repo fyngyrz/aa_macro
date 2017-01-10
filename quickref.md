@@ -169,6 +169,8 @@ Text Processing | &nbsp;
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;ljust **width&#44;****padChar&#44;**content&#93;</tt> |  left justify
  <tt>&#91;center **width&#44;****padChar&#44;**content&#93;</tt> |  center (neg width indicates pad both sides)
+ <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
+ <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
 
 Miscellanea | &nbsp;
 ----------- | ----
@@ -314,6 +316,7 @@ Built-in | &nbsp;
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
  <tt>&#91;mul **value** **multiplier**&#93;</tt> |  multiply two numbers
+ <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
  <tt>&#91;ne **value&#44;**content&#93;</tt> |  if value is empty&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
@@ -351,6 +354,7 @@ Built-in | &nbsp;
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
+ <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
  <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;u content&#93;</tt> |  HTML underline
