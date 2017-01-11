@@ -50,6 +50,8 @@
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>vs <b><font color="#00FF00">varName</font></b> <b><font color="#FFFF00">varContent</font></b><font color="#00FFFF">&#93;</font></tt></td><td> local variable definition</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>gv <b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> global variable</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>lv <b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> local variable</td></tr>
+<tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>vinc <b><font color="#FF0000">pre=1&#44;</font></b><b><font color="#FF0000">quiet=1&#44;</font></b><b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> increment local(global) variable</td></tr>
+<tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>vdec <b><font color="#FF0000">pre=1&#44;</font></b><b><font color="#FF0000">quiet=1&#44;</font></b><b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> decrement local(global) variable</td></tr>
 <tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Data Lists</font></th></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>list <b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#00FF00">listname</font></b>&#44;<b><font color="#FFFF00">itemContent</font></b><b><font color="#FF0000">XitemContent</font></b><font color="#00FFFF">&#93;</font></tt></td><td> create or overwrite a list</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>clearl <b><font color="#00FF00">listName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> Discards list content</td></tr>
@@ -124,7 +126,7 @@
 <tr bgcolor="#000000"><td <tt><font color="#00FFFF">&#91;</font>otodec (digits=N>)<b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> octal to decimal conversion</td></tr>
 <tr bgcolor="#181818"><td <tt><font color="#00FFFF">&#91;</font>btodec (digits=N>)<b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> binary to decimal conversion</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>crush &#44;<font color="#00FFFF">&#93;</font></tt></td><td> return packed alphanumerics</td></tr>
-<tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>wwrap <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> word wrap content at column value</td></tr>
+<tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>wwrap <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#FF0000">nohtml=1&#44;</font></b><b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> word wrap content at column value</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>len <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> return length of content in characters</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>wc <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> return length of content in words</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>lc <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> return length of content in lines</td></tr>
@@ -331,11 +333,13 @@
 <tr><td><tt><font color="#00FFFF">&#91;</font>ul <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#FFFF00">itemContent<b><font color="#FF0000">XitemContent</font></b></font></b><font color="#00FFFF">&#93;</font></tt></td><td> HTML unordered list</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>upper <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> convert to uppercase</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>v <b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> local/global variable</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>vdec <b><font color="#FF0000">pre=1&#44;</font></b><b><font color="#FF0000">quiet=1&#44;</font></b><b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> decrement local(global) variable</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>vinc <b><font color="#FF0000">pre=1&#44;</font></b><b><font color="#FF0000">quiet=1&#44;</font></b><b><font color="#00FF00">varName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> increment local(global) variable</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>vlit <b><font color="#FF0000">format=1&#44;</font></b><b><font color="#00FF00">variable-name</font></b><font color="#00FFFF">&#93;</font></tt></td><td> places LITERAL content in local variable loc_vlit</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>vs <b><font color="#00FF00">varName</font></b> <b><font color="#FFFF00">varContent</font></b><font color="#00FFFF">&#93;</font></tt></td><td> local variable definition</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>wc <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> return length of content in words</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>wepath <b><font color="#00FF00">webPathToImages</font></b><font color="#00FFFF">&#93;</font></tt></td><td> path for <font color="#00FFFF">&#91;</font>locimg<font color="#00FFFF">&#93;</font></td></tr>
-<tr><td><tt><font color="#00FFFF">&#91;</font>wwrap <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> word wrap content at column value</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>wwrap <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#FF0000">nohtml=1&#44;</font></b><b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> word wrap content at column value</td></tr>
 </table>
 </BODY>
 </HTML>

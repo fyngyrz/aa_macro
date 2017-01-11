@@ -592,6 +592,16 @@ If no local variable has been set, then there is no result.
 **\[page\]**  'page' for a conceptually blank page  
 Unsets all local variables. Global variables are not affected.
 
+**\[vinc \(quiet=1,\)\(pre=1,\)variableName\]**  'vinc' for increment local(global) variable
+Increments a local variable, or a global one if no local exists. If quiet=1 is supplied,
+no output is produced, the operation proceeds silently. If pre=1 is supplied \(and quiet=1 is not\)
+then the output is the value of the variable _before_ it was incremented.
+
+**\[vdec \(quiet=1,\)\(pre=1,\)variableName\]**  'vinc' for decrement local(global) variable
+Decrements a local variable, or a global one if no local exists. If quiet=1 is supplied,
+no output is produced, the operation proceeds silently. If pre=1 is supplied \(and quiet=1 is not\)
+then the output is the value of the variable _before_ it was decremented.
+
 ### Data Lists
 
 **\[list \(sep=X,\)listName,item\(Xitem\)\]**  'list' to create a list  
@@ -1331,9 +1341,11 @@ Convert a binary number to a decimal number:
 
 	[btodec 11] = "3"
 
-**\[wwrap \(wrap=style,\)col,content\]**  'wwrap' for word wrap  
+**\[wwrap \(nohtml=1,\)\(wrap=style,\)col,content\]**  'wwrap' for word wrap  
 This word wraps when content exceeds column `col`. Whitespace
 is collapsed.
+
+If `nohtml=1` is provided, then HTML tags are not included in the line length.
 
 If no style is provided, the "wrap" consists of a trailing newline at
 the end of each wrapped line.

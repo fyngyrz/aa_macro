@@ -122,6 +122,12 @@
 [global bing bong][v bing]
 [global foo bip][v foo][gv foo][lv foo]
 [page][v foo][gv foo][lv foo] Hooray!
+[local x 1]  
+[vinc x]
+[vdec x]
+[vinc pre=1,x]
+[vdec pre=1,x]
+[v x]
 ]
 
 {h2 stack}
@@ -394,6 +400,16 @@ Word wrap at 31 columns, with style
 [style mywrap ([b])[nl]]  
 [dup 4,[v cbar]]
 [wwrap wrap=mywrap,31,[v cont]]  
+
+Word wrap with HTML
+123456789 123456789 123456789 
+[wwrap 30,This is a <b>test</b> of the emergency <font color="#ff0000">broadcast system</font>. This is <i>only</i> a test. If this had been a real emergency, you
+would have been instructed to weep in abject fear.]
+
+Word wrap with HTML, but not counting it
+123456789 123456789 123456789 
+[wwrap nohtml=1,30,This is a <b>test</b> of the emergency <font color="#ff0000">broadcast system</font>. This is <i>only</i> a test. If this had been a real emergency, you
+would have been instructed to weep in abject fear.]
 
 Unsorted list:
 --------------

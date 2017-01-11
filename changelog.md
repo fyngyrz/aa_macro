@@ -6,6 +6,15 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.74
+ * [wwrap] now has nohtml=1 option (plus [wwrap] entirely re-written)
+
+1.0.73
+ * [vinc] and [vdec] added
+
+1.0.72
+ * ? lol
+
 1.0.71
  * [if] and [else] now have sep=X option
 

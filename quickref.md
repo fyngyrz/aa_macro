@@ -59,6 +59,8 @@ Variables | &nbsp;
  <tt>&#91;vs **varName** varContent&#93;</tt> |  local variable definition
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
  <tt>&#91;lv **varName**&#93;</tt> |  local variable
+ <tt>&#91;vinc \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  increment local(global) variable
+ <tt>&#91;vdec \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  decrement local(global) variable
 
 Data Lists | &nbsp;
 ---------- | ----
@@ -145,7 +147,7 @@ Text Processing | &nbsp;
  <tt>&#91;otodec (digits=N,)**value**&#93;</tt> |  octal to decimal conversion
  <tt>&#91;btodec (digits=N,)**value**&#93;</tt> |  binary to decimal conversion
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
- <tt>&#91;wwrap \(wrap=style&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
+ <tt>&#91;wwrap \(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
  <tt>&#91;len content&#93;</tt> |  return length of content in characters
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
  <tt>&#91;lc content&#93;</tt> |  return length of content in lines
@@ -361,10 +363,12 @@ Built-in | &nbsp;
  <tt>&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
  <tt>&#91;v **varName**&#93;</tt> |  local/global variable
+ <tt>&#91;vdec \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  decrement local(global) variable
+ <tt>&#91;vinc \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  increment local(global) variable
  <tt>&#91;vlit \(format=1&#44;\)**variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
  <tt>&#91;vs **varName** varContent&#93;</tt> |  local variable definition
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
  <tt>&#91;wepath **webPathToImages**&#93;</tt> |  path for &#91;locimg&#93;
- <tt>&#91;wwrap \(wrap=style&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
+ <tt>&#91;wwrap \(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
 
 

@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.72 Beta
+     Version: 1.0.74 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -134,6 +134,9 @@ class macro(object):
 	[v variableName]								# use a variable (local, if not local, then global)
 	[gv variableName]								# use the global variable and ignore the local
 	[lv variableName]								# use the local variable and ignore the global
+	[vinc (quiet=1,)(pre=1,)variableName]			# increment a local(global) variable
+	[vdec (quiet=1,)(pre=1,)variableName]			# deccrement a local(global) variable
+	
 	[page]											# reset local environment: variables
 													  global variables are unaffected
 
@@ -236,7 +239,7 @@ class macro(object):
 	[len content]									# return length of content in characters
 	[lc content]									# return length of content in lines
 	[wc content]									# return length of content in words
-	[wwrap (wrap=style,)col,content]				# wrap content at col - styles usually want newlines
+	[wwrap (nohtml=1,)(wrap=style,)col,content]		# wrap content at col - styles usually want newlines
 	[roman decNumber]								# convert decimal to roman (1...4000)
 	[dtohex decNumber]								# convert decimal to hexadecimal
 	[dtooct decNumber]								# convert decimal to octal
@@ -944,67 +947,107 @@ The contents of the list are safe to include in the output if you like.
 		ll = self.theLists.get(data,[])
 		return str(len(ll))
 
-	# [wwrap (wrap=style,)cols,content]
+	def nocounthtml(self,s):
+		ll = 0
+		for c in s:
+			if c == '<': self.wstate = 1
+			elif c == '>': self.wstate = 0
+			else:
+				if self.wstate == 0:
+					ll += 1
+		return ll
+
+	# [wwrap (nohtml=1,)(wrap=style,)cols,content]
 	def wwrap_fn(self,tag,data):
+		def emit_line(o,line,wrap):
+			if wrap == '':
+				o = o + line + '\n'
+			else:
+				o = o + self.do('[s ' + wrap + ' ' + line + ']')
+			return o
 		o = ''
-		opts,data = self.popts(['wrap'],data)
+		opts,data = self.popts(['wrap','nohtml'],data)
 		wrap = ''
+		nohtml = ''
 		for el in opts:
 			if el[0] == 'wrap=':
 				t = self.styles.get(el[1],'')
 				if t != '':
 					wrap = el[1]
+			elif el[0] == 'nohtml=':
+				nohtml = el[1]
 		p = data.split(',',1)
 		if len(p) == 2:
 			try:
-				col = int(p[0])
+				maxl = int(p[0]) - 1
+				if maxl < 1: return data
 			except:
-				pass
-			else:
-				llist = p[1].split('\n')
-				if len(llist) != 0:
-					wlist = []
-					for el in llist:
-						if el != '':
-							el = el.replace('\t',' ')
-							oel = ''
-							while oel != el:
-								oel = el
-								el = el.replace('  ',' ')
-							el = el.strip()
-							wlist += el.split(' ')
-					ll = 0
-					bol = True
-					li = ''
-					for w in wlist:
-						uw = w
-						if bol != True:
-							uw = ' ' + w
-						wl = len(uw)
-						if ll + wl > col:	# then wrap exceeded
-							if bol == True:	# 	then word is longer than wrap can handle
-								li = w
-								w = ''
-							# current line is ready for output
-							# --------------------------------
-							if wrap != '':	# use style?
-								o += self.do('[s ' + wrap + ' ' + li + ']')
-							else:			# no style
-								o += li + '\n'
-							bol = True
-							li = w
-							ll = len(li)
-							if ll != 0:
-								bol = False
-						else:				# ll not exceeded, join word to line
-							bol = False
-							li += uw
-							ll += wl
-					if ll != '':	# IF line pending
-						if wrap != '':	# IF use style
-							o += self.do('[s ' + wrap + ' ' + li + ']')
-						else:			# ELSE no style
-							o += li + '\n'
+				return 'Missing or invalid col value for wwrap'
+			data = p[1]
+			if len(data) == 0: return ''
+			data = data.replace('\n',' ')
+			data = data.replace('\t',' ')
+			while data.find('  ') != -1:
+				data = data.replace('  ',' ')
+			f = ''
+			flag = '0'
+			for c in data:
+				if c == '<':
+					flag = '1'
+					f += '1'
+				elif c == '>':
+					f += '1'
+					flag = '0'
+				else:
+					f += flag
+			# now we have a corresponding in-tag/out-tag flagset for the data in f
+			wlen = 0
+			dl = len(data)
+			i = -1
+			cll = 0
+			accum = ''
+			line = ''
+			dx = dl - 1
+			while i < dx:
+				i += 1
+				c = data[i]
+				if nohtml == '1':
+					flag = f[i]
+				else:
+					flag = '0'
+				if flag == '0': # we're parsing non-tag content
+					if c == ' ' or i == dl-1: # word break here?
+						if c != ' ':
+							accum += c
+							wlen += 1
+						if wlen + 1 > maxl: # ridiculous (word+' ')?
+							if line != '':
+								o = emit_line(o,line,wrap) # then blow out current line
+							o = emit_line(o,accum,wrap) # dump this pig, without a trailing space
+							line = '' # and start over
+							accum= ''
+							wlen = 0
+						elif cll + wlen > maxl: # if adding this word is too long
+							o = emit_line(o,line,wrap)
+							line = accum
+							cll = wlen
+							wlen = 0
+							accum = ''
+						else:
+							if line != '':
+								line += ' '
+								cll += 1
+							line += accum
+							cll += wlen
+							accum = ''
+							wlen = 0
+					else: # character is not a space or last in content
+						wlen += 1
+						accum += c
+				else: # parsing tag content
+					accum += c # we just keep adding chars without counting them
+			if line != '':
+				o = emit_line(o,line,wrap)
 		return o
 
 	def hsort_fn(self,tag,data):
@@ -2494,6 +2537,41 @@ The contents of the list are safe to include in the output if you like.
 			self.theLists[data] = []
 		return ''
 
+	# [vinc (quiet=1,)(pre=1,)variableName]
+	def vmod_fn(self,tag,data,amt):
+		pre = ''
+		quiet = ''
+		x = '0'
+		opts,data = self.popts(['pre','quiet'],data)
+		for el in opts:
+			if el[0] == 'pre=':
+				pre = el[1]
+			if el[0] == 'quiet=':
+				quiet = el[1]
+		try:
+			l,x = self.fetchVar(data)
+			x = int(x)
+			dv = str(x)
+			x += amt
+			if pre != '1':
+				dv = str(x)
+			if l == 1: # if local var was fetched
+				self.theLocals[data] = str(x)
+			else: # global
+				self.theGlobals[data] = str(x)
+			x = str(dv)
+		except: x = '0'
+		if quiet == '1': x = ''
+		return(x)
+
+	# [vdec (quiet=1,)(pre=1,)variableName]
+	def vdec_fn(self,tag,data):
+		return self.vmod_fn(tag,data,-1)
+
+	# [vinc (quiet=1,)(pre=1,)variableName]
+	def vinc_fn(self,tag,data):
+		return self.vmod_fn(tag,data,1)
+
 	# [list (sep=X,)listName,listContent]
 	def list_fn(self,tag,data):
 		o = ''
@@ -3596,6 +3674,8 @@ The contents of the list are safe to include in the output if you like.
 					'lv'	: self.lv_fn,		# use local variable						P1 -->
 					'v'		: self.v_fn,		# use local variable. if none, use global	P1 -->
 					'clear'	: self.clear_fn,	# clear a local variable					'' -> P1
+					'vinc'	: self.vinc_fn,		# increment a local(global) variable
+					'vdec'	: self.vdec_fn,		# deccrement a local(global) variable
 					
 					# stack
 					# -----
