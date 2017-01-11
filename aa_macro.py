@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.70 Beta
+     Version: 1.0.71 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -209,8 +209,8 @@ class macro(object):
 	------------
 *	[even (style=styleName,)value conditionalContent]			# use cc if value is even
 *	[odd (style=styleName,)value conditionalContent]			# use cc if value is odd
-*	[if (style=styleName,)value match conditionalContent]		# use cc if value == match
-*	[else (style=styleName,)value match conditionalContent]		# use cc if value != match
+*	[if (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value == match
+*	[else (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value != match
 *	[ne (style=styleName,)value,conditionalContent]				# use cc if value Not Empty
 *	[eq (style=styleName,)value,conditionalContent]				# use cc if value Empty
 *   [ifge (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 >= integer2
@@ -3059,13 +3059,17 @@ The contents of the list are safe to include in the output if you like.
 
 	def ifelse_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style','wrap'],data)
+		opts,data = self.popts(['style','wrap','sep'],data)
 		style = ''
+		sep = ' '
 		for el in opts:
 			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
+			elif el[0] == 'sep=':
+				sep = el[1]
+		if sep == '&#44;': sep = ','
 		try:
-			d1,d2,d3 = data.split(' ',2)
+			d1,d2,d3 = data.split(sep,2)
 			if tag == 'if':
 				if d1 == d2:
 					if style != '':

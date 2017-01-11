@@ -2,9 +2,11 @@
 
 ## To Do for [aa_macro.py](aa_macro.py):
 
-No to-dos at this time.
-
-Stable, occasionally receiving additional built-ins as the need arises.
+* add (sep=X,) options to:
+  * if
+  * else
+  * ne
+  * eq
 
 # Markdown-to-macro\(\) Filter
 

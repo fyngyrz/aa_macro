@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.71
+ * [if] and [else] now have sep=X option
+
 1.0.70
  * [th] and [nd] added
 

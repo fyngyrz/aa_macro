@@ -1124,9 +1124,9 @@ value is even, then there is no result.
 	[odd 1,testing] = "testing"
     [odd 2,testing] = ""
 
-**\[if \(style=styleName,\)value match conditionalContent\]**  'if' for if  
+**\[if \(sep=X,\)\(style=styleName,\)valueXmatchXconditionalContent\]**  'if' for if  
 When value and match are identical, conditionalContent is the result.
-Otherwise, there is no result.
+Otherwise, there is no result. X defaults to a space. To use a comma, use sep=[co]
 
     [if foo bar testing] = ""
 	[if foo foo testing] = "testing"
@@ -1146,9 +1146,9 @@ but you do need a trailing space. So this will append thing to somelist...
 	[style myfoo [append somelist,thing]]
     [if style=myfoo,foo bar ]
 
-**\[else \(style=styleName,\)value notMatch conditionalContent\]**  'else' for else  
+**\[else \(sep=X,\)\(style=styleName,\)valueXnotMatchXconditionalContent\]**  'else' for else  
 When value and match are not identical, conditionalContent is the result.
-Otherwise, there is no result.
+Otherwise, there is no result. X defaults to a space. To use a comma, use sep=[co]
 
     [else foo bar testing] = "testing"
 	[else foo foo testing] = ""
