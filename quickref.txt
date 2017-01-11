@@ -99,8 +99,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,odd {r value} {c}| if value is odd{co} then content]  
 [append bil,if {o sep=X{co}}{o wrap[vb]style=styleName}{r value} {r match} {c}| if match{co} then content]  
 [append bil,else {o sep=X{co}}{o wrap[vb]style=styleName}{r value} {r match} {c}| if [b not] match{co} then content]  
-[append bil,ne {r value{co}}{c}| if value is empty{co} then content]  
-[append bil,eq {r value{co}}{c}| if value is [b not] empty{co} then content]  
+[append bil,ne {o sep=X{co}}{r value{co}}{c}| if value is empty{co} then content]  
+[append bil,eq {o sep=X{co}}{r value{co}}{c}| if value is [b not] empty{co} then content]  
 [append bil,ifle {r value1{co}}{r value2 {co}}{c}| if value1 &lt;= value2{co} then content]  
 [append bil,ifge {r value1{co}}{r value2 {co}}{c}| if value1 &gt;= value2{co} then content]  
   

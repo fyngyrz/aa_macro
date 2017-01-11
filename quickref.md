@@ -121,8 +121,8 @@ Conditional Content | &nbsp;
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
  <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
- <tt>&#91;ne **value&#44;**content&#93;</tt> |  if value is empty&#44; then content
- <tt>&#91;eq **value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
+ <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
 
@@ -256,7 +256,7 @@ Built-in | &nbsp;
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
- <tt>&#91;eq **value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;expand **dictName&#44;**content&#93;</tt> |  dictionary based keyword expansion with leading cap forwarding
  <tt>&#91;fcsep **value**&#93;</tt> |  comma-separate a floating point number
@@ -317,7 +317,7 @@ Built-in | &nbsp;
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
  <tt>&#91;mul **value** **multiplier**&#93;</tt> |  multiply two numbers
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
- <tt>&#91;ne **value&#44;**content&#93;</tt> |  if value is empty&#44; then content
+ <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
  <tt>&#91;ord **character**&#93;</tt> |  return ASCII code value in decimal

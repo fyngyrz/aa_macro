@@ -2,12 +2,6 @@
 
 ## To Do for [aa_macro.py](aa_macro.py):
 
-* add (sep=X,) options to:
-  * if
-  * else
-  * ne
-  * eq
-
 # Markdown-to-macro\(\) Filter
 
 Under development. Aiming primarily at github extensions and standard markdown

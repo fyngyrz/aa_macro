@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.71 Beta
+     Version: 1.0.72 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -211,8 +211,8 @@ class macro(object):
 *	[odd (style=styleName,)value conditionalContent]			# use cc if value is odd
 *	[if (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value == match
 *	[else (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value != match
-*	[ne (style=styleName,)value,conditionalContent]				# use cc if value Not Empty
-*	[eq (style=styleName,)value,conditionalContent]				# use cc if value Empty
+*	[ne (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Not Empty
+*	[eq (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Empty
 *   [ifge (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 >= integer2
 *   [ifle (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 <= integer2
 	
@@ -2988,12 +2988,20 @@ The contents of the list are safe to include in the output if you like.
 
 	def ne_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style'],data)
 		style = ''
-		for el in opts:
-			if el[0] == 'style=':
-				style = el[1]
-		dlist = data.split(',',1)
+		sep = ','
+		skip = 0
+		if len(data) > 0:
+			if data[0] == ',':
+				skip = 1
+		if skip == 0:
+			opts,data = self.popts(['style','sep'],data)
+			for el in opts:
+				if el[0] == 'style=':
+					style = el[1]
+				elif el[0] == 'sep=':
+					sep = el[1]
+		dlist = data.split(sep,1)
 		if len(dlist) == 2:
 			if dlist[0] != '':
 				if style != '':
@@ -3003,16 +3011,28 @@ The contents of the list are safe to include in the output if you like.
 
 	def eq_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style'],data)
+		skip = 0
 		style = ''
-		for el in opts:
-			if el[0] == 'style=':
-				style = el[1]
-		dlist = data.split(',',1)
-		if len(dlist) == 1:
-			if style != '':
-				o += self.do("[s %s]" % style)
-			o += dlist[0]
+		sep = ','
+		opthit = 0
+		if len(data) > 0:
+			if data[0] == ',':
+				skip = 1
+		if skip == 0:
+			opts,data = self.popts(['style','sep'],data)
+			for el in opts:
+				if el[0] == 'style=':
+					style = el[1]
+					opthit = 1
+				elif el[0] == 'sep=':
+					sep = el[1]
+					opthit = 1
+		dlist = data.split(sep,1)
+		if len(dlist) == 2:
+			if dlist[0] == '':
+				if style != '':
+					o += self.do("[s %s]" % style)
+				o += dlist[1]
 		return o
 
 	def ifle_fn(self,tag,data):

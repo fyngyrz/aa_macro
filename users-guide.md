@@ -1168,18 +1168,18 @@ but you do need a trailing space. So this will not append thing to somelist...
 	[style myfoo [append somelist,thing]]
     [else style=myfoo,foo bar ]
 
-**\[ne \(style=styleName,\)value,conditionalContent\]**  'ne' for not equal  
+**\[ne \(sep=X,\)\(style=styleName,\)value,conditionalContent\]**  'ne' for not equal  
 When value has content, conditionalContent is the result.
 Otherwise, there is no result. If you supply a style, it follows the
-same rules as \[if\] and \[else\].
+same rules as \[if\] and \[else\]. X defaults to a comma.
 
     [ne ,testing] = ""
 	[ne foo,testing] = "testing"
 
-**\[eq \(style=styleName,\)value,conditionalContent\]**  'eq' for equal  
+**\[eq \(sep=X,\)\(style=styleName,\)value,conditionalContent\]**  'eq' for equal  
 When value has no content, conditionalContent is the result.
 Otherwise, there is no result. If you supply a style, it follows the
-same rules as as \[if\] and \[else\].
+same rules as as \[if\] and \[else\]. X defaults to a comma.
 
     [eq ,testing] = "testing"
 	[eq foo,testing] = ""
