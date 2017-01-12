@@ -1500,7 +1500,8 @@ Duplicate the content.
 Note that this is *not* the same as \[repeat\] or \[eval\].
 
 \[dup\] evaluates the content and *then* duplicates it; \[repeat\] \(re-\)evaluates
-the content on each repeat and only at the top level. They can produce
+the content on each repeat and only at the top level. \[eval\] evaluates the content
+once, but can call a style that evaluates live. They can all produce
 significantly different results when the content alters variables or
 lists. Here's an example of such a difference:
 
