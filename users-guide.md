@@ -1486,7 +1486,7 @@ Return suffix for integer:
 
     [nd 3] = "3rd"
 
-**\[eval \(style=styleName\)N,content]** 'eval" for (re)-evaluate
+**\[eval \(style=styleName\)N,content]** 'eval' for (re)-evaluate
 
 If style= is provided, the content, if any, is passed to the style,
 which is then responsible for any results. Without a style, behaves
@@ -1497,7 +1497,7 @@ Duplicate the content.
 
     [dup 5 foo] = "foofoofoofoofoo"
 
-Note that this is *not* the same as \[repeat\] or [\eval\].
+Note that this is *not* the same as \[repeat\] or \[eval\].
 
 \[dup\] evaluates the content and *then* duplicates it; \[repeat\] \(re-\)evaluates
 the content on each repeat and only at the top level. They can produce
