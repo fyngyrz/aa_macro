@@ -2,6 +2,9 @@
 
 ## To Do for [aa_macro.py](aa_macro.py):
 
+* convert intValue to "One Hundred Fourty Three" etc. This seems non-trivial. :)
+
+
 # Markdown-to-macro\(\) Filter
 
 Under development. Aiming primarily at github extensions and standard markdown

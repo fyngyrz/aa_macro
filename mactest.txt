@@ -438,6 +438,10 @@ foo="[d mydict,foo]"
 
 {h2 Text Processing}
 [dup 3,foo]
+[eval 5,bar]
+[local x 0]  
+[style bing [vinc x]:[b] ]  
+[stripe [eval style=bing,5,blarg]]
 [rstrip testing 3   ]
 [find ani,pusilanimous]
 [find sep=|,we|and,then we said "no"]

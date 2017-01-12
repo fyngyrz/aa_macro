@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.75
+ * [eval] added
+
 1.0.74
  * [wwrap] now has nohtml=1 option (plus [wwrap] entirely re-written)
 

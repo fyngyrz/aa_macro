@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.74 Beta
+     Version: 1.0.75 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -256,6 +256,7 @@ class macro(object):
 	[strip content]									# strip out HTML tags
 	[stripe (charset=chars,)content]				# strip whitespace or chars in charset from ends of lines
 	[dup count,content]								# e.g. [dup 3,foo] = "foofoofoo"
+	[eval (style=styleName,)count,content]			# e.g. [eval 3,foo] = "foofoofoo"
 	[find (sep=X,)thisStringXinString]				# returns -1 if not found, X default=,
 	[count (overlaps=yes)(casesens=yes,)(sep=X,)patternXcontent] # count term occurances in content
 	[replace (sep=X,)thisStrXwithStrXinStr]			# e.g. [replace b,d,abc] = "adc" X default=,
@@ -1559,6 +1560,36 @@ The contents of the list are safe to include in the output if you like.
 		if self.mode == '3.2':
 			return '<b>'+data+'</b>'
 		return '<span style="font-weight: bold;">%s</span>' % (data)
+
+	# [eval (style=styleName,)N,content]
+	def eval_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['style'],data)
+		style = ''
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
+		if data.find(',') != -1:
+			dd = data.split(',',1)
+			try:
+				n = int(dd[0])
+				data = dd[1]
+			except:
+				return ' ERROR: eval N value missing or malformed '
+		else:
+			try:
+				n = int(data)
+			except:
+				return ' ERROR: eval N value missing or malformed '
+		for i in range(0,n):
+			if style == '':
+				o += data
+			else:
+				if data != '':
+					o += self.do('[s '+style+' '+data+']')
+				else:
+					o += self.do('[s '+style+']')
+		return o
 
 	def dup_fn(self,tag,data):
 		o = ''
@@ -3715,6 +3746,7 @@ The contents of the list are safe to include in the output if you like.
 					'csep'	: self.csep_fn,		# [csep integer] e.g. [csep 1234] = "1,234"
 					'fcsep' : self.fcsep_fn,	# [fcsep float] e.g. [fcsep 1234.56] = "1,234.56"
 					'dup'	: self.dup_fn,		# [dup content] e.g. [dup 3,foo] = "foofoofoo"
+					'eval'	: self.eval_fn,		# [eval content] e.g. [eval 3,foo] = "foofoofoo"
 					'find'	: self.find_fn,		# [find (sep=X,)thisStringXinString] X default=,
 					'count'	: self.count_fn,	# [count (overlaps=yes,)(casesens=yes,)(sep=X,)findTermXinContent]
 					'replace': self.replace_fn,	# [replace (sep=X,)repStrXwithStrXinStr] X default=,
@@ -3765,6 +3797,8 @@ The contents of the list are safe to include in the output if you like.
 
 	def do(self,s):
 		if type(s) != str:
+			return ''
+		if len(s) == 0:
 			return ''
 		inout = 0
 		o = ''

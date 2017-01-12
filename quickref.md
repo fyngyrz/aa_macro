@@ -156,6 +156,7 @@ Text Processing | &nbsp;
  <tt>&#91;csep **value**&#93;</tt> |  comma-separate an integer
  <tt>&#91;fcsep **value**&#93;</tt> |  comma-separate a floating point number
  <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <i>after</i> evaluation (also see &#91;repeat&#93;)
+ <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;find \(sep=X&#44;\)**stringXcontent**&#93;</tt> |  find string in content&#44; sep default = &quot;&#44;&quot;
  <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
  <tt>&#91;count \(sep=X&#44;\)\(overlaps=yes&#44;\)\(casesens=yes&#44;\)**patternXcontent**&#93;</tt> |  count incidences
@@ -259,6 +260,7 @@ Built-in | &nbsp;
  <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
  <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
+ <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;expand **dictName&#44;**content&#93;</tt> |  dictionary based keyword expansion with leading cap forwarding
  <tt>&#91;fcsep **value**&#93;</tt> |  comma-separate a floating point number

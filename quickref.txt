@@ -134,6 +134,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,csep {r value}| comma-separate an integer]  
 [append bil,fcsep {r value}| comma-separate a floating point number]  
 [append bil,dup {r value{co}{c}}| duplicate content [i after] evaluation (also see {lb}repeat{rb})]  
+[append bil,eval {o style=styleName{co}}{r value{co}{c}}| duplicate content Nx{co} eval style Nx if provided]  
 [append bil,find {o sep=X{co}}{r stringXcontent}| find string in content{co} sep default = {q}{co}{q}]  
 [append bil,replace {o sep=X{co}{o lf=1{co}}}{r targetXreplacementXcontent}| target replaced with replacement in content]  
 [append bil,count {o sep=X{co}}{o overlaps=yes{co}}{o casesens=yes{co}}{r patternXcontent}| count incidences]  

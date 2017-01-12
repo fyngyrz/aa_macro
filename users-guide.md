@@ -1486,16 +1486,23 @@ Return suffix for integer:
 
     [nd 3] = "3rd"
 
+**\[eval \(style=styleName\)N,content] 'eval" for (re)-evaluate
+
+If style= is provided, the content, if any, is passed to the style,
+which is then responsible for any results. Without a style, behaves
+essentially the same as \[dup\].
+
 **\[dup n,content\]**  'dup' for duplicate  
 Duplicate the content.
 
     [dup 5 foo] = "foofoofoofoofoo"
 
-Note that this is *not* the same as \[repeat\].
-\[dup\] evaluates the content and *then* duplicates it;
-\[repeat\] \(re-\)evaluates the content on each repeat. They can
-produce significantly different results when the content alters variables
-or lists. Here's an example of such a difference:
+Note that this is *not* the same as \[repeat\] or [\eval\].
+
+\[dup\] evaluates the content and *then* duplicates it; \[repeat\] \(re-\)evaluates
+the content on each repeat and only at the top level. They can produce
+significantly different results when the content alters variables or
+lists. Here's an example of such a difference:
 
 	[style numberit [v counter]: [b][local counter [inc [v counter]]]]
 
