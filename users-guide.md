@@ -1486,7 +1486,7 @@ Return suffix for integer:
 
     [nd 3] = "3rd"
 
-**\[eval \(style=styleName\)N,content] 'eval" for (re)-evaluate
+**\[eval \(style=styleName\)N,content]** 'eval" for (re)-evaluate
 
 If style= is provided, the content, if any, is passed to the style,
 which is then responsible for any results. Without a style, behaves
