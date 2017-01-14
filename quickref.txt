@@ -28,6 +28,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,u {c}| HTML underline]  
 [append bil,color {r HEX3[vb]HEX6} {c}| HTML text color]  
 [append bil,a {o tab{co}}{r URL}{o {co}linkedContent}| HTML link~HTML Linking]  
+[append bil,urlencode {r content}| URL encoding]  
 [append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image~HTML Images]  
 [append bil,locimg {o imageTitle{co}}{r imageName} {o linkURL}| HTML image name, no path, with size (uses {lb}lipath{rb},{lb}wepath{rb})]  
 [append bil,lipath {r filePathToImages}| path for {lb}locimg{rb}]  

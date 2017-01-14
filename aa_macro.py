@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.76 Beta
+     Version: 1.0.77 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -86,7 +86,6 @@ class macro(object):
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
 	[urlencode URL]					# converts certain chars to character entities, etc.:
-	                                  '"'='&quot;', ' '='+', '&'='&amp;'
 	
 	Images
 	------
@@ -497,6 +496,7 @@ class macro(object):
 					'def','for','lambda','try']
 
 		self.months = ['January','February','March','April','may','June','July','August','September','October','November','December']
+		self.setup_urle()
 		if dothis != None:
 			self.do(dothis)
 
@@ -1572,11 +1572,42 @@ The contents of the list are safe to include in the output if you like.
 	def q_fn(self,tag,data):
 		return '&quot;'+data+'&quot;'
 
+	def char_urle(self,ch):
+		h = hex(ord(ch))[2:]
+		if len(h) == 1: h = '0'+h
+		h = h.upper()
+		self.urlmap[ord(ch)] = '%'+h
+
+	def setup_urle(self):
+		self.urlmap = []
+		self.urlmap.append('%20NULL%20')
+		for i in range(1,128):
+			self.urlmap.append(chr(i))
+		self.char_urle('!')
+		self.char_urle('#')
+		self.char_urle('$')
+		self.char_urle('&')
+		self.char_urle("'")
+		self.char_urle('(')
+		self.char_urle(')')
+		self.char_urle('*')
+		self.char_urle('+')
+		self.char_urle(',')
+		self.char_urle('/')
+		self.char_urle(':')
+		self.char_urle(';')
+		self.char_urle('=')
+		self.char_urle('?')
+		self.char_urle('@')
+		self.char_urle('[')
+		self.char_urle(']')
+
 	def urle_fn(self,tag,data):
-		data = data.replace(' ','+')
-		data = data.replace('"','&quot;')
-		data = data.replace('&','&amp;')
-		return data
+		o = ''
+		for c in data:
+			o += self.urlmap[ord(c)]
+		o = o.replace(' ','+')
+		return o
 
 	def bq_fn(self,tag,data):
 		return '<blockquote>'+data+'</blockquote>'

@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.77
+ * [urlencode] finished
+
 1.0.76
  * wtfm version of user manual goes live
  * error message on missing style for [locs] and [glos] improved

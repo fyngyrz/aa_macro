@@ -32,6 +32,7 @@
 [p [web http://fyngyrz.com Another Link]]
 [p [link http://fyngyrz.com]]
 [p [link http://fyngyrz.com Another Link]]
+[urlencode hi, Fred & linda]
 
 {h2 Images}
 {h3 No size, no local lookup so no relative path}
