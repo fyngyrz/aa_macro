@@ -6,6 +6,23 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.76
+ * wtfm version of user manual goes live
+ * error message on missing style for [locs] and [glos] improved
+ * [switch] added
+ * [case] added
+ * [gt] and [lt] escapes added
+ * [s], [glos] and [locs] all get sep= option for multiple style invocation
+ * [asort] gets rev=1 option
+ * [aisort] gets rev=1 option
+ * [isort] gets rev=1 option
+ * [lhsort] gets rev=1 option
+ * [ssort] gets rev=1 option
+ * [sisort] gets rev=1 option
+ * [issort] gets rev=1 option
+ * [hsort] gets rev=1 option
+ * [dlist] gets fs=styleName and ls=styleName options
+
 1.0.75
  * [eval] added
 

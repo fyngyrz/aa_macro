@@ -2,8 +2,7 @@
 
 ## To Do for [aa_macro.py](aa_macro.py):
 
-* convert intValue to "One Hundred Fourty Three" etc. This seems non-trivial. :)
-
+ * convert intValue to "One Hundred Forty Three" etc. This seems non-trivial. :)
 
 # Markdown-to-macro\(\) Filter
 

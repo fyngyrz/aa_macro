@@ -76,14 +76,14 @@ Data Lists | &nbsp;
  <tt>&#91;lslice **sliceSpec&#44;****listName&#44;****targetList**&#93;</tt> |  slice listName to targetList
  <tt>&#91;lsplit \(sep=^&#44;\)\(num=N&#44;\)**listName**&#44;content&#93;</tt> |  split content into list
  <tt>&#91;ljoin **listName**&#44;\(joinTerm\)&#93;</tt> |  Join a list with joinTerm(s) between elements
- <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
+ <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;lcc **listOne&#44;****listTwo&#44;****listResult**&#93;</tt> |  list concatenate
  <tt>&#91;lsub \(ci=1&#44;\)\(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
- <tt>&#91;asort **listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
- <tt>&#91;aisort **listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
- <tt>&#91;isort \(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
- <tt>&#91;lhsort **listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
+ <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
+ <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
+ <tt>&#91;isort \(rev=1&#44;\)\(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
+ <tt>&#91;lhsort \(rev=1&#44;\)**listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
@@ -164,10 +164,10 @@ Text Processing | &nbsp;
  <tt>&#91;capw content&#93;</tt> |  word case
  <tt>&#91;capt content&#93;</tt> |  title case
  <tt>&#91;expand **dictName&#44;**content&#93;</tt> |  dictionary based keyword expansion with leading cap forwarding
- <tt>&#91;ssort content&#93;</tt> |  case-sensitive sort of lines
- <tt>&#91;sisort content&#93;</tt> |  case-insensitive sort of lines
- <tt>&#91;issort content&#93;</tt> |  sort of lines by integer followed by a comma
- <tt>&#91;hsort content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
+ <tt>&#91;ssort \(rev=1&#44;\)content&#93;</tt> |  case-sensitive sort of lines
+ <tt>&#91;sisort \(rev=1&#44;\)content&#93;</tt> |  case-insensitive sort of lines
+ <tt>&#91;issort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by integer followed by a comma
+ <tt>&#91;hsort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
  <tt>&#91;inter **iStr&#44;****L&#124;R&#44;****value&#44;**content&#93;</tt> |  intersperse iStr every value in content
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;ljust **width&#44;****padChar&#44;**content&#93;</tt> |  left justify
@@ -194,6 +194,8 @@ Escapes | &nbsp;
 ------- | ----
  <tt>&#91;co&#93;</tt> |  comma
  <tt>&#91;sp&#93;</tt> |  space
+ <tt>&#91;gt&#93;</tt> |  greater-than
+ <tt>&#91;lt&#93;</tt> |  less-than
  <tt>&#91;lb&#93;</tt> |  left square bracket
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;ls&#93;</tt> |  left squiggly bracket
@@ -204,9 +206,11 @@ Styles | &nbsp;
 ------ | ----
  <tt>&#91;style **styleName** **styleContent**&#93;</tt> |  local style
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
- <tt>&#91;s **stylename**\(styleParameters\)&#93;</tt> |  invoke style&#44; local&#44; if no local&#44; then global
- <tt>&#91;glos **stylename**\(styleParameters\)&#93;</tt> |  invoke global style
- <tt>&#91;locs **stylename**\(styleParameters\)&#93;</tt> |  invoke local style
+ <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
+ <tt>&#91;case \(sep=X&#44;\)**switchName** **caseXcontent**&#93;</tt> |  case (works with switch)
+ <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
+ <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
+ <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
  <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
@@ -222,9 +226,9 @@ Built-in | &nbsp;
 -------- | ----
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
  <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
- <tt>&#91;aisort **listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
+ <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
  <tt>&#91;append **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
- <tt>&#91;asort **listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
+ <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;b content&#93;</tt> |  HTML bold
  <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
  <tt>&#91;bq content&#93;</tt> |  HTML blockquote
@@ -232,6 +236,7 @@ Built-in | &nbsp;
  <tt>&#91;caps content&#93;</tt> |  sentence case
  <tt>&#91;capt content&#93;</tt> |  title case
  <tt>&#91;capw content&#93;</tt> |  word case
+ <tt>&#91;case \(sep=X&#44;\)**switchName** **caseXcontent**&#93;</tt> |  case (works with switch)
  <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell \(comma is *not* optional\)
  <tt>&#91;center **width&#44;****padChar&#44;**content&#93;</tt> |  center (neg width indicates pad both sides)
  <tt>&#91;chr **value**&#93;</tt> |  return ASCII character of code=value
@@ -250,7 +255,7 @@ Built-in | &nbsp;
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;div **value** **divisor**&#93;</tt> |  divide two numbers
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
- <tt>&#91;dlist \(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
+ <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;dtobin (digits=N,)**value**&#93;</tt> |  decimal to binary conversion
  <tt>&#91;dtohex (digits=N,)**value**&#93;</tt> |  decimal to hexadecimal conversion
@@ -270,13 +275,14 @@ Built-in | &nbsp;
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
- <tt>&#91;glos **stylename**\(styleParameters\)&#93;</tt> |  invoke global style
+ <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
+ <tt>&#91;gt&#93;</tt> |  greater-than
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
  <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
  <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
- <tt>&#91;hsort content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
+ <tt>&#91;hsort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
  <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
  <tt>&#91;i content&#93;</tt> |  HTML italics
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
@@ -288,15 +294,15 @@ Built-in | &nbsp;
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
  <tt>&#91;inter **iStr&#44;****L&#124;R&#44;****value&#44;**content&#93;</tt> |  intersperse iStr every value in content
- <tt>&#91;isort \(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
- <tt>&#91;issort content&#93;</tt> |  sort of lines by integer followed by a comma
+ <tt>&#91;isort \(rev=1&#44;\)\(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
+ <tt>&#91;issort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by integer followed by a comma
  <tt>&#91;lb&#93;</tt> |  left square bracket
  <tt>&#91;lc content&#93;</tt> |  return length of content in lines
  <tt>&#91;lcc **listOne&#44;****listTwo&#44;****listResult**&#93;</tt> |  list concatenate
  <tt>&#91;lcopy **sourceList** **destinationList**&#93;</tt> |  copy list to new or existing list
  <tt>&#91;len content&#93;</tt> |  return length of content in characters
  <tt>&#91;lf&#124;nl&#93;</tt> |  new line
- <tt>&#91;lhsort **listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
+ <tt>&#91;lhsort \(rev=1&#44;\)**listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
  <tt>&#91;lipath **filePathToImages**&#93;</tt> |  path for &#91;locimg&#93;
  <tt>&#91;list \(sep=X&#44;\)**listname**&#44;itemContent\(XitemContent\)&#93;</tt> |  create or overwrite a list
  <tt>&#91;listg \(mode=global&#93;</tt> | local&#44;\)**listName&#44;**content| resolve reference
@@ -305,7 +311,7 @@ Built-in | &nbsp;
  <tt>&#91;llen **listName**&#93;</tt> |  returns length of list
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;locimg \(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
- <tt>&#91;locs **stylename**\(styleParameters\)&#93;</tt> |  invoke local style
+ <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
  <tt>&#91;lower content&#93;</tt> |  convert to lowercase
  <tt>&#91;lpop **listName&#44;**\(listIndex\)&#93;</tt> |  pop an item out of a list at top, or at listIndex
  <tt>&#91;lpush **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
@@ -315,6 +321,7 @@ Built-in | &nbsp;
  <tt>&#91;lsub \(ci=1&#44;\)\(sep=X&#44;\)**listName&#44;**content&#93;</tt> |  list of form AsepB, A=B in content
  <tt>&#91;ls&#93;</tt> |  left squiggly bracket
  <tt>&#91;ltol **listName** content&#93;</tt> |  convert lines of content to list
+ <tt>&#91;lt&#93;</tt> |  less-than
  <tt>&#91;lv **varName**&#93;</tt> |  local variable
  <tt>&#91;max **value1** **value2**&#93;</tt> |  maximum of two numbers
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
@@ -340,8 +347,8 @@ Built-in | &nbsp;
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral
  <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
  <tt>&#91;rs&#93;</tt> |  right squiggly bracket
- <tt>&#91;s **stylename**\(styleParameters\)&#93;</tt> |  invoke style&#44; local&#44; if no local&#44; then global
- <tt>&#91;sisort content&#93;</tt> |  case-insensitive sort of lines
+ <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
+ <tt>&#91;sisort \(rev=1&#44;\)content&#93;</tt> |  case-insensitive sort of lines
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
  <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
  <tt>&#91;soundex \(len=N&#44;\)content&#93;</tt> |  return soundex value of content
@@ -349,12 +356,13 @@ Built-in | &nbsp;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;sp&#93;</tt> |  space
- <tt>&#91;ssort content&#93;</tt> |  case-sensitive sort of lines
+ <tt>&#91;ssort \(rev=1&#44;\)content&#93;</tt> |  case-sensitive sort of lines
  <tt>&#91;stage \(mode=float&#44;\)? Unknown Style "digits=N&#44;" ?**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
  <tt>&#91;strip content&#93;</tt> |  strip HTML tags out
  <tt>&#91;stripe (charset=chars,)content&#93;</tt> |  strip chars from both ends of line (default = spaces)
  <tt>&#91;style **styleName** **styleContent**&#93;</tt> |  local style
  <tt>&#91;sub **value** **subtrahend**&#93;</tt> |  subtract two numbers
+ <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)

@@ -90,6 +90,31 @@
 [p [locimg .gif Test,randomdir/test.gif]]
 [p [locimg .gif Test,randomdir/test.gif http://fyngyrz.com]]
 
+{h2 Multiple Style Invocation}
+[style a a[b]a]  
+[style b b[b]b]  
+[locs a X]
+[locs b X]
+[locs a,b X,Y]  
+
+[gstyle c c[b]c]  
+[gstyle d d[b]d]  
+[glos c X]
+[glos d X]
+[glos c,d X,Y]  
+
+[s a X]
+[s b X]
+[s c X]
+[s d X]
+[s a,b,c,d W,X,Y,X]
+{a,b,c,d J,K,L,M}
+
+[s sep=|,a,b,c,d N|O|P|Q]
+[locs sep=|,a,b A|S]
+[glos sep=|,c,d B|T]
+{sep=|,a,b,c,d A|S|I|A}
+
 {h2 HTML Lists}
 [style lwrap <u>[b]</u>]  
 [p [ul item1,item2]]
@@ -322,6 +347,24 @@ border-style: solid;
 [slit keyhints]
 [v loc_slit]
 
+{h2 switch/case}
+switch (csep=X,)(isep=Y,)(default=styleName,)switchName caseXstyleName(YcaseXstylename)
+[style foo foo([b])bar]  
+[style bar bar([b])foo]  
+[switch test1 1|foo,2|bar]  
+[case test1 1,bah]
+[case sep=|,test1 2|humbug]
+[style rude dude:[b]!]  
+[style remark remark:"[b]"]  
+[style huh ??[b]??]  
+[switch csep=^,isep=$,test2 A$rude^B$remark]  
+[case test2 A,shhhh]
+[case test2 B,speaking extemporaneously]
+[switch default=huh,test3 x|foo,y|bar]  
+[case test3 x,with-foo]
+[case test3 y,with-bar]
+[case test3 z,with-nothing]
+
 {h2 Data Lists}
 [list slicetest,a,2,c,4,e,6,g,8]  
 slicetest list: [dlist slicetest]
@@ -420,6 +463,14 @@ Sorted List:
 [lhsort hamlist]  
 [dlist style=hwrap,hamlist]  
 
+first, middle and last styles
+-----------------------------
+[style first -[b] ]  
+[style middle :[b]: ]  
+[style last [b]-]  
+[list list1,a,b,c,d]  
+[dlist fs=first,style=middle,ls=last,list1]
+  
 With nice interspersion:
 ------------------------
 [list sep=|,myList,aa7as (Ben)|N5CST (Johann)|W3Oz (Larry)]  
@@ -478,7 +529,14 @@ ben]
 2,larry
 3,Marge
 1,ben]
-
+  
+{h2 Escapes}
+[co]
+[vb]
+[lt][sp][gt][nl]  
+[lb][sp][rb][lf]  
+[ls][sp][rs][nl]  
+  
 {h2 Miscellanea}
 [p 
 [local v1 3]  

@@ -57,7 +57,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.75 Beta
+     Version: 1.0.76 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -156,12 +156,15 @@ class macro(object):
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
-	[dlist (style=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
+	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
 													# and with parms, if any, prefixed to list elements
 													# and with posts, if any, postfixed to list elements
 													# and with inter, if any, interspersed between list elements
 													# and ntl, if any, this goes between next to last and last
+													# if fs is present, the first display will wrap with fs style
+													# if ls is present, the last display will wrap with ls style
+													# if wrap is present, displays will wrap with it, barring fs and ls
 	[translate (pre=PRE,)(post=POST,)(inter=INTER)listName,text]
 													# characters are mapped to listName (see examples)
 	[ljoin listname,joinContent]					# join a list into a string with interspersed content
@@ -173,10 +176,10 @@ class macro(object):
 	[e listName,index]								# fetch an item from a list, base of zero:
 													  [e mylist,0] = 'a'
 													  [e myblist,4] = 'IV'
-	[asort listName]								# sort the list as case-sensitive text
-	[aisort listName]								# sort the list as case-insensitive text
-	[lhsort listName]								# sort the list by leading ham radio callsign
-	[isort (sep=x,)listName]						# sort the list according to a leading numeric value
+	[asort (rev=1,)listName]						# sort the list as case-sensitive text
+	[aisort (rev=1,)listName]						# sort the list as case-insensitive text
+	[lhsort (rev=1,)listName]						# sort the list by leading ham radio callsign
+	[isort (rev-1,)(sep=x,)listName]				# sort the list according to a leading numeric value
 													  ie [1,this thing][2,that thing] sep default: ','
 
 	Dictionaries
@@ -264,10 +267,10 @@ class macro(object):
 	[capw content]									# Capitalize first letter of every word
 	[capt content]									# Use title case (style: U.S. Government Printing Office Style Manual)
 	[specialcase listName,content]					# Case words as they are cased in listName
-	[ssort content]									# sort lines cases-INsensitive
-	[sisort content]								# sort lines cases-sensitive
-	[issort content]								# sort lines by leading integer,comma,content
-	[hsort content]									# sort lines by leading ham radio callsign
+	[ssort (rev=1,)content]							# sort lines cases-INsensitive
+	[sisort (rev=1,)content]						# sort lines cases-sensitive
+	[issort (rev=1,)content]						# sort lines by leading integer,comma,content
+	[hsort (rev=1,)content]							# sort lines by leading ham radio callsign
 	[hlit (format=1,)content]						# turn content into HTML; process NOTHING
 	[vlit (format=1,)variable-name]					# turn variable content into HTML; process NOTHING
 	[slit (format=1,)(wrap=1,)style-name]			# turn style content into HTML; process NOTHING
@@ -304,6 +307,8 @@ class macro(object):
 	Escape Codes:
 	-------------
 	[co]							# produces HTML ',' as &#44;
+	[lt]							# produces HTML '<' as &lt;
+	[gt]							# produces HTML '>' as &gt;
 	[sp]							# produces HTML ' ' as &#32;
 	[lb]							# produces HTML '[' as &#91;
 	[rb]							# produces HTML ']' as &#93;
@@ -337,6 +342,9 @@ class macro(object):
 
 	[spage]							# reset local environment: styles
 									  global styles are unaffected
+	
+	[case (sep=X,)switchName caseXcontent]
+ 	[switch (csep=X,)(isep=Y,)(default=styleName,)switchName caseYstyleName(XcaseXstylename)]
 	
 	[ghost (source=local,) stylename]	# allows output of a style in web-compatible format
 	
@@ -436,6 +444,7 @@ class macro(object):
 		self.stack = []
 		self.parms = []
 		self.refs = {}
+		self.switches = {}
 		self.refcounter = 0
 		self.padCallLocalToggle = 0
 		self.padCallLocalRegion = -1
@@ -1051,18 +1060,34 @@ The contents of the list are safe to include in the output if you like.
 				o = emit_line(o,line,wrap)
 		return o
 
+	# [hsort (rev=1,)linesOfContent]
 	def hsort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		o = ''
 		tlist = data.split('\n')
 		if len(tlist) > 1:
 			tlist = sorted(tlist,key=self.sCallsignKeyF)
+			if rev == '1':
+				tlist = tlist[::-1]
 			o = '\n'.join(tlist)
 		return o
 
+	# [lhsort (rev=1,)listName]
 	def lhsort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		tlist = self.theLists.get(data,[])
 		if len(tlist) > 1:
 			tlist = sorted(tlist,key=self.sCallsignKeyF)
+			if rev == '1':
+				tlist = tlist[::-1]
 			self.theLists[data] = tlist
 		return ''
 
@@ -1763,32 +1788,6 @@ The contents of the list are safe to include in the output if you like.
 			o += el
 		return o
 
-	def s_fn(self,tag,data):
-		o = ''
-		try:
-			da1,da2 = data.split(' ',1)
-		except:
-			da1 = data
-			da2 = ''
-		d1 = da1.split(',')
-		ssiz = len(d1)
-		if ssiz == 1:
-			d2 = [da2]
-		else:
-			d2 = da2.split(',')
-		dsiz = len(d2)
-		if dsiz == ssiz:
-			for i in range(0,ssiz):
-				md1 = d1[i]
-				md2 = d2[i]
-				block = self.styles.get(md1,self.gstyles.get(md1,'? Unknown Style \"%s\" ?' % (md1)))
-				block = block.replace('[b]',md2)
-				res = self.do(block)
-				o += res
-		else:
-			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
-		return o
-
 	# [crush content]
 	def crush_fn(self,tag,data):
 		o = ''
@@ -1799,7 +1798,82 @@ The contents of the list are safe to include in the output if you like.
 				o += c
 		return o
 
+ 	# [switch (csep=X,)(isep=Y,)(default=styleName,)switchName caseYstyleName(XcaseXstylename)]
+	def switch_fn(self,tag,data):
+		csep = ','
+		isep = '|'
+		default = ''
+		opts,data = self.popts(['csep','isep','default'],data)
+		for el in opts:
+			if el[0] == 'csep=':
+				csep = el[1]
+			elif el[0] == 'isep=':
+				isep = el[1]
+			elif el[0] == 'default=':
+				default = el[1]
+		em = '? bad switch: "'+data+'" ?'
+		try:
+			dl = data.split(' ',1)
+		except:
+			return em+' //nocases-error// '
+		switchname = dl[0]
+		caselist = dl[1]
+		cl = caselist.split(csep)
+		switchdict = {}
+		for el in cl:
+			try:
+				case,stylename = el.split(isep,1)
+			except:
+				return em+' //case-error// '
+			switchdict[case] = stylename
+		if default != '':
+			switchdict['default_default_default'] = default
+		self.switches[switchname] = switchdict
+		return ''
+
+	# [case (sep=X,)switchName caseXcontent]
+	def case_fn(self,tag,data):
+		o = ''
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+		em = '? case: "'+data+'" ?'
+		try:
+			switchname,casecontent = data.split(' ',1)
+		except:
+			return em
+		try:
+			case,content = casecontent.split(sep,1)
+		except:
+			return em
+		try:
+			default = self.switches[switchname]['default_default_default']
+		except:
+			default = ''
+		if default == '':
+			try:
+				stylename = self.switches[switchname][case]
+			except: # no style, 
+				return em+'//no matching case for "'+case+'"// ' # no matching style, no default, you get nuttin
+		else: # there is a default
+			try:
+				stylename = self.switches[switchname][case]
+			except: # no case, so use default 
+				stylename = default
+		block = self.styles.get(stylename,self.gstyles.get(stylename,'? Unknown Style \"%s\" ?' % (stylename)))
+		block = block.replace('[b]',content)
+		o = self.do(block)
+		return o
+
+	# [glos]
 	def glos_fn(self,tag,data):
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
 		o = ''
 		try:
 			da1,da2 = data.split(' ',1)
@@ -1811,13 +1885,13 @@ The contents of the list are safe to include in the output if you like.
 		if ssiz == 1:
 			d2 = [da2]
 		else:
-			d2 = da2.split(',')
+			d2 = da2.split(sep)
 		dsiz = len(d2)
 		if dsiz == ssiz:
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.gstyles.get(md1,'? Unknown Global Style Invocation ?')
+				block = self.gstyles.get(md1,'? Unknown Local Style Invocation "'+str(md1)+'" ?')
 				block = block.replace('[b]',md2)
 				res = self.do(block)
 				o += res
@@ -1825,7 +1899,13 @@ The contents of the list are safe to include in the output if you like.
 			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
 		return o
 
+	# [locs]
 	def locs_fn(self,tag,data):
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
 		o = ''
 		try:
 			da1,da2 = data.split(' ',1)
@@ -1837,13 +1917,45 @@ The contents of the list are safe to include in the output if you like.
 		if ssiz == 1:
 			d2 = [da2]
 		else:
-			d2 = da2.split(',')
+			d2 = da2.split(sep)
 		dsiz = len(d2)
 		if dsiz == ssiz:
 			for i in range(0,ssiz):
 				md1 = d1[i]
 				md2 = d2[i]
-				block = self.styles.get(md1,'? Unknown Local Style Invocation ?')
+				block = self.styles.get(md1,'? Unknown Local Style Invocation "'+str(md1)+'" ?')
+				block = block.replace('[b]',md2)
+				res = self.do(block)
+				o += res
+		else:
+			o += ' Macro error: Unmatched styleCount=%d and bodyListSize=%d (%s||%s) ' % (ssiz,dsiz,str(d1),str(d2))
+		return o
+
+	# [s]
+	def s_fn(self,tag,data):
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+		o = ''
+		try:
+			da1,da2 = data.split(' ',1)
+		except:
+			da1 = data
+			da2 = ''
+		d1 = da1.split(',')
+		ssiz = len(d1)
+		if ssiz == 1:
+			d2 = [da2]
+		else:
+			d2 = da2.split(sep)
+		dsiz = len(d2)
+		if dsiz == ssiz:
+			for i in range(0,ssiz):
+				md1 = d1[i]
+				md2 = d2[i]
+				block = self.styles.get(md1,self.gstyles.get(md1,'? Unknown Style \"%s\" ?' % (md1)))
 				block = block.replace('[b]',md2)
 				res = self.do(block)
 				o += res
@@ -2489,6 +2601,12 @@ The contents of the list are safe to include in the output if you like.
 			d2 = tag
 		return '<a href="%s" target="_blank">%s</a>' % (d1,d2)
 
+	def lt_fn(self,tag,data):
+		return '&lt;'
+
+	def gt_fn(self,tag,data):
+		return '&gt;'
+
 	def co_fn(self,tag,data):
 		return '&#44;'
 
@@ -2790,18 +2908,33 @@ The contents of the list are safe to include in the output if you like.
 
 	# [isort listName]
 	def isort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		try:
 			self.theLists[data].sort(key=self.pullint)
 		except:
 			pass
+		else:
+			if rev == '1':
+				self.theLists[data] = self.theLists[data][::-1]
 		return ''
 
-	# [issort content]
+	# [issort (rev=1,)content]
 	def issort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		o = ''
 		try:
 			ll = data.split('\n')
 			ll.sort(key=self.pullint)
+			if rev == '1':
+				ll = ll[::-1]
 			for el in ll:
 				o += el+'\n'
 		except:
@@ -2810,18 +2943,33 @@ The contents of the list are safe to include in the output if you like.
 
 	# [asort listName]
 	def asort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		try:
 			self.theLists[data].sort()
 		except:
 			pass
+		else:
+			if rev == '1':
+				self.theLists[data] = self.theLists[data][::-1]
 		return ''
 
-	# [ssort content]
+	# [ssort (rev=1,)content]
 	def ssort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		o = ''
 		try:
 			ll = data.split('\n')
 			ll.sort()
+			if rev == '1':
+				ll = ll[::-1]
 			for el in ll:
 				o += el+'\n'
 		except:
@@ -2830,19 +2978,34 @@ The contents of the list are safe to include in the output if you like.
 
 	# [aisort listName]
 	def aisort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		try:
 			self.theLists[data].sort(key=str.lower)
 		except:
 			pass
+		else:
+			if rev == '1':
+				self.theLists[data] = self.theLists[data][::-1]
 		return ''
 
 
-	# [ssort content]
+	# [sisort (rev=1,)content]
 	def sisort_fn(self,tag,data):
+		rev = ''
+		opts,data = self.popts(['rev'],data)
+		for el in opts:
+			if el[0] == 'rev=':
+				rev = el[1]
 		o = ''
 		try:
 			ll = data.split('\n')
 			ll.sort(key=str.lower)
+			if rev == '1':
+				ll = ll[::-1]
 			for el in ll:
 				o += el+'\n'
 		except:
@@ -2852,8 +3015,10 @@ The contents of the list are safe to include in the output if you like.
 	# [dlist (style=styleName,)(wrap=styleName,)(parms=PRE,)(posts=PST,)(inter=INT,)(ntl=NTL,)listName]
 	def dlist_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['wrap','style','parms','posts','inter','ntl'],data)
+		opts,data = self.popts(['wrap','style','parms','posts','inter','ntl','fs','ls'],data)
 		style = ''
+		fstyle = ''
+		lstyle = ''
 		parms = ''
 		posts = ''
 		inter = ''
@@ -2861,6 +3026,10 @@ The contents of the list are safe to include in the output if you like.
 		for el in opts:
 			if el[0] == 'style=' or el[0] == 'wrap=':
 				style = el[1]
+			elif el[0] == 'fs=':
+				fstyle = el[1]
+			elif el[0] == 'ls=':
+				lstyle = el[1]
 			elif el[0] == 'parms=':
 				parms = el[1]
 			elif el[0] == 'posts=':
@@ -2870,7 +3039,7 @@ The contents of the list are safe to include in the output if you like.
 			elif el[0] == 'ntl=':
 				ntl = el[1]
 		using = False
-		if style != '': # wrap with style mode
+		if style != '' or fstyle != '' or lstyle != '': # wrap with style mode
 			listname = data
 			if listname != '':
 				if self.styles.get(style,self.gstyles.get(style,'')) != '':
@@ -2879,13 +3048,22 @@ The contents of the list are safe to include in the output if you like.
 						tc = len(self.theLists[listname])
 						i = 1
 						for el in self.theLists[listname]:
+							ustyle = style
 							tint = ''
+							if i == 1 and fstyle != '': ustyle = fstyle
 							if i != tc:
 								tint = inter
-							if tc > 1 and i == (tc - 1) and ntl != '':
-								tint = ntl
-							ss = '[s %s %s%s%s]%s' % (style,parms,el,posts,tint)
-							o += self.do(ss)
+							if tc > 1 and i == (tc - 1):
+								if ntl != '':
+									tint = ntl
+							if tc > 1 and i == tc:
+								if lstyle != '':
+									ustyle = lstyle
+							if ustyle != '':
+								ss = '[s %s %s%s%s]%s' % (ustyle,parms,el,posts,tint)
+								o += self.do(ss)
+							else: # style wasn't set, but fs or ls was and we aren't at fs or ls
+								o = '%s%s%s%s' % (parms,el,posts,tint)
 							i += 1
 					except:
 						pass
@@ -3587,6 +3765,8 @@ The contents of the list are safe to include in the output if you like.
 					# escape codes
 					# ------------
 					'co'	: self.co_fn,		#	,	HTML char-encoded comma
+					'lt'	: self.lt_fn,		#	,	HTML char-encoded less-than
+					'gt'	: self.gt_fn,		#	,	HTML char-encoded greater-than
 					'sp'	: self.sp_fn,		#	,	space
 					'lb'	: self.lb_fn,		#	[	left square bracket
 					'rb'	: self.rb_fn,		#	]	right square bracket
@@ -3722,6 +3902,8 @@ The contents of the list are safe to include in the output if you like.
 					's'		: self.s_fn,		# local style, or if none, global style
 					'glos'	: self.glos_fn,		# global style
 					'locs'	: self.locs_fn,		# local style
+					'switch': self.switch_fn,	# define a switch
+					'case'  : self.case_fn,		# define a case
 
 					# Parsing and text processing
 					# ---------------------------
