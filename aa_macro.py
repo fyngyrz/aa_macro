@@ -63,7 +63,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.78 Beta
+     Version: 1.0.79 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -3471,15 +3471,17 @@ The contents of the list are safe to include in the output if you like.
 			if tag == 'if':
 				if d1 == d2:
 					if style != '':
-						o += self.do("[s %s]" % style)
-					o += d3
+						o += self.do("[s %s %s]" % (style,d3))
+					else:
+						o += d3
 			else:
 				if d1 != d2:
 					if style != '':
-						o += self.do("[s %s]" % style)
-					o += d3
+						o += self.do("[s %s %s]" % (style,d3))
+					else:
+						o += d3
 		except:
-			pass
+			o = ' ? ifelse error: "'+tag+' '+str(data)+'" ? '
 		return o
 
 	def comment_fn(self,tag,data):

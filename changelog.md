@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.79
+ * [if] and [else] style handling updated
+
 1.0.78
  * [for] added
  * [in] added

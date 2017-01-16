@@ -190,6 +190,7 @@ stage mode=float,0 1 10 5.5 = [stage mode=float,0 1 10 5.5]
 ]
 
 {h2 Conditionals}
+[style mmmm --[b]--]  
 [p 
 [even 2 EVEN][even 1 !ODD!]
 [odd 1 ODD][odd 2 !EVEN!]
@@ -199,6 +200,8 @@ stage mode=float,0 1 10 5.5 = [stage mode=float,0 1 10 5.5]
 [else sep=|,foo|bar|No sepMatch][else sep=|,bleep|bleep|!sepMATCH!]
 [else sep=[co],foo,bar,No comMatch][else sep=[co],bleep,bleep,!comMATCH!]
 [else foo bar No Match][else bleep bleep !MATCH!]
+1: [if style=mmmm,bleep bleep Match][if style=mmmm,foo bar NO MATCH]
+2: [else style=mmmm,foo bar No Match][else style=mmmm,bleep bleep MATCH]
 1 [ne something,Something][ne ,!EMPTY!]
 2 [ne sep=|,something|Something][ne sep=|,|!EMPTY!]
 3 [ne ,Something][ne something,!EMPTY!]
