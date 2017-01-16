@@ -180,6 +180,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
   
 [append bil,style {r styleName} {r styleContent}| local style~Styles]  
 [append bil,gstyle {r styleName} {r styleContent}| global style]  
+[append bil,for {r styleName}{co}{r X}{co}{r Y}{co}{r Z}| iterates number to style]  
+[append bil,in {r styleName}{cco}{r listName}| iterates list to style]  
 [append bil,switch {o csep=X{co}}{o isep=Y{co}}{r switchName} {r caseYstylename(XcaseYstyleName)}| switch (works with case)]  
 [append bil,case {o sep=X{co}}{r switchName} {r caseXcontent}| case (works with switch)]  
 [append bil,s {o sep=X{co}}{r stylename}{o styleParameters}| invoke style(s){co} local{co} if no local{co} then global]  

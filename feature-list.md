@@ -149,6 +149,7 @@
 	* On Parameter less than or equal
 	* On Parameter greater than or equal
   * Miscellaneous
+    * switch, case, for and in operators
     * "Include" files
 	* Embrace, extend or supercede any built-in function
     * Comments \(do not appear in output\)

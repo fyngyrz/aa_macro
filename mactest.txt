@@ -366,6 +366,12 @@ switch (csep=X,)(isep=Y,)(default=styleName,)switchName caseXstyleName(YcaseXsty
 [case test3 y,with-bar]
 [case test3 z,with-nothing]
 
+{h2 for/in}
+[style mmm [b] ]  
+[for mmm,0,10,2]
+[list listx,a,c,d,c]
+[in mmm,listx]
+
 {h2 Data Lists}
 [list slicetest,a,2,c,4,e,6,g,8]  
 slicetest list: [dlist slicetest]

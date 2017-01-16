@@ -13,18 +13,24 @@ class macro(object):
      Contact: fyngyrz@gmail.com (bugs, feature requests, kudos, bitter rejections)
      Project: aa_macro.py
     Homepage: https://github.com/fyngyrz/aa_macro
-     License: None. It's free. *Really* free. Defy invalid social and legal norms.
- Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly warned. Phbbbbt.
-              2) My code is blackbox, meaning I wrote it without reference to other people's code
-              3) I can't check other people's contributions effectively, so if you use any version
-                 of aa_macro.py that incorporates accepted commits from others, you are risking
-                 the use of OPC, which may or may not be protected by copyright, patent, and the
-                 like, because our intellectual property system is pathological. The risks and
-                 responsibilities and any subsequent consequences are entirely yours. Have you
-                 written your congresscritter about patent and copyright reform yet?
+     License: None. It's free. *Really* free. Defy invalid social and
+              legal norms.
+ Disclaimers: 1) Probably completely broken. Do Not Use. You were explicitly
+                 warned. Phbbbbt.
+              2) My code is blackbox, meaning I wrote it without reference
+                 to other people's code.
+              3) I can't check other people's contributions effectively,
+                 so if you use any version of aa_macro.py that incorporates
+                 accepted commits from others, you are risking the use of
+                 OPC, which may or may not be protected by copyright,
+                 patent, and the like, because our intellectual property
+                 system is pathological. The risks and responsibilities
+                 and any subsequent consequences are entirely yours. Have
+                 you written your congresscritter about patent and
+                 copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 10th, 2017     (for Class)
-  LastDocRev: January 10th, 2017     (for Class)
+     LastRev: January 16th, 2017     (for Class)
+  LastDocRev: January 16th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -57,12 +63,13 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.77 Beta
+     Version: 1.0.78 Beta
      History:                    (for Class)
 	 	See changelog.md
 
 	Todo:
-		Anything with a * in the first column needs recoding to incorporate (sep=X,)
+		Anything with a * in the first column needs recoding
+		to incorporate (sep=X,)
 
 	Available built-ins:
 	====================
@@ -212,20 +219,20 @@ class macro(object):
 
 	Conditionals
 	------------
-*	[even (style=styleName,)value conditionalContent]			# use cc if value is even
-*	[odd (style=styleName,)value conditionalContent]			# use cc if value is odd
-*	[if (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value == match
-*	[else (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value != match
-*	[ne (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Not Empty
-*	[eq (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Empty
-*   [ifge (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 >= integer2
-*   [ifle (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 <= integer2
+	[even (style=styleName,)value conditionalContent]			# use cc if value is even
+	[odd (style=styleName,)value conditionalContent]			# use cc if value is odd
+	[if (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value == match
+	[else (sep=X,)(style=styleName,)value match conditionalContent]		# use cc if value != match
+	[ne (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Not Empty
+	[eq (sep=X,)(style=styleName,)value,conditionalContent]				# use cc if value Empty
+	[ifge (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 >= integer2
+	[ifle (style=styleName,)iValue,iValue,conditionalContent]	# use cc if integer1 <= integer2
 	
 	Parsing and text processing
 	---------------------------
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[splitcount N]									# limit number of splits to N for next split ONLY
-*	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
+	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
 													  can't just use a comma directly. But
@@ -342,6 +349,8 @@ class macro(object):
 	[spage]							# reset local environment: styles
 									  global styles are unaffected
 	
+    [for style,X,Y,Z]
+	[in style,list]
 	[case (sep=X,)switchName caseXcontent]
  	[switch (csep=X,)(isep=Y,)(default=styleName,)switchName caseYstyleName(XcaseXstylename)]
 	
@@ -1861,6 +1870,57 @@ The contents of the list are safe to include in the output if you like.
 			switchdict['default_default_default'] = default
 		self.switches[switchname] = switchdict
 		return ''
+
+	# [in style,list]
+	def in_fn(self,tag,data):
+		o = ''
+		style = ''
+		list = ''
+		em = ' ? //in// problem: "'+data+'" ? '
+		dl = data.split(',')
+		if len(dl) == 2:
+			style = dl[0]
+			list = dl[1]
+			try:
+				ll = self.theLists[list]
+				block = self.styles.get(style,self.gstyles.get(style,None))
+				if block == None:
+					return ' ? in for, Unknown Style \"%s\" ? e4' % (style)
+				for el in ll:
+					block2 = block.replace('[b]',str(el))
+					o += self.do(block2)
+			except Exception,e:
+				return em + ' //'+str(e)+'// '
+		else:
+			return em
+		return o
+
+	# [for style,X,Y,Z]
+	def for_fn(self,tag,data):
+		o = ''
+		style = ''
+		em = ' ? //for// iterator problem: "'+data+'" ? '
+		dl = data.split(',')
+		if len(dl) == 4:
+			try:
+				style = dl[0]
+				x = int(dl[1])
+				y = int(dl[2])
+				z = int(dl[3])
+				if style != '':
+					block = self.styles.get(style,self.gstyles.get(style,None))
+					if block == None:
+						return ' ? in for, Unknown Style \"%s\" ? e4' % (style)
+					for i in range(x,y,z):
+						block2 = block.replace('[b]',str(i))
+						o += self.do(block2)
+				else:
+					return em+'e1'
+			except Exception,e:
+				return em+'e2'+str(e)+' //'
+		else:
+			return em+'e3'
+		return o
 
 	# [case (sep=X,)switchName caseXcontent]
 	def case_fn(self,tag,data):
@@ -3935,6 +3995,8 @@ The contents of the list are safe to include in the output if you like.
 					'locs'	: self.locs_fn,		# local style
 					'switch': self.switch_fn,	# define a switch
 					'case'  : self.case_fn,		# define a case
+					'for'	: self.for_fn,		# [for style,x,y,z]
+					'in'	: self.in_fn,		# [in style,list]
 
 					# Parsing and text processing
 					# ---------------------------
