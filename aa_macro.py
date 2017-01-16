@@ -63,7 +63,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.79 Beta
+     Version: 1.0.80 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -478,6 +478,15 @@ class macro(object):
 		self.theGlobals['txl_qu'] = '&quot;'
 		self.theGlobals['txl_lf'] = '<br>'
 		
+		self.theGlobals['i401s_open'] = '<span style="font-style: italic;">'
+		self.theGlobals['i401s_clos'] = '</span>'
+		self.theGlobals['b401s_open'] = '<span style="font-weight: bold;">'
+		self.theGlobals['b401s_clos'] = '</span>'
+		self.theGlobals['u401s_open'] = '<span style="text-decoration: underline;">'
+		self.theGlobals['u401s_clos'] = '</span>'
+		self.theGlobals['c401s_open'] = '<span style="background-color: #BACKCOLOR; color: #FORECOLOR;">'
+		self.theGlobals['c401s_clos'] = '</span>'
+		
 		self.theGlobals['pp_trigger'] = '#'
 
 		self.theGlobals['tx_pybrace'] = '<span style="color:#ff8844;">'
@@ -718,7 +727,14 @@ The contents of the list are safe to include in the output if you like.
 				return False
 		return True
 
-	def mcolor(self,c):
+	def getm(self,vname):
+		o = self.theLocals.get(vname,self.theGlobals.get(vname,''))
+		return o
+
+	def mcolor(self,cc):
+		ll = len(cc)
+		if ll != 3 and ll != 6: return cc
+		c = cc
 		d = 'ffffff'
 		if type(c) != str:
 			c = d
@@ -726,9 +742,9 @@ The contents of the list are safe to include in the output if you like.
 			c = c[0]+c[0] + c[1]+c[1] + c[2]+c[2]
 		if len(c) != 6:
 			c = d
-		if self.htest(c) != True:
-			c = d
 		c = c.upper()
+		if self.htest(c) != True:
+			c = cc
 		return c
 
 	def setBack(self,back="ffffff"):
@@ -1561,7 +1577,7 @@ The contents of the list are safe to include in the output if you like.
 		if self.mode == '3.2':
 			return '<i>'+data+'</i>'
 		else:
-			return '<span style="font-style: italic;">%s</span>' % (data)
+			return self.getm('i401s_open')+data+self.getm('i401s_clos')
 
 	def p_fn(self,tag,data):
 		return '<p>'+data+'</p>'
@@ -1624,7 +1640,7 @@ The contents of the list are safe to include in the output if you like.
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
 			return '<b>'+data+'</b>'
-		return '<span style="font-weight: bold;">%s</span>' % (data)
+		return self.getm('b401s_open')+data+self.getm('b401s_clos')
 
 	# [eval (style=styleName,)N,content]
 	def eval_fn(self,tag,data):
@@ -1808,7 +1824,7 @@ The contents of the list are safe to include in the output if you like.
 		if self.mode == '3.2':
 			return '<u>'+data+'</u>'
 		else:
-			return '<span style="text-decoration: underline;">%s</span>' % (data)
+			return self.getm('u401s_open')+data+self.getm('u401s_clos')
 
 	def t_fn(self,tag,data):
 		o = ''
@@ -2595,7 +2611,10 @@ The contents of the list are safe to include in the output if you like.
 		if self.mode == '3.2':
 			o += '<font color="#%s">%s</font>' % (col,d2)
 		else:
-			o += '<span style="background-color: #%s; color: #%s;">%s</span>' % (self.back,col,d2)
+			op = self.getm('c401s_open')
+			op = op.replace('BACKCOLOR',self.back)
+			op = op.replace('FORECOLOR',col)
+			o += op+d2+self.getm('c401s_clos')
 		return o
 
 	def xyhelper(self,ifn):
