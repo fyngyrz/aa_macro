@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.81
+ * [ifol], [iful], [ol] and [ul] get istyle= and lstyle= options
+
 1.0.80
  * HTML 4.01s span handling for [i], [u], [b] and [color] abstracted to globals
 

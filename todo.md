@@ -4,11 +4,11 @@
 
  * convert intValue to "One Hundred Forty Three" etc. This seems non-trivial. :)
 
-# Markdown-to-macro\(\) Filter
+## To-do for Markdown-to-macro\(\) Filter
 
 Under development. Aiming primarily at github extensions and standard markdown
 
-### To Do for Github's extensions:
+## To Do for Github's extensions:
 
 Generally complete to description at (Github's Cheatsheet)[https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf]
 

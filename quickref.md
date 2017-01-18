@@ -39,10 +39,10 @@ HTML Images | &nbsp;
 
 HTML Lists | &nbsp;
 ---------- | ----
- <tt>&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
- <tt>&#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
- <tt>&#91;iful \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list IF &gt; one item
- <tt>&#91;ifol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list IF &gt; one item
+ <tt>&#91;ul \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
+ <tt>&#91;ol \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
+ <tt>&#91;iful \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list IF &gt; one item
+ <tt>&#91;ifol \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list IF &gt; one item
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
 
 HTML Tables | &nbsp;
@@ -292,8 +292,8 @@ Built-in | &nbsp;
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
- <tt>&#91;ifol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list IF &gt; one item
- <tt>&#91;iful \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list IF &gt; one item
+ <tt>&#91;ifol \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list IF &gt; one item
+ <tt>&#91;iful \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list IF &gt; one item
  <tt>&#91;img \(imageTitle&#44;\)**imageURL** \(linkURL\)&#93;</tt> |  HTML image
  <tt>&#91;in **styleName**? Unknown Style "cco" ?**listName**&#93;</tt> |  iterates list to style
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
@@ -335,7 +335,7 @@ Built-in | &nbsp;
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
  <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
- <tt>&#91;ol \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
+ <tt>&#91;ol \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
  <tt>&#91;ord **character**&#93;</tt> |  return ASCII code value in decimal
  <tt>&#91;otodec (digits=N,)**value**&#93;</tt> |  octal to decimal conversion
  <tt>&#91;p content&#93;</tt> |  HTML paragraph
@@ -375,7 +375,7 @@ Built-in | &nbsp;
  <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;u content&#93;</tt> |  HTML underline
- <tt>&#91;ul \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
+ <tt>&#91;ul \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
  <tt>&#91;urlencode **content**&#93;</tt> |  URL encoding
  <tt>&#91;v **varName**&#93;</tt> |  local/global variable

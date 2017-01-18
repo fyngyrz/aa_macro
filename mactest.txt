@@ -132,6 +132,25 @@
 [p [t wrap=code,a,b,c]]
 [p [t wrap=code,sep=|,d|e|f]]
 
+[ul istyle=color:#ff0000,a,b,c]
+[ul lstyle=font-weight: bold;,a,b,c]
+[ul lstyle=margin-bottom: .5em;,istyle=color:#00ff00,a,b,c]
+
+[iful istyle=color:#ff0000,item1]
+[iful istyle=color:#ff0000,item1,item2]
+[ifol istyle=color:#ff0000,item1]
+[ifol istyle=color:#ff0000,item1,item2]
+
+[iful lstyle=font-weight: bold;,item1]
+[iful lstyle=font-weight: bold;,item1,item2]
+[ifol lstyle=font-weight: bold;,item1]
+[ifol lstyle=font-weight: bold;,item1,item2]
+
+[iful lstyle=margin-bottom: .5em;,istyle=color:#00ff00,item1]
+[iful lstyle=margin-bottom: .5em;,istyle=color:#00ff00,item1,item2]
+[ifol lstyle=margin-bottom: .5em;,istyle=color:#00ff00,item1]
+[ifol lstyle=margin-bottom: .5em;,istyle=color:#00ff00,item1,item2]
+
 {h2 Tables}
 [table 
 [row [header col 1][header col 2]]
