@@ -6,6 +6,11 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.82
+ * {stylename\ncontent} autoconverts to {stylename content}
+ * \r\n and \n\r sequences are converted to \n to defeat windows, etc.
+ * [s] and {stylename} can now handle multiple styles and single content
+
 1.0.81
  * [ifol], [iful], [ol] and [ul] get istyle= and lstyle= options
 
