@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 18th, 2017     (for Class)
-  LastDocRev: January 18th, 2017     (for Class)
+     LastRev: January 19th, 2017     (for Class)
+  LastDocRev: January 19th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
