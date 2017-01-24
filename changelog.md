@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.84
+ * Added gstyleLib() utility function
+
 1.0.83
  * [raw] and [graw] added
 

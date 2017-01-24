@@ -63,7 +63,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.83 Beta
+     Version: 1.0.84 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -4310,6 +4310,33 @@ The contents of the list are safe to include in the output if you like.
 		s += pre
 		for key in sorted(self.styles.keys()):
 			rawsty = self.styles[key]
+			rawsty = rawsty.replace('\n','\\n')
+			s += fmt % (key,rawsty,ending)
+		s += post
+		return s
+
+	# modes are: html, text, table
+	def gstyleLib(self,mode='text',border=1):
+		maxl = 0
+		for key in sorted(self.gstyles.keys()):
+			ll = len(key)
+			if ll > maxl: maxl = ll
+		s = ''
+		ending = '\n'
+		pre = ''
+		post = ''
+		fmt = '%%%ds : %%s%%s' % (maxl,)
+		if mode == 'html':
+			ending = '<br>\n'
+		elif mode == 'table':
+			pre  = '<table border=%s>\n' % (str(border),)
+			pre += '<tr><th>Style</th><th>Content</th></tr>\n'
+			post = '</table>\n'
+			fmt = '<tr><td align="right">%s</td><td>%s%s</td></tr>\n'
+			ending = ''
+		s += pre
+		for key in sorted(self.gstyles.keys()):
+			rawsty = self.gstyles[key]
 			rawsty = rawsty.replace('\n','\\n')
 			s += fmt % (key,rawsty,ending)
 		s += post
