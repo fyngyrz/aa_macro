@@ -9,6 +9,11 @@
 {hello
 larry}
 {hello curly}
+
+[raw test 123]  
+[graw trust 456]  
+[v trust]
+[v test]
   
 {h1 Test Results: aa_macro.py}
 

@@ -44,7 +44,9 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,cell {o options}{co}{c}| HTML table data cell \(comma is *not* optional\)]  
   
 [append bil,local {r varname} {cc varContent}| local variable definition~Variables]  
+[append bil,raw {r varname} {cc varContent}| local variable definition~Variables]  
 [append bil,global {r varName} {cc varContent}| global variable definition]  
+[append bil,graw {r varName} {cc varContent}| global variable definition]  
 [append bil,v {r varName}| local/global variable]  
 [append bil,vs {r varName} {cc varContent}| local variable definition]  
 [append bil,gv {r varName}| global variable]  

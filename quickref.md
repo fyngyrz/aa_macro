@@ -55,7 +55,12 @@ HTML Tables | &nbsp;
 Variables | &nbsp;
 --------- | ----
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
+
+Variables | &nbsp;
+--------- | ----
+ <tt>&#91;raw **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
+ <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;v **varName**&#93;</tt> |  local/global variable
  <tt>&#91;vs **varName** varContent&#93;</tt> |  local variable definition
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
@@ -280,6 +285,7 @@ Built-in | &nbsp;
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
+ <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;gt&#93;</tt> |  greater-than
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
@@ -344,6 +350,7 @@ Built-in | &nbsp;
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;push content&#93;</tt> |  Push an item on to the general stack
  <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
+ <tt>&#91;raw **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
  <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content

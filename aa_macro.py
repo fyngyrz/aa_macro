@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 19th, 2017     (for Class)
-  LastDocRev: January 19th, 2017     (for Class)
+     LastRev: January 24th, 2017     (for Class)
+  LastDocRev: January 24th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -63,7 +63,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.82 Beta
+     Version: 1.0.83 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -135,8 +135,10 @@ class macro(object):
 	Variables
 	---------
 	[local variableName value]						# define a variable in the local environment
+	[raw variableName value]						# define a variable in the local environment
 	[vs variableName value]							# ditto - same as local
 	[global variableName value]						# define a variable in the global environment
+	[graw variableName value]						# define a variable in the global environment
 	[v variableName]								# use a variable (local, if not local, then global)
 	[gv variableName]								# use the global variable and ignore the local
 	[lv variableName]								# use the local variable and ignore the global
@@ -4018,8 +4020,10 @@ The contents of the list are safe to include in the output if you like.
 					# variable handling
 					# -----------------
 					'local'	: self.local_fn,	# define local variable:					P1 <-- P2
+					'raw'	: self.local_fn,	# define local variable:					P1 <-- P2
 					'vs'	: self.local_fn,	# "     ditto         "						P1 <-- P2
 					'global': self.global_fn,	# define global variable					P1 <-- P2
+					'graw'	: self.global_fn,	# define global variable					P1 <-- P2
 					'page'	: self.page_fn,		# clear local variables
 					'spage'	: self.spage_fn,	# clear local styles
 					'gv'	: self.gv_fn,		# use global variable						P1 -->
@@ -4162,6 +4166,8 @@ The contents of the list are safe to include in the output if you like.
 			if state == OUT and (c == '[' or c == '{'):
 				if (s[dex:dex+8]  == '[gstyle ' or
 					s[dex:dex+7]  == '[style ' or
+					s[dex:dex+7]  == '[raw ' or
+					s[dex:dex+7]  == '[graw ' or
 					s[dex:dex+8]  == '[repeat ' or
 					s[dex:dex+11] == '[pythparse ' or
 					s[dex:dex+6]  == '[hlit '):
