@@ -545,6 +545,7 @@ foo="[d mydict,foo]"
 '[center -7,-,wxyz]' even in odd, pad both sides
 '[center -8,-,xyz]' odd in even, pad both sides
 [capt joe and the dog]
+[capt the exception]
 [capt tropic OF consumption]
 [capt joe and a dog]
 [capw joe and a dog]

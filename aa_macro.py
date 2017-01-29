@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 24th, 2017     (for Class)
-  LastDocRev: January 24th, 2017     (for Class)
+     LastRev: January 29th, 2017     (for Class)
+  LastDocRev: January 29th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1
 	  Status:  BETA
@@ -63,7 +63,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.84 Beta
+     Version: 1.0.85 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -1533,7 +1533,9 @@ The contents of the list are safe to include in the output if you like.
 		o = ''
 		data = data.lower()
 		wlist = data.split(' ')
+		wc = 0
 		for w in wlist:
+			wc += 1
 			if o != '':
 				o += ' '
 			cap = True
@@ -1541,6 +1543,8 @@ The contents of the list are safe to include in the output if you like.
 				if ncw == w:
 					cap = False
 					break
+			if wc == 1:
+				cap = True
 			if cap == True:
 				w = w.capitalize()
 			o += w
