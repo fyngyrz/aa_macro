@@ -9,7 +9,12 @@
 {hello
 larry}
 {hello curly}
-
+  
+[load myvar forvariable.txt]  
+[lv myvar]
+[gload othervar forvariable.txt]  
+[gv othervar]
+  
 [raw test 123]  
 [graw trust 456]  
 [v trust]

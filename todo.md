@@ -2,6 +2,8 @@
 
 ## To Do for [aa_macro.py](aa_macro.py):
 
+ * [load varName fileName] -- these have to obey the object forbid flag
+ * [gload varName fileName]
  * convert intValue to "One Hundred Forty Three" etc. This seems non-trivial. :)
 
 ## To-do for Markdown-to-macro\(\) Filter

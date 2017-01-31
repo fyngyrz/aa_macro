@@ -29,10 +29,11 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 29th, 2017     (for Class)
-  LastDocRev: January 29th, 2017     (for Class)
+     LastRev: January 31st, 2017     (for Class)
+  LastDocRev: January 31st, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
-     Dev Env: OS X 10.6.8, Python 2.6.1
+     Dev Env: OS X 10.6.8, Python 2.6.1 from inception
+              OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -63,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.85 Beta
+     Version: 1.0.86 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -144,6 +145,8 @@ class macro(object):
 	[lv variableName]								# use the local variable and ignore the global
 	[vinc (quiet=1,)(pre=1,)variableName]			# increment a local(global) variable
 	[vdec (quiet=1,)(pre=1,)variableName]			# deccrement a local(global) variable
+	[load variableName fileName]					# load filename into local variable
+	[gload variableName fileName]					# load filename into global variable
 	
 	[page]											# reset local environment: variables
 													  global variables are unaffected
@@ -859,6 +862,64 @@ The contents of the list are safe to include in the output if you like.
 			key = self.mkey(k)
 			self.refs[key] = c
 		return ''
+
+	# [gload variableName fileName]
+	def gload_fn(self,tag,data):
+		o = ''
+		em = ' aa_macro gload operator error '
+		if self.noshell == True: return o
+		plist = data.split(' ')
+		if len(plist) != 2: return em
+		vn = plist[0]
+		fn = plist[1]
+		if len(vn) == 0: return em+'(variable name) '
+		if len(fn) == 0: return em+'(file name) '
+		try:
+			fh = open(fn)
+		except:
+			return em+'(file open failure) '
+		try:
+			fc = fh.read()
+		except:
+			return em+'(file read failure) '
+		try:
+			fh.close()
+		except:
+			pass
+		try:
+			self.theGlobals[vn] = fc
+		except:
+			return em+'(unable to create/update global variable) '
+		return o
+
+	# [load variableName fileName]
+	def load_fn(self,tag,data):
+		o = ''
+		em = ' aa_macro load operator error '
+		if self.noshell == True: return o
+		plist = data.split(' ')
+		if len(plist) != 2: return em
+		vn = plist[0]
+		fn = plist[1]
+		if len(vn) == 0: return em+'(variable name) '
+		if len(fn) == 0: return em+'(file name) '
+		try:
+			fh = open(fn)
+		except:
+			return em+'(file open failure) '
+		try:
+			fc = fh.read()
+		except:
+			return em+'(file read failure) '
+		try:
+			fh.close()
+		except:
+			pass
+		try:
+			self.theLocals[vn] = fc
+		except:
+			return em+'(unable to create/update local variable) '
+		return o
 
 	def sys_fn(self,tag,data):
 		o = ''
@@ -4036,6 +4097,8 @@ The contents of the list are safe to include in the output if you like.
 					'clear'	: self.clear_fn,	# clear a local variable					'' -> P1
 					'vinc'	: self.vinc_fn,		# increment a local(global) variable
 					'vdec'	: self.vdec_fn,		# deccrement a local(global) variable
+					'load'	: self.load_fn,		# load file into local variable
+					'gload'	: self.gload_fn,	# load file into global variable
 					
 					# stack
 					# -----
