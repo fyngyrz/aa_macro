@@ -4,14 +4,14 @@
 
 ![macro\(\)](tease.png)
 
-I don't use WYSIWYG HTML/CSS editors, as they may
-generate sub-par code, may break with any application or library or
-operating system upgrade, and in the end, I have zero control over where
-and when they break, or any particular assurance I can easily correct
-the problem\(s\) if and when they occur. So something to make generation
-of HTML and CSS easier, of which I had direct control... and which
-depended upon nothing outside of Python itself... that really seemed
-like a fine idea to me. And so class `macro()` was born. :\)
+I don't use WYSIWYG HTML/CSS editors, as they may generate sub-par code,
+may break with any application or library or operating system upgrade,
+and in the end, I have zero control over where and when they break, or
+any particular assurance I can easily correct the problem\(s\) if and
+when they occur. So something to make generation of HTML and CSS easier,
+of which I had direct control... and which depended upon nothing outside
+of Python itself... that really seemed like a fine idea to me. And so
+class `macro()` was born. :\)
 
 This project provides a means for me, and anyone else who wants to, to
 generate HTML or other types of text documents using Python as the
