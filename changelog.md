@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.87
+ * [getc filename] added, loads c source file and converts to aa_macro
+
 1.0.86
  * [load] and [gload] added, new forvariable.txt file in repo for testing
 

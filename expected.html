@@ -663,3 +663,80 @@ George: W4KVU
 Larry: W3OZ
 Marty: KA7GKN
 barbeque dolly
+
+// plugin_demo.c
+// -------------
+// tab stops every 4 spaces
+
+#include &lt;math.h&gt;
+#include &lt;string.h&gt;
+#include &quot;developer.h&quot;
+
+void pengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))&nbsp;&nbsp;&nbsp;&nbsp;// sets 64K remap
+[ls]
+long i,v,b;
+
+&nbsp;&nbsp;&nbsp;&nbsp;b = (p-&gt;f[lb]0[rb] - 100.0f) * 655.35f;&nbsp;&nbsp;&nbsp;&nbsp;// b is now [lb]-65535...65535[rb]
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = start; i &lt; finish; i++)&nbsp;&nbsp;&nbsp;&nbsp;// we set this range to [lb]0...65536[rb]
+&nbsp;&nbsp;&nbsp;&nbsp;[ls]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = i + b;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// temp brightness adjust;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (v &lt; 0) v = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// now limit remap range...
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (v &gt; 65535) v = 65535;&nbsp;&nbsp;&nbsp;&nbsp;// ...to acceptable bounds
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;lr[lb]i[rb] = v;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// install in remap channel
+&nbsp;&nbsp;&nbsp;&nbsp;[rs]
+[rs]
+
+void dengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))&nbsp;&nbsp;&nbsp;&nbsp;// generates output
+[ls]
+long i;
+
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = start; i &lt; finish; i++) // 1-dimensional pixel processing
+&nbsp;&nbsp;&nbsp;&nbsp;[ls]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sr[lb]i[rb] = p-&gt;lr[lb]p-&gt;mr[lb]i[rb][rb];&nbsp;&nbsp;&nbsp;&nbsp;// remap pixel brightness
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sg[lb]i[rb] = p-&gt;lr[lb]p-&gt;mg[lb]i[rb][rb];&nbsp;&nbsp;&nbsp;&nbsp;// ...using 64k table in layer
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sb[lb]i[rb] = p-&gt;lr[lb]p-&gt;mb[lb]i[rb][rb];&nbsp;&nbsp;&nbsp;&nbsp;// ...
+&nbsp;&nbsp;&nbsp;&nbsp;[rs]
+[rs]
+
+void setup(struct plugin *p)&nbsp;&nbsp;&nbsp;&nbsp;// NOTE: most struct elements are preset to 0,
+[ls]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if that is the setting you need, it's there.
+#include &quot;ak_pu_date.txt&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// this inserts the current date in the plugin
+
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;layer_pri&nbsp;&nbsp;&nbsp;&nbsp;= 9500;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// layer priority (posit in fx stack - see developer.h)
+&nbsp;&nbsp;&nbsp;&nbsp;strcpy(p-&gt;panel.n,&quot;Brightness&quot;);&nbsp;&nbsp;&nbsp;&nbsp;// name appearing on panel
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;pthread[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// plugin desires pengine() threading
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;prange_methods[lb]0[rb]= 2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// custom range for pengine()
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;pfinish[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 65536;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// end+1 range for pengine() to process
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;dthread[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// plugin desires dengine() threading
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;promotable&nbsp;&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// BUT user can add alpha, paint
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;req_lr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 65536;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we'd like 1 layer of this size in lr
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;slider_req&nbsp;&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we'd like 1 slider (#0)
+&nbsp;&nbsp;&nbsp;&nbsp;strcpy(p-&gt;sliders[lb]0[rb].n,&quot;Intensity&quot;);// legend for slider
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;forder[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 20;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// position on line zero
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;svalues[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 100.0f;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// initial value
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;zvalues[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 200.0f;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// initial hi value (user settable)
+&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;ticks[lb]0[rb] = 21;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Ten ticks per hundred
+[rs]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// (low values default to 0.0f)
+
+void init(struct plug *pl,struct pkg *(*service)(struct req *p)) // called before pengine() and dengine()
+[ls]
+struct req r;
+struct pkg *p;
+char *msg = &quot;demo plugin init&quot;;
+&nbsp;&nbsp;&nbsp;&nbsp;// the following just demonstrates using the service function
+&nbsp;&nbsp;&nbsp;&nbsp;r.svc = REQ_STATUS;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// request status line message service
+&nbsp;&nbsp;&nbsp;&nbsp;r.p1 = msg;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up request with proper parameter
+&nbsp;&nbsp;&nbsp;&nbsp;p = service(&amp;r);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send msg to status line, get package back
+[rs]
+
+void cleanup(struct plug *pl,struct pkg *(*service)(struct req *p))&nbsp;&nbsp;&nbsp;&nbsp;// called after all pengine() and dengine threads complete
+[ls]
+struct req r;
+struct pkg *p;
+char *msg = &quot;demo plugin cleanup&quot;;
+&nbsp;&nbsp;&nbsp;&nbsp;// the following just demonstrates using the service function
+&nbsp;&nbsp;&nbsp;&nbsp;r.svc = REQ_STATUS;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// request status line message service
+&nbsp;&nbsp;&nbsp;&nbsp;r.p1 = msg;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up request with proper parameter
+&nbsp;&nbsp;&nbsp;&nbsp;p = service(&amp;r);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send msg to status line, get package back
+[rs]
+

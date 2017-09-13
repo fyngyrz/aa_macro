@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: January 31st, 2017     (for Class)
-  LastDocRev: January 31st, 2017     (for Class)
+     LastRev: September 13th, 2017     (for Class)
+  LastDocRev: September 13th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.86 Beta
+     Version: 1.0.87 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -166,6 +166,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
+	[getc (tabsiz=n,)(tabchar=X,)filename]			# c file to aa_macro format
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
@@ -3968,6 +3969,56 @@ The contents of the list are safe to include in the output if you like.
 				o = ' !embrace "%s" fail: %s! ' % (data,e)
 		return o
 
+	def getc_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['tabsiz','tabchar'],data)
+		tabsiz = 4
+		tabchar = '&nbsp;'
+		for el in opts:
+			if el[0] == 'tabsiz=':
+				try:
+					tabsiz = int(el[1])
+				except:
+					pass
+			if el[0] == 'tabchar=':
+				if el[1] == 'sp':
+					tabchar = ' '
+				else:
+					tabchar = el[1]
+		filename = data
+		try:
+			fh = open(filename)
+		except:
+			o = '--unable to open "%s"--' % (filename)
+		else:
+			tr = tabchar * tabsiz
+			try:
+				for line in fh:
+					for c in line:
+						if c == chr(9):
+							o += tr
+						elif c == '<': o += '&lt;'
+						elif c == '>': o += '&gt;'
+						elif c == '[': o += '[lb]'
+						elif c == ']': o += '[rb]'
+						elif c == '{': o += '[ls]'
+						elif c == '}': o += '[rs]'
+						elif c == '"': o += '&quot;'
+						elif c == '&': o += '&amp;'
+						else: o += c
+			except:
+				try:
+					fh.close()
+				except:
+					pass
+				o += '--error while reading "%s"--' % (filename)
+			else:
+				try:
+					fh.close()
+				except:
+					o += '--error closing "%s"--' % (filename)
+		return o
+
 	def setFuncs(self): #    '':self._fn,
 		self.fns = {
 					# escape codes
@@ -4171,6 +4222,7 @@ The contents of the list are safe to include in the output if you like.
 					'pythparse':self.pythparse_fn, # [pythparse text]
 					'th'	: self.th_fn,		# [th integer] = st, nd, rd, th
 					'nd'	: self.nd_fn,		# [th integer] = 1st, 2nd, 3rd, 4th
+					'getc'	: self.getc_fn,		# [getc filename] import c text
 
 					# Miscellaneous
 					# -------------

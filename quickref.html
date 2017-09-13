@@ -8,6 +8,7 @@
 
 
 
+
 <HTML>
 <HEADER>
 <TITLE>Macro() Quick Reference</TITLE>
@@ -84,6 +85,7 @@
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>translate <b><font color="#FF0000">pre=PRE&#44;</font></b><b><font color="#FF0000">post=POST&#44;</font></b><b><font color="#FF0000">inter=INTER&#44;</font></b><b><font color="#00FF00">listName&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> translate content using character map formatted list</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>postparse <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> pretty-print Python 2.7 code (use black background)</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>pythparse <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> pretty-print Python 2.7 code (use black background)</td></tr>
+<tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>getc <b><font color="#FF0000">tabsiz=n&#44;</font></b><b><font color="#FF0000">tabchar=X&#44;</font></b>filename<font color="#00FFFF">&#93;</font></tt></td><td> import c source file as aa_macro</td></tr>
 <tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Data Dictionaries</font></th></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>dict <b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#FF0000">keysep=Y&#44;</font></b><b><font color="#00FF00">dictName&#44;</font></b><b><font color="#00FF00">keyYvalue<b><font color="#FF0000">XkeyYvalue</font></b></font></b><font color="#00FFFF">&#93;</font></tt></td><td> create/replace dictionary</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>dcopy <b><font color="#00FF00">sourceDictionary&#44;</font></b><b><font color="#00FF00">destinationDictionary</font></b><font color="#00FFFF">&#93;</font></tt></td><td> copy/replace destination with source</td></tr>
@@ -252,6 +254,7 @@
 <tr><td><tt><font color="#00FFFF">&#91;</font>flush<font color="#00FFFF">&#93;</font></tt></td><td> delete stack contents</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>for <b><font color="#00FF00">styleName</font></b>&#44;<b><font color="#00FF00">X</font></b>&#44;<b><font color="#00FF00">Y</font></b>&#44;<b><font color="#00FF00">Z</font></b><font color="#00FFFF">&#93;</font></tt></td><td> iterates number to style</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>fref <b><font color="#00FF00">lable</font></b><font color="#00FFFF">&#93;</font></tt></td><td> forward (or backward) reference</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>getc <b><font color="#FF0000">tabsiz=n&#44;</font></b><b><font color="#FF0000">tabchar=X&#44;</font></b>filename<font color="#00FFFF">&#93;</font></tt></td><td> import c source file as aa_macro</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>ghost <b><font color="#FF0000">source=global&#124;local&#44;</font></b><b><font color="#00FF00">stylename</font></b><font color="#00FFFF">&#93;</font></tt></td><td> output style without processing it</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>gload <b><font color="#00FF00">varName</font></b> ? Unknown Style "fileName" ?<font color="#00FFFF">&#93;</font></tt></td><td> load file into global variable</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>global <b><font color="#00FF00">varName</font></b> <b><font color="#FFFF00">varContent</font></b><font color="#00FFFF">&#93;</font></tt></td><td> global variable definition</td></tr>
