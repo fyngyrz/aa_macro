@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.91 Beta
+     Version: 1.0.92 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -166,7 +166,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
-	[getc (tabsiz=n,)(tabchar=X,)(high=c|oc)filename]	# c/oc file to aa_macro format
+	[getc (tabsiz=n,)(tabchar=X,)(high=c|cp|oc)filename]	# c/cpp/oc file to aa_macro format
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
@@ -4017,6 +4017,7 @@ The contents of the list are safe to include in the output if you like.
 			elif (	(c >= 'a' and c <= 'z') or
 					(c >= 'A' and c <= 'Z') or
 					(c >= '0' and c <= '9') or
+					(c == '_') or
 					(c == '#' and token == '')):
 				if ttype == 0 or ttype == 2: # text token
 					token += c
@@ -4085,6 +4086,7 @@ The contents of the list are safe to include in the output if you like.
 			elif (	(c >= 'a' and c <= 'z') or
 					(c >= 'A' and c <= 'Z') or
 					(c >= '0' and c <= '9') or
+					(c == '_') or
 					(c == '#' and token == '') or
 					(c == '@' and token == '')):
 				if ttype == 0 or ttype == 2: # text token
@@ -4151,6 +4153,26 @@ The contents of the list are safe to include in the output if you like.
 					'short','signed','sizeof','static',
 					'struct','switch','typedef','union',
 					'unsigned','void','volatile','while']
+			cpkeys = ['alignas','alignof','and','and_eq',
+					'asm','atomic_cancel','atomic_commit','atomic_noexcept',
+					'auto','bitand','bitor','bool','break','case','catch','char',
+					'char16_t','char_32t','class','compl',
+					'concept','const','constexpr','conts_cast',
+					'continue','decltype','default','delete','do',
+					'double','dynamic_cast','else',
+					'enum','explicit','export','extern','false',
+					'float','for','friend','goto','if','import','inline',
+					'int','long','module','mutable',
+					'namespace','new','noexcept','not','not_eq',
+					'nullptr','operator','or','or_eq','private',
+					'protected','public','register','reinterpret_cast',
+					'requires','return',
+					'short','signed','sizeof','static','static_assert',
+					'static_cast','struct','switch','synchronized',
+					'template','this','thread_local','throw',
+					'true','try','typedef','typeid','typename','union',
+					'unsigned','using','virtual','void','volatile',
+					'wchar_t','while','xor','xor_eq']
 			ockeys = ['auto','break','case','char',
 					'const','continue','default','do',
 					'double','else','enum','extern',
@@ -4192,6 +4214,30 @@ The contents of the list are safe to include in the output if you like.
 								el = pppre + el + pppost
 							elif (	(cc >= 'a' and cc <= 'z') or
 									(cc >= 'A' and cc <= 'Z') or
+									(c == '_') or
+									(cc >= '0' and cc <= '9')):
+								pass # not a keyword
+							else: # special chars
+								el = spre + el + spost
+							line += el
+					if high == 'cp':
+						cline = self.csssplit(line)
+						line = ''
+						for el in cline:
+							cc = el[0:1]
+							if el in cpkeys:
+								el = fpre + el + fpost
+							elif cc == ' ' or cc == '\t':
+								pass # whitespace
+							elif el[0:2] == '//':
+								el = copre + el + copost
+							elif cc == '"':
+								el = stpre + el + stpost
+							elif cc == '#':
+								el = pppre + el + pppost
+							elif (	(cc >= 'a' and cc <= 'z') or
+									(cc >= 'A' and cc <= 'Z') or
+									(c == '_') or
 									(cc >= '0' and cc <= '9')):
 								pass # not a keyword
 							else: # special chars
@@ -4216,6 +4262,7 @@ The contents of the list are safe to include in the output if you like.
 								el = atpre + el + atpost
 							elif (	(cc >= 'a' and cc <= 'z') or
 									(cc >= 'A' and cc <= 'Z') or
+									(c == '_') or
 									(cc >= '0' and cc <= '9')):
 								pass # not a keyword
 							else: # special chars

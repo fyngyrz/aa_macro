@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.92
+ * cpp code highlighting (many more keywords)
+
 1.0.91
  * oc code highlighting (minor diffs in keywords, @, etc.)
 
