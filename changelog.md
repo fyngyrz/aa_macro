@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.89
+ * small improvement in code highlighting where comments begin w/o whitespace
+
 1.0.88
  * [getc] gets high=c code highlighting. Does not respect /* */ comments
 

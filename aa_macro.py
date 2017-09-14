@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.88 Beta
+     Version: 1.0.89 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -3981,6 +3981,9 @@ The contents of the list are safe to include in the output if you like.
 				slashcount += 1
 				if slashcount == 2:
 					slashing = 1
+					if len(token) > 1: # case where comment begins w/o whitespace
+						ray += [token[0:-1]]
+						token = '/'
 			else:
 				slashcount = 0
 			if slashing == 1:
