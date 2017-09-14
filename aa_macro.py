@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: September 13th, 2017     (for Class)
-  LastDocRev: September 13th, 2017     (for Class)
+     LastRev: September 14th, 2017     (for Class)
+  LastDocRev: September 14th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.87 Beta
+     Version: 1.0.88 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -3969,49 +3969,173 @@ The contents of the list are safe to include in the output if you like.
 				o = ' !embrace "%s" fail: %s! ' % (data,e)
 		return o
 
+	def csssplit(self,line):
+		ray = []
+		token = ''
+		ttype = 0
+		inquote = ''
+		slashcount = 0
+		slashing = 0
+		for c in line:
+			if c == '/':
+				slashcount += 1
+				if slashcount == 2:
+					slashing = 1
+			else:
+				slashcount = 0
+			if slashing == 1:
+				token += c
+			elif c == '"':
+				if inquote == '"': # then this is closing quote
+					token += c
+					ray += [token]
+					token = ''
+					inquote = ''
+					ttype = 0
+					c = ''
+				else: # this is an opening quote
+					inquote = c
+					if token != '':
+						ray += [token]
+						token = ''
+						ttype = 4
+			if slashing == 1:
+				pass
+			elif inquote != '':
+				token += c
+			elif c == ' ' or c == '\t': # this is whitespace
+				if ttype == 0 or ttype == 1: # if this is a whitespace token
+					token += c
+				else: # NOT a whitespace token
+					if token != '': # add previous token to list if exists
+						ray += [token]
+					token = c # new token begins with this whitespace char
+				ttype = 1
+			elif (	(c >= 'a' and c <= 'z') or
+					(c >= 'A' and c <= 'Z') or
+					(c >= '0' and c <= '9')):
+				if ttype == 0 or ttype == 2: # text token
+					token += c
+				else: # token is NOT text
+					if token != '': # add previous token to list
+						ray += [token]
+					token = c # new token begins with this text char
+				ttype = 2
+			else: # some kind of special character
+				if ttype == 0 or ttype == 3: # special char token
+					token += c
+				else: # token is NOT special
+					if token != '': # add previous token to list
+						ray += [token]
+					token = c # new token begins with this special char
+				ttype = 3
+		if token != '': # pending token?
+			ray += [token]
+		return ray
+
 	def getc_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['tabsiz','tabchar'],data)
+		opts,data = self.popts(['tabsiz','tabchar','high'],data)
 		tabsiz = 4
 		tabchar = '&nbsp;'
+		high = ''
 		for el in opts:
 			if el[0] == 'tabsiz=':
 				try:
 					tabsiz = int(el[1])
 				except:
 					pass
-			if el[0] == 'tabchar=':
+			elif el[0] == 'tabchar=':
 				if el[1] == 'sp':
 					tabchar = ' '
 				else:
 					tabchar = el[1]
+			elif el[0] == 'high=':
+				high = el[1]
 		filename = data
 		try:
 			fh = open(filename)
 		except:
 			o = '--unable to open "%s"--' % (filename)
 		else:
+			fpre = 'fibble87pre'
+			fpost = 'fibble87post'
+			spre = 'glocker23pre'
+			spost = 'glocker23post'
+			stpre = 'wsp74pre'
+			stpost = 'wsp74post'
+			copre = 'ogy8080pre'
+			copost = 'ogy8080post'
+			ckeys = ['auto','break','case','char',
+					'const','continue','default','do',
+					'double','else','enum','extern',
+					'float','for','goto','if',
+					'int','long','register','return',
+					'short','signed','sizeof','static',
+					'struct','switch','typedef','union',
+					'unsigned','void','volatile','while']
+			skeys = [' ','\t']
 			tr = tabchar * tabsiz
 			try:
+				spacefool = 'space6809fool'
 				for line in fh:
+					xx = ''
 					for c in line:
 						if c == chr(9):
-							o += tr
-						elif c == '<': o += '&lt;'
-						elif c == '>': o += '&gt;'
-						elif c == '[': o += '[lb]'
-						elif c == ']': o += '[rb]'
-						elif c == '{': o += '[ls]'
-						elif c == '}': o += '[rs]'
-						elif c == '"': o += '&quot;'
-						elif c == '&': o += '&amp;'
-						else: o += c
-			except:
+							ll = len(xx) # current line length
+							rm = ll % tabsiz # remainder to get to next tab
+							tr = spacefool * (tabsiz - rm)
+							xx += tr
+						else:
+							xx += c
+					line = xx
+					if high == 'c':
+						cline = self.csssplit(line)
+						line = ''
+						for el in cline:
+							cc = el[0:1]
+							if el in ckeys:
+								el = fpre + el + fpost
+							elif cc == ' ' or cc == '\t':
+								pass # whitespace
+							elif el[0:2] == '//':
+								el = copre + el + copost
+							elif cc == '"':
+								el = stpre + el + stpost
+							elif (	(cc >= 'a' and cc <= 'z') or
+									(cc >= 'A' and cc <= 'Z') or
+									(cc >= '0' and cc <= '9')):
+								pass # not a keyword
+							else: # special chars
+								el = spre + el + spost
+							line += el
+					oo = ''
+					for c in line:
+						if c == '<': oo += '&lt;'
+						elif c == '>': oo += '&gt;'
+						elif c == '[': oo += '[lb]'
+						elif c == ']': oo += '[rb]'
+						elif c == '{': oo += '[ls]'
+						elif c == '}': oo += '[rs]'
+						elif c == '"': oo += '&quot;'
+						elif c == '&': oo += '&amp;'
+						else: oo += c
+					oo = oo.replace(fpre,'<span style="color: #ff8844">')
+					oo = oo.replace(fpost,'</span>')
+					oo = oo.replace(spre,'<span style="color: #4488ff">')
+					oo = oo.replace(spost,'</span>')
+					oo = oo.replace(stpre,'<span style="color: #ffffff">')
+					oo = oo.replace(stpost,'</span>')
+					oo = oo.replace(copre,'<span style="color: #888888">')
+					oo = oo.replace(copost,'</span>')
+					oo = oo.replace(spacefool,tabchar)
+					o += oo
+			except Exception,e:
 				try:
 					fh.close()
 				except:
 					pass
-				o += '--error while reading "%s"--' % (filename)
+				o += '--error while reading "%s": %s--' % (filename,str(e))
 			else:
 				try:
 					fh.close()
