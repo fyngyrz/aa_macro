@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.89 Beta
+     Version: 1.0.90 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -4016,7 +4016,8 @@ The contents of the list are safe to include in the output if you like.
 				ttype = 1
 			elif (	(c >= 'a' and c <= 'z') or
 					(c >= 'A' and c <= 'Z') or
-					(c >= '0' and c <= '9')):
+					(c >= '0' and c <= '9') or
+					(c == '#' and token == '')):
 				if ttype == 0 or ttype == 2: # text token
 					token += c
 				else: # token is NOT text
@@ -4069,6 +4070,8 @@ The contents of the list are safe to include in the output if you like.
 			stpost = 'wsp74post'
 			copre = 'ogy8080pre'
 			copost = 'ogy8080post'
+			pppre = 'sksk1802pre'
+			pppost = 'sksk1802post'
 			ckeys = ['auto','break','case','char',
 					'const','continue','default','do',
 					'double','else','enum','extern',
@@ -4105,6 +4108,8 @@ The contents of the list are safe to include in the output if you like.
 								el = copre + el + copost
 							elif cc == '"':
 								el = stpre + el + stpost
+							elif cc == '#':
+								el = pppre + el + pppost
 							elif (	(cc >= 'a' and cc <= 'z') or
 									(cc >= 'A' and cc <= 'Z') or
 									(cc >= '0' and cc <= '9')):
@@ -4131,6 +4136,8 @@ The contents of the list are safe to include in the output if you like.
 					oo = oo.replace(stpost,'</span>')
 					oo = oo.replace(copre,'<span style="color: #888888">')
 					oo = oo.replace(copost,'</span>')
+					oo = oo.replace(pppre,'<span style="color: #ff0000">')
+					oo = oo.replace(pppost,'</span>')
 					oo = oo.replace(spacefool,tabchar)
 					o += oo
 			except Exception,e:

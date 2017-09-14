@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.90
+ * c code highlighting now highlights apparent preprocessor directives
+
 1.0.89
  * small improvement in code highlighting where comments begin w/o whitespace
 

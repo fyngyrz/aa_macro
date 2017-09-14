@@ -744,9 +744,9 @@ char *msg = &quot;demo plugin cleanup&quot;;
 </span><span style="color: #888888">// -------------
 </span><span style="color: #888888">// tab stops every 4 spaces
 </span><span style="color: #4488ff">
-</span><span style="color: #4488ff">#</span>include <span style="color: #4488ff">&lt;</span>math<span style="color: #4488ff">.</span>h<span style="color: #4488ff">&gt;
-</span><span style="color: #4488ff">#</span>include <span style="color: #4488ff">&lt;</span>string<span style="color: #4488ff">.</span>h<span style="color: #4488ff">&gt;
-</span><span style="color: #4488ff">#</span>include <span style="color: #ffffff">&quot;developer.h&quot;</span><span style="color: #4488ff">
+</span><span style="color: #ff0000">#include</span> <span style="color: #4488ff">&lt;</span>math<span style="color: #4488ff">.</span>h<span style="color: #4488ff">&gt;
+</span><span style="color: #ff0000">#include</span> <span style="color: #4488ff">&lt;</span>string<span style="color: #4488ff">.</span>h<span style="color: #4488ff">&gt;
+</span><span style="color: #ff0000">#include</span> <span style="color: #ffffff">&quot;developer.h&quot;</span><span style="color: #4488ff">
 </span><span style="color: #4488ff">
 </span><span style="color: #ff8844">void</span> pengine<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>p<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> start<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> finish<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>&nbsp;&nbsp;&nbsp;<span style="color: #888888">// sets 64K remap
 </span><span style="color: #4488ff">[ls]
@@ -776,7 +776,7 @@ char *msg = &quot;demo plugin cleanup&quot;;
 </span><span style="color: #4488ff">
 </span><span style="color: #ff8844">void</span> setup<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plugin <span style="color: #4488ff">*</span>p<span style="color: #4488ff">)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// NOTE: most struct elements are preset to 0,
 </span><span style="color: #4488ff">[ls]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// if that is the setting you need, it's there.
-</span><span style="color: #4488ff">#</span>include <span style="color: #ffffff">&quot;ak_pu_date.txt&quot;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// this inserts the current date in the plugin
+</span><span style="color: #ff0000">#include</span> <span style="color: #ffffff">&quot;ak_pu_date.txt&quot;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// this inserts the current date in the plugin
 </span><span style="color: #4488ff">
 </span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>layer<span style="color: #4488ff">_</span>pri&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 9500<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// layer priority (posit in fx stack - see developer.h)
 </span>&nbsp;&nbsp;&nbsp;&nbsp;strcpy<span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>panel<span style="color: #4488ff">.</span>n<span style="color: #4488ff">,</span><span style="color: #ffffff">&quot;Brightness&quot;</span><span style="color: #4488ff">);</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// name appearing on panel
