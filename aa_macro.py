@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.90 Beta
+     Version: 1.0.91 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -166,7 +166,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
-	[getc (tabsiz=n,)(tabchar=X,)filename]			# c file to aa_macro format
+	[getc (tabsiz=n,)(tabchar=X,)(high=c|oc)filename]	# c/oc file to aa_macro format
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
@@ -4037,6 +4037,75 @@ The contents of the list are safe to include in the output if you like.
 			ray += [token]
 		return ray
 
+	def ocsssplit(self,line):
+		ray = []
+		token = ''
+		ttype = 0
+		inquote = ''
+		slashcount = 0
+		slashing = 0
+		for c in line:
+			if c == '/':
+				slashcount += 1
+				if slashcount == 2:
+					slashing = 1
+					if len(token) > 1: # case where comment begins w/o whitespace
+						ray += [token[0:-1]]
+						token = '/'
+			else:
+				slashcount = 0
+			if slashing == 1:
+				token += c
+			elif c == '"':
+				if inquote == '"': # then this is closing quote
+					token += c
+					ray += [token]
+					token = ''
+					inquote = ''
+					ttype = 0
+					c = ''
+				else: # this is an opening quote
+					inquote = c
+					if token != '':
+						ray += [token]
+						token = ''
+						ttype = 4
+			if slashing == 1:
+				pass
+			elif inquote != '':
+				token += c
+			elif c == ' ' or c == '\t': # this is whitespace
+				if ttype == 0 or ttype == 1: # if this is a whitespace token
+					token += c
+				else: # NOT a whitespace token
+					if token != '': # add previous token to list if exists
+						ray += [token]
+					token = c # new token begins with this whitespace char
+				ttype = 1
+			elif (	(c >= 'a' and c <= 'z') or
+					(c >= 'A' and c <= 'Z') or
+					(c >= '0' and c <= '9') or
+					(c == '#' and token == '') or
+					(c == '@' and token == '')):
+				if ttype == 0 or ttype == 2: # text token
+					token += c
+				else: # token is NOT text
+					if token != '': # add previous token to list
+						ray += [token]
+					token = c # new token begins with this text char
+				ttype = 2
+			else: # some kind of special character
+				if ttype == 0 or ttype == 3: # special char token
+					token += c
+				else: # token is NOT special
+					if token != '': # add previous token to list
+						ray += [token]
+					token = c # new token begins with this special char
+				ttype = 3
+		if token != '': # pending token?
+			ray += [token]
+		return ray
+
 	def getc_fn(self,tag,data):
 		o = ''
 		opts,data = self.popts(['tabsiz','tabchar','high'],data)
@@ -4072,6 +4141,8 @@ The contents of the list are safe to include in the output if you like.
 			copost = 'ogy8080post'
 			pppre = 'sksk1802pre'
 			pppost = 'sksk1802post'
+			atpre = 'ghy8000pre'
+			atpost = 'ghy8000post'
 			ckeys = ['auto','break','case','char',
 					'const','continue','default','do',
 					'double','else','enum','extern',
@@ -4080,6 +4151,15 @@ The contents of the list are safe to include in the output if you like.
 					'short','signed','sizeof','static',
 					'struct','switch','typedef','union',
 					'unsigned','void','volatile','while']
+			ockeys = ['auto','break','case','char',
+					'const','continue','default','do',
+					'double','else','enum','extern',
+					'float','for','goto','if',
+					'int','long','register','return',
+					'short','signed','sizeof','static',
+					'struct','switch','typedef','union',
+					'unsigned','void','volatile','while',
+					'id','inline','restrict']
 			skeys = [' ','\t']
 			tr = tabchar * tabsiz
 			try:
@@ -4117,6 +4197,30 @@ The contents of the list are safe to include in the output if you like.
 							else: # special chars
 								el = spre + el + spost
 							line += el
+					elif high == 'oc':
+						cline = self.ocsssplit(line)
+						line = ''
+						for el in cline:
+							cc = el[0:1]
+							if el in ockeys:
+								el = fpre + el + fpost
+							elif cc == ' ' or cc == '\t':
+								pass # whitespace
+							elif el[0:2] == '//':
+								el = copre + el + copost
+							elif cc == '"':
+								el = stpre + el + stpost
+							elif cc == '#':
+								el = pppre + el + pppost
+							elif cc == '@':
+								el = atpre + el + atpost
+							elif (	(cc >= 'a' and cc <= 'z') or
+									(cc >= 'A' and cc <= 'Z') or
+									(cc >= '0' and cc <= '9')):
+								pass # not a keyword
+							else: # special chars
+								el = spre + el + spost
+							line += el
 					oo = ''
 					for c in line:
 						if c == '<': oo += '&lt;'
@@ -4138,6 +4242,8 @@ The contents of the list are safe to include in the output if you like.
 					oo = oo.replace(copost,'</span>')
 					oo = oo.replace(pppre,'<span style="color: #ff0000">')
 					oo = oo.replace(pppost,'</span>')
+					oo = oo.replace(atpre,'<span style="color: #ff00ff">')
+					oo = oo.replace(atpost,'</span>')
 					oo = oo.replace(spacefool,tabchar)
 					o += oo
 			except Exception,e:
