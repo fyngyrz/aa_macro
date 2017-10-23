@@ -660,4 +660,4 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 
 [ol sep=|,start=7,seven|eight|nine]
 [ol sep=|,type=A,seven|eight|nine]
-[ol sep=|,type=A,start=C,seven|eight|nine]
+[ol sep=|,type=A,start=3,seven|eight|nine]
