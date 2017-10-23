@@ -249,4 +249,4 @@ at the command line:
 Finally, and much more completely, there is the [user guide](users-guide.md),
 as well as the [quick reference](quickref.html)
 
-Enjoy. :\)
+Enjoy.
