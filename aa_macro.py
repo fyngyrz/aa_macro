@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.93 Beta
+     Version: 1.0.94 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -121,7 +121,7 @@ class macro(object):
 	HTML Lists
 	----------
 	[ul (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
-	[ol (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(start=X,)(sep=X,)item1(Xitem2Xitem3...)]
+	[ol (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(type=X)(start=N,)(sep=X,)item1(Xitem2Xitem3...)]
 	[iful (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[ifol (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[t (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
@@ -2192,15 +2192,18 @@ The contents of the list are safe to include in the output if you like.
 
 	def genlist(self,tag,data,ty):
 		o = ''
-		opts,data = self.popts(['wrap','sep','istyle','lstyle','start'],data)
+		opts,data = self.popts(['type','wrap','sep','istyle','lstyle','start'],data)
 		wraps = ''
 		sep = ','
 		istyle = ''
 		lstyle = ''
 		start = ''
+		ltype = ''
 		for el in opts:
 			if el[0] == 'wrap=':
 				wraps = el[1]
+			elif el[0] == 'type=':
+				ltype = ' type="'+el[1]+'"'
 			elif el[0] == 'start=':
 				start = ' start="'+el[1]+'"'
 			elif el[0] == 'sep=':
@@ -2213,7 +2216,7 @@ The contents of the list are safe to include in the output if you like.
 		entries = data.split(sep)
 		if lstyle != '':
 			lstyle = ' style="%s"' % (lstyle)
-		o += '<%s%s%s>\n' % (ty,start,lstyle)						# BUILD a list
+		o += '<%s%s%s%s>\n' % (ty,ltype,start,lstyle)						# BUILD a list
 		if istyle != '':
 			istyle = ' style="%s"' % (istyle)
 		for en in entries:

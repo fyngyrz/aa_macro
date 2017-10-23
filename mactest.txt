@@ -659,3 +659,5 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [getc high=c,plugin_demo.c]
 
 [ol sep=|,start=7,seven|eight|nine]
+[ol sep=|,type=A,seven|eight|nine]
+[ol sep=|,type=A,start=C,seven|eight|nine]
