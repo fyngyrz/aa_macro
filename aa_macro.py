@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: September 14th, 2017     (for Class)
-  LastDocRev: September 14th, 2017     (for Class)
+     LastRev: October 23rd, 2017     (for Class)
+  LastDocRev: October 23rd, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.92 Beta
+     Version: 1.0.93 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -121,7 +121,7 @@ class macro(object):
 	HTML Lists
 	----------
 	[ul (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
-	[ol (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
+	[ol (lstyle=hstyle,)(istyle=hstyle,)(wrap=style,)(start=X,)(sep=X,)item1(Xitem2Xitem3...)]
 	[iful (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[ifol (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)] - more than one item makes a list
 	[t (wrap=style,)(sep=X,)item1(Xitem2Xitem3...)]
@@ -2192,14 +2192,17 @@ The contents of the list are safe to include in the output if you like.
 
 	def genlist(self,tag,data,ty):
 		o = ''
-		opts,data = self.popts(['wrap','sep','istyle','lstyle'],data)
+		opts,data = self.popts(['wrap','sep','istyle','lstyle','start'],data)
 		wraps = ''
 		sep = ','
 		istyle = ''
 		lstyle = ''
+		start = ''
 		for el in opts:
 			if el[0] == 'wrap=':
 				wraps = el[1]
+			elif el[0] == 'start=':
+				start = ' start="'+el[1]+'"'
 			elif el[0] == 'sep=':
 				sep = el[1]
 				if sep == '': return o
@@ -2210,7 +2213,7 @@ The contents of the list are safe to include in the output if you like.
 		entries = data.split(sep)
 		if lstyle != '':
 			lstyle = ' style="%s"' % (lstyle)
-		o += '<%s%s>\n' % (ty,lstyle)						# BUILD a list
+		o += '<%s%s%s>\n' % (ty,start,lstyle)						# BUILD a list
 		if istyle != '':
 			istyle = ' style="%s"' % (istyle)
 		for en in entries:
