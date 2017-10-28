@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: October 23rd, 2017     (for Class)
-  LastDocRev: October 23rd, 2017     (for Class)
+     LastRev: October 27th, 2017     (for Class)
+  LastDocRev: October 27th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.94 Beta
+     Version: 1.0.95 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -4544,6 +4544,7 @@ The contents of the list are safe to include in the output if you like.
 		inout = 0
 		o = ''
 		fg = 1
+		lasttag = ''
 		OUT = 0
 		IN = 1
 		DEFER = 2
@@ -4585,15 +4586,18 @@ The contents of the list are safe to include in the output if you like.
 					s[dex:dex+6]  == '[hlit '):
 					state = DEFER
 					depth = 1
+					lasttag = tag
 					tag = ''
 					data = ''
 				elif c == '{': # this is equiv to '[s '
 					state = IN
+					lasttag = tag
 					tag = 's '
 					data = ''
 					depth = 1
 				else:
 					state = IN
+					lasttag = tag
 					tag = ''
 					data = ''
 					depth = 1
@@ -4622,6 +4626,7 @@ The contents of the list are safe to include in the output if you like.
 					state = OUT
 					depth = 0
 				else:
+					lasttag = tag
 					tag = macstack.pop()
 					tag += fx
 			elif state == IN:
@@ -4638,6 +4643,8 @@ The contents of the list are safe to include in the output if you like.
 				o += c
 		for key in self.refs.keys():
 			o = o.replace(key,self.refs.get(key,''))
+		if depth != 0:
+			o += 'SYNTAX ERROR:\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (lasttag,depth,tag[:32],data[:32])
 		self.result = o
 		return o
 
