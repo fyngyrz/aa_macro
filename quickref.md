@@ -34,7 +34,7 @@ HTML Linking | &nbsp;
 HTML Images | &nbsp;
 ----------- | ----
  <tt>&#91;img \(imageTitle&#44;\)**imageURL** \(linkURL\)&#93;</tt> |  HTML image
- <tt>&#91;locimg \(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
+ <tt>&#91;locimg \(lpath=lipath&#44;\)\(wpath=wepath\)\(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;lipath **filePathToImages**&#93;</tt> |  path for &#91;locimg&#93;
  <tt>&#91;wepath **webPathToImages**&#93;</tt> |  path for &#91;locimg&#93;
 
@@ -328,7 +328,7 @@ Built-in | &nbsp;
  <tt>&#91;llen **listName**&#93;</tt> |  returns length of list
  <tt>&#91;load **varName** ? Unknown Style "fileName" ?&#93;</tt> |  load file into local variable
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
- <tt>&#91;locimg \(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
+ <tt>&#91;locimg \(lpath=lipath&#44;\)\(wpath=wepath\)\(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
  <tt>&#91;lower content&#93;</tt> |  convert to lowercase
  <tt>&#91;lpop **listName&#44;**\(listIndex\)&#93;</tt> |  pop an item out of a list at top, or at listIndex

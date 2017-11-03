@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: October 27th, 2017     (for Class)
-  LastDocRev: October 27th, 2017     (for Class)
+     LastRev: November 3rd, 2017     (for Class)
+  LastDocRev: November 3rd, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.95 Beta
+     Version: 1.0.96 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -2748,6 +2748,16 @@ The contents of the list are safe to include in the output if you like.
 		return ''
 
 	def low_img_fn(self,tag,data,getxy=False):
+		opts,data = self.popts(['lpath','wpath'],data)
+		blpath = lpath = self.lipath
+		bwpath = wpath = self.wepath
+		for el in opts:
+			if el[0] == 'lpath=':
+				lpath = el[1]
+			elif el[0] == 'wpath=':
+				wpath = el[1]
+		self.lipath = lpath
+		self.wepath = wpath
 		tit = ''
 		txy = ''
 		rv = ''
@@ -2772,6 +2782,8 @@ The contents of the list are safe to include in the output if you like.
 		if rv == '':
 			if getxy == True: txy = self.xyhelper(d1)
 			rv ='<a href="%s" target="_blank"><img%s alt="%s" title="%s" src="%s"></a>' % (d2,txy,tit,tit,self.wepath+d1)
+		self.lipath = blpath
+		self.wepath = bwpath
 		return rv
 
 	def img_fn(self,tag,data):
@@ -4644,7 +4656,7 @@ The contents of the list are safe to include in the output if you like.
 		for key in self.refs.keys():
 			o = o.replace(key,self.refs.get(key,''))
 		if depth != 0:
-			o += 'SYNTAX ERROR:\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (lasttag,depth,tag[:32],data[:32])
+			o += 'ERROR:\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (lasttag,depth,tag[:32],data[:32])
 		self.result = o
 		return o
 

@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.96
+ * [locimg] gets wpath and lpath options
+
 1.0.95
  * (pathetic) sytax error detection added
 

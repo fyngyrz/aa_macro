@@ -61,6 +61,7 @@ larry}
 [p [locimg test.png]]
 [p [locimg .png Test,test.png]]
 [p [locimg .png Test,test.png http://fyngyrz.com]]
+[p [locimg lpath=/usr/web/,wpath=/mypics/,test.png]]
 
 [p [locimg test.jpg http://fyngyrz.com]]
 [p [locimg test.jpg]]
