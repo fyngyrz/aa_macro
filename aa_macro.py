@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 3rd, 2017     (for Class)
-  LastDocRev: November 3rd, 2017     (for Class)
+     LastRev: November 5th, 2017     (for Class)
+  LastDocRev: November 5th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.96 Beta
+     Version: 1.0.97 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -236,6 +236,8 @@ class macro(object):
 	
 	Parsing and text processing
 	---------------------------
+	[alphalead (trail=1,)content]					# return leading alpha, discard remainder
+	[alphanumlead (trail=1,)content]				# return leading alphanumerics, discard remainder
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[splitcount N]									# limit number of splits to N for next split ONLY
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
@@ -3828,6 +3830,56 @@ The contents of the list are safe to include in the output if you like.
 			lx.append(float(el))
 		return lx
 
+	# [alphalead]
+	def alphalead_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['trail'],data)
+		trail='0'
+		o = ''
+		t = ''
+		sw = 0
+		for el in opts:
+			if el[0] == 'trail=':
+				trail = el[1]
+		for c in data:
+			if ((sw == 0) and ((c <= 'z' and c >= 'a') or
+			    (c <= 'Z' and c >= 'A'))):
+				o += c;
+			else:
+				sw = 1
+				if trail == '1':
+					t += c
+				else:
+					break
+		if trail == '1':
+			o = t
+		return o
+
+	# [alphanumlead]
+	def alphanumlead_fn(self,tag,data):
+		opts,data = self.popts(['trail'],data)
+		trail='0'
+		o = ''
+		t = ''
+		sw = 0
+		for el in opts:
+			if el[0] == 'trail=':
+				trail = el[1]
+		for c in data:
+			if ((sw == 0) and ((c <= 'z' and c >= 'a') or
+			    (c <= 'Z' and c >= 'A') or
+			    (c <= '9' and c >= '0'))):
+				o += c;
+			else:
+				sw = 1
+				if trail == '1':
+					t += c
+				else:
+					break
+		if trail == '1':
+			o = t
+		return o
+
 	# [stage start end steps step]
 	def stage_fn(self,tag,data):
 		o = ''
@@ -4528,6 +4580,8 @@ The contents of the list are safe to include in the output if you like.
 					'th'	: self.th_fn,		# [th integer] = st, nd, rd, th
 					'nd'	: self.nd_fn,		# [th integer] = 1st, 2nd, 3rd, 4th
 					'getc'	: self.getc_fn,		# [getc filename] import c text
+					'alphalead': self.alphalead_fn, #[alphalead (trail=1,)string] return leading alpha
+					'alphanumlead': self.alphanumlead_fn, #[alphanumlead (trail=1,)string] return leading alpha
 
 					# Miscellaneous
 					# -------------

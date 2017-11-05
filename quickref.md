@@ -137,6 +137,8 @@ Conditional Content | &nbsp;
  <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
+ <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
+ <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
 
 Text Processing | &nbsp;
 --------------- | ----
@@ -239,6 +241,8 @@ Built-in | &nbsp;
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
  <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
+ <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
+ <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
  <tt>&#91;append **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
  <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;b content&#93;</tt> |  HTML bold

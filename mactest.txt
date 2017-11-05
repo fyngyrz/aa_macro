@@ -4,6 +4,17 @@
 [style test [b]]  
 [style code <code>[b]</code>]  
 [style hello Why hello, [b], how are you?]  
+[style blue <span style="color: #0000ff;">[b]</span>]  
+[style mopt {blue [b [lb][b][rb]]}]  
+
+[style qrs 
+[table border="1" bgcolor="#ffffdd",
+[row ,[cell align="center",Quick Reference to Scripting Command]]
+[row ,[cell bgcolor="#dddddd", [b]]]
+[row ,
+[cell bgcolor="#ddffdd",[i Items in] [b CAPS] [i are] [b 0/1] [i switches or switches with more options than] [b 0/1][i .]<br>
+[i Multiple options are indicated by a range in brackets, such as] mopt 0-2[i .]
+]]]]
   
 {hello moe}
 {hello
@@ -662,3 +673,11 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [ol sep=|,start=7,seven|eight|nine]
 [ol sep=|,type=A,seven|eight|nine]
 [ol sep=|,type=A,start=3,seven|eight|nine]
+
+{mopt a-b}
+
+[alphalead abcd1234 test]
+[alphanumlead abcd1234 test]
+
+[alphalead trail=1,abcd1234 test]
+[alphanumlead trail=1,abcd1234 test]

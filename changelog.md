@@ -6,6 +6,10 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.97
+ * [alphalead (trail=1,)content] added
+ * [alphanumlead (trail=1,)content] added
+
 1.0.96
  * [locimg] gets wpath and lpath options
 
