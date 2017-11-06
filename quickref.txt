@@ -103,7 +103,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,min {r value1} {r value2}| minimum of two numbers]  
 [append bil,inc {r value}| add one to value]  
 [append bil,dec {r value}| subtract one from value]  
-[append bil,stage {o mode=float{co}}{digits=N{co}}{r start} {r end} {r steps} {r step}| subtract one from value]  
+[append bil,stage {o mode=float{co}}{o digits=N{co}}{r start} {r end} {r steps} {r step}| subtract one from value]  
   
 [append bil,even {r value} {c}| if value is even{co} then content~Conditional Content]  
 [append bil,odd {r value} {c}| if value is odd{co} then content]  

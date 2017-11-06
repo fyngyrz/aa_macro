@@ -125,7 +125,7 @@ Math | &nbsp;
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
- <tt>&#91;stage \(mode=float&#44;\)? Unknown Style "digits=N&#44;" ?**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
+ <tt>&#91;stage \(mode=float&#44;\)\(digits=N&#44;\)**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
 
 Conditional Content | &nbsp;
 ------------------- | ----
@@ -380,7 +380,7 @@ Built-in | &nbsp;
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;sp&#93;</tt> |  space
  <tt>&#91;ssort \(rev=1&#44;\)content&#93;</tt> |  case-sensitive sort of lines
- <tt>&#91;stage \(mode=float&#44;\)? Unknown Style "digits=N&#44;" ?**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
+ <tt>&#91;stage \(mode=float&#44;\)\(digits=N&#44;\)**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
  <tt>&#91;strip content&#93;</tt> |  strip HTML tags out
  <tt>&#91;stripe (charset=chars,)content&#93;</tt> |  strip chars from both ends of line (default = spaces)
  <tt>&#91;style **styleName** **styleContent**&#93;</tt> |  local style
