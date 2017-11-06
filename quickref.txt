@@ -115,8 +115,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,ifge {r value1{co}}{r value2 {co}}{c}| if value1 &gt;= value2{co} then content]  
   
 [append bil,slice {r sliceSpec{co}{c}}| slice content~Text Processing]  
-[append bil,alphalead {o trail=1,}{c}|Return leading alpha characters]  
-[append bil,alphanumlead {o trail=1,}{c}|Return leading alphanumeric characters]  
+[append bil,alphalead {o trail=1,}{c}|Return leading alpha characters{co} or trailing content]  
+[append bil,alphanumlead {o trail=1,}{c}|Return leading alphanumeric characters{co} or trailing content]  
 [append bil,splitcount {r value}| Maximum number of splits to perform in next {lb}split{rb}]  
 [append bil,split {r X{co}}{c}{o Xcontent}| split for use with {lb}parm{rb}]  
 [append bil,parm {r value}| returns results of {lb}split{rb}]  

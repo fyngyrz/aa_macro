@@ -141,8 +141,8 @@ Conditional Content | &nbsp;
 Text Processing | &nbsp;
 --------------- | ----
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
- <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
- <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
+ <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters&#44; or trailing content
+ <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
@@ -241,8 +241,8 @@ Built-in | &nbsp;
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
  <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
- <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
- <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
+ <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters&#44; or trailing content
+ <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
  <tt>&#91;append **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
  <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;b content&#93;</tt> |  HTML bold
