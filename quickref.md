@@ -68,8 +68,8 @@ Variables | &nbsp;
  <tt>&#91;lv **varName**&#93;</tt> |  local variable
  <tt>&#91;vinc \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  increment local(global) variable
  <tt>&#91;vdec \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  decrement local(global) variable
- <tt>&#91;load **varName** ? Unknown Style "fileName" ?&#93;</tt> |  load file into local variable
- <tt>&#91;gload **varName** ? Unknown Style "fileName" ?&#93;</tt> |  load file into global variable
+ <tt>&#91;load **varName** **fileName**&#93;</tt> |  load file into local variable
+ <tt>&#91;gload **varName** **fileName**&#93;</tt> |  load file into global variable
 
 Data Lists | &nbsp;
 ---------- | ----
@@ -292,7 +292,7 @@ Built-in | &nbsp;
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
  <tt>&#91;getc \(high=lang&#44;\)\(tabsiz=n&#44;\)\(tabchar=X&#44;\)filename&#93;</tt> |  import c or oc source file as aa_macro
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
- <tt>&#91;gload **varName** ? Unknown Style "fileName" ?&#93;</tt> |  load file into global variable
+ <tt>&#91;gload **varName** **fileName**&#93;</tt> |  load file into global variable
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
  <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
@@ -330,7 +330,7 @@ Built-in | &nbsp;
  <tt>&#91;ljoin **listName**&#44;\(joinTerm\)&#93;</tt> |  Join a list with joinTerm(s) between elements
  <tt>&#91;ljust **width&#44;****padChar&#44;**content&#93;</tt> |  left justify
  <tt>&#91;llen **listName**&#93;</tt> |  returns length of list
- <tt>&#91;load **varName** ? Unknown Style "fileName" ?&#93;</tt> |  load file into local variable
+ <tt>&#91;load **varName** **fileName**&#93;</tt> |  load file into local variable
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;locimg \(lpath=lipath&#44;\)\(wpath=wepath\)\(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)

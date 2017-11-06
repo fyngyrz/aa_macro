@@ -53,8 +53,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,lv {r varName}| local variable]  
 [append bil,vinc {o pre=1{co}}{o quiet=1{co}}{r varName}| increment local(global) variable]  
 [append bil,vdec {o pre=1{co}}{o quiet=1{co}}{r varName}| decrement local(global) variable]  
-[append bil,load {r varName} {fileName}| load file into local variable]  
-[append bil,gload {r varName} {fileName}| load file into global variable]  
+[append bil,load {r varName} {r fileName}| load file into local variable]  
+[append bil,gload {r varName} {r fileName}| load file into global variable]  
   
 [append bil,list {o sep=X{co}}{r listname}{co}{cc itemContent}{o XitemContent}| create or overwrite a list~Data Lists]  
 [append bil,clearl {r listName}| Discards list content]
