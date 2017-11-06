@@ -219,7 +219,7 @@ Styles | &nbsp;
  <tt>&#91;style **styleName** **styleContent**&#93;</tt> |  local style
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;for **styleName**&#44;**X**&#44;**Y**&#44;**Z**&#93;</tt> |  iterates number to style
- <tt>&#91;in **styleName**? Unknown Style "cco" ?**listName**&#93;</tt> |  iterates list to style
+ <tt>&#91;in **styleName**&#44;**listName**&#93;</tt> |  iterates list to style
  <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
  <tt>&#91;case \(sep=X&#44;\)**switchName** **caseXcontent**&#93;</tt> |  case (works with switch)
  <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
@@ -311,7 +311,7 @@ Built-in | &nbsp;
  <tt>&#91;ifol \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list IF &gt; one item
  <tt>&#91;iful \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list IF &gt; one item
  <tt>&#91;img \(imageTitle&#44;\)**imageURL** \(linkURL\)&#93;</tt> |  HTML image
- <tt>&#91;in **styleName**? Unknown Style "cco" ?**listName**&#93;</tt> |  iterates list to style
+ <tt>&#91;in **styleName**&#44;**listName**&#93;</tt> |  iterates list to style
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
  <tt>&#91;inter **iStr&#44;****L&#124;R&#44;****value&#44;**content&#93;</tt> |  intersperse iStr every value in content
