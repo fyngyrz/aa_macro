@@ -137,12 +137,12 @@ Conditional Content | &nbsp;
  <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
- <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
- <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
 
 Text Processing | &nbsp;
 --------------- | ----
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
+ <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters
+ <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
