@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 5th, 2017     (for Class)
-  LastDocRev: November 5th, 2017     (for Class)
+     LastRev: November 10th, 2017     (for Class)
+  LastDocRev: November 10th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -64,7 +64,7 @@ class macro(object):
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
      1st-Rel: 1.0.0
-     Version: 1.0.97 Beta
+     Version: 1.0.98 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -87,10 +87,11 @@ class macro(object):
 	
 	Linking
 	-------
-	[a (tab,)URL(,linked text)]		# The WORD tab, not a tab character. As in a browser tab
+	[url (sep=|,)(nam=Name,)(css=CSS,)(tgt=_target,)URLsepITEM]
 	
-	Older Linking (will remain, but [a URL] is better)
+	Older Linking (will remain, but [url] is better)
 	--------------------------------------------------
+	[a (tab,)URL(,linked text)]		# The WORD tab, not a tab character. As in a browser tab
 	[web URL (text)]				# If you don't provide text, you get "On the web"
 	[link URL (text)]				# If you don't provide text, you get the URL as the text
 	[urlencode URL]					# converts certain chars to character entities, etc.:
@@ -759,8 +760,11 @@ The contents of the list are safe to include in the output if you like.
 		self.back = self.mcolor(back)
 
 	def popts(self,olist,data):
-		plist = data.split(',')
 		ropts = []
+		if data.find(',') != -1:
+			plist = data.split(',')
+		else:
+			return ropts,data
 		run = True
 		while run == True:
 			hit = False
@@ -2805,6 +2809,40 @@ The contents of the list are safe to include in the output if you like.
 	def nc_fn(self,tag,data):
 		return data.replace(',','&#44;')
 
+	def url_fn(self,tag,data):
+		opts,data = self.popts(['sep','tgt','css','nam'],data)
+		sep='|'
+		tgt=''
+		css=''
+		nam=''
+		o = ''
+		for el in opts:
+			if el[0] == 'sep=':
+				if el[1] == '&#44;':
+					el[1] = ','
+				sep = el[1]
+			elif el[0] == 'tgt=':
+				tgt = ' target="'+el[1]+'"'
+			elif el[0] == 'css=':
+				css = ' style="'+el[1]+'"'
+			elif el[0] == 'nam=':
+				nam = ' name="'+el[1]+'"'
+		if data == '':
+			data = '|'
+		try:
+			url,string = data.split(sep)
+		except:
+			o = ' MALFORMED_URL Error '
+		else:
+			if data != '|':
+				o = '<a'+nam+css+tgt+' href="'+url+'">'+string+'</a>'
+			else: # no data provided
+				if nam=='':
+					o = ' EMPTY_URL_AND_NAM Error '
+				else:
+					o = '<a'+nam+'></a>'
+		return o
+
 	def a_fn(self,tag,data):
 		o = ''
 		dlist = data.split(',')
@@ -4459,7 +4497,8 @@ The contents of the list are safe to include in the output if you like.
 					'link'	: self.link_fn,		# link URL (text) if no text, then linked URL
 					'web'	: self.web_fn,		# link URL (text) if no text, the "On the Web"
 					'urlencode': self.urle_fn,	# encodes space, ampersand, double quotes
-					
+					'url'	: self.url_fn,		# [url (sep=|,)(nam=Name,)(css=CSS,)(tgt=_target,)URLsepITEM]
+
 					# Image handling
 					# --------------
 					'img'	: self.img_fn,		# img emplacement from URL

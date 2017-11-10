@@ -681,3 +681,9 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 
 [alphalead trail=1,abcd1234 test]
 [alphanumlead trail=1,abcd1234 test]
+
+[url http://fyngyrz.com/|Home]
+[url nam=glop,]
+[url tgt=_blank,http://fyngyrz.com/|Home Page]
+[url css=text-decoration: underline;,http://fyngyrz.com/|Home Page]
+[url sep=[co],http://fyngyrz.com/,Home Page]
