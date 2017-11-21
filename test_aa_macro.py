@@ -64,6 +64,18 @@ Test aa_macro.py functionality
 		fh.close()
 		mod = macro()
 		output = mod.do(testBlock)
+		
+		mod = macro(noembrace=True)
+		output2 = mod.do('[embrace embrace-example.py]\n')
+		output = output + output2
+		
+		mod = macro(noinclude=True)
+		output3 = mod.do('[include aagen-example.txt]\n')
+		output = output + output3
+		
+		mod = macro(noshell=True)
+		output4 = mod.do('[sys echo shell test]\n[gload othervar forvariable.txt]\n[load myvar forvariable.txt]\n')
+		output = output + output4
 
 		if rebuild == 1:
 			fileName = 'testresult.html'

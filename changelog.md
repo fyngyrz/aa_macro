@@ -6,6 +6,10 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.99
+ * noembrace invocation switch added
+ * noinclude invocation switch added
+
 1.0.98
  * [url (sep=|,)(nam=Name,)(css=CSS,)(tgt=_target,)URLsepITEM]
 

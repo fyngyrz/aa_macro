@@ -29,12 +29,14 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 10th, 2017     (for Class)
-  LastDocRev: November 10th, 2017     (for Class)
+     LastRev: November 20th, 2017     (for Class)
+  LastDocRev: November 20th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
+     1st-Rel: 1.0.0
+     Version: 1.0.99 Beta
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -63,8 +65,6 @@ class macro(object):
 			  hack your website, not access to the public, which may very well contain
 			  someone who wants to do you wrong. Having said that, see the sanitize()
 			  utility function within this class.
-     1st-Rel: 1.0.0
-     Version: 1.0.98 Beta
      History:                    (for Class)
 	 	See changelog.md
 
@@ -420,6 +420,9 @@ class macro(object):
 	-----------------------------------
 	mode ------ '3.2'  (default) or '4.01s' to set HTML rendering mode
 	nodinner -- True   (default) or False eats sequences of two spaces followed by a newline
+	noshell --- False (default) or True disables [sys] [load] and [gload] built-ins
+	noembrace - False (default) or True disables [embrace] built-in
+	noinclude - False (default) or True disables [include] built-in
 	back ------ ffffff (default) HEX3 or HEX color for background color in HTML 4.01s mode
 	dothis ---- None   (default) you can pass in initial text to be processed here if you like
 	            the object returns the result in its string method:
@@ -445,7 +448,7 @@ class macro(object):
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 
 """
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False):
 		self.setMode(mode)
 		self.setBack(back)
 		self.setNoDinner(nodinner)
@@ -466,6 +469,8 @@ class macro(object):
 		self.padCallLocalToggle = 0
 		self.padCallLocalRegion = -1
 		self.noshell = noshell
+		self.noembrace = noembrace
+		self.noinclude = noinclude
 		self.sexdigs = '01230120022455012623010202'
 		self.romans = ['m','cm','d','cd','c','xc','l','xl','x','ix','v','iv','i']
 		self.integers = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
@@ -874,7 +879,7 @@ The contents of the list are safe to include in the output if you like.
 	def gload_fn(self,tag,data):
 		o = ''
 		em = ' aa_macro gload operator error '
-		if self.noshell == True: return o
+		if self.noshell == True: return '! gload Not Available !'
 		plist = data.split(' ')
 		if len(plist) != 2: return em
 		vn = plist[0]
@@ -903,7 +908,7 @@ The contents of the list are safe to include in the output if you like.
 	def load_fn(self,tag,data):
 		o = ''
 		em = ' aa_macro load operator error '
-		if self.noshell == True: return o
+		if self.noshell == True: return '! load Not Available !'
 		plist = data.split(' ')
 		if len(plist) != 2: return em
 		vn = plist[0]
@@ -930,7 +935,7 @@ The contents of the list are safe to include in the output if you like.
 
 	def sys_fn(self,tag,data):
 		o = ''
-		if self.noshell == True: return o
+		if self.noshell == True: return '! sys Not Available !'
 		if data != '':
 			try:
 				s = subprocess.Popen(data, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -1017,6 +1022,8 @@ The contents of the list are safe to include in the output if you like.
 
 	# [include filename]
 	def inclu_fn(self,tag,data):
+		if self.noinclude == True:
+			return '! include Not Available !'
 		o = ''
 		if data != '':
 			try:
@@ -2832,7 +2839,7 @@ The contents of the list are safe to include in the output if you like.
 		try:
 			url,string = data.split(sep)
 		except:
-			o = ' MALFORMED_URL Error '
+			o = ' MALFORMED_URL Error sep="%s" data="%s"' % (sep,data)
 		else:
 			if data != '|':
 				o = '<a'+nam+css+tgt+' href="'+url+'">'+string+'</a>'
@@ -4059,6 +4066,8 @@ The contents of the list are safe to include in the output if you like.
 		return pad+ll[2]
 
 	def hug_fn(self,tag,data):
+		if self.noembrace == True:
+			return '! embrace Not Available !'
 		o = ''
 		p = data.split('.py')
 		try:
