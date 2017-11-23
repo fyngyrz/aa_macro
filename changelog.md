@@ -6,6 +6,11 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.101
+ * new options for [time]
+ * new [int]
+ * new [abs]
+
 1.0.100
  * [limg] function added - improved on [locimg], [locimg] obsoleted
 

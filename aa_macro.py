@@ -36,7 +36,7 @@ class macro(object):
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 1.0.100 Beta
+     Version: 1.0.101 Beta
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -214,6 +214,8 @@ class macro(object):
 
 	Math
 	----
+	[int value]										# return the integer of the value
+	[abs value]										# return the absolute value of the value
 	[add value addend]								# add a number to a number
 	[sub value subtrahend]							# subtract a number from a number
 	[mul value multiplier]							# multiply a number by a number
@@ -301,7 +303,7 @@ class macro(object):
 	Misc
 	----
 	[date]											# date processing took place
-	[time]											# time processing took place
+	[time (sfx=,)(asfx=,)(psfx=,)(mode=12|24,)]		# time processing took place
 	[fref label]									# forward reference
 	[resolve (hex=1,)label,content]					# resolve forward label reference(s) to content
 	[sys shellCommand]								# execute shell command
@@ -764,22 +766,33 @@ The contents of the list are safe to include in the output if you like.
 	def setBack(self,back="ffffff"):
 		self.back = self.mcolor(back)
 
-	def popts(self,olist,data):
+	def popts(self,olist,data,justopts=False):
 		ropts = []
-		if data.find(',') != -1:
-			plist = data.split(',')
+		plist = []
+		if justopts == True:
+			if data.find(',') == -1:
+				plist += [data];
+			else:
+				plist = data.split(',')
+			if len(plist) == 0 or plist[0] == '':
+				return ropts,data
 		else:
-			return ropts,data
+			if data.find(',') != -1:
+				plist = data.split(',')
+			else:
+				return ropts,data
 		run = True
 		while run == True:
 			hit = False
 			for el in olist:
 				el += '='
 				l = len(el)
-				if plist[0][:l] == el:
-					ropts += [[el,plist[0][l:]]]
-					plist.pop(0)
-					hit = True
+				if len(plist) != 0:
+					mystr = plist[0]
+					if mystr[:l] == str(el):
+						ropts += [[el,plist[0][l:]]]
+						plist.pop(0)
+						hit = True
 			if hit == False:
 				run = False
 			result = ''
@@ -947,15 +960,67 @@ The contents of the list are safe to include in the output if you like.
 				o += 'System call failed: "%s" (%s)' % (e,data)
 		return o
 
+	def int_fn(self,tag,data):
+		o = '0'
+		try:
+			o = str(int(float(data)))
+		except:
+			pass
+		return o
+
+	def abs_fn(self,tag,data):
+		o = '0'
+		try:
+			o = str(abs(float(data)))
+		except:
+			pass
+		return o
+
 	def time_fn(self,tag,data):
 		t = time.localtime()
+		opts,data = self.popts(['mode','sfx','asfx','psfx'],data,True)
+		mode = '24'
+		sfx = ''
+		asfx = ''
+		psfx = ''
+		for el in opts:
+			if el[0] == 'mode=':
+				mmode = el[1]
+				if mmode == '12':
+					mode = '12'
+			elif el[0] == 'sfx=':
+				sfx = el[1]
+			elif el[0] == 'asfx=':
+				asfx = el[1]
+			elif el[0] == 'psfx=':
+				psfx = el[1]
+		if sfx == 'auto':
+			asfx = ' AM'
+			psfx = ' PM'
+			if mode == '24':
+				sfx = ' Military Time'
+			else:
+				if t[3] < 12:
+					sfx = asfx
+				else:
+					sfx = psfx
+		if mode == '12':
+			if t[3] <= 12:
+				sfx = asfx
+			else:
+				sfx = psfx
 		sh = str(t[3])
+		thh = t[3];
+		if mode == '12':
+			if t[3] > 12:
+				sh = str(t[3] - 12)
+				thh = t[3] - 12
 		sm = str(t[4])
 		ss = str(t[5])
-		if t[3] < 10: sh = '0'+sh
+		if thh < 10: sh = '0'+sh
 		if t[4] < 10: sm = '0'+sm
 		if t[5] < 10: ss = '0'+ss
-		return(sh+sm+ss)
+		return(sh+sm+ss+sfx)
 
 	def date_fn(self,tag,data):
 		t = time.localtime()
@@ -4552,6 +4617,8 @@ The contents of the list are safe to include in the output if you like.
 
 					# math
 					# ----
+					'int'	: self.int_fn,		# [int number]
+					'abs'	: self.abs_fn,		# [abs number]
 					'add'	: self.math_fn,		# P1 + P2
 					'sub'	: self.math_fn,		# P1 - P2
 					'mul'	: self.math_fn,		# P1 * P2

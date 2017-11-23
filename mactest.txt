@@ -220,6 +220,11 @@ larry}
 
 {h2 Math}
 [p 
+[int 34.5]
+[int 02]
+[abs -3]
+[abs 3.2]
+[abs -6.7]
 [add -1 6]
 [sub 10 9]
 [mul 3 5]

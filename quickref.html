@@ -100,6 +100,10 @@
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>fetch <b><font color="#00FF00">itemIndex</font></b><font color="#00FFFF">&#93;</font></tt></td><td> fetch any item from stack - 0 is top of stack</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>flush<font color="#00FFFF">&#93;</font></tt></td><td> delete stack contents</td></tr>
 <tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Math</font></th></tr>
+<tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>int <b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> integer of number</td></tr>
+<tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Math</font></th></tr>
+<tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>abs <b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> absolute value of number</td></tr>
+<tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Math</font></th></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>add <b><font color="#00FF00">value</font></b> <b><font color="#00FF00">addend</font></b><font color="#00FFFF">&#93;</font></tt></td><td> add two numbers</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>sub <b><font color="#00FF00">value</font></b> <b><font color="#00FF00">subtrahend</font></b><font color="#00FFFF">&#93;</font></tt></td><td> subtract two numbers</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>mul <b><font color="#00FF00">value</font></b> <b><font color="#00FF00">multiplier</font></b><font color="#00FFFF">&#93;</font></tt></td><td> multiply two numbers</td></tr>
@@ -168,7 +172,7 @@
 <tr><th colspan=2>&nbsp;</th></tr><tr><th bgcolor="#444444" colspan=2><font color="#00FFFF">Miscellanea</font></th></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>sys <b><font color="#00FF00">shellCommand</font></b><font color="#00FFFF">&#93;</font></tt></td><td> invoke an operating system command. Output is captured</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>date<font color="#00FFFF">&#93;</font></tt></td><td> The date of macro() processing (use CGI for live date in HTML)</td></tr>
-<tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>time<font color="#00FFFF">&#93;</font></tt></td><td> The time of macro() processing (use CGI for live time in HTML)</td></tr>
+<tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>time <b><font color="#FF0000">mode=12<font color="#00FFFF">&#93;</font></tt></td><td>24&#44;</font></b><b><font color="#FF0000">sfx=auto|*&#44;</font></b><b><font color="#FF0000">asfx=&#44;</font></b><b><font color="#FF0000">psfx=&#44;</font></b>| The time of macro() processing (use CGI for live time in HTML)</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>include <b><font color="#00FF00">fileName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> include macro() source file</td></tr>
 <tr bgcolor="#000000"><td><tt><font color="#00FFFF">&#91;</font>embrace <b><font color="#00FF00">moduleName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> add&#44; extend&#44; or replace macro() functionality</td></tr>
 <tr bgcolor="#181818"><td><tt><font color="#00FFFF">&#91;</font>repeat <b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> repeat content&#44; evaluating content <i>each time</i></td></tr>
@@ -209,6 +213,7 @@
 
 <p><i>key:</i> built-in <b><font color="#FF0000">options</font></b> <b><font color="#00FF00">required</font></b> <b><font color="#FFFF00">content</font></b></p>
 <table <tr><td><tt><font color="#00FFFF">&#91;</font>a <b><font color="#FF0000">tab&#44;</font></b><b><font color="#00FF00">URL</font></b><b><font color="#FF0000">&#44;linkedContent</font></b><font color="#00FFFF">&#93;</font></tt></td><td> HTML link</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>abs <b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> absolute value of number</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>add <b><font color="#00FF00">value</font></b> <b><font color="#00FF00">addend</font></b><font color="#00FFFF">&#93;</font></tt></td><td> add two numbers</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>aisort <b><font color="#FF0000">rev=1&#44;</font></b><b><font color="#00FF00">listName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> ASCII case-insensitive sofr of list&#44; in place</td></tr>
 <tr><td <tt><font color="#00FFFF">&#91;</font>alphalead <b><font color="#FF0000">trail=1></font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td>Return leading alpha characters&#44; or trailing content</td></tr>
@@ -284,6 +289,7 @@
 <tr><td><tt><font color="#00FFFF">&#91;</font>in <b><font color="#00FF00">styleName</font></b>&#44;<b><font color="#00FF00">listName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> iterates list to style</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>inc <b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> add one to value</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>include <b><font color="#00FF00">fileName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> include macro() source file</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>int <b><font color="#00FF00">value</font></b><font color="#00FFFF">&#93;</font></tt></td><td> integer of number</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>inter <b><font color="#00FF00">iStr&#44;</font></b><b><font color="#00FF00">L&#124;R&#44;</font></b><b><font color="#00FF00">value&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> intersperse iStr every value in content</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>isort <b><font color="#FF0000">rev=1&#44;</font></b><b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#00FF00">listName</font></b><font color="#00FFFF">&#93;</font></tt></td><td> sort by leading integer&#44; sep defaults to "&#44;"</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>issort <b><font color="#FF0000">rev=1&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> sort of lines by integer followed by a comma</td></tr>
@@ -360,7 +366,7 @@
 <tr><td><tt><font color="#00FFFF">&#91;</font>t <b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#FFFF00">itemContent<b><font color="#FF0000">XitemContent</font></b></font></b><font color="#00FFFF">&#93;</font></tt></td><td> style wrap around item(s)</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>table <b><font color="#FF0000">options</font></b>&#44;<b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> HTML table \(comma is *not* optional\)</td></tr>
 <tr <td><tt><font color="#00FFFF">&#91;</font>th <b><font color="#00FF00">integer</font></b><font color="#00FFFF">&#93;</font></tt></td><td st> nd> rd, th...</td></tr>
-<tr><td><tt><font color="#00FFFF">&#91;</font>time<font color="#00FFFF">&#93;</font></tt></td><td> The time of macro() processing (use CGI for live time in HTML)</td></tr>
+<tr><td><tt><font color="#00FFFF">&#91;</font>time <b><font color="#FF0000">mode=12<font color="#00FFFF">&#93;</font></tt></td><td>24&#44;</font></b><b><font color="#FF0000">sfx=auto|*&#44;</font></b><b><font color="#FF0000">asfx=&#44;</font></b><b><font color="#FF0000">psfx=&#44;</font></b>| The time of macro() processing (use CGI for live time in HTML)</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>translate <b><font color="#FF0000">pre=PRE&#44;</font></b><b><font color="#FF0000">post=POST&#44;</font></b><b><font color="#FF0000">inter=INTER&#44;</font></b><b><font color="#00FF00">listName&#44;</font></b><b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> translate content using character map formatted list</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>u <b><font color="#FFFF00">content</font></b><font color="#00FFFF">&#93;</font></tt></td><td> HTML underline</td></tr>
 <tr><td><tt><font color="#00FFFF">&#91;</font>ul <b><font color="#FF0000">istyle=hstyle&#44;</font></b><b><font color="#FF0000">lstyle=hstyle&#44;</font></b><b><font color="#FF0000">wrap=style&#44;</font></b><b><font color="#FF0000">sep=X&#44;</font></b><b><font color="#FFFF00">itemContent<b><font color="#FF0000">XitemContent</font></b></font></b><font color="#00FFFF">&#93;</font></tt></td><td> HTML unordered list</td></tr>

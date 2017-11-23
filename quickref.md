@@ -119,6 +119,14 @@ General Stack | &nbsp;
 
 Math | &nbsp;
 ---- | ----
+ <tt>&#91;int **value**&#93;</tt> |  integer of number
+
+Math | &nbsp;
+---- | ----
+ <tt>&#91;abs **value**&#93;</tt> |  absolute value of number
+
+Math | &nbsp;
+---- | ----
  <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;sub **value** **subtrahend**&#93;</tt> |  subtract two numbers
  <tt>&#91;mul **value** **multiplier**&#93;</tt> |  multiply two numbers
@@ -193,7 +201,7 @@ Miscellanea | &nbsp;
 ----------- | ----
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
- <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
+ <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
@@ -241,6 +249,7 @@ _key:_ built-in \(options\) **required** content
 Built-in | &nbsp;
 -------- | ----
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
+ <tt>&#91;abs **value**&#93;</tt> |  absolute value of number
  <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
  <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters&#44; or trailing content
@@ -316,6 +325,7 @@ Built-in | &nbsp;
  <tt>&#91;in **styleName**&#44;**listName**&#93;</tt> |  iterates list to style
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
+ <tt>&#91;int **value**&#93;</tt> |  integer of number
  <tt>&#91;inter **iStr&#44;****L&#124;R&#44;****value&#44;**content&#93;</tt> |  intersperse iStr every value in content
  <tt>&#91;isort \(rev=1&#44;\)\(sep=X&#44;\)**listName**&#93;</tt> |  sort by leading integer&#44; sep defaults to &quot;&#44;&quot;
  <tt>&#91;issort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by integer followed by a comma
@@ -392,7 +402,7 @@ Built-in | &nbsp;
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
- <tt>&#91;time&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
+ <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;u content&#93;</tt> |  HTML underline
  <tt>&#91;ul \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list

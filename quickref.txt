@@ -96,6 +96,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,fetch {r itemIndex}| fetch any item from stack - 0 is top of stack]  
 [append bil,flush| delete stack contents]  
   
+[append bil,int {r value}| integer of number~Math]  
+[append bil,abs {r value}| absolute value of number~Math]  
 [append bil,add {r value} {r addend}| add two numbers~Math]  
 [append bil,sub {r value} {r subtrahend}| subtract two numbers]  
 [append bil,mul {r value} {r multiplier}| multiply two numbers]  
@@ -165,7 +167,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
   
 [append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  
-[append bil,time| The time of macro() processing (use CGI for live time in HTML)]  
+[append bil,time {o mode=12|24{co}}{o sfx=auto|*{co}}{o asfx={co}}{o psfx={co}}| The time of macro() processing (use CGI for live time in HTML)]  
 [append bil,include {r fileName}| include macro() source file]  
 [append bil,embrace {r moduleName}| add{co} extend{co} or replace macro() functionality]  
 [append bil,repeat {r value{co}}{c}| repeat content{co} evaluating content [i each time]]  
