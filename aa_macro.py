@@ -29,14 +29,14 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 20th, 2017     (for Class)
-  LastDocRev: November 20th, 2017     (for Class)
+     LastRev: November 23rd, 2017     (for Class)
+  LastDocRev: November 23rd, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 1.0.99 Beta
+     Version: 1.0.100 Beta
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -99,24 +99,24 @@ class macro(object):
 	Images
 	------
 	[img (title,)URL( linkTarget)]		# makes a link if linktarget present
-	[lipath localImagePath]				# sets filesystem path to local images. This is used by [locimg] to
+	[lipath localImagePath]				# sets filesystem path to local images. This is used by [limg] to
 										  find the image and read it to obtain x,y dimensions
-										  [lipath] and [wepath] first, then [locimg]
-	[wepath localImagePath]				# sets web path to images. This is used by [locimg] to
+										  [lipath] and [wepath] first, then [limg]
+	[wepath localImagePath]				# sets web path to images. This is used by [limg] to
 										  find set the image's URL properly
-										  [lipath] and [wepath] first, then [locimg]
-	[locimg (title,)URL( linkTarget)]	# makes a link if linktarget present, also inserts img size
-										# [locimg] can read the size of jpg, png, and gif
+										  [lipath] and [wepath] first, then [limg]
+	[limg (title=,)(alt=,)(target=,)ImageFileName]	# makes a link if target present, also inserts img size
+										# [limg] can read the size of jpg, png, and gif
 										# Examples:
 			[lipath]
-			[locimg mypic.png]					- image in same dir as python cmd on host
+			[limg mypic.png]					- image in same dir as python cmd on host
 												- and in / of webserver
-			[lipth /usr/www/mysite.com/htdocs/]
-			[locimg mypic.png]					- image in /usr/www/mysite.com/htdocs/ on host
+			[lipath /usr/www/mysite.com/htdocs/]
+			[limg mypic.png]					- image in /usr/www/mysite.com/htdocs/ on host
 												- and in / of webserver
 
-			[lipth /usr/www/mysite.com/htdocs/pics/]
-			[locimg pics/mypic.png]				- image in /usr/www/mysite.com/htdocs/pics/ on host
+			[lipath /usr/www/mysite.com/htdocs/pics/]
+			[limg pics/mypic.png]				- image in /usr/www/mysite.com/htdocs/pics/ on host
 												- and in /pics/ of webserver
 	
 	HTML Lists
@@ -2760,6 +2760,37 @@ The contents of the list are safe to include in the output if you like.
 		self.wepath = data
 		return ''
 
+	def new_low_img_fn(self,tag,data,getxy=False):
+		tit = ''
+		alt = ''
+		txy = ''
+		tgt = ''
+		opts,data = self.popts(['lpath','wpath','alt','title','target'],data)
+		blpath = lpath = self.lipath
+		bwpath = wpath = self.wepath
+		for el in opts:
+			if el[0] == 'lpath=':
+				lpath = el[1]
+			elif el[0] == 'wpath=':
+				wpath = el[1]
+			elif el[0] == 'alt=':
+				alt = el[1]
+			elif el[0] == 'title=':
+				tit = el[1]
+			elif el[0] == 'target=':
+				tgt = el[1]
+		self.lipath = lpath
+		self.wepath = wpath
+		if getxy == True:
+			txy = self.xyhelper(data)
+		if tgt != '':
+			o = '<a href="%s"><img%s alt="%s" title="%s" src="%s"></a>' % (tgt,txy,alt,tit,self.wepath+data)
+		else:
+			o = '<img%s alt="%s" title="%s" src="%s">' % (txy,alt,tit,self.wepath+data)
+		self.lipath = blpath
+		self.wepath = bwpath
+		return o
+
 	def low_img_fn(self,tag,data,getxy=False):
 		opts,data = self.popts(['lpath','wpath'],data)
 		blpath = lpath = self.lipath
@@ -2798,6 +2829,9 @@ The contents of the list are safe to include in the output if you like.
 		self.lipath = blpath
 		self.wepath = bwpath
 		return rv
+
+	def limg_fn(self,tag,data):
+		return self.new_low_img_fn(tag,data,True)
 
 	def img_fn(self,tag,data):
 		return self.low_img_fn(tag,data)
@@ -4511,6 +4545,7 @@ The contents of the list are safe to include in the output if you like.
 					# Image handling
 					# --------------
 					'img'	: self.img_fn,		# img emplacement from URL
+					'limg'	: self.limg_fn,		# local image (tries for x y sizes, title, alt)
 					'locimg': self.locimg_fn,	# local image (tries for x y sizes)
 					'lipath': self.lipath_fn,	# set local image path
 					'wepath': self.wepath_fn,	# set web image path

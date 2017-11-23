@@ -118,6 +118,12 @@ larry}
 [p [locimg .gif Test,randomdir/test.gif]]
 [p [locimg .gif Test,randomdir/test.gif http://fyngyrz.com]]
 
+[limg test.png]
+[limg title=a pic,test.png]
+[limg alt=testpng,test.png]
+[limg target=http://ourtimelines.com,test.png]
+[locimg lpath=/usr/web/,wpath=/mypics/,test.png]
+
 {h2 Multiple Style Invocation}
 [style a a[b]a]  
 [style b b[b]b]  

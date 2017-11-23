@@ -31,7 +31,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,urlencode {r content}| URL encoding]  
 [append bil,url {o sep=|{co}}{o css=CSS{co}}{o tgt=_target{co}}{o nam=Name{co}}{o URLsepLINKED_CONTENT}]
 [append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image~HTML Images]  
-[append bil,locimg {o lpath=lipath{co}}{o wpath=wepath}{o imageTitle{co}}{r imageName} {o linkURL}| HTML image name, no path, with size (uses {lb}lipath{rb},{lb}wepath{rb})]  
+[append bil,limg {o target={co}}{o lpath={co}}{o wpath=}{o title={co}}{o alt={co}}{r imageName}| HTML image name, figures size (uses {lb}lipath{rb},{lb}wepath{rb})]  
 [append bil,lipath {r filePathToImages}| path for {lb}locimg{rb}]  
 [append bil,wepath {r webPathToImages}| path for {lb}locimg{rb}]  
 [append bil,ul {o istyle=hstyle{co}}{o lstyle=hstyle{co}}{o wrap=style{co}}{o sep=X{co}}{cc itemContent{o XitemContent}}| HTML unordered list~HTML Lists]  

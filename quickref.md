@@ -36,7 +36,7 @@ HTML Linking | &nbsp;
 HTML Images | &nbsp;
 ----------- | ----
  <tt>&#91;img \(imageTitle&#44;\)**imageURL** \(linkURL\)&#93;</tt> |  HTML image
- <tt>&#91;locimg \(lpath=lipath&#44;\)\(wpath=wepath\)\(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
+ <tt>&#91;limg \(target=&#44;\)\(lpath=&#44;\)\(wpath=\)\(title=&#44;\)\(alt=&#44;\)**imageName**&#93;</tt> |  HTML image name, figures size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;lipath **filePathToImages**&#93;</tt> |  path for &#91;locimg&#93;
  <tt>&#91;wepath **webPathToImages**&#93;</tt> |  path for &#91;locimg&#93;
 
@@ -326,6 +326,7 @@ Built-in | &nbsp;
  <tt>&#91;len content&#93;</tt> |  return length of content in characters
  <tt>&#91;lf&#124;nl&#93;</tt> |  new line
  <tt>&#91;lhsort \(rev=1&#44;\)**listName**&#93;</tt> |  sort list by leading amateur radio callsign&#44;, any non-alphanumeric sep
+ <tt>&#91;limg \(target=&#44;\)\(lpath=&#44;\)\(wpath=\)\(title=&#44;\)\(alt=&#44;\)**imageName**&#93;</tt> |  HTML image name, figures size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;lipath **filePathToImages**&#93;</tt> |  path for &#91;locimg&#93;
  <tt>&#91;list \(sep=X&#44;\)**listname**&#44;itemContent\(XitemContent\)&#93;</tt> |  create or overwrite a list
  <tt>&#91;listg \(mode=global&#93;</tt> | local&#44;\)**listName&#44;**content| resolve reference
@@ -334,7 +335,6 @@ Built-in | &nbsp;
  <tt>&#91;llen **listName**&#93;</tt> |  returns length of list
  <tt>&#91;load **varName** **fileName**&#93;</tt> |  load file into local variable
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
- <tt>&#91;locimg \(lpath=lipath&#44;\)\(wpath=wepath\)\(imageTitle&#44;\)**imageName** \(linkURL\)&#93;</tt> |  HTML image name, no path, with size (uses &#91;lipath&#93;,&#91;wepath&#93;)
  <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
  <tt>&#91;lower content&#93;</tt> |  convert to lowercase
  <tt>&#91;lpop **listName&#44;**\(listIndex\)&#93;</tt> |  pop an item out of a list at top, or at listIndex
