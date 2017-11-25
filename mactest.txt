@@ -699,3 +699,5 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [url tgt=_blank,http://fyngyrz.com/|Home Page]
 [url css=text-decoration: underline;,http://fyngyrz.com/|Home Page]
 [url sep=[co],http://fyngyrz.com/,Home Page]
+
+[v aam_version]

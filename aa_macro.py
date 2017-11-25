@@ -36,7 +36,11 @@ class macro(object):
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 1.0.103 Beta
+     Version: 
+	"""
+	def version_set(self):
+		return('1.0.104 Beta')
+	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -448,8 +452,7 @@ class macro(object):
 	  Also see [nc contentToConvertCommasIn], which is a handy way to see to it that your
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
-
-"""
+	"""
 	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False):
 		self.setMode(mode)
 		self.setBack(back)
@@ -493,6 +496,8 @@ class macro(object):
 		self.theGlobals['txl_am'] = '&amp;'
 		self.theGlobals['txl_qu'] = '&quot;'
 		self.theGlobals['txl_lf'] = '<br>'
+
+		self.theGlobals['aam_version'] = self.version_set()
 		
 		self.theGlobals['i401s_open'] = '<span style="font-style: italic;">'
 		self.theGlobals['i401s_clos'] = '</span>'
