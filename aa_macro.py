@@ -36,7 +36,7 @@ class macro(object):
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 1.0.102 Beta
+     Version: 1.0.103 Beta
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -4767,6 +4767,8 @@ The contents of the list are safe to include in the output if you like.
 		depth = 0
 		state = OUT
 		macstack = []
+		ln = 1
+		ltln = 1
 
 		# This is a bit gnarly; first, I replace "{" with "[s " as "{"
 		# is simply a shorthand for a style invocation. Then I allow
@@ -4789,8 +4791,11 @@ The contents of the list are safe to include in the output if you like.
 		dex = -1
 		tag = ''
 		for c in s:
+			if c == '\n':
+				ln += 1
 			if fg == 0:
-				if c == '}': c = ']'
+				if c == '}':
+					c = ']'
 			dex += 1
 			if state == OUT and (c == '[' or c == '{'):
 				if (s[dex:dex+8]  == '[gstyle ' or
@@ -4805,22 +4810,26 @@ The contents of the list are safe to include in the output if you like.
 					lasttag = tag
 					tag = ''
 					data = ''
+					ltln = ln
 				elif c == '{': # this is equiv to '[s '
 					state = IN
 					lasttag = tag
 					tag = 's '
 					data = ''
 					depth = 1
+					ltln = ln
 				else:
 					state = IN
 					lasttag = tag
 					tag = ''
 					data = ''
 					depth = 1
+					ltln = ln
 			elif state == DEFER:
 				if c == '[' or c == '{':
 					tag += c
 					depth += 1
+					ltln = ln
 				elif c == ']' or c == '}':
 					depth -= 1
 					if depth == 0:
@@ -4848,6 +4857,7 @@ The contents of the list are safe to include in the output if you like.
 			elif state == IN:
 				if c == '[' or c == '{': # nesting
 					depth += 1
+					ltln = ln
 					macstack.append(tag)
 					if c == '{':
 						tag = 's '
@@ -4860,7 +4870,7 @@ The contents of the list are safe to include in the output if you like.
 		for key in self.refs.keys():
 			o = o.replace(key,self.refs.get(key,''))
 		if depth != 0:
-			o += 'ERROR:\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (lasttag,depth,tag[:32],data[:32])
+			o += 'ERROR: Line %d,\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (ltln,lasttag,depth,tag[:32],data[:32])
 		self.result = o
 		return o
 
