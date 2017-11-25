@@ -29,14 +29,14 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 23rd, 2017     (for Class)
-  LastDocRev: November 23rd, 2017     (for Class)
+     LastRev: November 25th, 2017     (for Class)
+  LastDocRev: November 25th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 1.0.101 Beta
+     Version: 1.0.102 Beta
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -2916,7 +2916,7 @@ The contents of the list are safe to include in the output if you like.
 		return data.replace(',','&#44;')
 
 	def url_fn(self,tag,data):
-		opts,data = self.popts(['sep','tgt','css','nam'],data)
+		opts,data = self.popts(['sep','tgt','css','nam'],data,True)
 		sep='|'
 		tgt=''
 		css=''

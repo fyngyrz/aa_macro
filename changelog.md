@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.102
+ * [url] will now accept nam=Localname without trailing comma
+
 1.0.101
  * new options for [time]
  * new [int]
