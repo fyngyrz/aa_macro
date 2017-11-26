@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.105 Beta')
+		return('1.0.106 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -496,6 +496,13 @@ class macro(object):
 		self.theGlobals['txl_am'] = '&amp;'
 		self.theGlobals['txl_qu'] = '&quot;'
 		self.theGlobals['txl_lf'] = '<br>'
+
+		self.theGlobals['cpp_fpre'] = 'ff8844'
+		self.theGlobals['cpp_spre'] = '4488ff'
+		self.theGlobals['cpp_stpre'] = 'ffffff'
+		self.theGlobals['cpp_copre'] = '888888'
+		self.theGlobals['cpp_pppre'] = 'ff0000'
+		self.theGlobals['cpp_atpre'] = 'ff00ff'
 
 		self.theGlobals['aam_version'] = self.version_set()
 		
@@ -4520,18 +4527,33 @@ The contents of the list are safe to include in the output if you like.
 						elif c == '"': oo += '&quot;'
 						elif c == '&': oo += '&amp;'
 						else: oo += c
-					oo = oo.replace(fpre,'<span style="color: #ff8844">')
+
+					oo = oo.replace(fpre,'<span style="color: #'+self.theGlobals['cpp_fpre']+';">')
 					oo = oo.replace(fpost,'</span>')
-					oo = oo.replace(spre,'<span style="color: #4488ff">')
+					oo = oo.replace(spre,'<span style="color: #'+self.theGlobals['cpp_spre']+';">')
 					oo = oo.replace(spost,'</span>')
-					oo = oo.replace(stpre,'<span style="color: #ffffff">')
+					oo = oo.replace(stpre,'<span style="color: #'+self.theGlobals['cpp_stpre']+';">')
 					oo = oo.replace(stpost,'</span>')
-					oo = oo.replace(copre,'<span style="color: #888888">')
+					oo = oo.replace(copre,'<span style="color: #'+self.theGlobals['cpp_copre']+';">')
 					oo = oo.replace(copost,'</span>')
-					oo = oo.replace(pppre,'<span style="color: #ff0000">')
+					oo = oo.replace(pppre,'<span style="color: #'+self.theGlobals['cpp_pppre']+';">')
 					oo = oo.replace(pppost,'</span>')
-					oo = oo.replace(atpre,'<span style="color: #ff00ff">')
+					oo = oo.replace(atpre,'<span style="color: #'+self.theGlobals['cpp_atpre']+';">')
 					oo = oo.replace(atpost,'</span>')
+
+#					oo = oo.replace(fpre,'<span style="color: #ff8844">')
+#					oo = oo.replace(fpost,'</span>')
+#					oo = oo.replace(spre,'<span style="color: #4488ff">')
+#					oo = oo.replace(spost,'</span>')
+#					oo = oo.replace(stpre,'<span style="color: #ffffff">')
+#					oo = oo.replace(stpost,'</span>')
+#					oo = oo.replace(copre,'<span style="color: #888888">')
+#					oo = oo.replace(copost,'</span>')
+#					oo = oo.replace(pppre,'<span style="color: #ff0000">')
+#					oo = oo.replace(pppost,'</span>')
+#					oo = oo.replace(atpre,'<span style="color: #ff00ff">')
+#					oo = oo.replace(atpost,'</span>')
+
 					oo = oo.replace(spacefool,tabchar)
 					o += oo
 			except Exception,e:
