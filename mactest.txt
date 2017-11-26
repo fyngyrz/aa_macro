@@ -701,3 +701,9 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [url sep=[co],http://fyngyrz.com/,Home Page]
 
 [v aam_version]
+
+[raw c void main()
+{
+	printf("Hello, Whirled\n");
+}]
+[getc var=c]

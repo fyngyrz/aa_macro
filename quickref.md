@@ -100,7 +100,7 @@ Data Lists | &nbsp;
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
- <tt>&#91;getc \(high=lang&#44;\)\(tabsiz=n&#44;\)\(tabchar=X&#44;\)filename&#93;</tt> |  import c or oc source file as aa_macro
+ <tt>&#91;getc \(var=varName&#44;\)\(high=lang&#44;\)\(tabsiz=n&#44;\)\(tabchar=X&#44;\)filename&#93;</tt> |  import c or oc source file as aa_macro
 
 Data Dictionaries | &nbsp;
 ----------------- | ----
@@ -301,7 +301,7 @@ Built-in | &nbsp;
  <tt>&#91;flush&#93;</tt> |  delete stack contents
  <tt>&#91;for **styleName**&#44;**X**&#44;**Y**&#44;**Z**&#93;</tt> |  iterates number to style
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
- <tt>&#91;getc \(high=lang&#44;\)\(tabsiz=n&#44;\)\(tabchar=X&#44;\)filename&#93;</tt> |  import c or oc source file as aa_macro
+ <tt>&#91;getc \(var=varName&#44;\)\(high=lang&#44;\)\(tabsiz=n&#44;\)\(tabchar=X&#44;\)filename&#93;</tt> |  import c or oc source file as aa_macro
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;gload **varName** **fileName**&#93;</tt> |  load file into global variable
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition

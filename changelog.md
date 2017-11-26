@@ -6,6 +6,10 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.105
+ * corrected an error with [raw] and [graw] parsing
+ * added var=varName option to [getc]
+
 1.0.104
  * added global "aam_version" to return aa_macro version"
 

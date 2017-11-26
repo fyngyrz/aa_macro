@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 25th, 2017     (for Class)
-  LastDocRev: November 25th, 2017     (for Class)
+     LastRev: November 26th, 2017     (for Class)
+  LastDocRev: November 26th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.104 Beta')
+		return('1.0.105 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -171,7 +171,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
-	[getc (tabsiz=n,)(tabchar=X,)(high=c|cp|oc)filename]	# c/cpp/oc file to aa_macro format
+	[getc (var=varName,)(tabsiz=n,)(tabchar=X,)(high=c|cp|oc)filename]	# c/cpp/oc file or var to aa_macro format
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
@@ -4331,10 +4331,11 @@ The contents of the list are safe to include in the output if you like.
 
 	def getc_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['tabsiz','tabchar','high'],data)
+		opts,data = self.popts(['tabsiz','tabchar','high','var'],data,True)
 		tabsiz = 4
 		tabchar = '&nbsp;'
 		high = ''
+		var = ''
 		for el in opts:
 			if el[0] == 'tabsiz=':
 				try:
@@ -4348,9 +4349,14 @@ The contents of the list are safe to include in the output if you like.
 					tabchar = el[1]
 			elif el[0] == 'high=':
 				high = el[1]
+			elif el[0] == 'var=':
+				var = el[1]
 		filename = data
 		try:
-			fh = open(filename)
+			if var == '':
+				if self.noshell == True:
+					return '!! File Read Not Available !!'
+				fh = open(filename)
 		except:
 			o = '--unable to open "%s"--' % (filename)
 		else:
@@ -4407,7 +4413,21 @@ The contents of the list are safe to include in the output if you like.
 			tr = tabchar * tabsiz
 			try:
 				spacefool = 'space6809fool'
-				for line in fh:
+				mlist = []
+				if var == '':
+					for line in fh:
+						mlist.append([line])
+				else:
+					line = ''
+					if self.theLocals.get(var,'') == '': return '???var '+c+'???'
+					for c in self.theLocals[var]:
+						line += c
+						if c == '\n':
+							mlist.append([line])
+							line = ''
+					if line != '':
+						mlist.append([line])
+				for line in mlist:
 					xx = ''
 					for c in line:
 						if c == chr(9):
@@ -4493,10 +4513,10 @@ The contents of the list are safe to include in the output if you like.
 					for c in line:
 						if c == '<': oo += '&lt;'
 						elif c == '>': oo += '&gt;'
-						elif c == '[': oo += '[lb]'
-						elif c == ']': oo += '[rb]'
-						elif c == '{': oo += '[ls]'
-						elif c == '}': oo += '[rs]'
+						elif c == '[': oo += '&#91;'
+						elif c == ']': oo += '&#93;'
+						elif c == '{': oo += '&#123;'
+						elif c == '}': oo += '&#125;'
 						elif c == '"': oo += '&quot;'
 						elif c == '&': oo += '&amp;'
 						else: oo += c
@@ -4516,13 +4536,15 @@ The contents of the list are safe to include in the output if you like.
 					o += oo
 			except Exception,e:
 				try:
-					fh.close()
+					if var == '':
+						fh.close()
 				except:
 					pass
 				o += '--error while reading "%s": %s--' % (filename,str(e))
 			else:
 				try:
-					fh.close()
+					if var == '':
+						fh.close()
 				except:
 					o += '--error closing "%s"--' % (filename)
 		return o
@@ -4784,6 +4806,8 @@ The contents of the list are safe to include in the output if you like.
 		# ----------------------------------------------------------------
 		s = s.replace('\n\r','\n')
 		s = s.replace('\r\n','\n')
+		tok = 'prolly84673@c@747code'
+		s = s.replace('{\n',tok)
 		if fg == 0: s = s.replace('{','[s ')
 		s = re.sub(r'(\[s\s[\w-])\n',r'\1 ',s)
 #		if fg == 1: re.sub(r'(\{[\w-])\n',r'\1 ',s)
@@ -4792,6 +4816,7 @@ The contents of the list are safe to include in the output if you like.
 #			s = re.sub(r'(\{[\w-])\n',r'\1 ',s)
 		if self.noDinner == False:
 			s = s.replace('  \n','')
+		s = s.replace(tok,'{\n')
 
 		dex = -1
 		tag = ''
@@ -4805,8 +4830,8 @@ The contents of the list are safe to include in the output if you like.
 			if state == OUT and (c == '[' or c == '{'):
 				if (s[dex:dex+8]  == '[gstyle ' or
 					s[dex:dex+7]  == '[style ' or
-					s[dex:dex+7]  == '[raw ' or
-					s[dex:dex+7]  == '[graw ' or
+					s[dex:dex+5]  == '[raw ' or
+					s[dex:dex+6]  == '[graw ' or
 					s[dex:dex+8]  == '[repeat ' or
 					s[dex:dex+11] == '[pythparse ' or
 					s[dex:dex+6]  == '[hlit '):

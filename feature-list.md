@@ -44,6 +44,9 @@
 	* Paragraphs
 	* pretty-printing aa_macro source code
 	* pretty-printing Python source code 
+	* pretty-printing c code
+	* pretty-printing objective c code
+	* pretty-printing c++ code
   * Linking
 	* Optional verbiage
 	* Optional stock phrasing

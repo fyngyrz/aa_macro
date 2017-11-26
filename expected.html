@@ -686,73 +686,73 @@ barbeque dolly
 #include &lt;string.h&gt;
 #include &quot;developer.h&quot;
 
-void pengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))&nbsp;&nbsp;&nbsp;// sets 64K remap
-[ls]
+void pengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))	// sets 64K remap
+&#123;
 long i,v,b;
 
-&nbsp;&nbsp;&nbsp;&nbsp;b = (p-&gt;f[lb]0[rb] - 100.0f) * 655.35f;&nbsp;&nbsp;&nbsp;// b is now [lb]-65535...65535[rb]
-&nbsp;&nbsp;&nbsp;&nbsp;for (i = start; i &lt; finish; i++)&nbsp;&nbsp;&nbsp;&nbsp;// we set this range to [lb]0...65536[rb]
-&nbsp;&nbsp;&nbsp;&nbsp;[ls]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = i + b;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// temp brightness adjust;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (v &lt; 0) v = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// now limit remap range...
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (v &gt; 65535) v = 65535;&nbsp;&nbsp;&nbsp;// ...to acceptable bounds
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;lr[lb]i[rb] = v;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// install in remap channel
-&nbsp;&nbsp;&nbsp;&nbsp;[rs]
-[rs]
+	b = (p-&gt;f&#91;0&#93; - 100.0f) * 655.35f;	// b is now &#91;-65535...65535&#93;
+	for (i = start; i &lt; finish; i++)	// we set this range to &#91;0...65536&#93;
+	&#123;
+		v = i + b;					// temp brightness adjust;
+		if (v &lt; 0) v = 0;			// now limit remap range...
+		if (v &gt; 65535) v = 65535;	// ...to acceptable bounds
+		p-&gt;lr&#91;i&#93; = v;				// install in remap channel
+	&#125;
+&#125;
 
-void dengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))&nbsp;&nbsp;&nbsp;// generates output
-[ls]
+void dengine(struct plug *p,long start,long finish,struct pkg *(*service)(struct req *p))	// generates output
+&#123;
 long i;
 
-&nbsp;&nbsp;&nbsp;&nbsp;for (i = start; i &lt; finish; i++) // 1-dimensional pixel processing
-&nbsp;&nbsp;&nbsp;&nbsp;[ls]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sr[lb]i[rb] = p-&gt;lr[lb]p-&gt;mr[lb]i[rb][rb];&nbsp;// remap pixel brightness
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sg[lb]i[rb] = p-&gt;lr[lb]p-&gt;mg[lb]i[rb][rb];&nbsp;// ...using 64k table in layer
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;sb[lb]i[rb] = p-&gt;lr[lb]p-&gt;mb[lb]i[rb][rb];&nbsp;// ...
-&nbsp;&nbsp;&nbsp;&nbsp;[rs]
-[rs]
+	for (i = start; i &lt; finish; i++) // 1-dimensional pixel processing
+	&#123;
+		p-&gt;sr&#91;i&#93; = p-&gt;lr&#91;p-&gt;mr&#91;i&#93;&#93;;	// remap pixel brightness
+		p-&gt;sg&#91;i&#93; = p-&gt;lr&#91;p-&gt;mg&#91;i&#93;&#93;;	// ...using 64k table in layer
+		p-&gt;sb&#91;i&#93; = p-&gt;lr&#91;p-&gt;mb&#91;i&#93;&#93;;	// ...
+	&#125;
+&#125;
 
-void setup(struct plugin *p)&nbsp;&nbsp;&nbsp;&nbsp;// NOTE: most struct elements are preset to 0,
-[ls]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if that is the setting you need, it's there.
-#include &quot;ak_pu_date.txt&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// this inserts the current date in the plugin
+void setup(struct plugin *p)	// NOTE: most struct elements are preset to 0,
+&#123;								// if that is the setting you need, it's there.
+#include &quot;ak_pu_date.txt&quot;				// this inserts the current date in the plugin
 
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;layer_pri&nbsp;&nbsp;&nbsp;&nbsp;= 9500;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// layer priority (posit in fx stack - see developer.h)
-&nbsp;&nbsp;&nbsp;&nbsp;strcpy(p-&gt;panel.n,&quot;Brightness&quot;);&nbsp;&nbsp;&nbsp;&nbsp;// name appearing on panel
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;pthread[lb]0[rb]&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// plugin desires pengine() threading
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;prange_methods[lb]0[rb]= 2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// custom range for pengine()
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;pfinish[lb]0[rb]&nbsp;&nbsp;&nbsp;= 65536;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// end+1 range for pengine() to process
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;dthread[lb]0[rb]&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// plugin desires dengine() threading
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;promotable&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// BUT user can add alpha, paint
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;req_lr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 65536;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we'd like 1 layer of this size in lr
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;slider_req&nbsp;&nbsp;&nbsp;= 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we'd like 1 slider (#0)
-&nbsp;&nbsp;&nbsp;&nbsp;strcpy(p-&gt;sliders[lb]0[rb].n,&quot;Intensity&quot;);// legend for slider
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;forder[lb]0[rb]&nbsp;&nbsp;&nbsp;&nbsp;= 20;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// position on line zero
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;svalues[lb]0[rb]&nbsp;&nbsp;&nbsp;= 100.0f;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// initial value
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;zvalues[lb]0[rb]&nbsp;&nbsp;&nbsp;= 200.0f;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// initial hi value (user settable)
-&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;ticks[lb]0[rb] = 21;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Ten ticks per hundred
-[rs]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// (low values default to 0.0f)
+	p-&gt;layer_pri	= 9500;				// layer priority (posit in fx stack - see developer.h)
+	strcpy(p-&gt;panel.n,&quot;Brightness&quot;);	// name appearing on panel
+	p-&gt;pthread&#91;0&#93;	= 1;				// plugin desires pengine() threading
+	p-&gt;prange_methods&#91;0&#93;= 2;			// custom range for pengine()
+	p-&gt;pfinish&#91;0&#93;	= 65536;			// end+1 range for pengine() to process
+	p-&gt;dthread&#91;0&#93;	= 1;				// plugin desires dengine() threading
+	p-&gt;promotable	= 1;				// BUT user can add alpha, paint
+	p-&gt;req_lr		= 65536;			// we'd like 1 layer of this size in lr
+	p-&gt;slider_req	= 1;				// we'd like 1 slider (#0)
+	strcpy(p-&gt;sliders&#91;0&#93;.n,&quot;Intensity&quot;);// legend for slider
+	p-&gt;forder&#91;0&#93;	= 20;				// position on line zero
+	p-&gt;svalues&#91;0&#93;	= 100.0f;			// initial value
+	p-&gt;zvalues&#91;0&#93;	= 200.0f;			// initial hi value (user settable)
+	p-&gt;ticks&#91;0&#93; = 21;					// Ten ticks per hundred
+&#125;										// (low values default to 0.0f)
 
 void init(struct plug *pl,struct pkg *(*service)(struct req *p)) // called before pengine() and dengine()
-[ls]
+&#123;
 struct req r;
 struct pkg *p;
 char *msg = &quot;demo plugin init&quot;;
-&nbsp;&nbsp;&nbsp;&nbsp;// the following just demonstrates using the service function
-&nbsp;&nbsp;&nbsp;&nbsp;r.svc = REQ_STATUS;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// request status line message service
-&nbsp;&nbsp;&nbsp;&nbsp;r.p1 = msg;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up request with proper parameter
-&nbsp;&nbsp;&nbsp;&nbsp;p = service(&amp;r);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send msg to status line, get package back
-[rs]
+	// the following just demonstrates using the service function
+	r.svc = REQ_STATUS;		// request status line message service
+	r.p1 = msg;				// set up request with proper parameter
+	p = service(&amp;r);		// send msg to status line, get package back
+&#125;
 
-void cleanup(struct plug *pl,struct pkg *(*service)(struct req *p))&nbsp;// called after all pengine() and dengine threads complete
-[ls]
+void cleanup(struct plug *pl,struct pkg *(*service)(struct req *p))	// called after all pengine() and dengine threads complete
+&#123;
 struct req r;
 struct pkg *p;
 char *msg = &quot;demo plugin cleanup&quot;;
-&nbsp;&nbsp;&nbsp;&nbsp;// the following just demonstrates using the service function
-&nbsp;&nbsp;&nbsp;&nbsp;r.svc = REQ_STATUS;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// request status line message service
-&nbsp;&nbsp;&nbsp;&nbsp;r.p1 = msg;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up request with proper parameter
-&nbsp;&nbsp;&nbsp;&nbsp;p = service(&amp;r);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send msg to status line, get package back
-[rs]
+	// the following just demonstrates using the service function
+	r.svc = REQ_STATUS;		// request status line message service
+	r.p1 = msg;				// set up request with proper parameter
+	p = service(&amp;r);		// send msg to status line, get package back
+&#125;
 
 <span style="color: #888888">// plugin_demo.c
 </span><span style="color: #888888">// -------------
@@ -762,73 +762,73 @@ char *msg = &quot;demo plugin cleanup&quot;;
 </span><span style="color: #ff0000">#include</span> <span style="color: #4488ff">&lt;</span>string<span style="color: #4488ff">.</span>h<span style="color: #4488ff">&gt;
 </span><span style="color: #ff0000">#include</span> <span style="color: #ffffff">&quot;developer.h&quot;</span><span style="color: #4488ff">
 </span><span style="color: #4488ff">
-</span><span style="color: #ff8844">void</span> pengine<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>p<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> start<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> finish<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>&nbsp;&nbsp;&nbsp;<span style="color: #888888">// sets 64K remap
-</span><span style="color: #4488ff">[ls]
+</span><span style="color: #ff8844">void</span> pengine<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>p<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> start<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> finish<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>	<span style="color: #888888">// sets 64K remap
+</span><span style="color: #4488ff">&#123;
 </span><span style="color: #ff8844">long</span> i<span style="color: #4488ff">,</span>v<span style="color: #4488ff">,</span>b<span style="color: #4488ff">;
 </span><span style="color: #4488ff">
-</span>&nbsp;&nbsp;&nbsp;&nbsp;b <span style="color: #4488ff">=</span> <span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>f<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">-</span> 100<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">)</span> <span style="color: #4488ff">*</span> 655<span style="color: #4488ff">.</span>35f<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;<span style="color: #888888">// b is now [lb]-65535...65535[rb]
-</span>&nbsp;&nbsp;&nbsp;&nbsp;for <span style="color: #4488ff">(</span>i <span style="color: #4488ff">=</span> start<span style="color: #4488ff">;</span> i <span style="color: #4488ff">&lt;</span> finish<span style="color: #4488ff">;</span> i<span style="color: #4488ff">++)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// we set this range to [lb]0...65536[rb]
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">[ls]
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v <span style="color: #4488ff">=</span> i <span style="color: #4488ff">+</span> b<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// temp brightness adjust;
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if <span style="color: #4488ff">(</span>v <span style="color: #4488ff">&lt;</span> 0<span style="color: #4488ff">)</span> v <span style="color: #4488ff">=</span> 0<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// now limit remap range...
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if <span style="color: #4488ff">(</span>v <span style="color: #4488ff">&gt;</span> 65535<span style="color: #4488ff">)</span> v <span style="color: #4488ff">=</span> 65535<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;<span style="color: #888888">// ...to acceptable bounds
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">=</span> v<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// install in remap channel
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">[rs]
-</span><span style="color: #4488ff">[rs]
+</span>	b <span style="color: #4488ff">=</span> <span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>f<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">-</span> 100<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">)</span> <span style="color: #4488ff">*</span> 655<span style="color: #4488ff">.</span>35f<span style="color: #4488ff">;</span>	<span style="color: #888888">// b is now &#91;-65535...65535&#93;
+</span>	<span style="color: #ff8844">for</span> <span style="color: #4488ff">(</span>i <span style="color: #4488ff">=</span> start<span style="color: #4488ff">;</span> i <span style="color: #4488ff">&lt;</span> finish<span style="color: #4488ff">;</span> i<span style="color: #4488ff">++)</span>	<span style="color: #888888">// we set this range to &#91;0...65536&#93;
+</span>	<span style="color: #4488ff">&#123;
+</span>		v <span style="color: #4488ff">=</span> i <span style="color: #4488ff">+</span> b<span style="color: #4488ff">;</span>					<span style="color: #888888">// temp brightness adjust;
+</span>		<span style="color: #ff8844">if</span> <span style="color: #4488ff">(</span>v <span style="color: #4488ff">&lt;</span> 0<span style="color: #4488ff">)</span> v <span style="color: #4488ff">=</span> 0<span style="color: #4488ff">;</span>			<span style="color: #888888">// now limit remap range...
+</span>		<span style="color: #ff8844">if</span> <span style="color: #4488ff">(</span>v <span style="color: #4488ff">&gt;</span> 65535<span style="color: #4488ff">)</span> v <span style="color: #4488ff">=</span> 65535<span style="color: #4488ff">;</span>	<span style="color: #888888">// ...to acceptable bounds
+</span>		p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">=</span> v<span style="color: #4488ff">;</span>				<span style="color: #888888">// install in remap channel
+</span>	<span style="color: #4488ff">&#125;
+</span><span style="color: #4488ff">&#125;
 </span><span style="color: #4488ff">
-</span><span style="color: #ff8844">void</span> dengine<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>p<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> start<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> finish<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>&nbsp;&nbsp;&nbsp;<span style="color: #888888">// generates output
-</span><span style="color: #4488ff">[ls]
+</span><span style="color: #ff8844">void</span> dengine<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>p<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> start<span style="color: #4488ff">,</span><span style="color: #ff8844">long</span> finish<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>	<span style="color: #888888">// generates output
+</span><span style="color: #4488ff">&#123;
 </span><span style="color: #ff8844">long</span> i<span style="color: #4488ff">;
 </span><span style="color: #4488ff">
-</span>&nbsp;&nbsp;&nbsp;&nbsp;for <span style="color: #4488ff">(</span>i <span style="color: #4488ff">=</span> start<span style="color: #4488ff">;</span> i <span style="color: #4488ff">&lt;</span> finish<span style="color: #4488ff">;</span> i<span style="color: #4488ff">++)</span> <span style="color: #888888">// 1-dimensional pixel processing
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">[ls]
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>sr<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">[lb]</span>p<span style="color: #4488ff">-&gt;</span>mr<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb][rb];</span>&nbsp;<span style="color: #888888">// remap pixel brightness
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>sg<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">[lb]</span>p<span style="color: #4488ff">-&gt;</span>mg<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb][rb];</span>&nbsp;<span style="color: #888888">// ...using 64k table in layer
-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>sb<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">[lb]</span>p<span style="color: #4488ff">-&gt;</span>mb<span style="color: #4488ff">[lb]</span>i<span style="color: #4488ff">[rb][rb];</span>&nbsp;<span style="color: #888888">// ...
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">[rs]
-</span><span style="color: #4488ff">[rs]
+</span>	<span style="color: #ff8844">for</span> <span style="color: #4488ff">(</span>i <span style="color: #4488ff">=</span> start<span style="color: #4488ff">;</span> i <span style="color: #4488ff">&lt;</span> finish<span style="color: #4488ff">;</span> i<span style="color: #4488ff">++)</span> <span style="color: #888888">// 1-dimensional pixel processing
+</span>	<span style="color: #4488ff">&#123;
+</span>		p<span style="color: #4488ff">-&gt;</span>sr<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">&#91;</span>p<span style="color: #4488ff">-&gt;</span>mr<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;&#93;;</span>	<span style="color: #888888">// remap pixel brightness
+</span>		p<span style="color: #4488ff">-&gt;</span>sg<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">&#91;</span>p<span style="color: #4488ff">-&gt;</span>mg<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;&#93;;</span>	<span style="color: #888888">// ...using 64k table in layer
+</span>		p<span style="color: #4488ff">-&gt;</span>sb<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">=</span> p<span style="color: #4488ff">-&gt;</span>lr<span style="color: #4488ff">&#91;</span>p<span style="color: #4488ff">-&gt;</span>mb<span style="color: #4488ff">&#91;</span>i<span style="color: #4488ff">&#93;&#93;;</span>	<span style="color: #888888">// ...
+</span>	<span style="color: #4488ff">&#125;
+</span><span style="color: #4488ff">&#125;
 </span><span style="color: #4488ff">
-</span><span style="color: #ff8844">void</span> setup<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plugin <span style="color: #4488ff">*</span>p<span style="color: #4488ff">)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// NOTE: most struct elements are preset to 0,
-</span><span style="color: #4488ff">[ls]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// if that is the setting you need, it's there.
-</span><span style="color: #ff0000">#include</span> <span style="color: #ffffff">&quot;ak_pu_date.txt&quot;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// this inserts the current date in the plugin
+</span><span style="color: #ff8844">void</span> setup<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plugin <span style="color: #4488ff">*</span>p<span style="color: #4488ff">)</span>	<span style="color: #888888">// NOTE: most struct elements are preset to 0,
+</span><span style="color: #4488ff">&#123;</span>								<span style="color: #888888">// if that is the setting you need, it's there.
+</span><span style="color: #ff0000">#include</span> <span style="color: #ffffff">&quot;ak_pu_date.txt&quot;</span>				<span style="color: #888888">// this inserts the current date in the plugin
 </span><span style="color: #4488ff">
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>layer_pri&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 9500<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// layer priority (posit in fx stack - see developer.h)
-</span>&nbsp;&nbsp;&nbsp;&nbsp;strcpy<span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>panel<span style="color: #4488ff">.</span>n<span style="color: #4488ff">,</span><span style="color: #ffffff">&quot;Brightness&quot;</span><span style="color: #4488ff">);</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// name appearing on panel
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>pthread<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// plugin desires pengine() threading
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>prange_methods<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]=</span> 2<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// custom range for pengine()
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>pfinish<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 65536<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// end+1 range for pengine() to process
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>dthread<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// plugin desires dengine() threading
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>promotable&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// BUT user can add alpha, paint
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>req_lr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 65536<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// we'd like 1 layer of this size in lr
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>slider_req&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// we'd like 1 slider (#0)
-</span>&nbsp;&nbsp;&nbsp;&nbsp;strcpy<span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>sliders<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb].</span>n<span style="color: #4488ff">,</span><span style="color: #ffffff">&quot;Intensity&quot;</span><span style="color: #4488ff">);</span><span style="color: #888888">// legend for slider
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>forder<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 20<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// position on line zero
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>svalues<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 100<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// initial value
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>zvalues<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span>&nbsp;&nbsp;&nbsp;<span style="color: #4488ff">=</span> 200<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// initial hi value (user settable)
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p<span style="color: #4488ff">-&gt;</span>ticks<span style="color: #4488ff">[lb]</span>0<span style="color: #4488ff">[rb]</span> <span style="color: #4488ff">=</span> 21<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// Ten ticks per hundred
-</span><span style="color: #4488ff">[rs]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// (low values default to 0.0f)
+</span>	p<span style="color: #4488ff">-&gt;</span>layer_pri	<span style="color: #4488ff">=</span> 9500<span style="color: #4488ff">;</span>				<span style="color: #888888">// layer priority (posit in fx stack - see developer.h)
+</span>	strcpy<span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>panel<span style="color: #4488ff">.</span>n<span style="color: #4488ff">,</span><span style="color: #ffffff">&quot;Brightness&quot;</span><span style="color: #4488ff">);</span>	<span style="color: #888888">// name appearing on panel
+</span>	p<span style="color: #4488ff">-&gt;</span>pthread<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>				<span style="color: #888888">// plugin desires pengine() threading
+</span>	p<span style="color: #4488ff">-&gt;</span>prange_methods<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;=</span> 2<span style="color: #4488ff">;</span>			<span style="color: #888888">// custom range for pengine()
+</span>	p<span style="color: #4488ff">-&gt;</span>pfinish<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 65536<span style="color: #4488ff">;</span>			<span style="color: #888888">// end+1 range for pengine() to process
+</span>	p<span style="color: #4488ff">-&gt;</span>dthread<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>				<span style="color: #888888">// plugin desires dengine() threading
+</span>	p<span style="color: #4488ff">-&gt;</span>promotable	<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>				<span style="color: #888888">// BUT user can add alpha, paint
+</span>	p<span style="color: #4488ff">-&gt;</span>req_lr		<span style="color: #4488ff">=</span> 65536<span style="color: #4488ff">;</span>			<span style="color: #888888">// we'd like 1 layer of this size in lr
+</span>	p<span style="color: #4488ff">-&gt;</span>slider_req	<span style="color: #4488ff">=</span> 1<span style="color: #4488ff">;</span>				<span style="color: #888888">// we'd like 1 slider (#0)
+</span>	strcpy<span style="color: #4488ff">(</span>p<span style="color: #4488ff">-&gt;</span>sliders<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;.</span>n<span style="color: #4488ff">,</span><span style="color: #ffffff">&quot;Intensity&quot;</span><span style="color: #4488ff">);</span><span style="color: #888888">// legend for slider
+</span>	p<span style="color: #4488ff">-&gt;</span>forder<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 20<span style="color: #4488ff">;</span>				<span style="color: #888888">// position on line zero
+</span>	p<span style="color: #4488ff">-&gt;</span>svalues<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 100<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">;</span>			<span style="color: #888888">// initial value
+</span>	p<span style="color: #4488ff">-&gt;</span>zvalues<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span>	<span style="color: #4488ff">=</span> 200<span style="color: #4488ff">.</span>0f<span style="color: #4488ff">;</span>			<span style="color: #888888">// initial hi value (user settable)
+</span>	p<span style="color: #4488ff">-&gt;</span>ticks<span style="color: #4488ff">&#91;</span>0<span style="color: #4488ff">&#93;</span> <span style="color: #4488ff">=</span> 21<span style="color: #4488ff">;</span>					<span style="color: #888888">// Ten ticks per hundred
+</span><span style="color: #4488ff">&#125;</span>										<span style="color: #888888">// (low values default to 0.0f)
 </span><span style="color: #4488ff">
 </span><span style="color: #ff8844">void</span> init<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>pl<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span> <span style="color: #888888">// called before pengine() and dengine()
-</span><span style="color: #4488ff">[ls]
+</span><span style="color: #4488ff">&#123;
 </span><span style="color: #ff8844">struct</span> req r<span style="color: #4488ff">;
 </span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*</span>p<span style="color: #4488ff">;
 </span><span style="color: #ff8844">char</span> <span style="color: #4488ff">*</span>msg <span style="color: #4488ff">=</span> <span style="color: #ffffff">&quot;demo plugin init&quot;</span><span style="color: #4488ff">;
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// the following just demonstrates using the service function
-</span>&nbsp;&nbsp;&nbsp;&nbsp;r<span style="color: #4488ff">.</span>svc <span style="color: #4488ff">=</span> REQ_STATUS<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// request status line message service
-</span>&nbsp;&nbsp;&nbsp;&nbsp;r<span style="color: #4488ff">.</span>p1 <span style="color: #4488ff">=</span> msg<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// set up request with proper parameter
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p <span style="color: #4488ff">=</span> service<span style="color: #4488ff">(&amp;</span>r<span style="color: #4488ff">);</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// send msg to status line, get package back
-</span><span style="color: #4488ff">[rs]
+</span>	<span style="color: #888888">// the following just demonstrates using the service function
+</span>	r<span style="color: #4488ff">.</span>svc <span style="color: #4488ff">=</span> REQ_STATUS<span style="color: #4488ff">;</span>		<span style="color: #888888">// request status line message service
+</span>	r<span style="color: #4488ff">.</span>p1 <span style="color: #4488ff">=</span> msg<span style="color: #4488ff">;</span>				<span style="color: #888888">// set up request with proper parameter
+</span>	p <span style="color: #4488ff">=</span> service<span style="color: #4488ff">(&amp;</span>r<span style="color: #4488ff">);</span>		<span style="color: #888888">// send msg to status line, get package back
+</span><span style="color: #4488ff">&#125;
 </span><span style="color: #4488ff">
-</span><span style="color: #ff8844">void</span> cleanup<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>pl<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>&nbsp;<span style="color: #888888">// called after all pengine() and dengine threads complete
-</span><span style="color: #4488ff">[ls]
+</span><span style="color: #ff8844">void</span> cleanup<span style="color: #4488ff">(</span><span style="color: #ff8844">struct</span> plug <span style="color: #4488ff">*</span>pl<span style="color: #4488ff">,</span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*(*</span>service<span style="color: #4488ff">)(</span><span style="color: #ff8844">struct</span> req <span style="color: #4488ff">*</span>p<span style="color: #4488ff">))</span>	<span style="color: #888888">// called after all pengine() and dengine threads complete
+</span><span style="color: #4488ff">&#123;
 </span><span style="color: #ff8844">struct</span> req r<span style="color: #4488ff">;
 </span><span style="color: #ff8844">struct</span> pkg <span style="color: #4488ff">*</span>p<span style="color: #4488ff">;
 </span><span style="color: #ff8844">char</span> <span style="color: #4488ff">*</span>msg <span style="color: #4488ff">=</span> <span style="color: #ffffff">&quot;demo plugin cleanup&quot;</span><span style="color: #4488ff">;
-</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// the following just demonstrates using the service function
-</span>&nbsp;&nbsp;&nbsp;&nbsp;r<span style="color: #4488ff">.</span>svc <span style="color: #4488ff">=</span> REQ_STATUS<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// request status line message service
-</span>&nbsp;&nbsp;&nbsp;&nbsp;r<span style="color: #4488ff">.</span>p1 <span style="color: #4488ff">=</span> msg<span style="color: #4488ff">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// set up request with proper parameter
-</span>&nbsp;&nbsp;&nbsp;&nbsp;p <span style="color: #4488ff">=</span> service<span style="color: #4488ff">(&amp;</span>r<span style="color: #4488ff">);</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #888888">// send msg to status line, get package back
-</span><span style="color: #4488ff">[rs]
+</span>	<span style="color: #888888">// the following just demonstrates using the service function
+</span>	r<span style="color: #4488ff">.</span>svc <span style="color: #4488ff">=</span> REQ_STATUS<span style="color: #4488ff">;</span>		<span style="color: #888888">// request status line message service
+</span>	r<span style="color: #4488ff">.</span>p1 <span style="color: #4488ff">=</span> msg<span style="color: #4488ff">;</span>				<span style="color: #888888">// set up request with proper parameter
+</span>	p <span style="color: #4488ff">=</span> service<span style="color: #4488ff">(&amp;</span>r<span style="color: #4488ff">);</span>		<span style="color: #888888">// send msg to status line, get package back
+</span><span style="color: #4488ff">&#125;
 </span>
 
 <ol start="7">
@@ -865,7 +865,13 @@ abcd1234
 <a style="text-decoration: underline;" href="http://fyngyrz.com/">Home Page</a>
 <a href="http://fyngyrz.com/">Home Page</a>
 
-1.0.104 Beta
+1.0.105 Beta
+
+
+void main()
+&#123;
+	printf(&quot;Hello, Whirled\n&quot;);
+&#125;
 ! embrace Not Available !
 ! include Not Available !
 ! sys Not Available !
