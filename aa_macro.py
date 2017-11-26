@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.106 Beta')
+		return('1.0.107 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -4423,17 +4423,17 @@ The contents of the list are safe to include in the output if you like.
 				mlist = []
 				if var == '':
 					for line in fh:
-						mlist.append([line])
+						mlist.append(line)
 				else:
 					line = ''
 					if self.theLocals.get(var,'') == '': return '???var '+c+'???'
 					for c in self.theLocals[var]:
 						line += c
 						if c == '\n':
-							mlist.append([line])
+							mlist.append(line)
 							line = ''
 					if line != '':
-						mlist.append([line])
+						mlist.append(line)
 				for line in mlist:
 					xx = ''
 					for c in line:

@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utlitilies and sample files are not tracked here.
 
 ### Log
+1.0.107
+ * bug in tab expansion in [getc] fixed
+
 1.0.106
  * improved c/c++,objective c parsing
  * added user-configurable syntax highlight colors for [getc]
