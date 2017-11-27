@@ -54,8 +54,6 @@ HTML Tables | &nbsp;
  <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
  <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
  <tt>&#91;cell \(options\)&#44;content&#93;</tt> |  HTML table data cell \(comma is *not* optional\)
- <tt>&#91;encrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  Encrypt content
- <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
 
 Variables | &nbsp;
 --------- | ----
@@ -200,6 +198,8 @@ Text Processing | &nbsp;
  <tt>&#91;center **width&#44;****padChar&#44;**content&#93;</tt> |  center (neg width indicates pad both sides)
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
+ <tt>&#91;encrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  Encrypt content
+ <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
 
 Miscellanea | &nbsp;
 ----------- | ----

@@ -43,8 +43,6 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,row {o options}{co}{c}| HTML table row \(comma is *not* optional\)]  
 [append bil,header {o options}{co}{c}| HTML table header cell \(comma is *not* optional\)]  
 [append bil,cell {o options}{co}{c}| HTML table data cell \(comma is *not* optional\)]  
-[append bil,encrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{o breakat=N{co}}{c}| Encrypt content]  
-[append bil,decrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{c}| Decrypt content]  
   
 [append bil,local {r varname} {cc varContent}| local variable definition~Variables]  
 [append bil,raw {r varname} {cc varContent}| local variable definition~Variables]  
@@ -168,6 +166,8 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,center {r width{co}}{r padChar{co}}{c}| center (neg width indicates pad both sides)]  
 [append bil,th {r integer}| st, nd, rd, th...]  
 [append bil,nd {r integer}| 1st, 2nd, 3rd, 4th...]  
+[append bil,encrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{o breakat=N{co}}{c}| Encrypt content]  
+[append bil,decrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{c}| Decrypt content]  
   
 [append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  
