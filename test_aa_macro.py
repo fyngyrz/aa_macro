@@ -63,7 +63,9 @@ Test aa_macro.py functionality
 		testBlock = fh.read()
 		fh.close()
 		mod = macro()
+#		mod = macro(debug=True)
 		output = mod.do(testBlock)
+#		output += mod.getdebug()
 		
 		mod = macro(noembrace=True)
 		output2 = mod.do('[embrace embrace-example.py]\n')

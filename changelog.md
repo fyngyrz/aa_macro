@@ -6,6 +6,12 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.111
+ * added debug option and getdebug() method
+
+1.0.110
+ * added character-level tracking to error messages
+
 1.0.109
  * added [encrypt]
  * added [decrypt]

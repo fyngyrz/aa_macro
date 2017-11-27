@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.110 Beta')
+		return('1.0.111 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -431,6 +431,7 @@ class macro(object):
 
 	Parameters to object instantiation:
 	-----------------------------------
+	debug ----- False  (default) or True, then call getdebug()
 	mode ------ '3.2'  (default) or '4.01s' to set HTML rendering mode
 	nodinner -- True   (default) or False eats sequences of two spaces followed by a newline
 	noshell --- False (default) or True disables [sys] [load] and [gload] built-ins
@@ -460,10 +461,11 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False):
 		self.setMode(mode)
 		self.setBack(back)
 		self.setNoDinner(nodinner)
+		self.setDebug(debug)
 		self.page()
 		self.setFuncs()
 		self.resetLocals()
@@ -555,6 +557,14 @@ class macro(object):
 
 	def __str__(self):
 		return self.result
+
+	def setDebug(self,db):
+		if db != False:
+			self.debug = True
+		else:
+			self.debug = False
+		self.debuglevel = 0
+		self.debstack = []
 
 	def setNoDinner(self,nd=False):
 		if nd != False:
@@ -4943,7 +4953,157 @@ The contents of the list are safe to include in the output if you like.
 					'resolve': self.reso_fn,	# resolve forward reference	
 		}
 
+	def debugdo(self,s):
+		self.debuglevel += 1
+		o = ''
+		if type(s) != str:
+			self.debuglevel -= 1
+			self.debstack.append('input not a string')
+			return ''
+		if len(s) == 0:
+			self.debuglevel -= 1
+			self.debstack.append('Input string empty')
+			return ''
+		inout = 0
+		fg = 1
+		lasttag = ''
+		lastdex = 0
+		OUT = 0
+		IN = 1
+		DEFER = 2
+		depth = 0
+		state = OUT
+		macstack = []
+		drecord = []
+		ln = 1
+		ltln = 1
+
+		# This is a bit gnarly; first, I replace "{" with "[s " as "{"
+		# is simply a shorthand for a style invocation. Then I allow
+		# for the syntax of separating the invocation of a style from
+		# its parameter(s) with either a space or a newline, by converting
+		# the newlines used this way into a space so as to simplify
+		# subsequent processing.
+		# ----------------------------------------------------------------
+		s = s.replace('\n\r','\n')
+		s = s.replace('\r\n','\n')
+		tok = 'prolly84673@c@747code'
+		s = s.replace('{\n',tok)
+		if fg == 0: s = s.replace('{','[s ')
+		s = re.sub(r'(\[s\s[\w-])\n',r'\1 ',s)
+#		if fg == 1: re.sub(r'(\{[\w-])\n',r'\1 ',s)
+		if fg == 1:
+			s = re.sub('(\\{\\w*)\n','\\1 ',s)
+#			s = re.sub(r'(\{[\w-])\n',r'\1 ',s)
+		if self.noDinner == False:
+			s = s.replace('  \n','')
+		s = s.replace(tok,'{\n')
+
+		dex = -1
+		tag = ''
+		for c in s:
+			if c == '\n':
+				ln += 1
+			if fg == 0:
+				if c == '}':
+					c = ']'
+			dex += 1
+			if state == OUT and (c == '[' or c == '{'):
+				if (s[dex:dex+8]  == '[gstyle ' or
+					s[dex:dex+7]  == '[style ' or
+					s[dex:dex+5]  == '[raw ' or
+					s[dex:dex+6]  == '[graw ' or
+					s[dex:dex+8]  == '[repeat ' or
+					s[dex:dex+11] == '[pythparse ' or
+					s[dex:dex+6]  == '[hlit '):
+					state = DEFER
+					depth = 1
+					lasttag = tag
+					lastdex = dex
+					tag = ''
+					data = ''
+					ltln = ln
+				elif c == '{': # this is equiv to '[s '
+					state = IN
+					lasttag = tag
+					lastdex = dex
+					tag = 's '
+					data = ''
+					depth = 1
+					ltln = ln
+				else:
+					state = IN
+					lasttag = tag
+					lastdex = dex
+					tag = ''
+					data = ''
+					depth = 1
+					ltln = ln
+			elif state == DEFER:
+				if c == '[' or c == '{':
+					tag += c
+					depth += 1
+					ltln = ln
+				elif c == ']' or c == '}':
+					depth -= 1
+					if depth == 0:
+						if tag.find(' ') > 0:
+							tag,data = tag.split(' ',1)
+							ldata = data.replace('[','&#91;')
+							ldata = ldata.replace(']','&#93;')
+							ldata = ldata.replace('{','&#123;')
+							ldata = ldata.replace('}','&#125;')
+							self.debstack.append('tag:"%s" depth:%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+							o += self.doTag(tag,data)
+							state = OUT
+					else:
+						tag += c
+				else:
+					tag += c
+			elif state == IN and (c == ']' or c == '}'):
+				depth -= 1
+				if tag.find(' ') > 0:
+					tag,data = tag.split(' ',1)
+				ldata = data.replace('[','&#91;')
+				ldata = ldata.replace(']','&#93;')
+				ldata = ldata.replace('{','&#123;')
+				ldata = ldata.replace('}','&#125;')
+				self.debstack.append('tag:"%s" depth=%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+				fx = self.doTag(tag,data)
+				if len(macstack) == 0:
+					o += fx
+					state = OUT
+					depth = 0
+				else:
+					lasttag = tag
+					lastdex = dex
+					tag = macstack.pop()
+					tag += fx
+			elif state == IN:
+				if c == '[' or c == '{': # nesting
+					depth += 1
+					ltln = ln
+					macstack.append(tag)
+					if c == '{':
+						tag = 's '
+					else:
+						tag = ''
+				else:
+					tag += c
+			else:
+				o += c
+		for key in self.refs.keys():
+			o = o.replace(key,self.refs.get(key,''))
+		if depth != 0:
+			o += 'ERROR: Line %d, Char index %d\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (ltln,lastdex,lasttag,depth,tag[:32],data[:32])
+		self.result = o
+		self.debuglevel -= 1
+		return o
+
 	def do(self,s):
+		if self.debug == True:
+			return self.debugdo(s)
+
 		if type(s) != str:
 			return ''
 		if len(s) == 0:
@@ -5073,6 +5233,12 @@ The contents of the list are safe to include in the output if you like.
 		self.result = o
 		return o
 
+	def getdebug(self):
+		o = 'Debug Trace:\n'
+		for el in self.debstack:
+			o += str(el)
+		return o
+
 	def page(self):
 		self.styles = {}
 
@@ -5102,7 +5268,6 @@ The contents of the list are safe to include in the output if you like.
 			s += fmt % (key,rawsty,ending)
 		s += post
 		return s
-
 
 	# modes are: html, text, table
 	def globalLib(self,mode='text',border=1):
