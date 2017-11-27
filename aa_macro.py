@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.109 Beta')
+		return('1.0.110 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -305,6 +305,11 @@ class macro(object):
 														   [center -7,=,foo] = "==foo=="
 	[th integer]									# returns st, nd, rd, th...
 	[nd integer]									# returns 1st, 2nd, 3rd, 4th...
+	
+	Encryption
+	----------
+	[encrypt (breakat=N,)(seed=N,)(icount=N,)salt=string,)content]
+	[decrypt (seed=N,)(icount=N,)salt=string,)content]
 
 	Misc
 	----
@@ -4947,6 +4952,7 @@ The contents of the list are safe to include in the output if you like.
 		o = ''
 		fg = 1
 		lasttag = ''
+		lastdex = 0
 		OUT = 0
 		IN = 1
 		DEFER = 2
@@ -4997,12 +5003,14 @@ The contents of the list are safe to include in the output if you like.
 					state = DEFER
 					depth = 1
 					lasttag = tag
+					lastdex = dex
 					tag = ''
 					data = ''
 					ltln = ln
 				elif c == '{': # this is equiv to '[s '
 					state = IN
 					lasttag = tag
+					lastdex = dex
 					tag = 's '
 					data = ''
 					depth = 1
@@ -5010,6 +5018,7 @@ The contents of the list are safe to include in the output if you like.
 				else:
 					state = IN
 					lasttag = tag
+					lastdex = dex
 					tag = ''
 					data = ''
 					depth = 1
@@ -5041,6 +5050,7 @@ The contents of the list are safe to include in the output if you like.
 					depth = 0
 				else:
 					lasttag = tag
+					lastdex = dex
 					tag = macstack.pop()
 					tag += fx
 			elif state == IN:
@@ -5059,7 +5069,7 @@ The contents of the list are safe to include in the output if you like.
 		for key in self.refs.keys():
 			o = o.replace(key,self.refs.get(key,''))
 		if depth != 0:
-			o += 'ERROR: Line %d,\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (ltln,lasttag,depth,tag[:32],data[:32])
+			o += 'ERROR: Line %d, Char index %d\n<br>lasttag = "%s"\n<br>Depth != 0 (%d)\n<br>tag="%s"\n<br>data="%s"' % (ltln,lastdex,lasttag,depth,tag[:32],data[:32])
 		self.result = o
 		return o
 
