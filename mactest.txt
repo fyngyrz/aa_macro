@@ -707,3 +707,9 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 	printf("Hello, Whirled\n");
 }]
 [getc var=c]
+
+[local test1 this is a test]
+[save test1 aam_test1.txt]
+[global test2 this is also a test]
+[gsave test2 aam_test2.txt]
+

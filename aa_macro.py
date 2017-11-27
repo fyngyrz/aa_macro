@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 26th, 2017     (for Class)
-  LastDocRev: November 26th, 2017     (for Class)
+     LastRev: November 27th, 2017     (for Class)
+  LastDocRev: November 27th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.107 Beta')
+		return('1.0.108 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -152,6 +152,8 @@ class macro(object):
 	[vdec (quiet=1,)(pre=1,)variableName]			# deccrement a local(global) variable
 	[load variableName fileName]					# load filename into local variable
 	[gload variableName fileName]					# load filename into global variable
+	[save variableName fileName]					# save filename from local variable
+	[gsave variableName fileName]					# save filename from global variable
 	
 	[page]											# reset local environment: variables
 													  global variables are unaffected
@@ -927,6 +929,62 @@ The contents of the list are safe to include in the output if you like.
 			self.theGlobals[vn] = fc
 		except:
 			return em+'(unable to create/update global variable) '
+		return o
+
+	# [gsave variableName fileName]
+	def gsave_fn(self,tag,data):
+		o = ''
+		em = ' aa_macro gsave operator error '
+		if self.noshell == True: return '! gsave Not Available !'
+		try:
+			plist = data.split(' ')
+		except:
+			plist = ['','']
+		if len(plist) != 2: return em
+		vn = plist[0]
+		fn = plist[1]
+		if len(vn) == 0: return em+'(variable name) '
+		if len(fn) == 0: return em+'(file name) '
+		try:
+			fh = open(fn,'w')
+		except:
+			return em+'! (write file open failure) !'
+		try:
+			fh.write(self.theGlobals.get(vn,''))
+		except:
+			return em+'! (file write failure) !'
+		try:
+			fh.close()
+		except:
+			return em+'! (file close failure) !'
+		return o
+
+	# [save variableName fileName]
+	def save_fn(self,tag,data):
+		o = ''
+		em = ' aa_macro save operator error '
+		if self.noshell == True: return '! save Not Available !'
+		try:
+			plist = data.split(' ')
+		except:
+			plist = ['','']
+		if len(plist) != 2: return em
+		vn = plist[0]
+		fn = plist[1]
+		if len(vn) == 0: return em+'(variable name) '
+		if len(fn) == 0: return em+'(file name) '
+		try:
+			fh = open(fn,'w')
+		except:
+			return em+'! (write file open failure) !'
+		try:
+			fh.write(self.theLocals.get(vn,''))
+		except:
+			return em+'! (file write failure) !'
+		try:
+			fh.close()
+		except:
+			return em+'! (file close failure) !'
 		return o
 
 	# [load variableName fileName]
@@ -4706,7 +4764,9 @@ The contents of the list are safe to include in the output if you like.
 					'vdec'	: self.vdec_fn,		# deccrement a local(global) variable
 					'load'	: self.load_fn,		# load file into local variable
 					'gload'	: self.gload_fn,	# load file into global variable
-					
+					'save'	: self.save_fn,		# save file from local variable
+					'gsave'	: self.gsave_fn,	# save file from global variable
+
 					# stack
 					# -----
 					'pop'	: self.pop_fn,		# pop a value from the stack

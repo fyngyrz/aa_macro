@@ -72,6 +72,8 @@ Variables | &nbsp;
  <tt>&#91;vdec \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  decrement local(global) variable
  <tt>&#91;load **varName** **fileName**&#93;</tt> |  load file into local variable
  <tt>&#91;gload **varName** **fileName**&#93;</tt> |  load file into global variable
+ <tt>&#91;save **varName** **fileName**&#93;</tt> |  save file from local variable
+ <tt>&#91;gsave **varName** **fileName**&#93;</tt> |  save file from global variable
 
 Data Lists | &nbsp;
 ---------- | ----
@@ -307,6 +309,7 @@ Built-in | &nbsp;
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
  <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
+ <tt>&#91;gsave **varName** **fileName**&#93;</tt> |  save file from global variable
  <tt>&#91;gstyle **styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;gt&#93;</tt> |  greater-than
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
@@ -383,6 +386,7 @@ Built-in | &nbsp;
  <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
  <tt>&#91;rs&#93;</tt> |  right squiggly bracket
  <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
+ <tt>&#91;save **varName** **fileName**&#93;</tt> |  save file from local variable
  <tt>&#91;sisort \(rev=1&#44;\)content&#93;</tt> |  case-insensitive sort of lines
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
  <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
