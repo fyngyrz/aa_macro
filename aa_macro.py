@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.111 Beta')
+		return('1.0.112 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -4958,11 +4958,14 @@ The contents of the list are safe to include in the output if you like.
 		o = ''
 		if type(s) != str:
 			self.debuglevel -= 1
-			self.debstack.append('input not a string')
+#			self.debstack.append('input not a string')
+# (tag,depth+1,ltln,lastdex,ldata)
+			self.debstack.append(('MESSAGE: input not a string',0,0,0,'',self.debuglevel))
 			return ''
 		if len(s) == 0:
 			self.debuglevel -= 1
-			self.debstack.append('Input string empty')
+			self.debstack.append(('MESSAGE: Input string empty',0,0,0,'',self.debuglevel))
+#			self.debstack.append('Input string empty')
 			return ''
 		inout = 0
 		fg = 1
@@ -5049,11 +5052,12 @@ The contents of the list are safe to include in the output if you like.
 					if depth == 0:
 						if tag.find(' ') > 0:
 							tag,data = tag.split(' ',1)
-							ldata = data.replace('[','&#91;')
-							ldata = ldata.replace(']','&#93;')
-							ldata = ldata.replace('{','&#123;')
-							ldata = ldata.replace('}','&#125;')
-							self.debstack.append('tag:"%s" depth:%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+#							ldata = data.replace('[','&#91;')
+#							ldata = ldata.replace(']','&#93;')
+#							ldata = ldata.replace('{','&#123;')
+#							ldata = ldata.replace('}','&#125;')
+#							self.debstack.append('tag:"%s" depth:%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+							self.debstack.append((tag,depth+1,ltln,lastdex,data,self.debuglevel))
 							o += self.doTag(tag,data)
 							state = OUT
 					else:
@@ -5064,11 +5068,12 @@ The contents of the list are safe to include in the output if you like.
 				depth -= 1
 				if tag.find(' ') > 0:
 					tag,data = tag.split(' ',1)
-				ldata = data.replace('[','&#91;')
-				ldata = ldata.replace(']','&#93;')
-				ldata = ldata.replace('{','&#123;')
-				ldata = ldata.replace('}','&#125;')
-				self.debstack.append('tag:"%s" depth=%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+#				ldata = data.replace('[','&#91;')
+#				ldata = ldata.replace(']','&#93;')
+#				ldata = ldata.replace('{','&#123;')
+#				ldata = ldata.replace('}','&#125;')
+#				self.debstack.append('tag:"%s" depth=%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+				self.debstack.append((tag,depth+1,ltln,lastdex,data,self.debuglevel))
 				fx = self.doTag(tag,data)
 				if len(macstack) == 0:
 					o += fx
@@ -5233,10 +5238,13 @@ The contents of the list are safe to include in the output if you like.
 		self.result = o
 		return o
 
+#	self.debstack.append('tag:"%s" depth:%d line:%d char:%d data:\n"%s"\n' % (tag,depth+1,ltln,lastdex,ldata))
+#	self.debstack.append((tag,depth+1,ltln,lastdex,ldata))
 	def getdebug(self):
 		o = 'Debug Trace:\n'
 		for el in self.debstack:
-			o += str(el)
+			tag,depth,line,char,data,dlev = el
+			o += 'level:%d tag:"%s" depth:%d line:%d char:%d data:\n"%s"\n' % (dlev,tag,depth,line,char,data)
 		return o
 
 	def page(self):

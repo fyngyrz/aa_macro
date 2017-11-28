@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.112
+ * rejiggered how debug data is tracked to allow for flexable reporting
+
 1.0.111
  * added debug option and getdebug() method
 
