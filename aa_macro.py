@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.112 Beta')
+		return('1.0.113 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -431,15 +431,17 @@ class macro(object):
 
 	Parameters to object instantiation:
 	-----------------------------------
-	debug ----- False  (default) or True, then call getdebug()
-	mode ------ '3.2'  (default) or '4.01s' to set HTML rendering mode
-	nodinner -- True   (default) or False eats sequences of two spaces followed by a newline
-	noshell --- False (default) or True disables [sys] [load] and [gload] built-ins
-	noembrace - False (default) or True disables [embrace] built-in
-	noinclude - False (default) or True disables [include] built-in
-	back ------ ffffff (default) HEX3 or HEX color for background color in HTML 4.01s mode
-	dothis ---- None   (default) you can pass in initial text to be processed here if you like
-	            the object returns the result in its string method:
+	locklipath - '' (default) if string is non-empty, lipath cannot be changed from string
+	lockwepath - '' (default) if string is non-empty, wepath cannot be changed from string
+	debug ------ False  (default) or True, then call getdebug()
+	mode ------- '3.2'  (default) or '4.01s' to set HTML rendering mode
+	nodinner --- True   (default) or False eats sequences of two spaces followed by a newline
+	noshell ---- False (default) or True disables [sys] [load] and [gload] built-ins
+	noembrace -- False (default) or True disables [embrace] built-in
+	noinclude -- False (default) or True disables [include] built-in
+	back ------- ffffff (default) HEX3 or HEX color for background color in HTML 4.01s mode
+	dothis ----- None   (default) you can pass in initial text to be processed here if you like
+	             the object returns the result in its string method:
 					mod = macro(dothis='[style x foo [b]]'{x bar})
 					print mod # prints 'foo bar'
 
@@ -461,7 +463,11 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath=''):
+		self.locklipath = locklipath
+		self.lockwepath = lockwepath
+		self.lipath = locklipath
+		self.wepath = lockwepath
 		self.setMode(mode)
 		self.setBack(back)
 		self.setNoDinner(nodinner)
@@ -492,8 +498,6 @@ class macro(object):
 						'in','of','on','to','up','and','as',
 						'but','or','nor']
 		self.result = ''
-		self.lipath = ''
-		self.wepath = ''
 		self.splitCount = 0
 
 		self.theGlobals['txl_lb'] = '[lb]'
@@ -2903,10 +2907,12 @@ The contents of the list are safe to include in the output if you like.
 		return xy
 
 	def lipath_fn(self,tag,data):
+		if self.locklipath != '': return ''
 		self.lipath = data
 		return ''
 
 	def wepath_fn(self,tag,data):
+		if self.lockwepath != '': return ''
 		self.wepath = data
 		return ''
 
@@ -2929,8 +2935,10 @@ The contents of the list are safe to include in the output if you like.
 				tit = el[1]
 			elif el[0] == 'target=':
 				tgt = el[1]
-		self.lipath = lpath
-		self.wepath = wpath
+		if self.locklipath == '':
+			self.lipath = lpath
+		if self.lockwepath == '':
+			self.wepath = wpath
 		if getxy == True:
 			txy = self.xyhelper(data)
 		if tgt != '':
@@ -2950,8 +2958,10 @@ The contents of the list are safe to include in the output if you like.
 				lpath = el[1]
 			elif el[0] == 'wpath=':
 				wpath = el[1]
-		self.lipath = lpath
-		self.wepath = wpath
+		if self.locklipath == '':
+			self.lipath = lpath
+		if self.lockwepath == '':
+			self.wepath = wpath
 		tit = ''
 		txy = ''
 		rv = ''
