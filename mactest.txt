@@ -700,8 +700,6 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [url css=text-decoration: underline;,http://fyngyrz.com/|Home Page]
 [url sep=[co],http://fyngyrz.com/,Home Page]
 
-[v aam_version]
-
 [raw c void main()
 {
 	printf("Hello, Whirled\n");
@@ -719,3 +717,8 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 
 [encrypt this is also a test]
 [decrypt [encrypt this is also a test]]
+
+[style ripple *[b]* ]  
+[splash style=ripple,1,2,3,4]
+[splash style=ripple,sep=|,a|b|c|d]
+[splash style=ripple,sep=/,limit=2,i/ii/iii/iv]

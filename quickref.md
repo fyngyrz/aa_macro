@@ -157,6 +157,7 @@ Text Processing | &nbsp;
  <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
+ <tt>&#91;splash \(limit=N&#44;\)\(style=Style&#44;\)\(sep=&#44;&#44;\)content&#93;</tt> |  splits content, applies style
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
  <tt>&#91;lower content&#93;</tt> |  convert to lowercase
@@ -396,6 +397,7 @@ Built-in | &nbsp;
  <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
  <tt>&#91;soundex \(len=N&#44;\)content&#93;</tt> |  return soundex value of content
  <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
+ <tt>&#91;splash \(limit=N&#44;\)\(style=Style&#44;\)\(sep=&#44;&#44;\)content&#93;</tt> |  splits content, applies style
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;sp&#93;</tt> |  space

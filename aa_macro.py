@@ -29,8 +29,8 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 27th, 2017     (for Class)
-  LastDocRev: November 27th, 2017     (for Class)
+     LastRev: November 30th, 2017     (for Class)
+  LastDocRev: November 30th, 2017     (for Class)
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.113 Beta')
+		return('1.0.114 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -249,6 +249,7 @@ class macro(object):
 	[alphanumlead (trail=1,)content]				# return leading alphanumerics, discard remainder
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[splitcount N]									# limit number of splits to N for next split ONLY
+	[splash (sep=,,)(limit=N,)(style=Style,)data]	# Split data, optionally limit times, apply style
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
@@ -545,6 +546,9 @@ class macro(object):
 		self.theGlobals['tx_postxt'] = '</span>'
 		self.theGlobals['tx_precom'] = '<span style="color: #ffff00">'
 		self.theGlobals['tx_poscom'] = '</span>'
+
+		self.theGlobals['loc_splitcount'] = 0
+		self.theGlobals['loc_splashcount'] = 0
 
 		self.keywords = ['and','del','from','not','while',
 					'as','elif','global','or','with',
@@ -1963,6 +1967,40 @@ The contents of the list are safe to include in the output if you like.
 			o = ' ?split? '
 		self.theLocals['loc_splitcount'] = str(scount)
 		self.splitCount = 0
+		return o
+
+	def splash_fn(self,tag,data):
+		o = ''
+		opts,data = self.popts(['style','sep','limit'],data)
+		style = ''
+		sep = ','
+		limit = 0
+		for el in opts:
+			if el[0] == 'style=':
+				style = el[1]
+			elif el[0] == 'sep=':
+				sep = el[1]
+			elif el[0] == 'limit=':
+				try:
+					limit = abs(int(el[1]))
+				except:
+					limit = 0
+		if limit == 0:
+			self.parms = data.split(sep)
+		else: # limit non-zero
+			self.parms = data.split(sep,limit)
+		scount = len(self.parms)
+		if style != '':
+			for i in range(0,scount):
+				lump = self.parms[i]
+				if lump != '':
+					o += self.do('[s '+style+' '+lump+']')
+				else:
+					o += self.do('[s '+style+']')
+		else: # no style
+			for i in range(0,scount):
+				o += self.parms[i]
+		self.theLocals['loc_splashcount'] = str(scount)
 		return o
 
 	def parm_fn(self,tag,data):
@@ -4891,6 +4929,7 @@ The contents of the list are safe to include in the output if you like.
 					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
+					'splash': self.splash_fn,	# [splash (sep=,,)(limit=N,)(style=Style,)data]
 					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
 					'stripe': self.stripe_fn,	# [stripe (charset=chars,)stuff] whitespace, etc removal
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result

@@ -124,6 +124,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,alphanumlead {o trail=1,}{c}|Return leading alphanumeric characters{co} or trailing content]  
 [append bil,splitcount {r value}| Maximum number of splits to perform in next {lb}split{rb}]  
 [append bil,split {r X{co}}{c}{o Xcontent}| split for use with {lb}parm{rb}]  
+[append bil,splash {o limit=N{co}}{o style=Style{co}}{o sep={co}{co}}{c}| splits content, applies style]  
 [append bil,parm {r value}| returns results of {lb}split{rb}]  
 [append bil,upper {c}| convert to uppercase]  
 [append bil,lower {c}| convert to lowercase]  

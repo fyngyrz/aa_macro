@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.114
+ * added [splash]
+
 1.0.113
  * added locklipath invocation option
  * added lockwepath invocation option
