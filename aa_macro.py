@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.115 Beta')
+		return('1.0.116 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -548,6 +548,7 @@ class macro(object):
 		self.theGlobals['tx_poscom'] = '</span>'
 
 		self.theGlobals['loc_splitcount'] = 0
+		self.theGlobals['loc_splitnum'] = 0
 		self.theGlobals['loc_splashcount'] = 0
 
 		self.keywords = ['and','del','from','not','while',
@@ -2008,6 +2009,7 @@ The contents of the list are safe to include in the output if you like.
 		ntl = ntl.replace('&#44;',',')
 		if style != '':
 			for i in range(0,scount):
+				self.theLocals['loc_splashnum'] = str(i+1)
 				tntl = inter
 				if i == scount-1:
 					tntl = ''
@@ -2022,6 +2024,7 @@ The contents of the list are safe to include in the output if you like.
 				o += '%s%s%s%s' % (pre,t,post,tntl)
 		else: # no style
 			for i in range(0,scount):
+				self.theLocals['loc_splashnum'] = str(i+1)
 				tntl = inter
 				if i == scount-1:
 					tntl = ''
