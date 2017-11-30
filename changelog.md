@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.115
+ * added pre=, post=, inter=, and ntl= to [splash]
+
 1.0.114
  * added [splash]
 

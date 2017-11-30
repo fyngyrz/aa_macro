@@ -39,7 +39,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.114 Beta')
+		return('1.0.115 Beta')
 	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
@@ -249,7 +249,7 @@ class macro(object):
 	[alphanumlead (trail=1,)content]				# return leading alphanumerics, discard remainder
 	[slice sliceSpec,contentToSlice]				# [slice 3:6,foobarfoo] = bar ... etc.
 	[splitcount N]									# limit number of splits to N for next split ONLY
-	[splash (sep=,,)(limit=N,)(style=Style,)data]	# Split data, optionally limit times, apply style
+	[splash (inter=,)(pre=,)(post=,)(ntl=,)(sep=,,)(limit=N,)(style=Style,)data]	# Split data, optionally limit times, apply style
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
@@ -1971,15 +1971,27 @@ The contents of the list are safe to include in the output if you like.
 
 	def splash_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['style','sep','limit'],data)
+		opts,data = self.popts(['style','sep','limit','inter','ntl','pre','post'],data)
 		style = ''
 		sep = ','
+		pre = ''
+		post = ''
+		inter = ''
+		ntl = ''
 		limit = 0
 		for el in opts:
 			if el[0] == 'style=':
 				style = el[1]
 			elif el[0] == 'sep=':
 				sep = el[1]
+			elif el[0] == 'inter=':
+				inter = el[1]
+			elif el[0] == 'pre=':
+				pre = el[1]
+			elif el[0] == 'post=':
+				post = el[1]
+			elif el[0] == 'ntl=':
+				ntl = el[1]
 			elif el[0] == 'limit=':
 				try:
 					limit = abs(int(el[1]))
@@ -1990,16 +2002,33 @@ The contents of the list are safe to include in the output if you like.
 		else: # limit non-zero
 			self.parms = data.split(sep,limit)
 		scount = len(self.parms)
+		pre = pre.replace('&#44;',',')
+		post = post.replace('&#44;',',')
+		inter = inter.replace('&#44;',',')
+		ntl = ntl.replace('&#44;',',')
 		if style != '':
 			for i in range(0,scount):
+				tntl = inter
+				if i == scount-1:
+					tntl = ''
+				if i == scount-2:
+					if ntl != '':
+						tntl = ntl
 				lump = self.parms[i]
 				if lump != '':
-					o += self.do('[s '+style+' '+lump+']')
+					t = self.do('[s '+style+' '+lump+']')
 				else:
-					o += self.do('[s '+style+']')
+					t = self.do('[s '+style+']')
+				o += '%s%s%s%s' % (pre,t,post,tntl)
 		else: # no style
 			for i in range(0,scount):
-				o += self.parms[i]
+				tntl = inter
+				if i == scount-1:
+					tntl = ''
+				if i == scount-2:
+					if ntl != '':
+						tntl = ntl
+				o += '%s%s%s%s' % (pre,self.parms[i],post,tntl)
 		self.theLocals['loc_splashcount'] = str(scount)
 		return o
 
@@ -4929,7 +4958,7 @@ The contents of the list are safe to include in the output if you like.
 					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
-					'splash': self.splash_fn,	# [splash (sep=,,)(limit=N,)(style=Style,)data]
+					'splash': self.splash_fn,	# [splash (pre=,)(post=,)(inter=,)(ntl=,)(sep=,,)(limit=N,)(style=Style,)data]
 					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
 					'stripe': self.stripe_fn,	# [stripe (charset=chars,)stuff] whitespace, etc removal
 					'parm'	: self.parm_fn,		# [parm N] where N is 0...n of split result
