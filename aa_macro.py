@@ -29,18 +29,18 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: November 30th, 2017     (for Class)
-  LastDocRev: November 30th, 2017     (for Class)
+     LastRev: December 2nd, 2017     (for Class)
+  LastDocRev: December 2nd, 2017     (for Class)
+     Version: 
+	"""
+	def version_set(self):
+		return('1.0.117 Beta')
+	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
               OS X 10.12, Python 2.7.10 as of Jan 31st, 2017
 	  Status:  BETA
      1st-Rel: 1.0.0
-     Version: 
-	"""
-	def version_set(self):
-		return('1.0.116 Beta')
-	"""
     Policies: 1) I will make every effort to never remove functionality or
                  alter existing functionality once past BETA stage. Anything
 				 new will be implemented as something new, thus preserving all
@@ -306,6 +306,7 @@ class macro(object):
 														   [center -7,=,foo] = "==foo=="
 	[th integer]									# returns st, nd, rd, th...
 	[nd integer]									# returns 1st, 2nd, 3rd, 4th...
+	[br (parms=stuff,)(content)]					# generates an HTML break
 	
 	Encryption
 	----------
@@ -4711,6 +4712,19 @@ The contents of the list are safe to include in the output if you like.
 					o += '--error closing "%s"--' % (filename)
 		return o
 
+	def br_fn(self,tag,data):
+		o = ''
+		parms = ''
+		opts,data = self.popts(['parms'],data,True)
+		for el in opts:
+			if el[0] == 'parms=':
+				parms = ' '+el[1]
+		if data != '': # if there is content
+			o += data+'<br'+parms+'>'
+		else: # no content
+			o += '<br'+parms+'>'
+		return o
+
 	def encrypt_fn(self,tag,data):
 		opts,data = self.popts(['seed','salt','icount','breakat'],data)
 		o = ''
@@ -5014,6 +5028,7 @@ The contents of the list are safe to include in the output if you like.
 					'alphanumlead': self.alphanumlead_fn, #[alphanumlead (trail=1,)string] return leading alpha
 					'encrypt':self.encrypt_fn,	#[encrypt (seed=N,)(seed=String,)content]
 					'decrypt':self.decrypt_fn,	#[decrypt (seed=N,)(seed=String,)content]
+					'br'	: self.br_fn,		#[br( parms=stuff)(content)]
 
 					# Miscellaneous
 					# -------------

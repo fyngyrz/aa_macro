@@ -169,6 +169,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,nd {r integer}| 1st, 2nd, 3rd, 4th...]  
 [append bil,encrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{o breakat=N{co}}{c}| Encrypt content]  
 [append bil,decrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{c}| Decrypt content]  
+[append bil,br {o parms{co}}{o content}| (content) HTML line break (with parms)]  
   
 [append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  

@@ -201,6 +201,7 @@ Text Processing | &nbsp;
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
  <tt>&#91;encrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  Encrypt content
  <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
+ <tt>&#91;br \(parms&#44;\)\(content\)&#93;</tt> |  (content) HTML line break (with parms)
 
 Miscellanea | &nbsp;
 ----------- | ----
@@ -264,6 +265,7 @@ Built-in | &nbsp;
  <tt>&#91;b content&#93;</tt> |  HTML bold
  <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
  <tt>&#91;bq content&#93;</tt> |  HTML blockquote
+ <tt>&#91;br \(parms&#44;\)\(content\)&#93;</tt> |  (content) HTML line break (with parms)
  <tt>&#91;btodec (digits=N,)**value**&#93;</tt> |  binary to decimal conversion
  <tt>&#91;caps content&#93;</tt> |  sentence case
  <tt>&#91;capt content&#93;</tt> |  title case
