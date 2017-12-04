@@ -4,6 +4,9 @@
 
 ![macro\(\)](tease.png)
 
+> Sometimes a [demo](http://ourtimelines.com/aamacropreview.html) is
+worth a thousand words. Or, read on:
+
 I don't use WYSIWYG HTML/CSS editors, as they may generate sub-par code,
 may break with any application or library or operating system upgrade,
 and in the end, I have zero control over where and when they break, or
