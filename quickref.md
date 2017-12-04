@@ -129,10 +129,10 @@ Math | &nbsp;
 
 Math | &nbsp;
 ---- | ----
- <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
- <tt>&#91;sub **value** **subtrahend**&#93;</tt> |  subtract two numbers
- <tt>&#91;mul **value** **multiplier**&#93;</tt> |  multiply two numbers
- <tt>&#91;div **value** **divisor**&#93;</tt> |  divide two numbers
+ <tt>&#91;add \(mode=float&#44;\)**value** **addend**&#93;</tt> |  add two numbers
+ <tt>&#91;sub \(mode=float&#44;\)**value** **subtrahend**&#93;</tt> |  subtract two numbers
+ <tt>&#91;mul \(mode=float&#44;\)**value** **multiplier**&#93;</tt> |  multiply two numbers
+ <tt>&#91;div \(mode=float&#44;\)**value** **divisor**&#93;</tt> |  divide two numbers
  <tt>&#91;max **value1** **value2**&#93;</tt> |  maximum of two numbers
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
@@ -257,7 +257,7 @@ Built-in | &nbsp;
 -------- | ----
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
  <tt>&#91;abs **value**&#93;</tt> |  absolute value of number
- <tt>&#91;add **value** **addend**&#93;</tt> |  add two numbers
+ <tt>&#91;add \(mode=float&#44;\)**value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
  <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters&#44; or trailing content
  <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
@@ -289,7 +289,7 @@ Built-in | &nbsp;
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
  <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
- <tt>&#91;div **value** **divisor**&#93;</tt> |  divide two numbers
+ <tt>&#91;div \(mode=float&#44;\)**value** **divisor**&#93;</tt> |  divide two numbers
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
  <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
@@ -371,7 +371,7 @@ Built-in | &nbsp;
  <tt>&#91;max **value1** **value2**&#93;</tt> |  maximum of two numbers
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
- <tt>&#91;mul **value** **multiplier**&#93;</tt> |  multiply two numbers
+ <tt>&#91;mul \(mode=float&#44;\)**value** **multiplier**&#93;</tt> |  multiply two numbers
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
  <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
@@ -410,7 +410,7 @@ Built-in | &nbsp;
  <tt>&#91;strip content&#93;</tt> |  strip HTML tags out
  <tt>&#91;stripe (charset=chars,)content&#93;</tt> |  strip chars from both ends of line (default = spaces)
  <tt>&#91;style **styleName** **styleContent**&#93;</tt> |  local style
- <tt>&#91;sub **value** **subtrahend**&#93;</tt> |  subtract two numbers
+ <tt>&#91;sub \(mode=float&#44;\)**value** **subtrahend**&#93;</tt> |  subtract two numbers
  <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)

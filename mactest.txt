@@ -742,3 +742,8 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [br parms=clear="all",or this either]
 [random seed=punt]
 [random seed=punt,icount=3]
+[mul mode=float,2 2]
+[div mode=float,10.0 3]
+[add mode=float,2 2.5]
+[sub mode=float,5 2.2]
+

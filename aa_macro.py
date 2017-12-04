@@ -35,7 +35,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.118 Beta')
+		return('1.0.119 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -221,16 +221,17 @@ class macro(object):
 
 	Math
 	----
-	[int value]										# return the integer of the value
+	[add (mode=float,)value addend]					# add a number to a number
+	[sub (mode=float,)value subtrahend]				# subtract a number from a number
+	[mul (mode=float,)value multiplier]				# multiply a number by a number
+	[div (mode=float,)value divisor]				# divide a number by a number
+
 	[abs value]										# return the absolute value of the value
-	[add value addend]								# add a number to a number
-	[sub value subtrahend]							# subtract a number from a number
-	[mul value multiplier]							# multiply a number by a number
-	[div value divisor]								# divide a number by a number
 	[max v1 v2]										# return larger value
 	[min v1 v2]										# return smaller value
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
+	[int value]										# return the integer of the value
 	[stage start end steps step]					# produce number in range
 	[random( )(seed=none,)(icount=N)]				# generate a random number
 
@@ -4240,6 +4241,12 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def math_fn(self,tag,data):
+		opts,data = self.popts(['mode'],data)
+		mode = 'int'
+		for el in opts:
+			if el[0] == 'mode=':
+				if str(el[1]) == 'float':
+					mode = 'float'
 		o = ''
 		try:
 			if tag == 'add' or tag == 'sub' or tag == 'div' or tag == 'mul':
@@ -4247,8 +4254,12 @@ The contents of the list are safe to include in the output if you like.
 			else:
 				d1 = data
 				d2 = '1'
-			d2 = int(d2)
-			x = int(d1)
+			if mode == 'int':
+				d2 = int(d2)
+				x = int(d1)
+			else:
+				d2 = float(d2)
+				x = float(d1)
 		except:
 			pass
 		else:
@@ -4258,7 +4269,10 @@ The contents of the list are safe to include in the output if you like.
 				x = str(x * d2)
 			elif tag == 'div':
 				try:
-					x = str(int(x / d2))
+					if mode == 'int':
+						x = str(int(x / d2))
+					else:
+						x = str(x / d2)
 				except:
 					x = '0'
 			else: # sub or dec
