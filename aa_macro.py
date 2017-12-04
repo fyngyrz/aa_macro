@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 3rd, 2017     (for Class)
-  LastDocRev: December 3rd, 2017     (for Class)
+     LastRev: December 4th, 2017     (for Class)
+  LastDocRev: December 4th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.119 Beta')
+		return('1.0.120 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -436,6 +436,16 @@ class macro(object):
 
 	Parameters to object instantiation:
 	-----------------------------------
+	dlimit ----- max nesting depth of looping constructs:
+					for
+					repeat
+					dup
+					eval
+	xlimit ----- max number of iterations for looping constructs:
+					for
+					repeat
+					dup
+					eval
 	locklipath - '' (default) if string is non-empty, lipath cannot be changed from string
 	lockwepath - '' (default) if string is non-empty, wepath cannot be changed from string
 	debug ------ False  (default) or True, then call getdebug()
@@ -468,9 +478,12 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath=''):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0):
 		self.locklipath = locklipath
 		self.lockwepath = lockwepath
+		self.xlimit = xlimit
+		self.dlimit = dlimit
+		self.xdcount = 0
 		self.lipath = locklipath
 		self.wepath = lockwepath
 		self.setMode(mode)
@@ -1888,6 +1901,11 @@ The contents of the list are safe to include in the output if you like.
 
 	# [eval (style=styleName,)N,content]
 	def eval_fn(self,tag,data):
+		self.xdcount += 1
+		if self.dlimit != 0:
+			if self.xdcount > self.dlimit:
+				self.xdcount -= 1
+				return '! looping depth exceeded in eval !'
 		o = ''
 		opts,data = self.popts(['style'],data)
 		style = ''
@@ -1897,15 +1915,23 @@ The contents of the list are safe to include in the output if you like.
 		if data.find(',') != -1:
 			dd = data.split(',',1)
 			try:
-				n = int(dd[0])
+				n = abs(int(dd[0]))
 				data = dd[1]
 			except:
+				self.xdcount -= 1
 				return ' ERROR: eval N value missing or malformed '
 		else:
 			try:
 				n = int(data)
 			except:
+				self.xdcount -= 1
 				return ' ERROR: eval N value missing or malformed '
+		if n == 0:
+			self.xdcount -= 1
+			return ''
+		if self.xlimit != 0:
+			if n > self.xlimit:
+				n = self.xlimit
 		for i in range(0,n):
 			if style == '':
 				o += data
@@ -1914,10 +1940,16 @@ The contents of the list are safe to include in the output if you like.
 					o += self.do('[s '+style+' '+data+']')
 				else:
 					o += self.do('[s '+style+']')
+		self.xdcount -= 1
 		return o
 
 	def dup_fn(self,tag,data):
 		o = ''
+		self.xdcount += 1
+		if self.dlimit != 0:
+			if self.xdcount > self.dlimit:
+				self.xdcount -= 1
+				return '! looping depth exceeded in dup !'
 		sep=','
 		ll = data.split(sep,1)
 		if len(ll) == 2:
@@ -1926,7 +1958,11 @@ The contents of the list are safe to include in the output if you like.
 			except:
 				pass
 			else:
-				o = ll[1] * n
+				if self.xlimit != 0:
+					if n > self.xlimit:
+						n = self.xlimit
+				o += ll[1] * n
+		self.xdcount -= 1
 		return o
 
 	def rstrip_fn(self,tag,data):
@@ -2222,6 +2258,11 @@ The contents of the list are safe to include in the output if you like.
 
 	# [for style,X,Y,Z]
 	def for_fn(self,tag,data):
+		self.xdcount += 1
+		if self.dlimit != 0:
+			if self.xdcount > self.dlimit:
+				self.xdcount -= 1
+				return '! nesting limit exceeded in for !'
 		o = ''
 		style = ''
 		em = ' ? //for// iterator problem: "'+data+'" ? '
@@ -2235,16 +2276,26 @@ The contents of the list are safe to include in the output if you like.
 				if style != '':
 					block = self.styles.get(style,self.gstyles.get(style,None))
 					if block == None:
+						self.xdcount -= 1
 						return ' ? in for, Unknown Style \"%s\" ? e4' % (style)
+					lct = 0
 					for i in range(x,y,z):
 						block2 = block.replace('[b]',str(i))
 						o += self.do(block2)
+						if self.xlimit != 0:
+							lct += 1
+							if lct > self.xlimit:
+								break
 				else:
+					self.xdcount -= 1
 					return em+'e1'
 			except Exception,e:
+				self.xdcount -= 1
 				return em+'e2'+str(e)+' //'
 		else:
+			self.xdcount -= 1
 			return em+'e3'
+		self.xdcount -= 1
 		return o
 
 	# [case (sep=X,)switchName caseXcontent]
@@ -3944,6 +3995,11 @@ The contents of the list are safe to include in the output if you like.
 	#	[gv name]
 	#	[parm number]
 	def repeat_fn(self,tag,data):
+		self.xdcount += 1
+		if self.dlimit != 0:
+			if self.xdcount > self.dlimit:
+				self.xdcount -= 1
+				return '! looping depth exceeded in repeat !'
 		o = ''
 		try:
 			d1,d2 = data.split(' ',1)
@@ -3970,8 +4026,13 @@ The contents of the list are safe to include in the output if you like.
 		except:
 			pass
 		else:
+			if x == 0: return ''
+			if self.xlimit != 0:
+				if x > self.xlimit:
+					x = self.xlimit
 			for i in range(0,x):
 				o += self.do(d2)
+		self.xdcount -= 1
 		return o
 
 	def evenodd_fn(self,tag,data):

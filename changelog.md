@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.120
+ * added xlimit and dlimit parameters to class
+
 1.0.119
  * added (mode=float,) to add, sub, div, mul
 

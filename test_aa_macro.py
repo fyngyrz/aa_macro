@@ -82,6 +82,27 @@ Test aa_macro.py functionality
 		output4 = mod.do('[sys echo shell test]\n[gload othervar forvariable.txt]\n[load myvar forvariable.txt]\n')
 		output = output + output4
 
+		mod = macro(xlimit=5)
+		output5 = mod.do('[style dome [b]]\n[for dome,0,10,1]\n[repeat 10 x-]\n[dup 10,y-]\n[eval 10,z-]')
+		output = output + output5
+
+		# for, repeat, dup, eval
+		mod = macro(dlimit=1)
+		output6 = mod.do('[style dome2 [b]][style dome [for dome2,0,2,1]]\n[for dome,0,2,1]\n')
+		output = output + output6
+
+		mod = macro(dlimit=1)
+		output7 = mod.do('[repeat 2 [repeat 2 aB]]\n')
+		output = output + output7
+
+		mod = macro(dlimit=1)
+		output8 = mod.do('[repeat 2 [dup 2,[dup 2,aB]]]\n')
+		output = output + output8
+
+		mod = macro(dlimit=1)
+		output9 = mod.do('[repeat 2 [eval 2,[eval 2,oX]]]\n')
+		output = output + output9
+
 		if rebuild == 1:
 			fileName = 'testresult.html'
 			try:
