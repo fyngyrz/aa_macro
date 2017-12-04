@@ -137,6 +137,7 @@ Math | &nbsp;
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;inc **value**&#93;</tt> |  add one to value
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
+ <tt>&#91;random \(seed=none&#44;\(icount=N&#44;\)\)&#93;</tt> |  generate random from 0.0-1.0
  <tt>&#91;stage \(mode=float&#44;\)\(digits=N&#44;\)**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
 
 Conditional Content | &nbsp;
@@ -383,6 +384,7 @@ Built-in | &nbsp;
  <tt>&#91;postparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
  <tt>&#91;push content&#93;</tt> |  Push an item on to the general stack
  <tt>&#91;pythparse content&#93;</tt> |  pretty-print Python 2.7 code (use black background)
+ <tt>&#91;random \(seed=none&#44;\(icount=N&#44;\)\)&#93;</tt> |  generate random from 0.0-1.0
  <tt>&#91;raw **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;rb&#93;</tt> |  right square bracket
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>

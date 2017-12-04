@@ -6,8 +6,11 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.118
+ * added [random]
+
 1.0.117
-* added [br]
+ * added [br]
 
 1.0.116
  * added loc_splashnum variable set on [splash] split iterations

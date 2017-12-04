@@ -6,6 +6,7 @@ import struct
 import imp
 import time
 import subprocess
+import random
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -29,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 2nd, 2017     (for Class)
-  LastDocRev: December 2nd, 2017     (for Class)
+     LastRev: December 3rd, 2017     (for Class)
+  LastDocRev: December 3rd, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.117 Beta')
+		return('1.0.118 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -231,6 +232,7 @@ class macro(object):
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
 	[stage start end steps step]					# produce number in range
+	[random( )(seed=none,)(icount=N)]				# generate a random number
 
 	Conditionals
 	------------
@@ -4725,6 +4727,26 @@ The contents of the list are safe to include in the output if you like.
 			o += '<br'+parms+'>'
 		return o
 
+	def random_fn(self,tag,data):
+		opts,data = self.popts(['seed','icount'],data,True)
+		seed = 0
+		icount = 1
+		for el in opts:
+			if el[0] == 'seed=':
+				if str(el[1]) == 'none':
+					random.seed()
+				else:
+					random.seed(el[1])
+			elif el[0] == 'icount=':
+				try:
+					icount = abs(int(el[1]))
+				except:
+					icount = 1
+		for i in range(0,icount):
+			n = random.random()
+		o = str(n)
+		return o
+
 	def encrypt_fn(self,tag,data):
 		opts,data = self.popts(['seed','salt','icount','breakat'],data)
 		o = ''
@@ -4919,6 +4941,7 @@ The contents of the list are safe to include in the output if you like.
 					'max'	: self.max_fn,		# max v1 v2
 					'min'	: self.min_fn,		# min v1 v2
 					'stage'	: self.stage_fn,	# stage start end steps step
+					'random': self.random_fn,	# [random( )(seed=none,)(icount=N)]
 
 					# conditionals
 					# ------------
