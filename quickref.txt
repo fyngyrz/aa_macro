@@ -29,7 +29,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,color {r HEX3[vb]HEX6} {c}| HTML text color]  
 [append bil,a {o tab{co}}{r URL}{o {co}linkedContent}| HTML link~HTML Linking]  
 [append bil,urlencode {r content}| URL encoding]  
-[append bil,url {o sep=|{co}}{o css=CSS{co}}{o tgt=_target{co}}{o nam=Name{co}}{o URLsepLINKED_CONTENT}]
+[append bil,url {o sep={vb}{co}}{o css=CSS{co}}{o tgt=_target{co}}{o nam=Name{co}}{o URLsepLINKED_CONTENT}]
 [append bil,img {o imageTitle{co}}{r imageURL} {o linkURL}| HTML image~HTML Images]  
 [append bil,limg {o target={co}}{o lpath={co}}{o wpath=}{o title={co}}{o alt={co}}{r imageName}| HTML image name, figures size (uses {lb}lipath{rb},{lb}wepath{rb})]  
 [append bil,lipath {r filePathToImages}| path for {lb}locimg{rb}]  

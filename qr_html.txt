@@ -23,6 +23,7 @@
 [style lb [color 0ff [lb]]]  
 [style rb [color 0ff [rb]]]  
 [style co [co]]  
+[style vb [vb]]  
 [style q &quot;]  
   
 [local toggle 0]  

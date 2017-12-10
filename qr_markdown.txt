@@ -11,6 +11,7 @@
 [style lb [lb]]  
 [style rb [rb]]  
 [style co [co]]  
+[style vb [vb]]]  
 [style q &quot;]  
   
 [local toggle 0]  
