@@ -6,6 +6,12 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.121
+ * added [datetime]
+ * added [month]
+ * added [ampm]
+ * added [twelve]
+
 1.0.120
  * added xlimit and dlimit parameters to class
 

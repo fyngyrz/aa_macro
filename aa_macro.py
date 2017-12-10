@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 4th, 2017     (for Class)
-  LastDocRev: December 4th, 2017     (for Class)
+     LastRev: December 9th, 2017     (for Class)
+  LastDocRev: December 9th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.120 Beta')
+		return('1.0.121 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -320,6 +320,10 @@ class macro(object):
 	----
 	[date]											# date processing took place
 	[time (sfx=,)(asfx=,)(psfx=,)(mode=12|24,)]		# time processing took place
+	[datetime]										# atomic YYYYmmDDhhMMss
+	[month (mode=long,)N]							# Jan, January
+	[ampm N]										# AM or PM from hour
+	[twelve N]										# twelve hour number from 24
 	[fref label]									# forward reference
 	[resolve (hex=1,)label,content]					# resolve forward label reference(s) to content
 	[sys shellCommand]								# execute shell command
@@ -1132,6 +1136,76 @@ The contents of the list are safe to include in the output if you like.
 		if t[4] < 10: sm = '0'+sm
 		if t[5] < 10: ss = '0'+ss
 		return(sh+sm+ss+sfx)
+
+	def twelve_fn(self,tag,data):
+		o = '! Cannot convert to twelve hour format !'
+		try:
+			ti = int(data)
+			if ti > 12:
+				ti -= 12
+			else:
+				if ti == 0:
+					ti = 12
+			o = str(ti)
+		except:
+			pass
+		return o
+
+	def ampm_fn(self,tag,data):
+		o = '! Cannot determine AM/PM !'
+		try:
+			ap = int(data)
+			if ap > 12:
+				o = 'PM'
+			else:
+				o = 'AM'
+		except:
+			pass
+		return o
+
+	def datetime_fn(self,tag,data):
+		t = time.localtime()
+		sy = str(t[0])
+		sm = str(t[1])
+		if (t[1] < 10):
+			sm = '0'+sm
+		sd = str(t[2])
+		if (t[2] < 10):
+			sd = '0'+sd
+		sh = str(t[3])
+		if t[3] < 10:
+			sh = '0'+sh
+		sn = str(t[4])
+		if t[4] < 10:
+			sn = '0'+sn
+		ss = str(t[5])
+		if t[5] < 10:
+			ss = '0'+ss
+		return sy+sm+sd+sh+sn+ss
+
+	def month_fn(self,tag,data):
+		o = ''
+		err = '! Unable to convert month !'
+		opts,data = self.popts(['mode'],data)
+		mode = 'short'
+		slist = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+		llist = ['January','February','March','April','May','June','July','August','September','October','November','December']
+		for el in opts:
+			if el[0] == 'mode=':
+				if el[1] == 'long':
+					mode = el[1]
+		try:
+			mm = int(data) - 1
+			if mm >= 0 and mm < 12:
+				if mode == 'long':
+					o = llist[mm]
+				else:
+					o = slist[mm]
+			else:
+				o = err
+		except:
+			o = err
+		return o
 
 	def date_fn(self,tag,data):
 		t = time.localtime()
@@ -5141,6 +5215,10 @@ The contents of the list are safe to include in the output if you like.
 					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
 					'time'	: self.time_fn,		# [time] Generation time
 					'date'	: self.date_fn,		# [date] Generation date
+					'datetime':self.datetime_fn,# [datetime] = YYYYmmDDhhMMss
+					'month'	: self.month_fn,	# [month (mode=long,)N]
+					'ampm'	: self.ampm_fn,		# [ampm N]
+					'twelve':self.twelve_fn,	# [twelve N]
 					'usdate': self.usdate_fn,	# [usdate YYYYmmDD]
 					'sys'	: self.sys_fn,		# [sys SHELLCMD]
 					'fref'	: self.fref_fn,		# forward reference

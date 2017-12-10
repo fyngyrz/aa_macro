@@ -209,6 +209,10 @@ Miscellanea | &nbsp;
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
  <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
+ <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
+ <tt>&#91;ampm N&#93;</tt> |  AM or PM from 12 hour number
+ <tt>&#91;twelve N&#93;</tt> |  12 hour number from 24
+ <tt>&#91;month \(mode=long,\)N&#93;</tt> |  Month name from ordinal
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
  <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
@@ -261,6 +265,7 @@ Built-in | &nbsp;
  <tt>&#91;aisort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII case-insensitive sofr of list&#44; in place
  <tt>&#91;alphalead \(trail=1,\)content&#93;</tt> | Return leading alpha characters&#44; or trailing content
  <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
+ <tt>&#91;ampm N&#93;</tt> |  AM or PM from 12 hour number
  <tt>&#91;append **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
  <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;b content&#93;</tt> |  HTML bold
@@ -284,6 +289,7 @@ Built-in | &nbsp;
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
  <tt>&#91;csep **value**&#93;</tt> |  comma-separate an integer
  <tt>&#91;d **dictName&#44;****key**&#93;</tt> |  retrieve a dictionary value using key
+ <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
@@ -371,6 +377,7 @@ Built-in | &nbsp;
  <tt>&#91;max **value1** **value2**&#93;</tt> |  maximum of two numbers
  <tt>&#91;min **value1** **value2**&#93;</tt> |  minimum of two numbers
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
+ <tt>&#91;month \(mode=long,\)N&#93;</tt> |  Month name from ordinal
  <tt>&#91;mul \(mode=float&#44;\)**value** **multiplier**&#93;</tt> |  multiply two numbers
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
  <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
@@ -418,6 +425,7 @@ Built-in | &nbsp;
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
  <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
+ <tt>&#91;twelve N&#93;</tt> |  12 hour number from 24
  <tt>&#91;u content&#93;</tt> |  HTML underline
  <tt>&#91;ul \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
