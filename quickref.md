@@ -208,7 +208,7 @@ Miscellanea | &nbsp;
 ----------- | ----
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
- <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
+ <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto? Unknown Style "vb" ?*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;ampm N&#93;</tt> |  AM or PM from 12 hour number
  <tt>&#91;twelve N&#93;</tt> |  12 hour number from 24
@@ -423,7 +423,7 @@ Built-in | &nbsp;
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
- <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto|*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
+ <tt>&#91;time \(mode=12&#93;</tt> | 24&#44;\)\(sfx=auto? Unknown Style "vb" ?*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)| The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list
  <tt>&#91;twelve N&#93;</tt> |  12 hour number from 24
  <tt>&#91;u content&#93;</tt> |  HTML underline
