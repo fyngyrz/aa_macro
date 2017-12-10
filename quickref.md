@@ -1,5 +1,4 @@
 
-
  
 
 
@@ -31,7 +30,7 @@ HTML Linking | &nbsp;
 ------------ | ----
  <tt>&#91;a \(tab&#44;\)**URL**\(&#44;linkedContent\)&#93;</tt> |  HTML link
  <tt>&#91;urlencode **content**&#93;</tt> |  URL encoding
- <tt>&#91;url \(sep=&#124;&#44;\)\(css=CSS&#44;\)\(tgt=_target&#44;\)\(nam=Name&#44;\)\(URLsepLINKED_CONTENT\)&#93;</tt> | 
+ <tt>&#91;url \(sep=&#124;&#44;\)\(css=CSS&#44;\)\(tgt=_target&#44;\)\(nam=Name&#44;\)\(URLsepLINKED_CONTENT\)&#93;</tt> | Create URL
 
 HTML Images | &nbsp;
 ----------- | ----
@@ -429,7 +428,7 @@ Built-in | &nbsp;
  <tt>&#91;u content&#93;</tt> |  HTML underline
  <tt>&#91;ul \(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML unordered list
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
- <tt>&#91;url \(sep=&#124;&#44;\)\(css=CSS&#44;\)\(tgt=_target&#44;\)\(nam=Name&#44;\)\(URLsepLINKED_CONTENT\)&#93;</tt> | 
+ <tt>&#91;url \(sep=&#124;&#44;\)\(css=CSS&#44;\)\(tgt=_target&#44;\)\(nam=Name&#44;\)\(URLsepLINKED_CONTENT\)&#93;</tt> | Create URL
  <tt>&#91;urlencode **content**&#93;</tt> |  URL encoding
  <tt>&#91;v **varName**&#93;</tt> |  local/global variable
  <tt>&#91;vdec \(pre=1&#44;\)\(quiet=1&#44;\)**varName**&#93;</tt> |  decrement local(global) variable
