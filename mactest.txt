@@ -752,3 +752,8 @@ if 5 >= 6 gte = [ifge 5,6,gte]
 [for x,0,24,1]
 [style x [twelve [b]] ]
 [for x,0,24,1]
+Double locked-box encryption:
+[local x [encrypt seed=1234,This is a test]]  
+[local x [encrypt seed=5678,again=1,[v x]]]  
+[local x [encrypt seed=1234,again=1,[v x]]]  
+[decrypt seed=5678,[v x]]

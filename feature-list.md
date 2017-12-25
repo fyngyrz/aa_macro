@@ -47,7 +47,7 @@
 	* pretty-printing c code
 	* pretty-printing objective c code
 	* pretty-printing c++ code
-	* encryption and decryption
+	* encryption and decryption, double-lock box capable
   * Linking
 	* Optional verbiage
 	* Optional stock phrasing

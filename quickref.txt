@@ -168,7 +168,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,center {r width{co}}{r padChar{co}}{c}| center (neg width indicates pad both sides)]  
 [append bil,th {r integer}| st, nd, rd, th...]  
 [append bil,nd {r integer}| 1st, 2nd, 3rd, 4th...]  
-[append bil,encrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{o breakat=N{co}}{c}| Encrypt content]  
+[append bil,encrypt {o again=1{co}}{o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{o breakat=N{co}}{c}| Encrypt content]  
 [append bil,decrypt {o seed=N{co}}{o salt=String{co}}{o icount=N{co}}{c}| Decrypt content]  
 [append bil,br {o parms{co}}{o content}| (content) HTML line break (with parms)]  
   

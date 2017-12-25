@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 9th, 2017     (for Class)
-  LastDocRev: December 9th, 2017     (for Class)
+     LastRev: December 25th, 2017     (for Class)
+  LastDocRev: December 25th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.121 Beta')
+		return('1.0.122 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -313,7 +313,7 @@ class macro(object):
 	
 	Encryption
 	----------
-	[encrypt (breakat=N,)(seed=N,)(icount=N,)salt=string,)content]
+	[encrypt (again=1,)(breakat=N,)(seed=N,)(icount=N,)salt=string,)content]
 	[decrypt (seed=N,)(icount=N,)salt=string,)content]
 
 	Misc
@@ -4897,9 +4897,10 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def encrypt_fn(self,tag,data):
-		opts,data = self.popts(['seed','salt','icount','breakat'],data)
+		opts,data = self.popts(['seed','salt','icount','breakat','again'],data)
 		o = ''
 		nsalt = ''
+		raw=0
 		nseed = 1
 		icount = 1
 		breakdef = 16
@@ -4912,6 +4913,11 @@ The contents of the list are safe to include in the output if you like.
 					nseed = 1
 			elif el[0] == 'salt=':
 				nsalt = el[1]
+			elif el[0] == 'again=':
+				try:
+					raw = int(el[1])
+				except:
+					raw = 0
 			elif el[0] == 'icount=':
 				try:
 					icount = int(el[1])
@@ -4924,6 +4930,19 @@ The contents of the list are safe to include in the output if you like.
 					breakat = breakdef
 				if breakat < 1:
 					breakat = 1
+		if raw == 1:
+			tmp = ''
+			phase = 0
+			for c in data:
+				if c in 'ABCDEF0123456789':
+					if phase == 0:
+						phase = 1
+						cx = int(c,16) * 16
+					else:
+						phase = 0
+						cx += int(c,16)
+						tmp += chr(cx)
+			data = tmp
 		try:
 			rmod = argen(seed=nseed,salt=nsalt,iteratecount=icount)
 		except Exception,e:
