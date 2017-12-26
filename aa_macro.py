@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 25th, 2017     (for Class)
-  LastDocRev: December 25th, 2017     (for Class)
+     LastRev: December 26th, 2017     (for Class)
+  LastDocRev: December 26th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.122 Beta')
+		return('1.0.123 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -5664,13 +5664,19 @@ class argen(object):
 		self.version = self.version_set()
 
 	def setSeed(self,seed):
-		self.seed = seed * 5
+		try:
+			self.seed = abs(int(seed)) * 5
+		except:
+			self.seed = 1
 
 	def setIterate(self,iteratecount):
-		self.iteratecount = iteratecount
+		try:
+			self.iteratecount = abs(int(iteratecount))
+		except:
+			self.iteratecount = 1
 
 	def setSalt(self,salt):
-		self.salt = salt
+		self.salt = str(salt)
 		self.shaker = 0
 		self.grains = len(salt)
 

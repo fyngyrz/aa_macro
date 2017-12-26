@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.123
+ * made the random number generator a little more robust
+
 1.0.122
  * added again=1 to encrypt to enable double-locked box
  
