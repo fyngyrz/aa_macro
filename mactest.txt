@@ -756,4 +756,13 @@ Double locked-box encryption:
 [local x [encrypt seed=1234,This is a test]]  
 [local x [encrypt seed=5678,again=1,[v x]]]  
 [local x [encrypt seed=1234,again=1,[v x]]]  
+last stage of mode 0:
+[v x]
 [decrypt seed=5678,[v x]]
+Double locked-box encryption, mode 1:
+[local x [encrypt seed=chump,mode=1,Test-tickle]]  
+[local x [encrypt seed=can,mode=1,again=1,[v x]]]  
+[local x [encrypt seed=chump,mode=1,again=1,[v x]]]  
+Last stage of mode 1:
+[v x]
+[decrypt seed=can,mode=1,[v x]]

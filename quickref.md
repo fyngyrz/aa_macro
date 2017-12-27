@@ -199,8 +199,8 @@ Text Processing | &nbsp;
  <tt>&#91;center **width&#44;****padChar&#44;**content&#93;</tt> |  center (neg width indicates pad both sides)
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
  <tt>&#91;nd **integer**&#93;</tt> |  1st, 2nd, 3rd, 4th...
- <tt>&#91;encrypt \(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  Encrypt content
- <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
+ <tt>&#91;encrypt \(mode=1&#44;\)\(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  (re)Encrypt content
+ <tt>&#91;decrypt \(mode=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;br \(parms&#44;\)\(content\)&#93;</tt> |  (content) HTML line break (with parms)
 
 Miscellanea | &nbsp;
@@ -292,7 +292,7 @@ Built-in | &nbsp;
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
- <tt>&#91;decrypt \(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
+ <tt>&#91;decrypt \(mode=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;div \(mode=float&#44;\)**value** **divisor**&#93;</tt> |  divide two numbers
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
@@ -305,7 +305,7 @@ Built-in | &nbsp;
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
- <tt>&#91;encrypt \(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  Encrypt content
+ <tt>&#91;encrypt \(mode=1&#44;\)\(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  (re)Encrypt content
  <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
  <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content

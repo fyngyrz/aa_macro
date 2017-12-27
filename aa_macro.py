@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 26th, 2017     (for Class)
-  LastDocRev: December 26th, 2017     (for Class)
+     LastRev: December 27th, 2017     (for Class)
+  LastDocRev: December 27th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.123 Beta')
+		return('1.0.124 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -313,8 +313,8 @@ class macro(object):
 	
 	Encryption
 	----------
-	[encrypt (again=1,)(breakat=N,)(seed=N,)(icount=N,)salt=string,)content]
-	[decrypt (seed=N,)(icount=N,)salt=string,)content]
+	[encrypt (mode=1,)(again=1,)(breakat=N,)(seed=N,)(icount=N,)salt=string,)content]
+	[decrypt (mode=1,)(seed=N,)(icount=N,)salt=string,)content]
 
 	Misc
 	----
@@ -4897,20 +4897,18 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def encrypt_fn(self,tag,data):
-		opts,data = self.popts(['seed','salt','icount','breakat','again'],data)
+		opts,data = self.popts(['seed','salt','icount','breakat','again','mode'],data)
 		o = ''
 		nsalt = ''
 		raw=0
+		lmode=0
 		nseed = 1
 		icount = 1
 		breakdef = 16
 		breakat = breakdef
 		for el in opts:
 			if el[0] == 'seed=':
-				try:
-					nseed = int(el[1])
-				except:
-					nseed = 1
+				nseed = el[1]
 			elif el[0] == 'salt=':
 				nsalt = el[1]
 			elif el[0] == 'again=':
@@ -4918,9 +4916,14 @@ The contents of the list are safe to include in the output if you like.
 					raw = int(el[1])
 				except:
 					raw = 0
+			elif el[0] == 'mode=':
+				try:
+					lmode = abs(int(el[1]))
+				except:
+					lmode = 0
 			elif el[0] == 'icount=':
 				try:
-					icount = int(el[1])
+					icount = abs(int(el[1]))
 				except:
 					icount = 1
 			elif el[0] == 'breakat=':
@@ -4930,6 +4933,13 @@ The contents of the list are safe to include in the output if you like.
 					breakat = breakdef
 				if breakat < 1:
 					breakat = 1
+		if lmode == 0:
+			try:
+				nseed = abs(int(nseed))
+				if nseed == 0:
+					nseed = 1
+			except:
+				nseed = 1
 		if raw == 1:
 			tmp = ''
 			phase = 0
@@ -4944,7 +4954,7 @@ The contents of the list are safe to include in the output if you like.
 						tmp += chr(cx)
 			data = tmp
 		try:
-			rmod = argen(seed=nseed,salt=nsalt,iteratecount=icount)
+			rmod = argen(seed=nseed,salt=nsalt,iteratecount=icount,mode=lmode)
 		except Exception,e:
 			o += str(e)+'\n'
 		try:
@@ -4964,26 +4974,36 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def decrypt_fn(self,tag,data):
-		opts,data = self.popts(['seed','salt','icount'],data)
+		opts,data = self.popts(['seed','salt','icount','mode'],data)
 		o = ''
 		nsalt = ''
+		lmode = 0
 		nseed = 1
 		icount = 1
 		for el in opts:
 			if el[0] == 'seed=':
-				try:
-					nseed = int(el[1])
-				except:
-					nseed = 1
+				nseed = el[1]
 			if el[0] == 'salt=':
 				nsalt = el[1]
+			elif el[0] == 'mode=':
+				try:
+					lmode = abs(int(el[1]))
+				except:
+					lmode = 0
 			if el[0] == 'icount=':
 				try:
-					icount = int(el[1])
+					icount = abs(int(el[1]))
 				except:
 					icount = 1
+		if lmode == 0:
+			try:
+				nseed = abs(int(nseed))
+				if nseed == 0:
+					nseed = 1
+			except:
+				nseed = 1
 		try:
-			rmod = argen(seed=nseed,salt=nsalt,iteratecount=icount)
+			rmod = argen(seed=nseed,salt=nsalt,iteratecount=icount,mode=lmode)
 		except Exception,e:
 			o += str(e)+'\n'
 		try:
@@ -5589,7 +5609,7 @@ The contents of the list are safe to include in the output if you like.
 			ending = ''
 		s += pre
 		for key in sorted(self.theGlobals.keys()):
-			rawsty = self.theGlobals[key]
+			rawsty = str(self.theGlobals[key])
 			rawsty = rawsty.replace('\n','\\n')
 			s += fmt % (key,rawsty,ending)
 		s += post
@@ -5651,27 +5671,67 @@ The contents of the list are safe to include in the output if you like.
 		return s
 
 class argen(object):
-	"""Class to provide simplistic random number generator"""
+	"""Class to provide simplistic random number generator and encryption"""
 
 	def version_set(self):
-		return('0.0.1 Beta')
+		return('0.0.2 Beta')
 
-	def __init__(self,seed=1,iteratecount=1,salt=''):
+	def __init__(self,seed=1,iteratecount=1,salt='',mode=0):
+		self.version = self.version_set()
+		self.setMode(mode)
 		self.setSalt(salt)
 		self.setSeed(seed)
-		self.reset()
 		self.setIterate(iteratecount)
-		self.version = self.version_set()
+		self.reset()
+
+	def setMode(self,mode):
+		try:
+			tmp = abs(int(mode))
+			if tmp > 1:
+				mode = 0
+		except:
+			mode = 0
+		self.mode = mode
 
 	def setSeed(self,seed):
-		try:
-			self.seed = abs(int(seed)) * 5
-		except:
-			self.seed = 1
+		if self.mode == 0:
+			try:
+				self.seed = abs(int(seed)) * 5
+				if self.seed == 0:
+					self.seed = 5
+			except:
+				self.seed = 1
+		elif self.mode == 1:
+			self.seed = seed
+
+	def iterate(self):
+		if self.mode == 0:
+			for i in range(0,self.iteratecount):
+				self.rnum = self.rnum * 5
+				lval = (self.rnum & 0xFFFF) >> 8;
+				self.rval = lval ^ self.nextGrain()
+		elif self.mode == 1:
+			for i in range(0,self.iteratecount):
+				rfloat = random.random()
+				self.rnum = int(255.999 * rfloat)
+				self.rval = (self.rnum & 0xff) ^ self.nextGrain() ^ 0x5a
+
+	def reset(self):
+		if self.mode == 0:
+			self.rnum = self.seed
+			self.rval = 0
+#			print str(self.seed)
+		elif self.mode == 1:
+#			print str(self.seed)
+			random.seed(self.seed)
+			self.iterate()
+		self.shaker = 0
 
 	def setIterate(self,iteratecount):
 		try:
 			self.iteratecount = abs(int(iteratecount))
+			if self.iteratecount == 0:
+				self.iteratecount = 1
 		except:
 			self.iteratecount = 1
 
@@ -5692,16 +5752,6 @@ class argen(object):
 				self.shaker = 0
 			crystal = crystal | (ord(self.salt[self.shaker]) & 0x0F)
 		return crystal
-
-	def iterate(self):
-		for i in range(0,self.iteratecount):
-			self.rnum = self.rnum * 5
-			lval = (self.rnum & 0xFFFF) >> 8;
-			self.rval = lval ^ self.nextGrain()
-
-	def reset(self):
-		self.rnum = self.seed
-		self.shaker = 0
 
 	def advance(self,distance):
 		for i in range(0,distance):
