@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015     (for Project)
-     LastRev: December 27th, 2017     (for Class)
+     LastRev: April 6th, 2018     (for Class)
   LastDocRev: December 27th, 2017     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.124 Beta')
+		return('1.0.125 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -4472,7 +4472,7 @@ The contents of the list are safe to include in the output if you like.
 		if w < 0:
 			both = True
 			w = -w
-		if l >= w: return '3:'+data
+		if l >= w: return ll[2]
 		c = int((w-l)/2)
 		pad = ll[1] * c
 		if both == True:
