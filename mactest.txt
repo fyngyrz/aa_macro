@@ -766,3 +766,5 @@ Double locked-box encryption, mode 1:
 Last stage of mode 1:
 [v x]
 [decrypt seed=can,mode=1,[v x]]
+[crop words=true,col=41,this is a test of the emergency broadcast system. If this had been a real emergency, we would all be dead by now.]
+[collapse this is  a      test]

@@ -6,6 +6,10 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.126
+ * [crop] added
+ * [collapse] added]
+
 1.0.125
  * [center] now returns the text without padding if longer than center size
 

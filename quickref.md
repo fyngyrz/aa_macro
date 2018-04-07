@@ -165,13 +165,15 @@ Text Processing | &nbsp;
  <tt>&#91;stripe (charset=chars,)content&#93;</tt> |  strip chars from both ends of line (default = spaces)
  <tt>&#91;strip content&#93;</tt> |  strip HTML tags out
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral
- <tt>&#91;dtohex (digits=N,)**value**&#93;</tt> |  decimal to hexadecimal conversion
- <tt>&#91;dtooct (digits=N,)**value**&#93;</tt> |  decimal to octal conversion
- <tt>&#91;dtobin (digits=N,)**value**&#93;</tt> |  decimal to binary conversion
- <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
- <tt>&#91;otodec (digits=N,)**value**&#93;</tt> |  octal to decimal conversion
- <tt>&#91;btodec (digits=N,)**value**&#93;</tt> |  binary to decimal conversion
+ <tt>&#91;dtohex (digits=N&#44;)**value**&#93;</tt> |  decimal to hexadecimal conversion
+ <tt>&#91;dtooct (digits=N&#44;)**value**&#93;</tt> |  decimal to octal conversion
+ <tt>&#91;dtobin (digits=N&#44;)**value**&#93;</tt> |  decimal to binary conversion
+ <tt>&#91;htodec (digits=N&#44;)**value**&#93;</tt> |  hexadecimal to decimal conversion
+ <tt>&#91;otodec (digits=N&#44;)**value**&#93;</tt> |  octal to decimal conversion
+ <tt>&#91;btodec (digits=N&#44;)**value**&#93;</tt> |  binary to decimal conversion
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
+ <tt>&#91;collapse content&#93;</tt> | 
+ <tt>&#91;crop (words=no&#44;)(eol=&#44;)(neol=&#44;)(col=78&#44;)content&#93;</tt> | 
  <tt>&#91;wwrap \(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
  <tt>&#91;len content&#93;</tt> |  return length of content in characters
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
@@ -271,7 +273,7 @@ Built-in | &nbsp;
  <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
  <tt>&#91;bq content&#93;</tt> |  HTML blockquote
  <tt>&#91;br \(parms&#44;\)\(content\)&#93;</tt> |  (content) HTML line break (with parms)
- <tt>&#91;btodec (digits=N,)**value**&#93;</tt> |  binary to decimal conversion
+ <tt>&#91;btodec (digits=N&#44;)**value**&#93;</tt> |  binary to decimal conversion
  <tt>&#91;caps content&#93;</tt> |  sentence case
  <tt>&#91;capt content&#93;</tt> |  title case
  <tt>&#91;capw content&#93;</tt> |  word case
@@ -281,10 +283,12 @@ Built-in | &nbsp;
  <tt>&#91;chr **value**&#93;</tt> |  return ASCII character of code=value
  <tt>&#91;clearl **listName**&#93;</tt> |  Discards list content
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
+ <tt>&#91;collapse content&#93;</tt> | 
  <tt>&#91;color **HEX3&#124;HEX6** content&#93;</tt> |  HTML text color
  <tt>&#91;comment content&#93;</tt> |  suppress output. <i>note: non-content operations still process</i>
  <tt>&#91;count \(sep=X&#44;\)\(overlaps=yes&#44;\)\(casesens=yes&#44;\)**patternXcontent**&#93;</tt> |  count incidences
  <tt>&#91;co&#93;</tt> |  comma
+ <tt>&#91;crop (words=no&#44;)(eol=&#44;)(neol=&#44;)(col=78&#44;)content&#93;</tt> | 
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
  <tt>&#91;csep **value**&#93;</tt> |  comma-separate an integer
  <tt>&#91;d **dictName&#44;****key**&#93;</tt> |  retrieve a dictionary value using key
@@ -298,9 +302,9 @@ Built-in | &nbsp;
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
  <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
- <tt>&#91;dtobin (digits=N,)**value**&#93;</tt> |  decimal to binary conversion
- <tt>&#91;dtohex (digits=N,)**value**&#93;</tt> |  decimal to hexadecimal conversion
- <tt>&#91;dtooct (digits=N,)**value**&#93;</tt> |  decimal to octal conversion
+ <tt>&#91;dtobin (digits=N&#44;)**value**&#93;</tt> |  decimal to binary conversion
+ <tt>&#91;dtohex (digits=N&#44;)**value**&#93;</tt> |  decimal to hexadecimal conversion
+ <tt>&#91;dtooct (digits=N&#44;)**value**&#93;</tt> |  decimal to octal conversion
  <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <i>after</i> evaluation (also see &#91;repeat&#93;)
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
  <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
@@ -330,7 +334,7 @@ Built-in | &nbsp;
  <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;hsort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
- <tt>&#91;htodec (digits=N,)**value**&#93;</tt> |  hexadecimal to decimal conversion
+ <tt>&#91;htodec (digits=N&#44;)**value**&#93;</tt> |  hexadecimal to decimal conversion
  <tt>&#91;i content&#93;</tt> |  HTML italics
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
@@ -383,7 +387,7 @@ Built-in | &nbsp;
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;ol \(type=X&#44;\)\(start=N&#44;\)\(istyle=hstyle&#44;\)\(lstyle=hstyle&#44;\)\(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  HTML ordered list
  <tt>&#91;ord **character**&#93;</tt> |  return ASCII code value in decimal
- <tt>&#91;otodec (digits=N,)**value**&#93;</tt> |  octal to decimal conversion
+ <tt>&#91;otodec (digits=N&#44;)**value**&#93;</tt> |  octal to decimal conversion
  <tt>&#91;p content&#93;</tt> |  HTML paragraph
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
  <tt>&#91;pop&#93;</tt> |  Pop an item off the top of the general stack

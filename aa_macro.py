@@ -29,13 +29,13 @@ class macro(object):
                  and any subsequent consequences are entirely yours. Have
                  you written your congresscritter about patent and
                  copyright reform yet?
-  Incep Date: June 17th, 2015     (for Project)
-     LastRev: April 6th, 2018     (for Class)
-  LastDocRev: December 27th, 2017     (for Class)
+  Incep Date: June 17th, 2015         (for Project)
+     LastRev: April 7th, 2018         (for Class)
+  LastDocRev: April 7th, 2018         (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.125 Beta')
+		return('1.0.126 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -278,6 +278,8 @@ class macro(object):
 	[otodec octNumber]								# convert octal to decimal
 	[btodec binNumber]								# convert binary to decimal
 	[crush content]									# return only alphanumerics
+	[collapse content]								# whitespace collapsed to single spaces
+	[crop (words=no,)(eol=\n,)(neol=\n,)(col=78),content] # a brutal content wrap w/o collapse
 	[chr number]									# e.g. [chr 65] = "A"
 	[ord character]									# e.g. [ord A] = "65"
 	[csep integer]									# e.g. [csep 1234] = "1,234"
@@ -1463,6 +1465,19 @@ The contents of the list are safe to include in the output if you like.
 			if el[0] == 'charset=':
 				cs = el[1]
 		return data.strip(cs)
+
+	def collapse_fn(self,tag,data):
+		o = ''
+		flag = 0
+		for c in data:
+			if c == ' ' or c == '\n' or c == '\t':
+				flag = 1
+			else:
+				if flag == 1:
+					o += ' '
+					flag = 0
+				o += c
+		return o
 
 	# [count (overlaps=yes,)(casesens=yes,)(sep=X)patternXcontent]
 	def count_fn(self,tag,data):
@@ -4375,6 +4390,55 @@ The contents of the list are safe to include in the output if you like.
 			o = 'Error with "%s": "%s" ' % (data,str(e))
 		return o
 
+	def crop_fn(self,tag,data):
+		opts,data = self.popts(['col','eol','neol','words'],data)
+		col = 78
+		eol = '\n'
+		neol = '\n'
+		lneol = 1
+		words = ''
+		for el in opts:
+			if el[0] == 'col=':
+				try:
+					col = abs(int(el[1]))
+				except:
+					col = 78
+			elif el[0] == 'eol=':
+				eol = str(el[1])
+			elif el[0] == 'neol=':
+				neol = str(el[1])
+				lneol = len(neol)
+			elif el[0] == 'words=':
+				words = str(el[1])
+		o = ''
+		pos = 0
+		dex = -1
+		word = -1
+		buffer = ''
+		for c in data:
+			pos += 1 # position in current line
+			dex += 1 # position in input data
+			if c == ' ':
+				word = pos # marks index in buffer of last space encounters (word interspersion)
+			if pos > col: # line has exceeded allowed length
+				if words != '' and word != -1:	# in this case, there were spaces in the line
+					o += buffer[0:word] + eol	# terminate after the last word found
+					buffer = buffer[word:]		# buffer now contains only what remains after word
+					pos = len(buffer)			# and that's where we are
+				else: # no spaces enountered, so we'll arbitrarily crop at set limit:
+					buffer += eol
+					o += buffer
+					buffer = ''
+					pos = 0
+			else:
+				if data[dex:dex+lneol] == neol:
+					pos = 0
+					o += buffer
+			buffer += c
+		if buffer != '':
+			o += buffer
+		return o
+
 	def math_fn(self,tag,data):
 		opts,data = self.popts(['mode'],data)
 		mode = 'int'
@@ -5199,6 +5263,7 @@ The contents of the list are safe to include in the output if you like.
 					'htodec': self.h2d_fn,		# [htodec binaryString]
 					'otodec': self.o2d_fn,		# [otodec binaryString]
 					'btodec': self.b2d_fn,		# [btodec binaryString]
+					'collapse':self.collapse_fn,# [collapse content]
 					'crush'	: self.crush_fn,	# [crush content]
 					'chr'	: self.chr_fn,		# [chr number] e.g. [chr 65] = "A"
 					'ord'	: self.ord_fn,		# [ord character] e.g. [ord A] = 65
@@ -5227,6 +5292,7 @@ The contents of the list are safe to include in the output if you like.
 					'soundex': self.sex_fn,		# soundex surname coding
 					'strip'	: self.strip_fn,	# [strip htmlContent] - remove HTML tags
 					'wwrap'	: self.wwrap_fn,	# [wwrap (wrap=style,)cols,content] - word wrap content at/before cols
+					'crop'	: self.crop_fn,		# [crop (words=no,)(eol=\n,)(neol=\n,)(col=78),content] - crop to column width
 					'hlit'	: self.hlit_fn,		# [hlit content]
 					'vlit'	: self.vlit_fn,		# [hlit variable-name]
 					'slit'	: self.slit_fn,		# [hlit style-name]
