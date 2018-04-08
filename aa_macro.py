@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015         (for Project)
-     LastRev: April 7th, 2018         (for Class)
-  LastDocRev: April 7th, 2018         (for Class)
+     LastRev: April 8th, 2018         (for Class)
+  LastDocRev: April 8th, 2018         (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.126 Beta')
+		return('1.0.127 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -4434,6 +4434,7 @@ The contents of the list are safe to include in the output if you like.
 				if data[dex:dex+lneol] == neol:
 					pos = 0
 					o += buffer
+					buffer = ''
 			buffer += c
 		if buffer != '':
 			o += buffer
