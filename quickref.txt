@@ -91,7 +91,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,dcopy {r sourceDictionary{co}}{r destinationDictionary}| copy/replace destination with source]  
 [append bil,dkeys {r sourceDictionary{co}}{r destinationList}| create a [b list] of keys from source]  
 [append bil,dset {o keysep=Y{co}}{r dictName{co}}{r keyYvalue}| create/replace dictionary item]  
-[append bil,d {r dictName{co}}{r key}| retrieve a dictionary value using key]  
+[append bil,d {o sep=X{co}}{r dictName}{r Xkey}{o XnotFound}| retrieve a dictionary value using key]  
   
 [append bil,push {c}| Push an item on to the general stack~General Stack]  
 [append bil,pop| Pop an item off the top of the general stack]  

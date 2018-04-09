@@ -765,6 +765,13 @@ Double locked-box encryption, mode 1:
 [local x [encrypt seed=chump,mode=1,again=1,[v x]]]  
 Last stage of mode 1:
 [v x]
+[dict mtest,foo:1]  
+[d mtest,foo]
+[d mtest,bar]
+[d mtest,bar,0]
+[d sep=|,mtest|foo]
+[d sep=|,mtest|bar]
+[d sep=|,mtest|bar|0]
 [decrypt seed=can,mode=1,[v x]]
 [crop words=true,col=41,this is a test of the emergency broadcast system. If this had been a real emergency, we would all be dead by now.]
 [collapse this is  a      test]

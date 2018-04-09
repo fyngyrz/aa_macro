@@ -35,7 +35,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.127 Beta')
+		return('1.0.128 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -208,7 +208,7 @@ class macro(object):
 	[dcopy srcDict,dstDict]							# copy a dictionary to a new or existing list
 	[dkeys srcDict,dstList]							# dictionary keys --> new or existing list
 	[dset (keysep=Y,)dictName,keyYvalue]			# set a single dictionary value (can create dict)
-	[d dictName,key]								# retrieve a single dictionary value
+	[d (sep=X)dictNameXkey(XnotFound)]				# retrieve a single dictionary value
 	[expand dictName,content]						# replace words in content with words in dict
 													  dict to be constructed with lower-case keys
 
@@ -1802,10 +1802,18 @@ The contents of the list are safe to include in the output if you like.
 
 	def d_fn(self,tag,data):
 		o = ''
-		parms = data.split(',',1)
+		sep = ','
+		opts,data = self.popts(['sep'],data)
+		for el in opts:
+			if el[0] == 'sep=':
+				sep = el[1]
+		parms = data.split(sep)
 		if len(parms) == 2:
 			ldict = self.theDicts.get(parms[0],{})
 			o = ldict.get(parms[1],'')
+		if len(parms) == 3:
+			ldict = self.theDicts.get(parms[0],{})
+			o = ldict.get(parms[1],parms[2])
 		return o
 
 	# [setd (keysep=X,)dictName,keyXvalue]

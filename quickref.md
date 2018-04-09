@@ -109,7 +109,7 @@ Data Dictionaries | &nbsp;
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
  <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
- <tt>&#91;d **dictName&#44;****key**&#93;</tt> |  retrieve a dictionary value using key
+ <tt>&#91;d \(sep=X&#44;\)**dictName****Xkey**\(XnotFound\)&#93;</tt> |  retrieve a dictionary value using key
 
 General Stack | &nbsp;
 ------------- | ----
@@ -291,7 +291,7 @@ Built-in | &nbsp;
  <tt>&#91;crop (words=no&#44;)(eol=&#44;)(neol=&#44;)(col=78&#44;)content&#93;</tt> | 
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
  <tt>&#91;csep **value**&#93;</tt> |  comma-separate an integer
- <tt>&#91;d **dictName&#44;****key**&#93;</tt> |  retrieve a dictionary value using key
+ <tt>&#91;d \(sep=X&#44;\)**dictName****Xkey**\(XnotFound\)&#93;</tt> |  retrieve a dictionary value using key
  <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
