@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015         (for Project)
-     LastRev: April 8th, 2018         (for Class)
-  LastDocRev: April 8th, 2018         (for Class)
+     LastRev: April 16th, 2018         (for Class)
+  LastDocRev: April 16th, 2018         (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.128 Beta')
+		return('1.0.129 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -269,7 +269,7 @@ class macro(object):
 	[len content]									# return length of content in characters
 	[lc content]									# return length of content in lines
 	[wc content]									# return length of content in words
-	[wwrap (nohtml=1,)(wrap=style,)col,content]		# wrap content at col - styles usually want newlines
+	[wwrap (eol=X)(nohtml=1,)(wrap=style,)col,content]		# wrap content at col - styles usually want newlines
 	[roman decNumber]								# convert decimal to roman (1...4000)
 	[dtohex decNumber]								# convert decimal to hexadecimal
 	[dtooct decNumber]								# convert decimal to octal
@@ -1321,8 +1321,8 @@ The contents of the list are safe to include in the output if you like.
 					ll += 1
 		return ll
 
-	# [wwrap (nohtml=1,)(wrap=style,)cols,content]
-	def wwrap_fn(self,tag,data):
+	# wwraplow (nohtml=1,)(wrap=style,)cols,content
+	def wwraplow_fn(self,tag,data):
 		def emit_line(o,line,wrap):
 			if wrap == '':
 				o = o + line + '\n'
@@ -1346,7 +1346,7 @@ The contents of the list are safe to include in the output if you like.
 				maxl = int(p[0]) - 1
 				if maxl < 1: return data
 			except:
-				return 'Missing or invalid col value for wwrap'
+				return 'Missing or invalid col value for wwrap:\n'+data
 			data = p[1]
 			if len(data) == 0: return ''
 			data = data.replace('\n',' ')
@@ -1412,6 +1412,41 @@ The contents of the list are safe to include in the output if you like.
 					accum += c # we just keep adding chars without counting them
 			if line != '':
 				o = emit_line(o,line,wrap)
+		return o
+
+	# [wwrap (nohtml=1,)(wrap=style,)cols,content]
+	def wwrap_fn(self,tag,data):
+		o = ''
+		tdata = data
+		opts,data = self.popts(['wrap','nohtml','eol'],data)
+		wrap = ''
+		nohtml = ''
+		eol = ''
+		for el in opts:
+			if el[0] == 'wrap=':
+				t = self.styles.get(el[1],'')
+				if t != '':
+					wrap = el[1]
+			elif el[0] == 'nohtml=':
+				nohtml = el[1]
+			elif el[0] == 'eol=':
+				eol = str(el[1])
+		p = data.split(',',1) # try to get column value
+		if len(p) != 2:
+			return '** missing or invalid col value for wwrap'
+		data = p[1]
+		if eol != '': # user wants wrap to be in paras
+			pdata = data.split(eol)
+			o = ''
+			for el in pdata:
+				topts = ''
+				if wrap != '':
+					topts += 'wrap='+wrap+','
+				if nohtml != '':
+					topts += 'nohtml='+nohtml+','
+				o += self.wwraplow_fn(tag,topts+p[0]+','+el)
+		else:
+			return self.wwraplow_fn(tag,tdata) # just pass along unmolested
 		return o
 
 	# [hsort (rev=1,)linesOfContent]

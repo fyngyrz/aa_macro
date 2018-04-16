@@ -142,7 +142,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,crush {co}| return packed alphanumerics]  
 [append bil,collapse {c}]  
 [append bil,crop (words=no{co})(eol={co})(neol={co})(col=78{co}){c}]  
-[append bil,wwrap {o wrap=style{co}}{o nohtml=1{co}}{r value{co}}{c}| word wrap content at column value]  
+[append bil,wwrap {o eol=X{co}}{o wrap=style{co}}{o nohtml=1{co}}{r value{co}}{c}| word wrap content at column value]  
 [append bil,len {c}| return length of content in characters]  
 [append bil,wc {c}| return length of content in words]  
 [append bil,lc {c}| return length of content in lines]  

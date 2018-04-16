@@ -174,7 +174,7 @@ Text Processing | &nbsp;
  <tt>&#91;crush &#44;&#93;</tt> |  return packed alphanumerics
  <tt>&#91;collapse content&#93;</tt> | 
  <tt>&#91;crop (words=no&#44;)(eol=&#44;)(neol=&#44;)(col=78&#44;)content&#93;</tt> | 
- <tt>&#91;wwrap \(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
+ <tt>&#91;wwrap \(eol=X&#44;\)\(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
  <tt>&#91;len content&#93;</tt> |  return length of content in characters
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
  <tt>&#91;lc content&#93;</tt> |  return length of content in lines
@@ -441,6 +441,6 @@ Built-in | &nbsp;
  <tt>&#91;vs **varName** varContent&#93;</tt> |  local variable definition
  <tt>&#91;wc content&#93;</tt> |  return length of content in words
  <tt>&#91;wepath **webPathToImages**&#93;</tt> |  path for &#91;locimg&#93;
- <tt>&#91;wwrap \(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
+ <tt>&#91;wwrap \(eol=X&#44;\)\(wrap=style&#44;\)\(nohtml=1&#44;\)**value&#44;**content&#93;</tt> |  word wrap content at column value
 
 
