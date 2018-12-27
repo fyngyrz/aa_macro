@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.131
+ * added (digits=decdigits,) option to [round value]
+
 1.0.130
  * added [round value]
 
