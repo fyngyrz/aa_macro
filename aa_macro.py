@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015         (for Project)
-     LastRev: April 16th, 2018         (for Class)
-  LastDocRev: April 16th, 2018         (for Class)
+     LastRev: December 27th, 2018     (for Class)
+  LastDocRev: December 27th, 2018     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.129 Beta')
+		return('1.0.130 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -232,6 +232,7 @@ class macro(object):
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
 	[int value]										# return the integer of the value
+	[round value]									# return the value, rounded
 	[stage start end steps step]					# produce number in range
 	[random( )(seed=none,)(icount=N)]				# generate a random number
 
@@ -1081,6 +1082,14 @@ The contents of the list are safe to include in the output if you like.
 		o = '0'
 		try:
 			o = str(int(float(data)))
+		except:
+			pass
+		return o
+
+	def round_fn(self,tag,data):
+		o = '0'
+		try:
+			o = str(round(float(data)))
 		except:
 			pass
 		return o
@@ -5227,6 +5236,7 @@ The contents of the list are safe to include in the output if you like.
 					# math
 					# ----
 					'int'	: self.int_fn,		# [int number]
+					'round'	: self.round_fn,	# [round number]
 					'abs'	: self.abs_fn,		# [abs number]
 					'add'	: self.math_fn,		# P1 + P2
 					'sub'	: self.math_fn,		# P1 - P2

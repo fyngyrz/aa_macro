@@ -121,13 +121,8 @@ General Stack | &nbsp;
 Math | &nbsp;
 ---- | ----
  <tt>&#91;int **value**&#93;</tt> |  integer of number
-
-Math | &nbsp;
----- | ----
+ <tt>&#91;round **value**&#93;</tt> |  rounded value of number
  <tt>&#91;abs **value**&#93;</tt> |  absolute value of number
-
-Math | &nbsp;
----- | ----
  <tt>&#91;add \(mode=float&#44;\)**value** **addend**&#93;</tt> |  add two numbers
  <tt>&#91;sub \(mode=float&#44;\)**value** **subtrahend**&#93;</tt> |  subtract two numbers
  <tt>&#91;mul \(mode=float&#44;\)**value** **multiplier**&#93;</tt> |  multiply two numbers
@@ -402,6 +397,7 @@ Built-in | &nbsp;
  <tt>&#91;resolve \(hex=1&#44;\)**lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
  <tt>&#91;roman **value**&#93;</tt> |  returns lower case roman numeral
+ <tt>&#91;round **value**&#93;</tt> |  rounded value of number
  <tt>&#91;row \(options\)&#44;content&#93;</tt> |  HTML table row \(comma is *not* optional\)
  <tt>&#91;rs&#93;</tt> |  right squiggly bracket
  <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
