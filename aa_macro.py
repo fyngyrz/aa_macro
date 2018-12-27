@@ -35,7 +35,7 @@ class macro(object):
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.130 Beta')
+		return('1.0.131 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -232,7 +232,7 @@ class macro(object):
 	[inc value]										# add one to a number
 	[dec value]										# subtract one from a number
 	[int value]										# return the integer of the value
-	[round value]									# return the value, rounded
+	[round (digits=decdigits,)value]				# return the value, rounded
 	[stage start end steps step]					# produce number in range
 	[random( )(seed=none,)(icount=N)]				# generate a random number
 
@@ -1087,9 +1087,18 @@ The contents of the list are safe to include in the output if you like.
 		return o
 
 	def round_fn(self,tag,data):
+		opts,data = self.popts(['digits'],data)
+		digits = 0
+		for el in opts:
+			if el[0] == 'digits=':
+				try:
+					digits = int(el[1])
+				except:
+					digits = 0
 		o = '0'
+		if digits < 0: digits = 0
 		try:
-			o = str(round(float(data)))
+			o = str(round(float(data),digits))
 		except:
 			pass
 		return o

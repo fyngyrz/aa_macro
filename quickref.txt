@@ -99,7 +99,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,flush| delete stack contents]  
   
 [append bil,int {r value}| integer of number~Math]  
-[append bil,round {r value}| rounded value of number]  
+[append bil,round {o digits=decplaces{co}}{r value}| rounded value of number]  
 [append bil,abs {r value}| absolute value of number]  
 [append bil,add {o mode=float{co}}{r value} {r addend}| add two numbers]  
 [append bil,sub {o mode=float{co}}{r value} {r subtrahend}| subtract two numbers]  
