@@ -202,8 +202,10 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,rs| right squiggly bracket]  
 [append bil,lf{vb}nl| new line]  
   
-[append bil,style {r styleName} {r styleContent}| local style~Styles]  
-[append bil,gstyle {r styleName} {r styleContent}| global style]  
+[append bil,style {o help=helpstring{co}}{r styleName} {r styleContent}| local style~Styles]  
+[append bil,gstyle {o help=helpstring{co}}{r styleName} {r styleContent}| global style]  
+[append bil,helps {r styleName}| return help string for local style]  
+[append bil,helpg {r styleName}| return help string for global style]  
 [append bil,for {r styleName}{co}{r X}{co}{r Y}{co}{r Z}| iterates number to style]  
 [append bil,in {r styleName}{co}{r listName}| iterates list to style]  
 [append bil,switch {o csep=X{co}}{o isep=Y{co}}{r switchName} {r caseYstylename(XcaseYstyleName)}| switch (works with case)]  
