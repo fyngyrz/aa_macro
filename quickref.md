@@ -233,10 +233,12 @@ Escapes | &nbsp;
 
 Styles | &nbsp;
 ------ | ----
- <tt>&#91;style \(help=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  local style
- <tt>&#91;gstyle \(help=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  global style
+ <tt>&#91;style \(help=helpstring&#44;\)\(help2=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  local style
+ <tt>&#91;gstyle \(help=helpstring&#44;\)\(help2=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;helps **styleName**&#93;</tt> |  return help string for local style
  <tt>&#91;helpg **styleName**&#93;</tt> |  return help string for global style
+ <tt>&#91;helps2 **styleName**&#93;</tt> |  return help string 2 for local style
+ <tt>&#91;helpg2 **styleName**&#93;</tt> |  return help string 2 for global style
  <tt>&#91;for **styleName**&#44;**X**&#44;**Y**&#44;**Z**&#93;</tt> |  iterates number to style
  <tt>&#91;in **styleName**&#44;**listName**&#93;</tt> |  iterates list to style
  <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
@@ -324,12 +326,14 @@ Built-in | &nbsp;
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
  <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;gsave **varName** **fileName**&#93;</tt> |  save file from global variable
- <tt>&#91;gstyle \(help=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  global style
+ <tt>&#91;gstyle \(help=helpstring&#44;\)\(help2=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  global style
  <tt>&#91;gt&#93;</tt> |  greater-than
  <tt>&#91;gv **varName**&#93;</tt> |  global variable
  <tt>&#91;header \(options\)&#44;content&#93;</tt> |  HTML table header cell \(comma is *not* optional\)
  <tt>&#91;helpg **styleName**&#93;</tt> |  return help string for global style
+ <tt>&#91;helpg2 **styleName**&#93;</tt> |  return help string 2 for global style
  <tt>&#91;helps **styleName**&#93;</tt> |  return help string for local style
+ <tt>&#91;helps2 **styleName**&#93;</tt> |  return help string 2 for local style
  <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
  <tt>&#91;hmap **listName**&#93;</tt> |  create 1:1 character map to hex values
  <tt>&#91;hsort \(rev=1&#44;\)content&#93;</tt> |  sort of lines by amatuer radio callsign followed by non-alphanumeric
@@ -419,7 +423,7 @@ Built-in | &nbsp;
  <tt>&#91;stage \(mode=float&#44;\)\(digits=N&#44;\)**start** **end** **steps** **step**&#93;</tt> |  subtract one from value
  <tt>&#91;strip content&#93;</tt> |  strip HTML tags out
  <tt>&#91;stripe (charset=chars,)content&#93;</tt> |  strip chars from both ends of line (default = spaces)
- <tt>&#91;style \(help=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  local style
+ <tt>&#91;style \(help=helpstring&#44;\)\(help2=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  local style
  <tt>&#91;sub \(mode=float&#44;\)**value** **subtrahend**&#93;</tt> |  subtract two numbers
  <tt>&#91;switch \(csep=X&#44;\)\(isep=Y&#44;\)**switchName** **caseYstylename(XcaseYstyleName)**&#93;</tt> |  switch (works with case)
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
