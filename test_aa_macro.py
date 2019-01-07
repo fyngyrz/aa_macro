@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import unittest
+import codecs
 from aa_macro import *
 import difflib
 import sys
@@ -58,11 +59,39 @@ Test aa_macro.py functionality
 		expect = 'expected.html'
 		badout = 'badoutput.html'
 
+		# read unicode sample:
+		try:
+			fh = codecs.open('unisample.txt', encoding='utf-8')
+			testBlock = fh.read()
+			fh.close()
+			st = str(type(testBlock))
+			if st != "<type 'unicode'>": print 'failure to convert file to unicode'
+		except:
+			print 'failed to read unicode sample'
+
+		# process unicode to ASCII:
+		try:
+			umod = macro(ucin=True)
+			s = umod.unido(testBlock)
+			st = str(type(s))
+			if st != "<type 'str'>": print 'failure to convert unicode to ASCII'
+		except:
+			print 'failed to process unicode to ASCII'
+
+		# process unicode to unicode:
+		try:
+			umod = macro(ucin=True,ucout=True)
+			umod.unido(testBlock)
+			s = umod.uniget()
+			st = str(type(s))
+			if st != "<type 'unicode'>": print 'failure to process unicode to unicode'
+		except:
+			print 'failed to process unicode to unicode'
+
 		rebuild = 1
 		fh = open('mactest.txt')
 		testBlock = fh.read()
 		fh.close()
-#		mod = macro()
 		mod = macro(debug=True)
 		output = mod.do(testBlock)
 		dtrace = mod.getdebug()

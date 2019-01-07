@@ -6,8 +6,16 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.134
+ * added unicode pre- and post-processing
+
+1.0.133
+ * added [gstyle] and [style] secondary help strings
+ * added [helpg2 stylename] and [helps2 stylename] to return secondary style help strings
+
 1.0.132
- * added [helpg] and [helps] to return style help strings
+ * added [gstyle] and [style] help strings
+ * added [helpg stylename] and [helps stylename] to return style help strings
 
 1.0.131
  * added (digits=decdigits,) option to [round value]

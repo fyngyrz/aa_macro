@@ -30,12 +30,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: January 6th, 2019     (for Class)
-  LastDocRev: January 6th, 2019     (for Class)
+     LastRev: January 7th, 2019     (for Class)
+  LastDocRev: January 7th, 2019     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.133 Beta')
+		return('1.0.134 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -467,13 +467,34 @@ class macro(object):
 	noembrace -- False (default) or True disables [embrace] built-in
 	noinclude -- False (default) or True disables [include] built-in
 	back ------- ffffff (default) HEX3 or HEX color for background color in HTML 4.01s mode
+	ucin ------- False (default) presumes input is 0-127 ASCII; True is Unicode
+	ucout ------ False (default) output is ASCII; True converts output to Unicode
 	dothis ----- None   (default) you can pass in initial text to be processed here if you like
 	             the object returns the result in its string method:
 					mod = macro(dothis='[style x foo [b]]'{x bar})
-					print mod # prints 'foo bar'
+					print mod # prints 'foo bar' if the data is ASCII
+					if it is unicode, you need to do a little more
+
+	Unicode
+	=======
+	Unicode presents encoding issues for Python 2.7
+	The following examples show how to deal with
+	unicode in the context of aa_macro:
+
+	Processing unicode input to ASCII / HTML output:
+	------------------------------------------------
+	mod = macro(ucin=True)
+	s = mod.unido(testBlock) # s will be ASCII with unicode HTML entities
+
+	Processing Unicode input to Unicode output:
+	-------------------------------------------
+	mod = macro(ucin=True,ucout=True)
+	mod.unido(testBlock)
+	s = mod.uniget() # s will be unicode
 
 	The Rules:
 	----------
+	o Unicode requires specific processing as shown above.
 	o Do not attempt to define one style inside another.
 	o Style names may contain anything but a space or a newline
 	o repeat gets a number or a variable parameter. Nothing else. No nesting in the parameter!
@@ -490,12 +511,14 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False):
 		self.locklipath = locklipath
 		self.lockwepath = lockwepath
 		self.xlimit = xlimit
 		self.dlimit = dlimit
 		self.xdcount = 0
+		self.ucin = ucin
+		self.ucout = ucout
 		self.lipath = locklipath
 		self.wepath = lockwepath
 		self.setMode(mode)
@@ -595,10 +618,67 @@ class macro(object):
 		self.months = ['January','February','March','April','may','June','July','August','September','October','November','December']
 		self.setup_urle()
 		if dothis != None:
-			self.do(dothis)
+			if self.ucin == True:
+				self.unido(dothis)
+			else:
+				self.do(dothis)
 
 	def __str__(self):
 		return self.result
+
+	def uniget(self):
+		if self.ucout == True:
+			self.result = self.asciitounicode(self.result)
+		return self.result
+
+	def unido(self,text):
+		tmp = unicode(text)
+		text = self.unicodetoascii(tmp) # convert input unicode to ASCII
+		self.do(text)
+		return self.result
+
+	def asciitounicode(self,text):
+		state = 0 # nothing detected
+		accum = u''
+		o = u''
+		for c in text:
+			if state == 0:		# nothing as yet?
+				if c == u'&':	# ampersand?
+					state = 1	# ampersand!
+				else:
+					o += c
+			elif state == 1:	# ampersand found?
+				if c == u'#':	# hash?
+					state = 2	# hash!
+					accum = u''	# clear accumulator
+				else:			# not a hash, so not an entity encoding
+					state = 0	# abort
+					o += u'&'+c	# flush char, done
+			elif state == 2:	# expecting digits or terminating semicolon
+				if c.isdigit():	# digit?
+					accum += c	# add it to accumulator if so
+				elif c == u';':	# terminating
+					s = u'\\U%08x' % (int(accum))
+					ss= s.decode('unicode-escape')
+					o += ss
+					state = 0
+				else: # bad encoding?
+					o += u'&#'
+					o += accum
+					state = 0
+		return o
+
+	def unicodetoascii(self,text):
+#		global ucrep
+		o = ''
+		n = len(text)
+		for i in range(0,n):
+			try:
+				c = text[i].encode("ascii")
+				o += c
+			except:
+				o += '&#{:d};'.format(ord(text[i]))
+		return o
 
 	def setDebug(self,db):
 		if db != False:
