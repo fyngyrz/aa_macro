@@ -204,6 +204,7 @@ Miscellanea | &nbsp;
 ----------- | ----
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
+ <tt>&#91;ddelta **YYYYMMDD** **YYYYMMDD**&#93;</tt> |  difference between dates in Y M D
  <tt>&#91;time \(mode=12&#124;24&#44;\)\(sfx=auto&#124;*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;ampm N&#93;</tt> |  AM or PM from 12 hour number
@@ -294,6 +295,7 @@ Built-in | &nbsp;
  <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;date&#93;</tt> |  The date of macro() processing (use CGI for live date in HTML)
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
+ <tt>&#91;ddelta **YYYYMMDD** **YYYYMMDD**&#93;</tt> |  difference between dates in Y M D
  <tt>&#91;dec **value**&#93;</tt> |  subtract one from value
  <tt>&#91;decrypt \(mode=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary

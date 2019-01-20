@@ -5,6 +5,7 @@ import imghdr
 import struct
 import imp
 import time
+import datetime
 import subprocess
 import random
 
@@ -30,12 +31,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: January 7th, 2019     (for Class)
-  LastDocRev: January 7th, 2019     (for Class)
+     LastRev: January 20th, 2019     (for Class)
+  LastDocRev: January 20th, 2019     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.134 Beta')
+		return('1.0.135 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -322,6 +323,7 @@ class macro(object):
 	Misc
 	----
 	[date]											# date processing took place
+	[ddelta YYYYMMDD YYYYMMDD]						# returns difference as 'year month day'
 	[time (sfx=,)(asfx=,)(psfx=,)(mode=12|24,)]		# time processing took place
 	[datetime]										# atomic YYYYmmDDhhMMss
 	[month (mode=long,)N]							# Jan, January
@@ -669,7 +671,6 @@ class macro(object):
 		return o
 
 	def unicodetoascii(self,text):
-#		global ucrep
 		o = ''
 		n = len(text)
 		for i in range(0,n):
@@ -1330,6 +1331,68 @@ The contents of the list are safe to include in the output if you like.
 		if (t[2] < 10):
 			sd = '0'+sd
 		return(sy+sm+sd)
+
+	def dsplit(self,date):
+		yy = date[0:4]
+		mm = date[4:6]
+		dd = date[6:8]
+		return (yy,mm,dd)
+
+	def dverify(self,date):
+		if len(date) == 8:
+			for c in date:
+				if c < '0' or c > '9':
+					return 1 # bad
+			try:
+				yy = int(date[0:4])
+				mm = int(date[4:6])
+				dd = int(date[6:8])
+			except:
+				return 1 # bad
+			if mm < 1: return 1 # bad
+			if mm > 12: return 1 # bad
+			if dd < 1: return 1 # bad
+			if dd > 31: return 1 # bad
+		else:
+			return 1 # bad
+		return 0
+
+	def ddelta_fn(self,tag,data):
+		dray = data.split(' ')
+		if len(dray) == 2:
+			t1 = dray[0]
+			t2 = dray[1]
+			if self.dverify(t1) == 1: return 'error: 1st parameter is not YYYYMMDD '
+			if self.dverify(t2) == 1: return 'error: 2nd parameter is not YYYYMMDD '
+			if t2 > t1: # make sure t1 > t2
+				tx = t2
+				t2 = t1
+				t1 = tx
+			d1t = self.dsplit(t1)
+			d2t = self.dsplit(t2)
+			d1y = int(d1t[0])
+			d2y = int(d2t[0])
+			d1m = int(d1t[1])
+			d2m = int(d2t[1])
+			d1d = int(d1t[2])
+			d2d = int(d2t[2])
+			try:
+				dt1 = datetime.datetime(d1y,d1m,d1d)
+				dt2 = datetime.datetime(d2y,d2m,d2d)
+				timedelta = dt1 - dt2
+				ddelta = timedelta.days / 365.25
+				yy = int(ddelta)
+				md = (ddelta - yy) * 365.25
+				davg = 30.4375
+				mf = md / davg
+				mm = int(mf)
+				dd = int(davg * (mf-mm))
+				return '%d %d %d' % (yy,mm,dd)
+			except Exception,e:
+				return 'something wrong with date1 and/or date2: '+str(e)
+			return 'I feel happy: %s %s' % (str(d1t),str(d2t))
+		else: # whoops
+			return 'error: requires YYYYMMDD YYYYMMDD '
 
 	# [lcc listOne,listTwo,listResult]
 	def lcc_fn(self,tag,data):
@@ -5532,6 +5595,7 @@ The contents of the list are safe to include in the output if you like.
 					'embrace':self.hug_fn,		# [embrace moduleName] extend built-ins
 					'time'	: self.time_fn,		# [time] Generation time
 					'date'	: self.date_fn,		# [date] Generation date
+					'ddelta': self.ddelta_fn,	# [ddelta date1 date2]
 					'datetime':self.datetime_fn,# [datetime] = YYYYmmDDhhMMss
 					'month'	: self.month_fn,	# [month (mode=long,)N]
 					'ampm'	: self.ampm_fn,		# [ampm N]

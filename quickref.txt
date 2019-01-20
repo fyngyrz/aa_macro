@@ -177,6 +177,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
   
 [append bil,sys {r shellCommand}| invoke an operating system command. Output is captured~Miscellanea]  
 [append bil,date| The date of macro() processing (use CGI for live date in HTML)]  
+[append bil,ddelta {r YYYYMMDD} {r YYYYMMDD}| difference between dates in Y M D]  
 [append bil,time {o mode=12{vb}24{co}}{o sfx=auto{vb}*{co}}{o asfx={co}}{o psfx={co}}| The time of macro() processing (use CGI for live time in HTML)]  
 [append bil,datetime| The datetime of macro() processing (use CGI for live date in HTML)]  
 [append bil,ampm N| AM or PM from 12 hour number]  
