@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.136
+ * added [term CAPSTERM] which uses acroclass.py and acrobase.txt
+
 1.0.135
  * added [ddelta YYYYMMDD YYYYMMDD]
 

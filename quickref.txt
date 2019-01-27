@@ -181,6 +181,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,time {o mode=12{vb}24{co}}{o sfx=auto{vb}*{co}}{o asfx={co}}{o psfx={co}}| The time of macro() processing (use CGI for live time in HTML)]  
 [append bil,datetime| The datetime of macro() processing (use CGI for live date in HTML)]  
 [append bil,ampm N| AM or PM from 12 hour number]  
+[append bil,term CAPSTERM| if acroclass.py and acrobase.txt present, expand term]  
 [append bil,twelve N| 12 hour number from 24]  
 [append bil,month {o mode=long,}N| Month name from ordinal]  
 [append bil,include {r fileName}| include macro() source file]  

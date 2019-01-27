@@ -8,6 +8,10 @@ import time
 import datetime
 import subprocess
 import random
+try:
+	import acroclass
+except:
+	pass
 
 class macro(object):
 	"""Class to provide an HTML macro language
@@ -31,12 +35,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: January 20th, 2019     (for Class)
-  LastDocRev: January 20th, 2019     (for Class)
+     LastRev: January 27th, 2019     (for Class)
+  LastDocRev: January 27th, 2019     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.135 Beta')
+		return('1.0.136 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -329,6 +333,7 @@ class macro(object):
 	[month (mode=long,)N]							# Jan, January
 	[ampm N]										# AM or PM from hour
 	[twelve N]										# twelve hour number from 24
+	[term CAPS]										# expand term if it is known to acroclass (requires acroclass.py)
 	[fref label]									# forward reference
 	[resolve (hex=1,)label,content]					# resolve forward label reference(s) to content
 	[sys shellCommand]								# execute shell command
@@ -513,7 +518,7 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False,acrofile='acrobase.txt'):
 		self.locklipath = locklipath
 		self.lockwepath = lockwepath
 		self.xlimit = xlimit
@@ -548,6 +553,12 @@ class macro(object):
 		self.padCallLocalToggle = 0
 		self.padCallLocalRegion = -1
 		self.noshell = noshell
+		try:
+			self.acros = acroclass.core(acrofile=acrofile)
+		except:
+			self.haveacros = False
+		else:
+			self.haveacros = True
 		self.noembrace = noembrace
 		self.noinclude = noinclude
 		self.sexdigs = '01230120022455012623010202'
@@ -1008,6 +1019,15 @@ The contents of the list are safe to include in the output if you like.
 					except:
 						pass
 		return o
+
+	# [abbr TERM]
+	def term_fn(self,tag,data):
+		if self.haveacros == False: return(data)
+		try:
+			data = self.acros.a2a(data)
+		except:
+			data = data
+		return(data)
 
 	# [fref label]
 	def fref_fn(self,tag,data):
@@ -5604,6 +5624,7 @@ The contents of the list are safe to include in the output if you like.
 					'sys'	: self.sys_fn,		# [sys SHELLCMD]
 					'fref'	: self.fref_fn,		# forward reference
 					'resolve': self.reso_fn,	# resolve forward reference	
+					'term'	: self.term_fn,		# expand known term
 		}
 
 	def debugdo(self,s):

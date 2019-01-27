@@ -1,0 +1,1143 @@
+# This is an all-caps term->expansion definition file, ASCII-only format
+# To be used with soyacro.py or similar application
+# Each entry all on one line with 3 elements; ASCII characters only, no HTML:
+#    ALL-CAPSorNUMBERS-NOTHING-ELSE-TERM, or a single * to indicate component matching
+#    A-SINGLE-COMMA
+#    Nothing OR replacement for term, ie MHZ,MHz,Megahertz, or component designator
+#    A-SINGLE-COMMA
+#    Expansion, separate multiples with '|'. Use &#124; for actual pipes.
+# Examples:
+#    MHZ,MHz,Megahertz
+#    AL,,Alabama (USA)|Artificial Life
+#    *,R,Resistor
+#    *,VR,Voltage Regulator|Variable Resistor
+#
+# Tecnically, thhe order of entries and multiple definitions does not matter
+# here, as the soyacro.py application sorts them before applying them. However,
+# for hand-editing this file, it's much easier if the actual terms are in order.
+# ------------------------------------------------------------------------------
+
+# These match electronic components:
+# ----------------------------------
+*,ANT,Antenna
+*,AT,Attenuator
+*,BR,Bridge Rectifier
+*,BT,Battery
+*,C,Capacitor
+*,CN,Capacitor Network
+*,CRT,Cathode Ray Tube
+*,D,Diode
+*,DS,Display
+*,DSP,Digital Signal Processor
+*,F,Fuse
+*,FB,Ferrite Bead
+*,FET,Field Effect Transistor
+*,FL,Filter
+*,G,Generator|Oscillator
+*,GN,General Network
+*,H,Hardware
+*,HY,Circulator|Directional Coupler
+*,IC,Integrated Circuit
+*,J,Jack
+*,JFET,Junction Field Effect Transistor
+*,JP,Jumper
+*,K,Relay|General Contactor
+*,LCD,Liquid Crystal Display
+*,LED,Light-Emitting Diode
+*,L,Inductor
+*,LS,Loudspeaker|Buzzer
+*,MIC,Microphone
+*,MK,Microphone
+*,MP,Mechanical Part
+*,M,Motor
+*,MOSFET,Metal Oxide Semiconductor Field Effect Transistor
+*,MOV,Metal Oxide Varistor
+*,NE,Neon Bulb
+*,NTC,Negative Temperature Coefficient (thermistor)
+*,PCB,Printed Circuit Board
+*,P,Plug
+*,PS,Power Supply
+*,PTC,Positive Temperature Coefficient (thermistor)
+*,Q,Transistor
+*,R,Resistor
+*,RT,Thermistor
+*,RY,Relay
+*,RV,Varistor
+*,SCR,Silicon Controlled Rectifier
+*,S,Switch
+*,SW,Switch
+*,TC,Thermocouple
+*,TFT,Thin-Film Transistor display
+*,TH,Termistor
+*,TP,Test Point
+*,TUN,Tuner
+*,T,Transformer
+*,U,Integrated Circuit
+*,VC,Variable Capacitor
+*,VR,Voltage Regulator|Variable Resistor
+*,V,Vacuum Tube
+*,XA,Printed Circuit Assembly Connector
+*,XU,Integrated Circuit Connector
+*,XDS,Light Socket
+*,XV,Vacuum Tube Socket Connector
+*,XF,Fuseholder
+*,XTAL,Crystal
+*,Y,Crystal|Oscillator
+*,Z,Zener Diode
+
+# These match fixed terms:
+# ------------------------
+1802,,An RCA 8-bit CPU
+2D,,Two Dimensional
+2FA,,Two Factor Authentication
+3D,,Three Dimensional
+401K,401(k),Retirement savings plan
+411,,A shorthand for: Information
+420,,A shorthand for: Time to smoke some pot
+4G,,Fourth Generation wireless
+5G,,Fifth Generation wireless
+6809,,A Motorola 8-bit CPU
+69,,A shorthand for: Mutual inverted oral sex activities
+707,,A passenger aircraft
+727,,A passenger aircraft
+737,,A passenger aircraft
+73,,A shorthand for: Goodbye
+747,,A passenger aircraft
+8080,,An Intel 8-bit CPU
+A320,,A passenger aircraft
+AA,,Alcoholics Anonymous
+AAA,,American Automobile Association
+AB,,Alberta (Canada)
+ABA,,American Bar Association
+ABC,,American Broadcasting Company|Australian Broadcasting Corporation
+ABM,,Anti-Ballistic Missile
+ABS,,Automatic Braking System
+AC,,Anonymous Coward|Alternating Current|Air Conditioning
+ACA,,Affordable Care Act (US, AKA Obamacare)
+ACM,,Association for Computing Machinery
+ACLU,,American Civil Liberties Union
+ACS,,American Chemical Society
+ACT,,Air Channel Transistor
+ADA,,Americans with Disabilities Act (US)
+AD,,Anno Domini (in the year of the Lord)
+ADC,,Analog to Digital Converter
+ADD,,Attention Deficit Disorder
+AES,,Advanced Encryption Standard
+AFAIAC,,As Far As I Am Concerned
+AFAIK,,As Far As I Know
+AF,,Audio Frequency
+AFK,,Away From Keyboard
+AFRL,,Air Force Research Laboratory
+AFSK,,Audio Frequency Shift Keying - using audio tones to encode data
+AG,,Attorney General|Aerographer's mate (US navy)
+AGC,,Automatic Gain Control
+AGI,,Artificial General Intelligence
+AGU,,American Geophysical Union
+AGW,,Anthropogenic Global Warming
+AI,,Artificial Intelligence
+AIDS,,Acquired ImmunoDeficiency Syndrome
+AKA,,Also Known As
+AK,,Alaska (USA)
+AL,,Alabama (USA)|Artificial Life
+ALC,,Automatic Level Control
+ALS,,Amyotrophic Lateral Sclerosis AKA as Lou Gehrig's disease
+AMA,,Ask Me Anything|Against Medical Advice|American Medical Association
+AM,,Amplitude Modulation|Ante Meridiem - before midday
+AMD,,Advanced Micro Devices
+AMEX,,American Stock Exchange|American Express
+AMOLED,,Active Matrix Organic Light Emitting Diode
+AMP,,Accelerated Mobile Pages
+AMS,,AM Stereo (radio)
+AMSAT,,AMateur SATellite Corporation
+AMZN,,Amazon's stock ticker symbol
+AND,,AND gate: input 1 AND input 2 = output
+ANR,,Automatic Noise Reduction
+ANSI,,American National Standards Institute
+AOL,,America OnLine (a digital services provider)
+AP,,Access Point|Associated Press
+APA,,American Psychological Association
+APFS,,APple File System
+API,,Application Programmer Interface
+APL,,A Programming Language|APpLe stock symbol
+APP,,Application|Advanced Placement Program
+APRS,,Automatic Packet Reporting System
+APSC,APS-C,22.2 x 14.8 mm image sensor size (Canon) and 23.5-23.7 x 15.6 mm for others
+APU,,Accelerated Processing Unit
+AR,,Arkansas (USA)|Augmented Reality
+ARC,,Amatuer Radio Club
+ARM,,A class of CPUs
+ARRL,,American Radio Relay League (Amateur radio)
+ASAP,,As Soon As Possible
+ASCII,,American Standard Code For Information Interchange (a 7-bit code)
+ASIC,,Application-Specific Integrated Circuit
+ASPCA,,American Society for the Prevention of Cruelty to Animals
+ASUS,,ASUS is a Taiwan-based, multinational computer hardware and consumer electronics company, established 1989.
+ATLAS,,Asteroid Terrestrial-impact Last Alert System
+ATM,,Automated Teller Machine|At The Moment|Asynchronous Transfer Mode
+ATT,AT&amp;T,American Telephone and Telegraph company
+ATU,,Antenna Tuning Unit
+ATV,,All Terrain Vehicle
+AU,,Astronomical Unit|Australia
+AV,,Autonomous Vehicle|Audio-Video
+AWG,,Atmospheric Water Generator|American Wire Gauge
+AWOL,,Absent Without Official Leave
+AWS,,Amazon Web Services
+AWSSI,,Accumulated Winter Season Severity Index
+AZ,,Arizona (USA)
+BASIC,,Beginner's All-purpose Symbolic Instruction Code
+BATF,,Bureau of Alcohol, Tobacco, and Firearms (US)
+BB,,A small, round projectile
+BBC,,British Broadcasting Corporation
+BBIAB,,Be Back In A Bit
+BC,,British Columbia (Canada)|Before Christ|BroadCast (radio)
+BCB,,BroadCast Band (radio)
+BCC,,Blind Carbon Copy
+BDAC,,Broadband Deployment Advisory Committee
+BEV,,Battery Electric Vehicle
+BF,,BoyFriend
+BFE,,Bum Fuck Egypt (middle of nowhere)
+BFF,,Best Female Friend
+BFO,,Beat Frequency Oscillator
+BFR,,Big Fucking Rocket / Big Falcon Rocket (now "Super Heavy")
+BFS,,Big Fucking Spaceship / Big Falcon Spaceship (now "Starship")
+BI,,Bisexual
+BIOS,,Basic Input Output System
+BLM,,Bureau of Land Management (US)
+BMI,,Body Mass Index
+BND,,Bundesnachrichtendienst - Federal Intelligence Service (German)
+BOM,,Bill Of Materials
+BP,,Blood Pressure|British Petroleum
+BPF,,Band Pass Filter
+BS,,Bachelor of Science|BullShit
+BSD,,Berkeley Software Distribution
+BSOD,,Blue Screen Of Death
+BTC,,BiTCoin
+BTW,,By The Way
+BW,,Black and White (imaging)|Bandwidth
+BYOB,,Bring Your Own Bottle|Bring Your Own Booze
+CA,,California (USA)
+CAD,,Computer Aided Design|Canadian Dollars
+CAGR,,Compound Annual Growth Rate
+CAM,,Computer Aided Manufacturing
+CAPTCHA,,Completely Automated Public Turing test to tell Computers and Humans Apart
+CB,,Citizen's Band radio
+CBC,,Canadian Broadcasting Corporation|Complete Blood Count|Criminal Background Check|Congressional Black Caucus
+CBD,,Cannabidiol
+CBO,,Congressional Budget Office
+CBP,,Customs and Border Protection (US)
+CBS,,Columbia Broadcasting System
+CC,,Carbon Copy|Credit Card|Creative Commons
+CCTV,,Closed Circuit TeleVision|China Central Television
+CDC,,Center for Disease Control (US)
+CD,,Compact Disk
+CDD,,Customer Due Diligence|Community Driven Development
+CDT,,Central Daylight Time
+CE,,Current Era
+CEO,,Chief Executive Officer
+CEQA,,California Environmental Quality Act (US)
+CERN,,European Organization for Nuclear Research (French orig., Conseil Europ&#233;en pour la Recherche Nucl&#233;aire)
+CES,,Consumer Electronics Show
+CFC,,ChloroFluoroCarbon
+CFD,,Computational Fluid Dynamics
+CFO,,Chief Financial Officer
+CHD,,CardHolder Data
+CGI,,Common Gateway Interface|Computer Generated Imagery
+CIA,,Central Intelligence Agency (US)
+CIO,,Chief Information Officer
+CIS,,Cisgender - where sense of identity corresponds to birth sex
+CIT,,California Institute of Technology
+CLI,,Command Line Interface
+CMOS,,Complementary Metal Oxide Semiconductor
+CLPS,,Commercial Lunar Payload Services
+CMS,,Content Management System
+CMY,,Cyan, Magenta, Yellow
+CMYK,,Cyan, Magenta, Yellow, Black
+CNC,,Computer Numeric Control (manufacturing tools)
+CNN,,Cable News Network|Convolutional Neural Network
+CNSA,,China National Space Administration
+CO2,,1 carbon atom, 2 oxygen atoms: Carbon Dioxide
+CO,,Colorado (USA)|Carbon Monoxide
+COBOL,,Common Business-Oriented Language
+COD,,Cash On Delivery
+COM,,COMmunications
+COO,,Chief Operating Officer
+COP,,Conference Of the Parties (UNFCCC)
+CORBA,,Common Object Request Broker Architecture
+CP,,Child Porn
+CPM,CP/M,An OS for the 8080 microprocessor: Control Program for Microcomputers
+CPR,,CardioPulmonary Resusitation
+CPS,,Crown Prosecution Service (England/UK)
+CPU,,Central Processing Unit
+CQ,,General radio call, read as "seek you"
+CQUAM,C-QUAM,Compatible QUadrature Amplitude Modulation
+CRA,,Computing Research Association|Congressional Review Act
+CRISPR,,Clustered Regularly Interspaced Short Palindromic Repeats - genetic editing tool
+CRT,,Cathode Ray Tube
+CS,,Computer Science
+CSG,,Constructive Solid Geometry
+CSS,,Cascading Style Sheet - a means to indirectly format HTML
+CST,,Central Standard Time
+CT,,Connecticut (USA)|Central Time
+CTBTO,,Comprehensive nuclear-Test-Ban Treaty Organization
+CTO,,Chief Technology Officer
+CTRL,,Control
+CUDA,,Compute Unified Device Architecture
+CUL,,See You Later
+CV,,Computer Vision|Curriculum Vitae (latin: "course of life")
+CVE,,Common Vulnerabilities and Exposures
+CVSS,,Common Vulnerability Scoring System
+CVT,,Continuously Variable Transmission
+CVV,,Card Verification Value
+CVV2,,Card Verification Value 2
+CW,,Continous Wave (only) transmissions (generally Morse Code)
+CYA,,Cover Your Ass
+DAC,,Digital to Analog Converter
+DACA,,Deferred Action for Childhood Arrivals
+DARPA,,Defense Advanced Research Projects Agency
+DB,,Database
+DBMS,,Database Management System
+DC,,Direct Current|Washington DC (District of Columbia) (USA)
+DD,,2-digit day, 01-31
+DDOS,DDoS,Distributed Denial of Service
+DDT,,DichloroDiphenylTrichloroethane, an insecticide, mostly banned
+DEA,,Drug Enforcement Agency (US)
+DE,,Delaware (USA)
+DEFCON,,DEFense CONdition
+DGPS,,Differential Global Positioning System
+DHCP,,Dynamic Host Configuration Protocol
+DHS,,Department of Homeland Security (US)
+DIAF,,Die In A Fire
+DIMM,,Dual Inline Memory module
+DIN,,German institute, similar to US ANSI
+DIP,,Dual Inline Package
+DIY,,Do It Yourself
+DJ,,Disc Jockey
+DMA,,Direct Memory Access
+DMR,,Digital Mobile Radio
+DNA,,DeoxyriboNucleic Acid: chemically encodes genetic information
+DNC,,Democratic National Convention|Democratic National Committee
+DNN,,Deep Neural Network
+DNS,,Domain Name System
+DOB,,Date Of Birth
+DOD,,Department Of Defense (US)
+DOE,,Department Of Energy (US)
+DOH,DoH,DNS-over-HTTPS
+DOI,,Department of the Interior (US)|Digital Object Identifier
+DOJ,,Department Of Justice (US)
+DOS,,Disk Operating System|Denial Of Service
+DOT,,Department Of Transportation (US)
+DPI,,Dots Per Inch
+DRAM,,Dynamic Random Access Memory - access any part at any time, but must keep refreshing it or it forgets
+DR,,Didn't Read|Doctor|Democratic Republic|Dynamic Range
+DRM,,Digital Rights Management|Digital Radio Mondial (a digital broadcast format)
+DSA,,Democratic Socialists of America
+DSL,,Digital Subscriber Line
+DSLR,,Digital Single-Lens Reflex (camera)
+DSP,,Digital Signal Processor
+DSS,,Data Security Standard
+DTMF,,Dual Tone Multi Frequency (touch-tone encoding)
+DUI,,Driving Under the Influence (of drugs)
+DUVL,,Deep UltraViolet Lithography
+DVD,,Digital Video Disk
+DVM,,Digital VoltMeter|Doctor of Veterinary Medicine
+DVR,,Digital Video Recorder
+DX,,Distance, in radio reception
+ECC,,Error Correcting Code
+ECG,,ElectroCardioGram
+ECU,,Engine Control Unit
+ED,,Emergency Department|Erectile Dysfunction
+EDT,,Eastern Daylight Time
+EE,,Electrical/Electronic Engineering
+EEG,,Eastern European Group
+EELV,,Evolved Expendable Launch Vehicle
+EEOC,,Equal Employment Opportunity Commission (US)
+EEPROM,,Electrically Erasable Programmable Read-Only Memory - normally read-only, but can be erased
+EEU,,Eurasian Economic Union
+EFF,,Electronic Frontier Foundation
+EG,e.g.,exempli gratia: "for example"
+EHF,,Extremely High Frequency: 30-300 GHz
+EKG,,Electro(C/k)ardioGram
+EM,,Electro-Magnetic
+EME,,Earth-Moon-Earth (communications)
+EMACS,Emacs,Editing MACroS
+EMM,,Extended Memory Manager
+EMP,,Electro-Magnetic Pulse
+EMS,,Emergency Medical Services
+EMT,,Emergency Medical Technician
+ENSO,,El Ni&#241;o/Southern Oscillation
+EO,,Executive Order
+EOF,,End Of File
+EOL,,End Of Line
+EPA,,Environmental Protection Agency (US)
+EPIC,,Electronic Privacy Information Center	
+EPROM,,Erasable Programmable Read-Only Memory - normally read-only, but can be erased
+EPS,,Encapsulated PostScript
+ER,,Emergency Room
+ERP,,Effective Radiated Power
+ERU,,Energy Recovery Unit
+ESA,,European Space Agency
+ESC,,Escape key or keycode $1B
+ESO,,European Southern Observatory
+ESPN,,Entertainment and Sports Programming Network
+EST,,Eastern Standard Time
+ET,,Eastern Time|Extra-Terrestrial
+EU,,European Union
+EULA,,End User License Agreement
+EUVL,,Extreme UltraViolet Lithography
+EV,,Electric Vehicle
+EVIL,,Electronic Viewfinder Interchangeable Lens
+EVP,,Executive Vice President
+EXIF,,EXchangeable Image File format
+FA,,Fucking Article
+FAA,,Federal Aviation Administration (US)
+FAI,,World Air Sports Federation (Swiss)
+FAQ,,Frequently Asked Questions
+FARC,,Fuerzas Armadas Revolucionarias de Colombia
+FAS,,Fetal Alcohol Syndrome
+FAX,,Facsimile transmission
+FB,,Facebook|Fine Business
+FBI,,Federal Bureau of Investigation (US)
+FBO,,Federal Budget Office (US)
+FCC,,Federal Communications Commission (US)
+FCEV,,Fuel Cell Electric Vehicle
+FDA,,Food and Drug Administration (US)
+FDIC,,Federal Deposit Insurance Corporation (US)
+FDM,,Frequency Division Multiplexing
+FEC,,Forward Error Correction
+FEM,,Finite Element Method
+FEMA,,Federal Emergency Management Agency (US)
+FF,,Full frame: 36 x 24 mm sensor size|Fast Forward
+FFS,,For Fuck's Sake
+FHA,,Federal Housing Administration (US)
+FIFO,,First In, First Out
+FIOS,,FIber Optic Service
+FISA,,Foreign Intelligence Surveillance Act
+FISC,,Foreign Intelligence Surveillance Court
+FLEX,,An OS for the 6800 and 6809 microprocessors
+FL,,Florida (USA)
+FLOPS,,FLoating Point OPerations per Second
+FLOTUS,,First Lady Of The United States
+FM,,Frequency Modulation|Foreign Minister|Finance Minister
+FML,,Fuck My Life
+FOIA,,Freedom Of Information Act (US)
+FORTRAN,,A computer language, "FORmula TRANSlator"
+FOSS,,Free and Open Source Software
+FOSTA,,Fight Online Sex Trafficking Act (US)
+FP,,Front Page
+FP16,,16-bit Floating Point
+FP32,,32-bit Floating Point
+FPGA,,Field-Programmable Gate Array
+FPU,,Floating Point Unit
+FS,,Fucking Summary
+FSB,,Federal Security Service (Russian Federation)
+FSF,,Free Software Foundation
+FSK,,Frequency Shift Keying
+FSM,,Flying Spaghetti Monster
+FTC,,Federal Trade Commission (USA)
+FTFY,,Fixed That For You
+FTP,,File Transfer Protocol
+FTW,,For The Win
+FUBAR,,Fucked Up Beyond All Recovery
+FU,,Fuck You
+FWIW,,For What It's Worth
+FX,,Effects
+FYI,,For Your Information
+G20,,Group of 20 (countries)
+GA,,Georgia (USA)
+GAN,,Generative Adversarial Network
+GAO,,Government Accountability Office (US)
+GB,,Gigabyte
+GCC,,GNU Compiler Collection|Gulf Cooperation Council
+GCF,,Gender Critical Feminist
+GCHQ,,Government Communications HeadQuarters (UK)
+GDP,,Gross Domestic Product|General Data Protection
+GDPR,,General Data Protection Regulation (EU)	
+GEO,,GEOstationary orbit
+GFLOPS,,Giga FLoating Point OPerations per Second
+GGP,,Great Grandparent (usually parent of parent of parent post)
+GHZ,GHz,Gigahertz - Billions of cycles per second
+GIF,,Graphics Interchange Format - stores either still or animated images
+GI,,Gastro-Intestinal|soldier, rank of private, US army (from "Galvanized Iron")
+GIGO,,Garbage In, Garbage Out
+GIMP,,GNU Image Manipulation Program
+GLONASS,,Globalnaya Navigazionnaya Sputnikovaya Sistema: Global Navigation Satellite System (Russian)
+GM,,General Motors|General Manager
+GMO,,Genetically Modified Organism
+GMT,,Greenwich Mean Time (equivalent to Coordinated Universal Time)
+GNU,,GNU's Not Unix (a recursive definition!)
+GOP,,Grand Old Party (Republican party, USA)
+GP,,GrandParent (usually parent of parent post)|General Practitioner (medical)
+GPH,,Gallons Per Hour
+GPIO,,General Purose Input Output
+GPL,,General Public License
+GPS,,Global Positioning System
+GSA,,Government Services Authority (US)
+GT,,Grand Touring
+GPU,,Graphics Processing Unit
+GUI,,Graphic User Interface
+H1B,,Non-immigrant visa (US)
+H2O,,2 hydrogen atoms, 1 oxygen atom: water
+HAM,Ham,Amatuer radio operators
+HAMR,,Heat-Assisted Magnetic Recording
+HBO,,Home Box Office (US media)
+HD,,Hard Disk|High Definition
+HDCP,,High Definition Copy Protocol
+HDD,,Hard Disk Drive
+HDL,,Hardware Description Language
+HDMI,,High Definition Multimedia Interface
+HDR,,High Dynamic Range
+HEX,,Hexadecimal - base 16 numbers, used because one HEX digit conveniently equals four binary digits
+HF,,High Frequency: 3-30 MHz
+HFCS,,High Fructose Corn Syrup
+HIFI,HiFi,High Fidelity
+HI,,Hawaii (USA)
+HIG,,Human Interface Guidelines
+HIPAA,,Health Insurance Portability and Accountability Act (US)
+HIRISE,HiRISE,High Resolution Imaging Science Experiment
+HIV,,Human Immunodeficiency Virus
+HM,,Her Majesty
+HMCS,,Her Majesty's Canadian Ship
+HMS,,Her Majesty's Ship
+HN,,Hacker News
+HOA,,Home Owner's Association
+HP,,Hewlett-Packard (company)|Highway Patrol (officer)|HorsePower
+HPC,,High-Performance Computing
+HPF,,High Pass Filter
+HPV,,Human Papilloma Virus
+HQ,,HeadQuarters
+HR,,Human Resources
+HRW,,Human Rights Watch
+HT,,Handie-Talky, AKA Walkie-Talkie - a handheld radio transceiver
+HTH,,Hope That Helped|Here To Help|Happy To Help
+HTML2,,HyperText Markup Language version 2
+HTML3,,HyperText Markup Language version 3
+HTML4,,HyperText Markup Language version 4
+HTML5,,HyperText Markup Language version 5
+HTML,,HyperText Markup Language (in general, also version 1)
+HTTP,,HyperText Transfer Protocol
+HTTPS,,HyperText Transfer Protocol, Secure
+HUD,,Housing and Urban Development (US)|Heads-Up Display
+HVM,,High Volume Manufacturing
+HWP,,HighWay Patrol|Height Weight Proportional
+HZ,Hz,Hertz (cycles per second)
+IA,,Iowa (USA)
+IANAL,,I Am Not A Lawyer
+IBIS,,In-Body Image Stabilization
+IBM,,International Business Machines
+ICANN,,Internet Corporation For Assigned Names And Numbers
+ICBM,,Intercontinental Ballistic Missile
+ICE,,Immigration and Customs Enforcement (US)
+IC,,Integrated Circuit|Insenstive Clod
+ICMP,,Internet Control Message Protocol
+IDC,,I Don't Care
+IDE,,Integrated Development Environment (for example editor + compiler + linker)
+IDF,,Israel Defense Forces
+IDGAD,,I Don't Give A Damn
+IDGAF,,I Don't Give A Fuck
+ID,,Idaho (USA)|Identification
+IDK,,I Don't Know
+IE,,Internet Explorer|IE sometimes for i.e., is id est "for example""
+IE2,,Internet Explorer v2
+IE3,,Internet Explorer v3
+IE4,,Internet Explorer v4
+IE5,,Internet Explorer v5
+IE6,,Internet Explorer v6
+IE7,,Internet Explorer v7
+IE8,,Internet Explorer v8
+IE9,,Internet Explorer v9
+IE10,,Internet Explorer v10
+IE11,,Internet Explorer v11
+IED,,Improvised Explosive Device
+IEEE,,Institute of Electrical and Electronics Engineers
+IF,,Intermediate Frequency
+IHOP,,International House of Pancakes
+IIRC,,If I ReCall
+IIS,,Internet Information Services
+IL,,Illinois (USA)
+ILC,,Interchangeable Lens Camera
+IMDB,IMDb,Internet Movie Database
+IMF,,International Monetary Fund
+IMHO,,In My Humble Opinion|In My Honest Opinion
+IMO,,In My Opinion
+INF,,Intermediate-range Nuclear Forces (treaty)
+IN,,Indiana (USA)
+IOC,,International Olympic Committee
+IOS,iOS,An Apple Operating System (iPad,iPhone)
+IOT,IoT,Internet Of Things
+IOW,,In Other Words
+IP,,Internet Protocol (often a specific Internet address)|Intellectual Property
+IPC,,InterProcess Communications
+IPO,,Initial Public Offering
+IPSC,iPSC,induced Plutipotent Stem Cells
+IPV4,IPv4,Internet Protocol, 32-bit
+IPV6,IPv6,Internet Protocol, 128-bit
+IQ,,Intelligence Quotient|I/Q phases of data encoding
+IR,,InfraRed
+IRA,,Individual Retirement Account|Irish-Republican Army
+IRC,,Internet Relay Chat|International Reply Coupon
+IRQ,,Interrupt ReQuest
+IRS,,Internal Revenue Service (US)
+IS,,Image Stabilization|Islamic State
+ISA,,Industry Standard Architecture|Instruction Set Architecture
+ISIL,,Islamic State of Iraq and the Levant
+ISIS,,Islamic State of Iraq and Syria
+ISO,,The name ISO is taken from the ISO 9660 file system used with CD-ROM media, but what is known as an ISO image might also contain a UDF (ISO/IEC 13346) file system (commonly used by DVDs and Blu-ray Discs).
+ISP,,Internet Service Provider
+ISRO,,India Space Research Organisation
+ISS,,International Space Station
+IT,,Information Technology
+ITER,,International Thermonuclear Experimental Reactor
+IVF,,In Vitro Fertilization
+IWC,,International Whaling Commission
+JEDEC,,Joint Electron Device Engineering Council
+JFC,,Jesus Fucking Christ
+JFK,,John F. Kennedy
+JIT,,Just In Time (compilation)
+JITC,,Just In Time Compilation
+JPEG,,A format for compressing image files.
+JPG,,A format for compressing image files.
+JPL,,Jet Propulsion Labratory (US)
+JRE,,Java Runtime Environment
+JSON,,A file format designed to hold human- and machine-readable data
+K12,,Kindergarten to 12th grade
+KB,,Kilobyte|Knowledge Base
+KFC,,Kentucky Fried Chicken (US food chain)
+KFLOPS,,Kilo FLoating Point OPerations per Second
+KGB,,Now the FSB - Komitet Gosudarstvennoi Bezopaznosti (Committee for State Security) Federal Security Service (Russian Federation)
+KHZ,KHz,Kilohertz - Thousands of cycles per second
+KISS,,Keep It Simple, Stupid
+KJV,,King James Version (English language bible)
+KMS,,Kilometers|Knowledge Management System
+KPH,,Kilometers Per Hour
+KS,,Kansas (USA)
+KVM,,Keyboard, Video, and Mouse switch
+KWH,kWh,kiloWatt-Hour
+KW,kW,kiloWatt
+KY,,Kentucky (USA)
+L1,,Lagrangian point 1 - a point near two large bodies in orbit where a smaller object will maintain its position relative to the large orbiting bodies|Inductor 1
+L2,,Lagrangian point 2 - a point near two large bodies in orbit where a smaller object will maintain its position relative to the large orbiting bodies|Inductor 2
+L3,,Lagrangian point 3 - a point near two large bodies in orbit where a smaller object will maintain its position relative to the large orbiting bodies|Inductor 3
+L4,,Lagrangian point 4 - a point near two large bodies in orbit where a smaller object will maintain its position relative to the large orbiting bodies|Inductor 4
+L5,,Lagrangian point 5 - a point near two large bodies in orbit where a smaller object will maintain its position relative to the large orbiting bodies|Inductor 5
+LA,,Louisiana (USA)|Los Angeles (California, USA)
+LAN,,Local Area Network
+LAPD,,Los Angeles Police Department
+LASER,,Light Amplification by Stimulated Emission of Radiation
+LAX,,Los Angeles, California airport
+LC,,Inductor-Capacitor combination
+LCD,,Liquid Crystal Display
+LDAP,,Lightweight Directory Access Protocol
+LDNLS,,Low Dimensional Neural-Like Systems
+LDS,,Latter Day Saints (Mormons)
+LED,,Light Emitting Diode
+LENR,,Low Energy Nuclear Reactor
+LEO,,Low Earth Orbit
+LF,,Low Frequency: 30-300 KHz
+LG,,Life is Good (brand)
+LGB,,Lesbian, Gay and Bisexual
+LGBT,,Lesbian, Gay, Bisexual and Transexual
+LGBTQ,,Lesbian, Gay, Bisexual, Transexual and Questioning
+LGBTQQ,,Lesbian, Gay, Bisexual, Transexual, Questioning, Queer
+LIFO,,Last In, First Out
+LLC,,Limited Liability Corporation
+LMAO,,Laughing My Ass Off
+LMFAO,,Laughing My Fucking Ass Off
+LMGTFY,,Let Me Google That For You
+LNA,,Low Noise Amplifier
+LNG,,Liquid Natural Gas
+LOL,,Laugh Out Loud
+LOPG,LOP-G,Lunar Orbital Platform-Gateway
+LPF,,Low Pass Filter
+LPI,,Lines Per Inch
+LR,,Long Range|Lightroom (Adobe product)
+LSB,,Lower SideBand (radio)
+LSD,,Lysergic Acid Diethylamide - C20H25N3O
+LTE,,A mobile communications standard
+LUF,,Lowest Usable Frequency
+LW,,LongWave (radio)
+LWNJ,,Left Wing Nut Job
+MAC,,Media Access Control address
+MA,,Massachusetts (USA)
+MAD,,Mutally Assured Destruction
+MAGA,,Make America Great Again
+MASER,,Microwave Amplification by Stimulated Emission of Radiation
+MAMR,,Microwave-Assisted Magnetic Recording
+MB,,Megabyte|Manitoba (Canada)
+MBA,,Masters of Business Administration
+MC,,Midnight Commander (software)
+MD,,Maryland (USA)|Medical Doctor
+MDMA,,Ecstasy/Molly: 3,4-methylenedioxy-methamphetamine - C11H15NO2
+MDT,,Mountain Daylight Time
+ME,,Maine (USA)
+MFLOPS,,Million FLoating Point OPerations per Second
+MF,,Medium Frequency: 300-3000 KHz
+MHZ,MHz,Megahertz - Millions of cycles per second
+MI,,Michigan (USA)|Machine Intelligence
+MI6,,Secret Intelligence Service (UK, also known as SIS)
+MIA,,Missing In Action
+MIC,,Miltary Industrial Complex
+MIDI,,Musical Instrument Digital Interface
+MIPS,,Millions of Instructions Per Second|Microprocessor without Interlocked Pipelined Stages
+MIT,,Massachusetts Institute of Technology
+ML,,Machine Learning|Machine Language|Major League
+MLB,,Major League Baseball
+MLK,,Martin Luther King
+MM,,2-digit Month, 01-12
+MMORPG,,Massively Multiplayer Online Role-Playing Game
+MMU,,Memory Management Unit
+MN,,Minnesota (USA)
+MOAB,,Mother Of All Bombs - a very large fuel-air bomb
+MOBA,,Multiplayer Online Battle Arena
+MO,,Missouri (USA)
+MOS,,Metal Oxide Semiconductor
+MPAA,,Motion Picture Association of America
+MPEG,,Motion Picture Experts Group
+MPH,,Miles Per Hour
+MP,,MegaPixel|Member of Parliament
+MP3,,Moving Picture Experts Group Layer-3 Audio format
+MPU,,Micro Processing Unit
+MRO,,Mars Reconnaissance Orbiter
+MRSA,,Methicillin-Resistant Staphylococcus Aureus
+MS,,Mississippi (USA)|MicroSoft|Multiple Sclerosis
+MSFT,,Microsoft (stock ticker symbol)
+MSNBC,,MicroSoft National Broadcasting Company
+MSM,,MainStream Media
+MSRP,,Manufacturer Suggested Retail Price
+MST,,Mountain Standard Time
+MT,,Montana (USA)|Mountain Time
+MTBF,,Mean Time Between Failures
+MUF,,Maximum Usable Frequency
+MUMPS,,Programming language: Massachusetts General Hospital Utility Multi-Programming System
+MW,,Medium Wave (radio)|MegaWatt
+NAACP,,National Association for the Advancement of Colored People
+NAFTA,,North American Free Trade Agreement
+NAS,,Network Attached Storage
+NASA,,National Aeronautics and Space Administration (US)
+NASD,,National Association of Securities Dealers
+NASDAQ,,National Association of Securities Dealers Automated Quotations
+NAT,,Network Address Translation
+NATO,,North Atlantic Treaty Organization
+NBC,,National Broadcasting Company
+NB,,New Brunswick (Canada)
+NCEI,,National Centers for Environmental Information (NOAA, US)
+NCIS,,Naval Criminal Investigative Service (US)
+NC,,North Carolina (USA)
+NCA,,Non-Compete Agreement
+NDA,,Non Disclosure Agreement
+ND,,North Dakota (USA)
+NE,,Nebraska (USA)|NorthEast
+NFC,,Near Field Communication(s)
+NFL,,National Football League (US)
+NFW,,No Fucking Way
+NGO,,Non-Governmental Organization
+NHK,,International public broadcasting service of Japan.
+NH,,New Hampshire (USA)
+NHS,,National Health Service (Britain)
+NIA,,National Institute on Aging
+NIH,,Not Invented Here|National Institute of Health
+NIMBY,,Not In My Back Yard
+NIST,,National Institute of Standards and Technology
+NJ,,New Jersey (USA)
+NK,,North Korea
+NL,,Netherlands|New Brunswick (Canada)|New Line
+NLP,,Natural Language Processing
+NM,,New Mexico (USA)|Never Mind
+NN,,Network Neutrality
+NNTP,,Network News Transfer Protocol
+NOAA,,National Oceanic and Atmospheric Administration (US)
+NORAD,,North American Aerospace Defense Command
+NOT,,NOT gate: input 1 = output in opposite state
+NPC,,Non-Player Character|National People's Congress (China)
+NPG,,Negative Population Growth
+NPM,,Node Package Manager (Javascript)
+NPR,,National Public Radio (US)
+NRA,,National Rifle Association (US)
+NRCC,,National Republican Congressional Committee (US)
+NRO,,National Reconnaisance Office (US)
+NSA,,National Security Agency (US)
+NSFW,,Not Safe For Work
+NS,,Nova Scotia (Canada)
+NT,,New Testament
+NTS,,Note To Self
+NTSC,,National Television System Committee|Never Twice the Same Color
+NTSB,,National Transportation Safety Board
+NTW,,Not To Worry
+NU,,Nunavut (Canada)
+NVM,,Non Volatile RAM
+NV,,Nevada (USA)
+NW,,NorthWest
+NWS,,National Weather Service (USA)
+NYC,,New York City (New York, USA)
+NY,,New York (USA)
+NYPD,,New York city Police Department
+NYPL,,New York Public Library
+NYSE,,New York Stock Exchange
+NYT,,New York Times
+NZ,,New Zealand|Non-Zero
+OA,,Open Access
+OC,,Organized Crime|Original Content
+OCR,,Optical Character Recognition
+OEM,,Original Equipment Manufacturer
+OH,,Ohio (USA)
+OIG,,Office of the Inspector General (US DOJ)
+OK,,Oklahoma (USA)|"Okay"
+OJT,,On the Job Training
+OLED,,Organic Light Emitting Diode
+OM,,Old Man
+OMB,,Office of Management and Budget (US)
+OMG,,Oh My God
+ON,,Ontario (Canada)
+OOP,,Object Oriented Programming
+OPEC,,Organization of Petroleum Exporting Countries
+OPED,Op-Ed,(placed) Opposite of Editorial page: reader commentary
+OP,,Original Poster|OPerator
+OR,,Oregon (USA)|OR gate: input 1 OR input 2 = output
+OS9,,An OS for the 6800 and 6809 microprocessors
+OSI,,Open Systems Interconnection
+OS,,Operating System|Open-Source (software)
+OSX,OS X / MacOS,Operating System X (Apple), AKA MacOS
+OT,,Old Testament
+OTC,,Over The Counter
+OTOH,,On The Other Hand
+OTT,,Over The Top (direct distribution of streaming content)
+P2P,,Peer to Peer
+PAC,,Political Action Committee
+PA,,Pennsylvania (USA)
+PATRIOT,,uniting and strengthening america by Providing Appropriate Tools Required to Intercept and Obstruct Terrorism
+PAYGO,,Pay As You GO
+PAL,,Phase Alternate Line video encoding
+PBS,,Public Broadcasting Service
+PCI,,Payment Card Industry
+PC,,Personal Computer; any computer owned by an individual|Politically Correct
+PCB,,Printed Circuit Board
+PD,,Public Domain, Police Department
+PDA,,Personal Digital Assitant|Public Display of Affection
+PDF,,Portable Document Format
+PDT,,Pacific Daylight Time
+PE,,Prince Edward Island (Canada)
+PEP,,Python Enhancement Proposal
+PFT,,Prints For Time: photographer exchanges prints for model's time
+PGP,,Pretty Good Privacy
+PHD,Ph.D.,Doctorate of Philosphy
+PHEV,,Plug-In Hybrid Electric Vehicle
+PHP,,Personal Home Page, now "Hypertext Preprocessor"
+PI,,Private Investigator|3.14159265359|Privacy International
+PIN,,Personal Identification Number
+PITA,,Pain In The Ass
+PLL,,Phase Locked Loop
+PM,,Prime Minister|Post Meridiem - after midday
+PNAS,,Proceedings of the National Academy of Sciences
+PNG,,Portable Network Graphics (an image file format and its support community)
+POS,,Piece Of Shit
+POTUS,,President Of The United States
+POV,,Point Of View
+PPI,,Pixels Per Inch
+PRC,,People's Republic of China
+PROM,,Programmable Read-Only Memory - can be user programmed, usually only once
+PR,,Pull Request - source code alteration submission|Public Relations|Puerto Rico
+PS,,PostScript|Photoshop (Adobe product)|PlayStation
+PS2,,PlayStation 2
+PS3,,PlayStation 3
+PS4,,PlayStation 4
+PSA,,Public Service Announcement
+PSLV,,Polar Satellite Launch Vehicle
+PST,,Pacific Standard Time
+PSU,,Power Supply Unit
+PSYOPS,,PSYchological OPerationS
+PT,,Pacific Time
+PTSD,,Post Traumatic Stress Disorder
+PV,,PhotoVoltaic
+PVC,,PolyVinyl Chloride
+Q1,,First Quarter
+Q2,,Second Quarter
+Q3,,Third Quarter
+Q4,,Fourth Quarter
+QED,,Quod Erat Demonstrandum: that which was to be demonstrated
+QC,,Quebec (Canada)
+QLED,,Quantum dot Light Emitting Diode
+QOS,QoS,Quality of Service
+QR,,Quick Response code
+QRZ,,Radio shorthand for are you there?
+QSL,,Radio shorthand for response
+QSO,,Radio shorthand for conversation
+RADAR,,RAdio Detection And Ranging
+RAID,,Redundant Array of Independent Disks
+RAM,,Random Access Memory - get to any part of the memory at any time
+RAW,,Deep color image files, usually from cameras
+RBG,,Red Blue Green|Ruth Bader Ginsberg
+RC,,Resistor-Capacitor|Radio Control(ed)
+RCA,,Radio Corporation of America|an audio / low RF connector
+RCMP,,Royal Canadian Mounted Police
+RCS,,Revision Control System
+RD,R&amp;D,Research and Development
+RDS,,Radio Data System|Relational Database Service
+RFI,,Radio Frequency Interference
+RF,,Radio Frequency, usually short for Radio Frequency signal
+RGBA,,Red, Green, Blue, Alpha (transparency)
+RGB,,Red, Green, Blue
+RH,,Relative Humidity
+RI,,Rhode Island (USA)
+RIAA,,Recording Industry Association of America
+RIP,,Rest In Peace
+RISC,,Reduced Instruction Set Comput(ing/er)
+RIT,,Receiver Incremental Tuning
+RNA,,RiboNucleic Acid: messenger carrying instructions from DNA
+RNC,,Repubican National Convention
+ROI,,Return On Investment	
+ROM,,Read-Only Memory - you can't write new information to this
+ROFLMAO,,Rolling On Floor Laughing My Ass Off
+ROTFL,,Rolling On The Floor Laughing
+ROTFLMAO,,Rolling On The Floor Laughing My Ass Off
+ROV,,Remotely Operated Vehicles
+RPG,,Role Playing Game|Anti-tank missile (Russian)
+RPM,,Revolutions Per Minute
+RSA,,Rivest, Shamir, and Adelman (data security company / algorithm)
+RSS,,Really Simple Syndication
+RST,,Readability, Strength, Tone (radio reception)
+RTFA,,Read The Fucking Article
+RTFM,,Read The Fucking Manual
+RTTY,,Radio Teletype
+RV,,Research Vessel|Recreational Vehicle
+RWNJ,,Right Wing Nut Job
+RX,,Receive
+SA,,South Africa|South America
+SAAS,,Software As A Service
+SAE,,Society of Automotive Engineers
+SATA,,Serial Advanced Technology Attachment
+SCA,,Subsidiary Communications Authorization
+SCOTUS,,Supreme Court Of The United States
+SCUBA,,Self-Contained Underwater Breathing Apparatus
+SC,,South Carolina (USA)
+SDR,,Software Defined Radio
+SD,,South Dakota (USA)|Secure Digital
+SDK,,Software Development Kit
+SE,,SouthEast
+SEAL,,Sea Air and Land (US Navy special operations group)
+SEC,,Securities and Exchange Commission (US)
+SECDEF,,SECretary of DEFense
+SEO,,Search Engine Optimization
+SETI,,Search for Extra Terrestrial Intelligence
+SF,,Science Fiction or less accurately Speculative Fiction|San Francisco (California)
+SFWA,,Science Fiction Writers of America
+SFW,,Safe For Work
+SHF,,Super High Frequency: 3-30 GHz
+SIG,,Special Interest Group|Signature
+SIM,,Subscriber Identification Module (usually removable card)
+SIMM,,Single Inline Memory Module
+SIS,,Secret Intelligence Service (UK, also known as MI6)
+SJW,,Social Justice Warrior
+SK,,Saskatchewan (Canada)|South Korea|Silent Key (deceased)
+SLAC,,Stanford Linear Accelerator Center
+SLR,,Single Lens Reflex (cameras)
+SLS,,Space Launch System
+SM,S&amp;M,Sado-Masochism
+SMA,,Surface Mount Assembly
+SMB,,Server Message Block
+SMC,,Surface Mount Component
+SMD,,Surface Mount Device
+SMH,,Suck Me Hard
+SMP,,Surface Mount Package|Symmetric Multi-Process(ing/or)
+SMS,,Short Message Service
+SMT,,Surface Mount Technology
+SN,,Soylent News
+SNAFU,,Situation Normal, All Fucked Up
+SNAP,,Supplemental Nutrition Assistance Program
+SO,,Significant Other
+SOB,,Son Of a Bitch
+SOC,SoC,System on a Chip
+SOG,,Special Operations Group
+SOL,,Shit Out of Luck
+SOP,,Standard Operating Procedure
+SOS,,Save Our Souls|Shit On a Shingle (chipped beef on bread)
+SOTA,,State Of The Art
+SOTU,,State Of The Union
+SP,,Spelling
+SPD,,Space Policy Directive
+SPID,,Service Profile Identifier
+SQL,,Structured Query Language (for databases)
+SRLSY,,Seriously
+SS,,Secret Service|SteamShip
+SSA,,Social Security Administration (US)
+SSB,,Single SideBand
+SSD,,Solid State Disk
+SSH,,Secure SHell
+SSID,,Service Set IDentifier
+SSL,,Secure Sockets Layer
+SSN,,Social Security Number
+SSO,,Sun Synchronous Orbit
+SST,,SuperSonic Transport|Space Ship Two
+SSTV,,Slow Scan TeleVision - images encoded into audio tones, generally sent by radio
+STEM,,Science, Technology, Engineering, Math
+STL,,Standard Tessellation Language|Special Technologies Laboratory|Salt, Tequila and Lime
+STT,,Speech-To-Text
+SUV,,Sport Utility Vehicle
+SVG,,Scalable Vector Graphics
+SW,,Shortwave (radio)|SouthWest|SoftWare
+SWAT,,Special Weapons And Tactics 
+SWB,,ShortWave Band (radio)
+SWL,,ShortWave Listener
+SWR,,Standing Wave Ratio
+TAM,,Total Addressable Market
+TANSTAAFL,,There Ain't No Such Thing As A Free Lunch
+TB,,TeraByte|Tuberculosis
+TBD,,To Be Determined
+TBH,,To Be Honest
+TCPA,,Telecom Consumer Protection Act
+TDM,,Time Division Multiplexing
+TDP,,Thermal Design Power or Point
+TERF,,Trans-Exlusionary Radical Feminist
+TESS,,Transiting Exoplanet Survey Satellite
+TFA,,The Fucking Article: bowdlerized, The Fine Article
+TFC,,The Fucking Comments: bowdlerized, The Fine Comments
+TFLOPS,,Tera FLoating Point OPerations per Second
+TFS,,The Fucking Summary: bowdlerized, The Fine Summary
+TF,,The Fuck
+TFP,,Time For Prints: model exchanges time for photographer's prints
+TFT,,Thin Film Transistor (usually display)
+THC,,TetraHydroCannabinol
+THF,,Tremendously Frequency: 300 GHz - 3 THz
+THOT,,That Hoe Over There
+THZ,THz,TeraHertz
+TIA,,Thanks In Advance
+TIFF,,Tagged Image File Format
+TIL,,Today I Learned
+TLA,,Three Letter Agency (FBI, CIA, NSA, etc.)
+TLDR,TL;DR:,Too Long, Didn't Read
+TL,,Too Long
+TLD,,Top-Level Domain
+TLS,,Transport Layer Security
+TM,,TradeMark
+TMI,,Too Much Information
+TN,,Tennessee (USA)
+TNC,,Terminal Node Controller
+TOR,,The Onion Router
+TOS,,Terms Of Service
+TPP,,Trans-Pacific Partnership
+TPU,,Tensor Processing Unit
+TRS,,Tip Ring Sleeve connector
+TSA,,Transportation Security Administration (US)
+TSMC,,Taiwan Semiconductor Manufacturing Company
+TTL,,Transistor-Transistor Logic|Through The Lens|Time To Live
+TTS,,Text-To-Speech
+TTYL,,Talk To You Later
+TTY,,Teletype
+TU,,Terminal Unit
+TV,,Television|Transvestite/Tranny
+TX,,Texas (USA)|Transmit
+UAE,,United Arab Emirates
+UAV,,Unmanned Aerial Vehicle
+UCSD,,University of California, San Diego
+UC,,University of California
+UCLA,,University of California, Los Angeles
+UDP,,User Datagram Protocol
+UEFI,,Unified Extensible Firmware Interface
+UFO,,Unidentified Flying Object
+UHF,,Ultra High Frequency: 300 MHz - 3 GHz
+UI,,User Interface
+UK,,United Kingdom
+UL,,Underwriter's Labratories
+ULA,,United Launch Alliance
+UML,,Unified Modeling Language
+UNFCCC,,United Nations Framework Convention on Climate Change
+UNESCO,,United Nations Educational, Scientific and Cultural Organization
+UN,,United Nations
+UNICEF,,United Nations International Children's Emergency Fund
+UPI,,United Press International
+UPS,,Uninterruptible Power Supply|United Parcel Service
+URI,,Uniform Resource Identifier
+URL,,Uniform Resource Locator
+USAF,,United States Air Force
+USA,,United States of America|United States Army
+USB2,,Universal Serial Bus v2
+USB3,,Universal Serial Bus v3
+USB,,Universal Serial Bus|Upper SideBand (radio)
+USBC,USB-C,Universal Serial Bus, type C
+USD,,United States Dollars (currency)
+USDA,,United States Department of Agriculture
+USG,,United States Government
+USMC,,United States Marine Corps
+USMCA,,United States-Mexico-Canada Agreement
+USN,,United States Navy
+USPS,,United States Postal Service
+USS,,United States Ship
+USSR,,United Soviet Socialist Republics
+US,,United States (of America)
+UTC,,Universal Coordinated Time
+UT,,Utah (USA)
+VA,,Virgina (USA)|Veteran's Administration (US)
+VC,,Venture Capital/Capitalist|Version Control
+VEC,,Volunteer Exam Coordinator
+VESA,,Video Electronics Standards Association
+VFO,,Variable Frequency Oscillator
+VHF,,Very High Frequency: 30-300 MHz
+VIN,,Vehicle Identification Number
+VIP,,Very Important Person
+VLAN,,Virtual Local Area Network
+VLF,,Very Low Frequency: 3-30 KHz
+VLSI,,Very Large Scale Integrated circuit
+VM,,Virtual Memory|Virtual Machine
+VOA,,Voice Of America (broadcast entity)
+VOD,,Video On Demand
+VOIP,VoIP,Voice over IP
+VOX,,Activate transmitter on voice detection
+VP,,Vice President
+VPN,,Virtual Private Network
+VR,,Virtual Reality
+VRAM,,Video Ram
+VT,,Vermont (USA)
+VW,,VolksWagon
+WAN,,Wide Area Network
+WASP,,White Anglo Saxon Protestant
+WA,,Washington (USA)
+WAC,,Worked All Countries (amatuer radio)
+WAS,,Worked All States (amateur radio)
+WAZ,,Worked All Zones (amateur radio)
+WBC,,White Blood Count
+WC,,Water Closet (bathroom)|Waist Circumference
+WEC,,Wave Energy Converter
+WFM,,Wide FM (generally 200 KHz wide broadcast format)
+WH,,White House (US)
+WHO,,World Health Organization
+WIFI,Wi-Fi,WLAN based on any of the 802.11 standards
+WI,,Wisonsin (USA)
+WIC,,Women, Infants and Children
+WIP,,Work In Progress
+WLAN,,Wireless Local Area Network
+WMD,,Weapons of Mass Destruction
+WNEW,,Prog rock FM station in NYC in the 1900's
+WRT,,With Regard To
+WSJ,,Wall Street Journal (US newspaper)
+WSPR,,Weak Signal Propagation Reporter
+WSU,,Washington State University
+WTC,,World Trade Center
+WTF,,What The Fuck
+WTH,,What The Hell
+WTO,,World Trade Organization
+WV,,West Virginia (USA)
+WW1,,World War One
+WW2,,World War Two
+WW3,,World War Three
+WWI,,World War One
+WWII,,World War Two
+WWIII,,World War Three
+WWW,,World Wide Web (or just, "the Web")
+WX,,Weather
+WY,,Wyoming (USA)
+WYSIWYG,,What You See Is What You Get
+XL,,eXtra Large
+XML,,eXtensible Markup Language
+XMPP,,Extensible Messaging and Presence Protocol
+XMS,,Extended Memory Specification
+XOR,,XOR gate: input 1 not equal input 2 = output
+XTAL,,Crystal
+XX,,Female chromosomes
+XY,,Male chromosomes
+XYL,,Ex Young Lady
+XXL,,eXtra eXtra Large
+XXXL,,eXtra eXtra eXtra Large
+YL,,Young Lady
+YMMV,,Your Milage May Vary
+YOLO,,You Only Live Once
+YT,,Yukon Territory (Canada)
+YY,,last 2-digits year
+YYYY,,4-digit Year
