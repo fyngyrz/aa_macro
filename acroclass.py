@@ -5,7 +5,7 @@ class core(object):
 	# =============
 	#   Written by: fyngyrz - codes with magnetic needle
 	#   Incep date: November 24th, 2018
-	#  Last Update: January 25th, 2019 (this code file only)
+	#  Last Update: January 27th, 2019 (this code file only)
 	#  Environment: Python 2.7
 	# Source Files: acroclass.py, acrobase.txt
 	#  Tab Spacing: Set to 4 for sane readability of Python source
@@ -18,7 +18,7 @@ class core(object):
 	# ----------------------------------------------------------
 
 	def version_set(self):
-		return('0.0.5 Beta')
+		return('0.0.6 Beta')
 
 	def __init__(self,	detectterms=True,			# disable class.makeacros() = False
 						numberterms=False,			# disable detecting terms incorporating numbers
@@ -278,6 +278,8 @@ class core(object):
 	# This is unicode in, unicode out
 	# --------------------------------------------------------------------
 	def u2u(self,text):
+		tlen = len(text)
+		ccnt = 0
 		if self.detectterms == False: return text
 		if type(text) is not unicode:
 			self.errors += 'class function makeacros() requires unicode input\n';
@@ -290,6 +292,7 @@ class core(object):
 		wait = False
 		wait2 = False
 		for c in text: # iterate all characters
+			ccnt += 1
 			if c == u'<':
 				wait = True	# if within an HTML tag, don't bother
 				ctag = u''	# reset abbr detector
@@ -351,6 +354,18 @@ class core(object):
 						if taccum == accum: # still not found
 							if self.igdict.get(taccum,'') == '':
 								self.undict[taccum] = 1 # we don't know this one
+				else:
+					if self.editor == True:
+						smark = self.edpre
+						emark = self.edpost
+					else:
+						smark = u''
+						emark = u''
+					if self.inquotes == True:
+						if self.inspan == 0:
+							smark = u''
+							emark = u''
+					taccum = '<abbr title="%s%s%s">%s</abbr>' % (smark,taccum,emark,accum)
 				accum = taccum
 				o += accum
 			else: # 1 or 0

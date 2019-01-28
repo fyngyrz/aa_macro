@@ -551,7 +551,7 @@ IED,,Improvised Explosive Device
 IEEE,,Institute of Electrical and Electronics Engineers
 IF,,Intermediate Frequency
 IHOP,,International House of Pancakes
-IIRC,,If I ReCall
+IIRC,,If I ReCall|If I Recall Correctly
 IIS,,Internet Information Services
 IL,,Illinois (USA)
 ILC,,Interchangeable Lens Camera
