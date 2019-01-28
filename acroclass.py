@@ -5,7 +5,7 @@ class core(object):
 	# =============
 	#   Written by: fyngyrz - codes with magnetic needle
 	#   Incep date: November 24th, 2018
-	#  Last Update: January 27th, 2019 (this code file only)
+	#  Last Update: January 28th, 2019 (this code file only)
 	#  Environment: Python 2.7
 	# Source Files: acroclass.py, acrobase.txt
 	#  Tab Spacing: Set to 4 for sane readability of Python source
@@ -18,7 +18,7 @@ class core(object):
 	# ----------------------------------------------------------
 
 	def version_set(self):
-		return('0.0.6 Beta')
+		return('0.0.7 Beta')
 
 	def __init__(self,	detectterms=True,			# disable class.makeacros() = False
 						numberterms=False,			# disable detecting terms incorporating numbers
@@ -27,6 +27,7 @@ class core(object):
 						acrofile='acrobase.txt',	# file to load term expansions from
 						editor=False,				# use editor's marks
 						inquotes=False,				# use editor's marks only within blockquote spans
+						astyle='',					# style content for <abbr> tags
 						edpre = '',					# editor prefix
 						edpost = ''):				# editor postfix
 		self.version = self.version_set()
@@ -34,6 +35,7 @@ class core(object):
 		self.numberterms = numberterms
 		self.detectcomps = detectcomps
 		self.acrofile = acrofile
+		self.setstyle(astyle)
 		self.igdict = {}
 		self.undict = {}
 		self.editor = editor
@@ -47,6 +49,12 @@ class core(object):
 		self.errors = u'' # note that errors are unicode strings!
 		self.setacros(acrofile)
 		self.geniglist(iglist)
+
+	def setstyle(self,astyle):
+		if astyle == '':
+			self.astyle = astyle
+		else:
+			self.astyle = ' style="%s"' % (astyle)
 
 	# Generate ignore list, remove items from main list
 	# -------------------------------------------------
@@ -213,8 +221,7 @@ class core(object):
 								smark = u''
 								emark = u''
 						if len(ell) == 1:
-							string = '<abbr title="%s%s %s%s">%s</abbr>' % (smark,comp,n,emark,term)
-#							string = '<abbr title="'+edpr+comp + ' ' + str(n) +edpo+ '">'+term+'</abbr>'
+							string = '<abbr%s title="%s%s %s%s">%s</abbr>' % (self.astyle,smark,comp,n,emark,term)
 						else: # multiple elements
 							x = 1
 							smark = edpr
@@ -223,7 +230,7 @@ class core(object):
 								if self.inspan == 0:
 									smark = u''
 									emark = u''
-							string = '<abbr title="'+smark
+							string = '<abbr'+self.astyle+' title="'+smark
 							ell.sort()
 							for element in ell:
 								if x != 1: string += ' '
@@ -336,7 +343,7 @@ class core(object):
 							if self.inspan == 0:
 								smark = u''
 								emark = u''
-						taccum = '<abbr title="%s%s%s">%s</abbr>' % (smark,taccum,emark,accum)
+						taccum = '<abbr%s title="%s%s%s">%s</abbr>' % (self.astyle,smark,taccum,emark,accum)
 					accum = taccum
 					accum += c
 					o += accum
@@ -365,7 +372,7 @@ class core(object):
 						if self.inspan == 0:
 							smark = u''
 							emark = u''
-					taccum = '<abbr title="%s%s%s">%s</abbr>' % (smark,taccum,emark,accum)
+					taccum = '<abbr%s title="%s%s%s">%s</abbr>' % (self.astyle,smark,taccum,emark,accum)
 				accum = taccum
 				o += accum
 			else: # 1 or 0

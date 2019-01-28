@@ -208,7 +208,7 @@ Miscellanea | &nbsp;
  <tt>&#91;time \(mode=12&#124;24&#44;\)\(sfx=auto&#124;*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;datetime&#93;</tt> |  The datetime of macro() processing (use CGI for live date in HTML)
  <tt>&#91;ampm N&#93;</tt> |  AM or PM from 12 hour number
- <tt>&#91;term CAPSTERM&#93;</tt> |  if acroclass.py and acrobase.txt present, expand term
+ <tt>&#91;term \(astyle=CSSSTYLE&#44;\)CAPSTERM&#93;</tt> |  if acroclass.py and acrobase.txt present, expand term
  <tt>&#91;twelve N&#93;</tt> |  12 hour number from 24
  <tt>&#91;month \(mode=long,\)N&#93;</tt> |  Month name from ordinal
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
@@ -432,7 +432,7 @@ Built-in | &nbsp;
  <tt>&#91;sys **shellCommand**&#93;</tt> |  invoke an operating system command. Output is captured
  <tt>&#91;t \(wrap=style&#44;\)\(sep=X&#44;\)itemContent\(XitemContent\)&#93;</tt> |  style wrap around item(s)
  <tt>&#91;table \(options\)&#44;content&#93;</tt> |  HTML table \(comma is *not* optional\)
- <tt>&#91;term CAPSTERM&#93;</tt> |  if acroclass.py and acrobase.txt present, expand term
+ <tt>&#91;term \(astyle=CSSSTYLE&#44;\)CAPSTERM&#93;</tt> |  if acroclass.py and acrobase.txt present, expand term
  <tt>&#91;th **integer**&#93;</tt> |  st, nd, rd, th...
  <tt>&#91;time \(mode=12&#124;24&#44;\)\(sfx=auto&#124;*&#44;\)\(asfx=&#44;\)\(psfx=&#44;\)&#93;</tt> |  The time of macro() processing (use CGI for live time in HTML)
  <tt>&#91;translate \(pre=PRE&#44;\)\(post=POST&#44;\)\(inter=INTER&#44;\)**listName&#44;**content&#93;</tt> |  translate content using character map formatted list

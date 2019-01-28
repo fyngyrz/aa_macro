@@ -35,12 +35,12 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: January 27th, 2019     (for Class)
-  LastDocRev: January 27th, 2019     (for Class)
+     LastRev: January 28th, 2019     (for Class)
+  LastDocRev: January 28th, 2019     (for Class)
      Version: 
 	"""
 	def version_set(self):
-		return('1.0.136 Beta')
+		return('1.0.137 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -333,7 +333,7 @@ class macro(object):
 	[month (mode=long,)N]							# Jan, January
 	[ampm N]										# AM or PM from hour
 	[twelve N]										# twelve hour number from 24
-	[term CAPS]										# expand term if it is known to acroclass (requires acroclass.py)
+	[term (astyle=CSSSTYLE)CAPS]					# expand term if it is known to acroclass (requires acroclass.py)
 	[fref label]									# forward reference
 	[resolve (hex=1,)label,content]					# resolve forward label reference(s) to content
 	[sys shellCommand]								# execute shell command
@@ -1020,9 +1020,13 @@ The contents of the list are safe to include in the output if you like.
 						pass
 		return o
 
-	# [abbr TERM]
+	# [term TERM]
 	def term_fn(self,tag,data):
+		opts,data = self.popts(['astyle'],data)
 		if self.haveacros == False: return(data)
+		for el in opts:
+			if el[0] == 'astyle=':
+				self.acros.setstyle(el[1])
 		try:
 			data = self.acros.a2a(data)
 		except:
