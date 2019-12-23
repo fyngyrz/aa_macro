@@ -35,12 +35,11 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: January 28th, 2019     (for Class)
-  LastDocRev: January 28th, 2019     (for Class)
-     Version: 
+     LastRev: December 22nd, 2019     (for Class)
+  LastDocRev: December 22nd, 2019     (for Class)
 	"""
 	def version_set(self):
-		return('1.0.137 Beta')
+		return('1.0.138 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -89,9 +88,9 @@ class macro(object):
 	Text Styling
 	------------
 	[p paraText]
-	[bq quotetext]
-	[b bold text]
-	[i italic text]
+	[bq quotetext]           NOTE: semantic defaults to True
+	[b bold text]   (uses b tag if semantic is False, otherwise, strong tag)
+	[i italic text] (uses i tag if semantic is False, otherwise, em tag)
 	[u underlined text]
 	[color HEX3|HEX6 colored text]	# HEX3 example: f09 (which means FF0099) HEX6 example: fe7842
 	
@@ -481,6 +480,9 @@ class macro(object):
 					mod = macro(dothis='[style x foo [b]]'{x bar})
 					print mod # prints 'foo bar' if the data is ASCII
 					if it is unicode, you need to do a little more
+	semantic --- defaults to True. This means [b text] will use <strong>
+                 and [i text] will use <em>, whereas if you set it to
+                 false, [b text] will use <b> and [i text] will use <i>
 
 	Unicode
 	=======
@@ -518,12 +520,13 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False,acrofile='acrobase.txt'):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False,acrofile='acrobase.txt',semantic=True):
 		self.locklipath = locklipath
 		self.lockwepath = lockwepath
 		self.xlimit = xlimit
 		self.dlimit = dlimit
 		self.xdcount = 0
+		self.semantic = semantic
 		self.ucin = ucin
 		self.ucout = ucout
 		self.lipath = locklipath
@@ -589,10 +592,16 @@ class macro(object):
 
 		self.theGlobals['aam_version'] = self.version_set()
 		
-		self.theGlobals['i401s_open'] = '<span style="font-style: italic;">'
-		self.theGlobals['i401s_clos'] = '</span>'
-		self.theGlobals['b401s_open'] = '<span style="font-weight: bold;">'
-		self.theGlobals['b401s_clos'] = '</span>'
+		if self.semantic == True:
+			self.theGlobals['i401s_open'] = '<em>'
+			self.theGlobals['i401s_clos'] = '</em>'
+			self.theGlobals['b401s_open'] = '<strong>'
+			self.theGlobals['b401s_clos'] = '</strong>'
+		else:
+			self.theGlobals['i401s_open'] = '<span style="font-style: italic;">'
+			self.theGlobals['i401s_clos'] = '</span>'
+			self.theGlobals['b401s_open'] = '<span style="font-weight: bold;">'
+			self.theGlobals['b401s_clos'] = '</span>'
 		self.theGlobals['u401s_open'] = '<span style="text-decoration: underline;">'
 		self.theGlobals['u401s_clos'] = '</span>'
 		self.theGlobals['c401s_open'] = '<span style="background-color: #BACKCOLOR; color: #FORECOLOR;">'
@@ -2162,7 +2171,10 @@ The contents of the list are safe to include in the output if you like.
 
 	def i_fn(self,tag,data):
 		if self.mode == '3.2':
-			return '<i>'+data+'</i>'
+			if self.semantic == True:
+				return '<em>'+data+'</em>'
+			else:
+				return '<i>'+data+'</i>'
 		else:
 			return self.getm('i401s_open')+data+self.getm('i401s_clos')
 
@@ -2226,7 +2238,10 @@ The contents of the list are safe to include in the output if you like.
 
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
-			return '<b>'+data+'</b>'
+			if self.semantic == True:
+				return '<strong>'+data+'<strong>'
+			else:
+				return '<b>'+data+'</b>'
 		return self.getm('b401s_open')+data+self.getm('b401s_clos')
 
 	# [eval (style=styleName,)N,content]

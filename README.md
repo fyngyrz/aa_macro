@@ -29,7 +29,7 @@ just make documents, but you don't need it if you're going to be using
 the class directly in your own Python applications; [aagen](aagen) is
 basically just a command-line friendly wrapper around the class.
 
-> Don't be intimidated by the number of files in the repo; everything
+> Please don't be intimidated by the number of files in the repo; everything
 except [aa_macro.py](aa_macro.py) is either documentation, sample files,
 part of the unit tests, or related to a markdown-to-macro
 format converter utility.
@@ -75,7 +75,7 @@ Use is trivial:
 ```python
 from aa_macro import *
 mod = macro()
-textToProcess = '[b Boldly said]'	# results in <b>Boldly said</b>
+textToProcess = '[b Boldly said]'	# results in <strong>Boldly said</strong>
 processedText = mod.do(textToProcess)
 ```
 
@@ -83,8 +83,8 @@ That's basically all there is to it.
 
 Here's a quick introduction to the concept of a style in the context of
 `macro()`. You define a style by giving it a name, and then filling it
-with... goodies. :\) It has a *special* goodie, the `[b]` tag, which
-fills in with the content you feed the style. Here is the
+with... goodies. :\) It has a *special* goodie, the `[b]` tag (no parameters),
+which fills in with the content you feed the style. Here is the
 idea in a nutshell:
 
     [style hi Why hello, [b], how are you?]
@@ -104,7 +104,7 @@ to the point of completely replacing the standard ones supplied in class `macro(
 
 For instance, `macro()` provides `[i textToItalicize]` for italic text. But you can do this...
 
-    [style i <i>[b]</i>]
+    [style i <em>[b]</em>]
 
 ...and then use the following, which doesn't use the built-in:
 

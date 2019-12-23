@@ -107,7 +107,7 @@ Data Dictionaries | &nbsp;
 ----------------- | ----
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
- <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
+ <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list<strong> of keys from source
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;d \(sep=X&#44;\)**dictName****Xkey**\(XnotFound\)&#93;</tt> |  retrieve a dictionary value using key
 
@@ -139,9 +139,9 @@ Conditional Content | &nbsp;
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
- <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
+ <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not<strong> match&#44; then content
  <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
- <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not<strong> empty&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
 
@@ -177,7 +177,7 @@ Text Processing | &nbsp;
  <tt>&#91;ord **character**&#93;</tt> |  return ASCII code value in decimal
  <tt>&#91;csep **value**&#93;</tt> |  comma-separate an integer
  <tt>&#91;fcsep **value**&#93;</tt> |  comma-separate a floating point number
- <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <i>after</i> evaluation (also see &#91;repeat&#93;)
+ <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <em>after</em> evaluation (also see &#91;repeat&#93;)
  <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;find \(sep=X&#44;\)**stringXcontent**&#93;</tt> |  find string in content&#44; sep default = &quot;&#44;&quot;
  <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
@@ -213,9 +213,9 @@ Miscellanea | &nbsp;
  <tt>&#91;month \(mode=long,\)N&#93;</tt> |  Month name from ordinal
  <tt>&#91;include **fileName**&#93;</tt> |  include macro() source file
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
- <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
- <tt>&#91;comment content&#93;</tt> |  suppress output. <i>note: non-content operations still process</i>
- <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
+ <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <em>each time</em>
+ <tt>&#91;comment content&#93;</tt> |  suppress output. <em>note: non-content operations still process</em>
+ <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <em>only</em>
  <tt>&#91;mode **3.2&#124;4.01s**&#93;</tt> |  set HTML mode
  <tt>&#91;hlit \(format=1&#44;\)**content**&#93;</tt> |  places LITERAL content in local variable loc_hlit
  <tt>&#91;vlit \(format=1&#44;\)**variable-name**&#93;</tt> |  places LITERAL content in local variable loc_vlit
@@ -248,7 +248,7 @@ Styles | &nbsp;
  <tt>&#91;s \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke style(s)&#44; local&#44; if no local&#44; then global
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
  <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
- <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
+ <tt>&#91;spage&#93;</tt> |  reset local styles to <em>none</em>
  <tt>&#91;ghost \(source=global&#124;local&#44;\)**stylename**&#93;</tt> |  output style without processing it
  <tt>&#91;fref **lable**&#93;</tt> |  forward (or backward) reference
  <tt>&#91;resolve \(hex=1&#44;\)**lable&#44;**content&#93;</tt> |  resolve reference
@@ -271,7 +271,7 @@ Built-in | &nbsp;
  <tt>&#91;append **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)
  <tt>&#91;asort \(rev=1&#44;\)**listName**&#93;</tt> |  ASCII alphabetic sort of list&#44; in place
  <tt>&#91;b content&#93;</tt> |  HTML bold
- <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <i>only</i>
+ <tt>&#91;back **HEX3&#124;HEX6**&#93;</tt> |  HTML background text color for HTML 4.01s mode <em>only</em>
  <tt>&#91;bq content&#93;</tt> |  HTML blockquote
  <tt>&#91;br \(parms&#44;\)\(content\)&#93;</tt> |  (content) HTML line break (with parms)
  <tt>&#91;btodec (digits=N&#44;)**value**&#93;</tt> |  binary to decimal conversion
@@ -286,7 +286,7 @@ Built-in | &nbsp;
  <tt>&#91;cmap **listName**&#93;</tt> |  create 1:1 character map
  <tt>&#91;collapse content&#93;</tt> | 
  <tt>&#91;color **HEX3&#124;HEX6** content&#93;</tt> |  HTML text color
- <tt>&#91;comment content&#93;</tt> |  suppress output. <i>note: non-content operations still process</i>
+ <tt>&#91;comment content&#93;</tt> |  suppress output. <em>note: non-content operations still process</em>
  <tt>&#91;count \(sep=X&#44;\)\(overlaps=yes&#44;\)\(casesens=yes&#44;\)**patternXcontent**&#93;</tt> |  count incidences
  <tt>&#91;co&#93;</tt> |  comma
  <tt>&#91;crop (words=no&#44;)(eol=&#44;)(neol=&#44;)(col=78&#44;)content&#93;</tt> | 
@@ -301,18 +301,18 @@ Built-in | &nbsp;
  <tt>&#91;decrypt \(mode=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;div \(mode=float&#44;\)**value** **divisor**&#93;</tt> |  divide two numbers
- <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <b>list</b> of keys from source
+ <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list<strong> of keys from source
  <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;dtobin (digits=N&#44;)**value**&#93;</tt> |  decimal to binary conversion
  <tt>&#91;dtohex (digits=N&#44;)**value**&#93;</tt> |  decimal to hexadecimal conversion
  <tt>&#91;dtooct (digits=N&#44;)**value**&#93;</tt> |  decimal to octal conversion
- <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <i>after</i> evaluation (also see &#91;repeat&#93;)
+ <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <em>after</em> evaluation (also see &#91;repeat&#93;)
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
- <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <b>not</b> match&#44; then content
+ <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not<strong> match&#44; then content
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
  <tt>&#91;encrypt \(mode=1&#44;\)\(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  (re)Encrypt content
- <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <b>not</b> empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not<strong> empty&#44; then content
  <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;expand **dictName&#44;**content&#93;</tt> |  dictionary based keyword expansion with leading cap forwarding
@@ -403,7 +403,7 @@ Built-in | &nbsp;
  <tt>&#91;random \(seed=none&#44;\(icount=N&#44;\)\)&#93;</tt> |  generate random from 0.0-1.0
  <tt>&#91;raw **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;rb&#93;</tt> |  right square bracket
- <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <i>each time</i>
+ <tt>&#91;repeat **value&#44;**content&#93;</tt> |  repeat content&#44; evaluating content <em>each time</em>
  <tt>&#91;replace \(sep=X&#44;\(lf=1&#44;\)\)**targetXreplacementXcontent**&#93;</tt> |  target replaced with replacement in content
  <tt>&#91;resolve \(hex=1&#44;\)**lable&#44;**content&#93;</tt> |  resolve reference
  <tt>&#91;rjust **width&#44;****padChar&#44;**content&#93;</tt> |  right justify
@@ -417,7 +417,7 @@ Built-in | &nbsp;
  <tt>&#91;slice **sliceSpec&#44;content**&#93;</tt> |  slice content
  <tt>&#91;slit \(format=1&#44;\)\(wrap=1&#44;\)**style-name**&#93;</tt> |  places LITERAL content in local variable loc_slit
  <tt>&#91;soundex \(len=N&#44;\)content&#93;</tt> |  return soundex value of content
- <tt>&#91;spage&#93;</tt> |  reset local styles to <i>none</i>
+ <tt>&#91;spage&#93;</tt> |  reset local styles to <em>none</em>
  <tt>&#91;splash \(pre=&#44;\)\(post=&#44;\)\(inter=&#44;\)\(ntl=&#44;\)\(limit=N&#44;\)\(style=Style&#44;\)\(sep=&#44;&#44;\)content&#93;</tt> |  splits content, applies style
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
