@@ -2239,7 +2239,7 @@ The contents of the list are safe to include in the output if you like.
 	def b_fn(self,tag,data):
 		if self.mode == '3.2':
 			if self.semantic == True:
-				return '<strong>'+data+'<strong>'
+				return '<strong>'+data+'</strong>'
 			else:
 				return '<b>'+data+'</b>'
 		return self.getm('b401s_open')+data+self.getm('b401s_clos')

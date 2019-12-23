@@ -107,7 +107,7 @@ Data Dictionaries | &nbsp;
 ----------------- | ----
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;dcopy **sourceDictionary&#44;****destinationDictionary**&#93;</tt> |  copy/replace destination with source
- <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list<strong> of keys from source
+ <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list</strong> of keys from source
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;d \(sep=X&#44;\)**dictName****Xkey**\(XnotFound\)&#93;</tt> |  retrieve a dictionary value using key
 
@@ -139,9 +139,9 @@ Conditional Content | &nbsp;
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;odd **value** content&#93;</tt> |  if value is odd&#44; then content
  <tt>&#91;if \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if match&#44; then content
- <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not<strong> match&#44; then content
+ <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not</strong> match&#44; then content
  <tt>&#91;ne \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is empty&#44; then content
- <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not<strong> empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not</strong> empty&#44; then content
  <tt>&#91;ifle **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &lt;= value2&#44; then content
  <tt>&#91;ifge **value1&#44;****value2 &#44;**content&#93;</tt> |  if value1 &gt;= value2&#44; then content
 
@@ -301,7 +301,7 @@ Built-in | &nbsp;
  <tt>&#91;decrypt \(mode=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)content&#93;</tt> |  Decrypt content
  <tt>&#91;dict \(sep=X&#44;\)\(keysep=Y&#44;\)**dictName&#44;****keyYvalue\(XkeyYvalue\)**&#93;</tt> |  create/replace dictionary
  <tt>&#91;div \(mode=float&#44;\)**value** **divisor**&#93;</tt> |  divide two numbers
- <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list<strong> of keys from source
+ <tt>&#91;dkeys **sourceDictionary&#44;****destinationList**&#93;</tt> |  create a <strong>list</strong> of keys from source
  <tt>&#91;dlist \(fs=styleName&#44;\)\(ls=styleName&#44;\)\(wrap=styleName&#44;\)\(parms=PRE&#44;\)\(inter=INT&#44;\)\(ntl=NTL&#44;\)\(posts=PST&#44;\)listName&#93;</tt> |  dump a list
  <tt>&#91;dset \(keysep=Y&#44;\)**dictName&#44;****keyYvalue**&#93;</tt> |  create/replace dictionary item
  <tt>&#91;dtobin (digits=N&#44;)**value**&#93;</tt> |  decimal to binary conversion
@@ -309,10 +309,10 @@ Built-in | &nbsp;
  <tt>&#91;dtooct (digits=N&#44;)**value**&#93;</tt> |  decimal to octal conversion
  <tt>&#91;dup **value&#44;content**&#93;</tt> |  duplicate content <em>after</em> evaluation (also see &#91;repeat&#93;)
  <tt>&#91;e **listName&#44;****listIndex**&#93;</tt> |  output item from list of length n (listIndex = 0 to n-1)
- <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not<strong> match&#44; then content
+ <tt>&#91;else \(sep=X&#44;\)\(wrap&#124;style=styleName\)**value** **match** content&#93;</tt> |  if <strong>not</strong> match&#44; then content
  <tt>&#91;embrace **moduleName**&#93;</tt> |  add&#44; extend&#44; or replace macro() functionality
  <tt>&#91;encrypt \(mode=1&#44;\)\(again=1&#44;\)\(seed=N&#44;\)\(salt=String&#44;\)\(icount=N&#44;\)\(breakat=N&#44;\)content&#93;</tt> |  (re)Encrypt content
- <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not<strong> empty&#44; then content
+ <tt>&#91;eq \(sep=X&#44;\)**value&#44;**content&#93;</tt> |  if value is <strong>not</strong> empty&#44; then content
  <tt>&#91;eval \(style=styleName&#44;\)**value&#44;content**&#93;</tt> |  duplicate content Nx&#44; eval style Nx if provided
  <tt>&#91;even **value** content&#93;</tt> |  if value is even&#44; then content
  <tt>&#91;expand **dictName&#44;**content&#93;</tt> |  dictionary based keyword expansion with leading cap forwarding
