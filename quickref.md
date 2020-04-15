@@ -152,6 +152,7 @@ Text Processing | &nbsp;
  <tt>&#91;alphanumlead \(trail=1,\)content&#93;</tt> | Return leading alphanumeric characters&#44; or trailing content
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
+ <tt>&#91;locsplit **localName&#44;****X&#44;**content\(Xcontent\)&#93;</tt> |  split into numbered local variables
  <tt>&#91;splash \(pre=&#44;\)\(post=&#44;\)\(inter=&#44;\)\(ntl=&#44;\)\(limit=N&#44;\)\(style=Style&#44;\)\(sep=&#44;&#44;\)content&#93;</tt> |  splits content, applies style
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
@@ -372,6 +373,7 @@ Built-in | &nbsp;
  <tt>&#91;load **varName** **fileName**&#93;</tt> |  load file into local variable
  <tt>&#91;local **varname** varContent&#93;</tt> |  local variable definition
  <tt>&#91;locs \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke local style(s)
+ <tt>&#91;locsplit **localName&#44;****X&#44;**content\(Xcontent\)&#93;</tt> |  split into numbered local variables
  <tt>&#91;lower content&#93;</tt> |  convert to lowercase
  <tt>&#91;lpop **listName&#44;**\(listIndex\)&#93;</tt> |  pop an item out of a list at top, or at listIndex
  <tt>&#91;lpush **listName**&#44;itemContent&#93;</tt> |  append an item to a list (can create new list)

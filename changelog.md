@@ -6,7 +6,11 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
-1.0.38
+1.0.139
+ * added [locsplit vName,splitSpec,contentToSplit]
+
+### Log
+1.0.138
  * added semantic parameter to class for em and strong rather than i and b
 
 1.0.137

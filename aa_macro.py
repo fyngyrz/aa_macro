@@ -35,11 +35,11 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: December 22nd, 2019     (for Class)
-  LastDocRev: December 22nd, 2019     (for Class)
+     LastRev: April 15th, 2020     (for Class)
+  LastDocRev: April 15th, 2020     (for Class)
 	"""
 	def version_set(self):
-		return('1.0.138 Beta')
+		return('1.0.139 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -259,6 +259,15 @@ class macro(object):
 	[splitcount N]									# limit number of splits to N for next split ONLY
 	[splash (inter=,)(pre=,)(post=,)(ntl=,)(sep=,,)(limit=N,)(style=Style,)data]	# Split data, optionally limit times, apply style
 	[split splitSpec,contentToSplit]				# [split |,x|y|z] results in parms 0,1,2
+													  Because a comma is used to separate the
+													  splitSpec from the contentToSplit, you
+													  can't just use a comma directly. But
+													  there is a syntax to support it...
+													     [split [co],contentToSplit]]
+													  ...where contentToSplit is separated by
+													  actual commas. Comes in handy sometimes.
+													  Obeys [splitcount]
+	[locsplit varName,splitSpec,contentToSplit]		# [locsplit x,|,x|y|z] results in locals x0,x1,x2
 													  Because a comma is used to separate the
 													  splitSpec from the contentToSplit, you
 													  can't just use a comma directly. But
@@ -2326,6 +2335,37 @@ The contents of the list are safe to include in the output if you like.
 			n = 0
 		self.splitCount = n
 		return ''
+
+	def locsplit_fn(self,tag,data):
+		o = ''
+		scount = 0
+		dl = data.split(',',2)
+		n = self.splitCount
+		if len(dl) == 3:
+			if str(dl[1]) == '&#44;':
+				if n == 0:
+					lparms = str(dl[2]).split(',')
+				else:
+					lparms = str(dl[2]).split(',',n)
+			elif str(dl[1]) == '&#32;':
+				if n == 0:
+					lparms = str(dl[2]).split(' ')
+				else:
+					lparms = str(dl[2]).split(' ',n)
+			else:
+				if n == 0:
+					lparms = str(dl[2]).split(str(dl[1]))
+				else:
+					lparms = str(dl[2]).split(str(dl[1]),n)
+			n = len(lparms)
+			for i in range(0,n):
+				self.theLocals[str(dl[0])+str(i)] = lparms[i]
+#			scount = len(lparms)
+		else:
+			o = ' ?split? '
+		self.theLocals['loc_splitcount'] = str(scount)
+		self.splitCount = 0
+		return o
 
 	def split_fn(self,tag,data):
 		o = ''
@@ -5564,6 +5604,7 @@ The contents of the list are safe to include in the output if you like.
 					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
+					'locsplit':self.locsplit_fn,# [split vname,splitSpec,textToSplit (obeys splitcount)]
 					'splash': self.splash_fn,	# [splash (pre=,)(post=,)(inter=,)(ntl=,)(sep=,,)(limit=N,)(style=Style,)data]
 					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
 					'stripe': self.stripe_fn,	# [stripe (charset=chars,)stuff] whitespace, etc removal
