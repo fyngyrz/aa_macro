@@ -276,6 +276,15 @@ class macro(object):
 													  ...where contentToSplit is separated by
 													  actual commas. Comes in handy sometimes.
 													  Obeys [splitcount]
+	[glosplit varName,splitSpec,contentToSplit]		# [glosplit x,|,x|y|z] results in globals x0,x1,x2
+													  Because a comma is used to separate the
+													  splitSpec from the contentToSplit, you
+													  can't just use a comma directly. But
+													  there is a syntax to support it...
+													     [split [co],contentToSplit]]
+													  ...where contentToSplit is separated by
+													  actual commas. Comes in handy sometimes.
+													  Obeys [splitcount]
 	[parm N]										# per above [split, [parm 1] results in y
 	[upper textString]								# convert to uppercase
 	[lower textString]								# convert to lowercase
@@ -2365,6 +2374,38 @@ The contents of the list are safe to include in the output if you like.
 			o = ' ?split? '
 		spname = str(dl[0])+"_splitcount"
 		self.theLocals[spname] = str(scount)
+		self.splitCount = 0
+		return o
+
+	def glosplit_fn(self,tag,data):
+		o = ''
+		scount = 0
+		dl = data.split(',',2)
+		n = self.splitCount
+		if len(dl) == 3:
+			if str(dl[1]) == '&#44;':
+				if n == 0:
+					lparms = str(dl[2]).split(',')
+				else:
+					lparms = str(dl[2]).split(',',n)
+			elif str(dl[1]) == '&#32;':
+				if n == 0:
+					lparms = str(dl[2]).split(' ')
+				else:
+					lparms = str(dl[2]).split(' ',n)
+			else:
+				if n == 0:
+					lparms = str(dl[2]).split(str(dl[1]))
+				else:
+					lparms = str(dl[2]).split(str(dl[1]),n)
+			n = len(lparms)
+			for i in range(0,n):
+				self.theGlobals[str(dl[0])+str(i)] = lparms[i]
+			scount = len(lparms)
+		else:
+			o = ' ?split? '
+		spname = str(dl[0])+"_splitcount"
+		self.theGlobals[spname] = str(scount)
 		self.splitCount = 0
 		return o
 
@@ -5605,7 +5646,8 @@ The contents of the list are safe to include in the output if you like.
 					'splitcount': self.splitcount_fn,	# [splitcount n]
 					'slice'	: self.slice_fn,	# [slice sliceSpec,textToSlice]
 					'split'	: self.split_fn,	# [split splitSpec,testToSplit] (obeys splitcount)
-					'locsplit':self.locsplit_fn,# [split vname,splitSpec,textToSplit (obeys splitcount)]
+					'locsplit':self.locsplit_fn,# [locsplit vname,splitSpec,textToSplit (obeys splitcount)]
+					'glosplit':self.glosplit_fn,# [glosplit vname,splitSpec,textToSplit (obeys splitcount)]
 					'splash': self.splash_fn,	# [splash (pre=,)(post=,)(inter=,)(ntl=,)(sep=,,)(limit=N,)(style=Style,)data]
 					'rstrip': self.rstrip_fn,	# [rstrip stuff] trailing whitespace removed
 					'stripe': self.stripe_fn,	# [stripe (charset=chars,)stuff] whitespace, etc removal

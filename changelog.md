@@ -7,6 +7,7 @@ such as to the associated utilities and sample files are not tracked here.
 
 ### Log
 1.0.140
+ * added [glosplit vName,splitSpec,contentToSplit]
  * [locsplit vName,splitSpec,contentToSplit] now sets vName_splitcount
 
 1.0.139

@@ -127,6 +127,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,splitcount {r value}| Maximum number of splits to perform in next {lb}split{rb}]  
 [append bil,split {r X{co}}{c}{o Xcontent}| split for use with {lb}parm{rb}]  
 [append bil,locsplit {r localName{co}}{r X{co}}{c}{o Xcontent}| split into numbered local variables]  
+[append bil,glosplit {r localName{co}}{r X{co}}{c}{o Xcontent}| split into numbered global variables]  
 [append bil,splash {o pre={co}}{o post={co}}{o inter={co}}{o ntl={co}}{o limit=N{co}}{o style=Style{co}}{o sep={co}{co}}{c}| splits content, applies style]  
 [append bil,parm {r value}| returns results of {lb}split{rb}]  
 [append bil,upper {c}| convert to uppercase]  

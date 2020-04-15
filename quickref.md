@@ -153,6 +153,7 @@ Text Processing | &nbsp;
  <tt>&#91;splitcount **value**&#93;</tt> |  Maximum number of splits to perform in next &#91;split&#93;
  <tt>&#91;split **X&#44;**content\(Xcontent\)&#93;</tt> |  split for use with &#91;parm&#93;
  <tt>&#91;locsplit **localName&#44;****X&#44;**content\(Xcontent\)&#93;</tt> |  split into numbered local variables
+ <tt>&#91;glosplit **localName&#44;****X&#44;**content\(Xcontent\)&#93;</tt> |  split into numbered global variables
  <tt>&#91;splash \(pre=&#44;\)\(post=&#44;\)\(inter=&#44;\)\(ntl=&#44;\)\(limit=N&#44;\)\(style=Style&#44;\)\(sep=&#44;&#44;\)content&#93;</tt> |  splits content, applies style
  <tt>&#91;parm **value**&#93;</tt> |  returns results of &#91;split&#93;
  <tt>&#91;upper content&#93;</tt> |  convert to uppercase
@@ -328,6 +329,7 @@ Built-in | &nbsp;
  <tt>&#91;gload **varName** **fileName**&#93;</tt> |  load file into global variable
  <tt>&#91;global **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;glos \(sep=X&#44;\)**stylename**\(styleParameters\)&#93;</tt> |  invoke global style(s)
+ <tt>&#91;glosplit **localName&#44;****X&#44;**content\(Xcontent\)&#93;</tt> |  split into numbered global variables
  <tt>&#91;graw **varName** varContent&#93;</tt> |  global variable definition
  <tt>&#91;gsave **varName** **fileName**&#93;</tt> |  save file from global variable
  <tt>&#91;gstyle \(help=helpstring&#44;\)\(help2=helpstring&#44;\)**styleName** **styleContent**&#93;</tt> |  global style
