@@ -39,7 +39,7 @@ class macro(object):
   LastDocRev: April 15th, 2020     (for Class)
 	"""
 	def version_set(self):
-		return('1.0.139 Beta')
+		return('1.0.140 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -2360,10 +2360,11 @@ The contents of the list are safe to include in the output if you like.
 			n = len(lparms)
 			for i in range(0,n):
 				self.theLocals[str(dl[0])+str(i)] = lparms[i]
-#			scount = len(lparms)
+			scount = len(lparms)
 		else:
 			o = ' ?split? '
-		self.theLocals['loc_splitcount'] = str(scount)
+		spname = str(dl[0])+"_splitcount"
+		self.theLocals[spname] = str(scount)
 		self.splitCount = 0
 		return o
 

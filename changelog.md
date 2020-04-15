@@ -6,6 +6,9 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.140
+ * [locsplit vName,splitSpec,contentToSplit] now sets vName_splitcount
+
 1.0.139
  * added [locsplit vName,splitSpec,contentToSplit]
 
