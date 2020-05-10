@@ -35,11 +35,11 @@ class macro(object):
                  you written your congresscritter about patent and
                  copyright reform yet?
   Incep Date: June 17th, 2015       (for Project)
-     LastRev: April 15th, 2020     (for Class)
-  LastDocRev: April 15th, 2020     (for Class)
+     LastRev: May 10th, 2020     (for Class)
+  LastDocRev: May 10th, 2020     (for Class)
 	"""
 	def version_set(self):
-		return('1.0.140 Beta')
+		return('1.0.141 Beta')
 	"""
  Tab spacing: 4 (set your editor to this for sane formatting while reading)
      Dev Env: OS X 10.6.8, Python 2.6.1 from inception
@@ -80,6 +80,12 @@ class macro(object):
 	Todo:
 		Anything with a * in the first column needs recoding
 		to incorporate (sep=X,)
+
+	Code Fencing to HTML
+	====================
+	Surrounding content with pairs of quad backticks will
+	cause that content to be not processed by aa-Macro:
+		````{literal stuff[]}````
 
 	Available built-ins:
 	====================
@@ -178,7 +184,7 @@ class macro(object):
 	[hmap listName]									# creates 256-entry list of 1:1 2-digit hex char mappings
 	[postparse pythoncode]							# pretty-prints python (must replace [] {})
 	[pythparse pythoncode]							# pretty-prints python into local loc_pyth
-	[getc (var=varName,)(tabsiz=n,)(tabchar=X,)(high=c|cp|oc)filename]	# c/cpp/oc file or var to aa_macro format
+	[getc (var=varName,)(embeds=t)(tabsiz=n,)(tabchar=X,)(high=c|cp|oc)filename]	# c/cpp/oc file or var to aa_macro format
 	[lsub (ci=1,)(sep=X,)listName,content]			# sequenced replacement by list
 	[dlist (style=X,)(fs=X,)(ls=X,)(parms=X,)(inter=X)(ntl=X)(posts=X,)listName]
 													# output list elements, can be wrapped with style X
@@ -538,10 +544,11 @@ class macro(object):
 	  content can have commas, but the macro system won't see them. Of course, you can't
 	  use that on anything that *needs* commas for parameters. Life is so complicated. :)
 	"""
-	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False,acrofile='acrobase.txt',semantic=True):
+	def __init__(self,dothis=None,mode='3.2',back="ffffff",nodinner=False,noshell=False,noinclude=False,noembrace=False,debug=False,locklipath='',lockwepath='',xlimit=0,dlimit=0,ucin=False,ucout=False,acrofile='acrobase.txt',semantic=True,verkey='````'):
 		self.locklipath = locklipath
 		self.lockwepath = lockwepath
 		self.xlimit = xlimit
+		self.verkey = verkey
 		self.dlimit = dlimit
 		self.xdcount = 0
 		self.semantic = semantic
@@ -5098,17 +5105,21 @@ The contents of the list are safe to include in the output if you like.
 
 	def getc_fn(self,tag,data):
 		o = ''
-		opts,data = self.popts(['tabsiz','tabchar','high','var'],data,True)
+		opts,data = self.popts(['embeds','tabsiz','tabchar','high','var'],data,True)
 		tabsiz = 4
 		tabchar = '&nbsp;'
 		high = ''
 		var = ''
+		embeds = False
 		for el in opts:
 			if el[0] == 'tabsiz=':
 				try:
 					tabsiz = int(el[1])
 				except:
 					pass
+			elif el[0] == 'embeds=':
+				if el[1] == 't' or el[1] == 'T':
+					embeds = True
 			elif el[0] == 'tabchar=':
 				if el[1] == 'sp':
 					tabchar = ' '
@@ -5194,6 +5205,15 @@ The contents of the list are safe to include in the output if you like.
 							line = ''
 					if line != '':
 						mlist.append(line)
+				if embeds == True:
+					xlist = []
+					for line in mlist:
+						line = line.replace('&#91;','[')
+						line = line.replace('&#93;',']')
+						line = line.replace('&#123;','{')
+						line = line.replace('&#125;','}')
+						xlist.append(line)
+					mlist = xlist
 				for line in mlist:
 					xx = ''
 					for c in line:
@@ -5882,7 +5902,34 @@ The contents of the list are safe to include in the output if you like.
 		self.debuglevel -= 1
 		return o
 
+	def codeup(self,s,ticks):
+		kl = '92ht4uhuhfg'
+		kr = '78gfg6gf6hb'
+		rs = ''
+		state = False
+		if s.startswith(self.verkey): state = True
+		ray = s.split(self.verkey)
+		for s in ray:
+			if state == True:
+				s = s.replace('[',kl+'lb'+kr)
+				s = s.replace(']',kl+'rb'+kr)
+				s = s.replace(kl,'[')
+				s = s.replace(kr,']')
+				s = s.replace('{','[ls]')
+				s = s.replace('}','[rs]')
+				state = False
+			else:
+				state = True
+			rs += s
+#		for s in ray:
+#			if state == True: # then we're opening a verbatim string
+#			else:
+		return rs
+
 	def do(self,s):
+		ticks = s.find('````')
+		if ticks != -1:
+			s = self.codeup(s,ticks)
 		if self.debug == True:
 			return self.debugdo(s)
 

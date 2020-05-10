@@ -85,7 +85,7 @@ Markdown: aagen -i qr_markdown.txt -f quickref.md quickref.txt
 [append bil,translate {o pre=PRE{co}}{o post=POST{co}}{o inter=INTER{co}}{r listName{co}}{c}| translate content using character map formatted list]  
 [append bil,postparse {c}| pretty-print Python 2.7 code (use black background)]
 [append bil,pythparse {c}| pretty-print Python 2.7 code (use black background)]
-[append bil,getc {o var=varName{co}}{o high=lang{co}}{o tabsiz=n{co}}{o tabchar=X{co}}filename| import c or oc source file as aa_macro]
+[append bil,getc {o var=varName{co}}{o embeds=t{co}}{o high=lang{co}}{o tabsiz=n{co}}{o tabchar=X{co}}filename| import c or oc source file as aa_macro]
   
 [append bil,dict {o sep=X{co}}{o keysep=Y{co}}{r dictName{co}}{r keyYvalue{o XkeyYvalue}}| create/replace dictionary~Data Dictionaries]  
 [append bil,dcopy {r sourceDictionary{co}}{r destinationDictionary}| copy/replace destination with source]  

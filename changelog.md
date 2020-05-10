@@ -6,6 +6,10 @@ This log reflects changes to the aa_macro.py import library. Other changes
 such as to the associated utilities and sample files are not tracked here.
 
 ### Log
+1.0.141
+ * added quad-backtick code fencing
+ * added [getc] built-in 'embeds=t' option
+
 1.0.140
  * added [glosplit vName,splitSpec,contentToSplit]
  * [locsplit vName,splitSpec,contentToSplit] now sets vName_splitcount
