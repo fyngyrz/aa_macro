@@ -20,7 +20,7 @@ This project provides a means for me, and anyone else who wants to, to
 generate HTML or other types of text documents using Python as the
 intermediary engine. There are no external dependencies that aren't
 actually part of the latest Python 2-series distribution. \(This began as
-Python-2 project. There is a dsvelopment Python-3 version in the repo as
+Python-2 project. There is a development Python-3 version in the repo as
 well, and again, there are no non-distribution-Python dependensies.\)
 
 Consequently the class is relatively lightweight and trivially installed
