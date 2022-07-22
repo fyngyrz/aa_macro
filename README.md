@@ -19,11 +19,12 @@ class `macro()` was born. :\)
 This project provides a means for me, and anyone else who wants to, to
 generate HTML or other types of text documents using Python as the
 intermediary engine. There are no external dependencies that aren't
-actually part of the latest Python 2-series distribution. \(This is
-*not* a Python-3 project. Fork and modify if you need that.\)
+actually part of the latest Python 2-series distribution. \(This began as
+Python-2 project. There is a dsvelopment Python-3 version in the repo as
+well, and again, there are no non-distribution-Python dependensies.\)
 
 Consequently the class is relatively lightweight and trivially installed
-&mdash; just drop the `aa_macro.py` file in and you're done. You'll
+&mdash; just drop the `aa_macro.py` (or `aa_macrov3.py`) file in and you're done. You'll
 probably want the [aagen utility](aagen) as well if you're looking to
 just make documents, but you don't need it if you're going to be using
 the class directly in your own Python applications; [aagen](aagen) is
