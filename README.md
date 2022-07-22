@@ -21,7 +21,7 @@ generate HTML or other types of text documents using Python as the
 intermediary engine. There are no external dependencies that aren't
 actually part of the latest Python 2-series distribution. \(This began as
 Python-2 project. There is a development Python-3 version in the repo as
-well, and again, there are no non-distribution-Python dependensies.\)
+well, and again, there are no non-distribution-Python dependencies.\)
 
 Consequently the class is relatively lightweight and trivially installed
 &mdash; just drop the `aa_macro.py` (or `aa_macrov3.py`) file in and you're done. You'll
