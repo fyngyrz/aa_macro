@@ -760,9 +760,8 @@ class macro(object):
 	def gis(self,fn):
 		def rhead(fn, length):
 			try:
-				fh = open(fn)
-				content = fh.read(length)
-				fh.close()
+				with open(fh,'rb') as fhx:
+					content = fhx.read(length)
 			except:
 				return ''
 			if len(content) != length:
